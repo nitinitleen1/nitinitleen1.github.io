@@ -28,7 +28,7 @@ navbar-links:
     - Beautiful Jekyll: "http://deanattali.com/beautiful-jekyll/"
     - Learn markdown: "http://www.markdowntutorial.com/"
     - GitHub Pages: "https://pages.github.com/"
-  Author's home: "http://deanattali.com"
+  Author's home: "http://nitinitleen1.github.io"
 
 # Image to show in the navigation bar - image must be a square (width = height)
 # Remove this parameter if you don't want an image in the navbar
@@ -46,7 +46,7 @@ author:
   name: Some Person
   email: "youremail@domain.com"
   facebook: yourname  # eg. daattali
-  github: yourname    # eg. daattali
+  github: nitinitleen1    # eg. daattali
   twitter: yourname   # eg. daattali
   reddit: yourname    # eg. daattali
   google-plus: +yourname   # eg. +DeanAttali or 109424658772469020925
@@ -205,5 +205,5 @@ prose:
 gems:
   - jekyll-paginate
 
-# Beautiful Jekyll / Dean Attali
+#  A theme by Beautiful Jekyll / Dean Attali
 # 2fc73a3a967e97599c9763d05e564189
