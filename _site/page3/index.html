@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  
+  <title>Dean Attali - R-Shiny consultant</title>
+  
+
+  <meta name="author" content="Dean Attali" />
+  
+  
+  <meta name="description" content="R-Shiny developer and consultant with a MSc in Bioinformatics and a Bachelor of Computer Science. Previously a software engineer at Google, IBM, and Wish.com.">
+  
+  
+  <meta name="keywords" content="rstats,r,r shiny,shiny apps,r shiny apps,shiny developer,r shiny developer,shiny consultant,web application development with r using shiny">
+
+  <link rel="alternate" type="application/rss+xml" title="Dean Attali - R-Shiny developer and consultant with a MSc in Bioinformatics and a Bachelor of Computer Science. Previously a software engineer at Google, IBM, and Wish.com." href="/feed.xml" />
+
+  
+    
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+    
+      
+  
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+    
+  
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+    
+  
+  
+    
+      <link rel="stylesheet" href="/css/index.css" />
+    
+  
+
+  
+  
+  <!-- Facebook OpenGraph tags -->
+  
+  <meta property="og:title" content="Dean Attali - R-Shiny consultant" />
+  
+  
+  <meta property="og:type" content="website" />
+  
+  
+  <meta property="og:url" content="http://localhost:4000/page3/" />
+  <link rel="canonical" href="http://localhost:4000/page3/" />
+  
+  
+  
+  <meta property="og:image" content="http://localhost:4000/img/deanimg.jpeg" />
+  
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@daattali" />
+  <meta name="twitter:creator" content="@daattali" />
+  <meta name="twitter:title" content="Hi, I'm Dean" />
+  <meta name="twitter:description" content="All posts Most Popular Tutorials {% for post in paginator.posts %} {{ post.title }} {% if post.subtitle %} {{ post.subtitle }} {% endif %} Posted on {{ post.date | date: &quot;%B %-d, %Y&quot; }} {{ post.content | truncatewords: 50 | strip_html | xml_escape}} [Read&amp;nbsp;More] {% endfor %} {% if paginator.total_pages..." />
+  
+  <meta name="twitter:image" content="http://localhost:4000/img/deanimg.jpeg" />
+    
+
+</head>
+
+
+  <body>
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom ">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://localhost:4000">Dean Attali</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/">Blog</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/shiny">Shiny</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/projects">Projects</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/aboutme">About Me / Contact</a>
+
+          </li>
+        
+        
+		
+		
+		<li>
+		  <a href="/search" class="nav-search-link" title="Search">
+		    <span class="fa fa-search nav-search-icon"></span>
+			<span class="nav-search-text">Search</span>
+		  </a>
+		</li>
+		
+      </ul>
+    </div>
+	
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://localhost:4000 ">
+	      <img class="avatar-img" src="/img/deanimg.jpeg" />
+		</a>
+	  </div>
+	</div>
+	
+	
+  </div>
+</nav>  
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+  <div id="header-big-imgs" data-num-img=32
+    
+	  
+	  
+	    
+		  data-img-src-1="/img/big-imgs/costa-rica-house.jpeg"
+		  data-img-desc-1="Montezuma, Costa Rica (2011)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-2="/img/big-imgs/grouse-grind.jpeg"
+		  data-img-desc-2="Vancouver, Canada (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-3="/img/big-imgs/hawaii1.jpeg"
+		  data-img-desc-3="Kauai, HI, USA (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-4="/img/big-imgs/hawaii2.jpeg"
+		  data-img-desc-4="Kauai, HI, USA (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-5="/img/big-imgs/hongkong-cliff-dive.jpeg"
+		  data-img-desc-5="Hong Kong (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-6="/img/big-imgs/hongkong-infinity-pool.jpeg"
+		  data-img-desc-6="Hong Kong (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-7="/img/big-imgs/israel-dive1.jpeg"
+		  data-img-desc-7="Eilat, Israel (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-8="/img/big-imgs/israel-dive2.jpeg"
+		  data-img-desc-8="Eilat, Israel (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-9="/img/big-imgs/israel-dive3.jpeg"
+		  data-img-desc-9="Eilat, Israel (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-10="/img/big-imgs/laos-pond2.jpeg"
+		  data-img-desc-10="Luang Prabang, Laos (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-11="/img/big-imgs/laos-pond1.jpeg"
+		  data-img-desc-11="Luang Prabang, Laos (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-12="/img/big-imgs/laos-pond3.jpeg"
+		  data-img-desc-12="Luang Prabang, Laos (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-13="/img/big-imgs/st-martin.jpeg"
+		  data-img-desc-13="St Maarten (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-14="/img/big-imgs/tanzania.jpeg"
+		  data-img-desc-14="Mt Kilimanjaro, Tanzania (2012)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-15="/img/big-imgs/vietnam-beach.jpg"
+		  data-img-desc-15="Mui Ne, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-16="/img/big-imgs/vietnam-climb.jpeg"
+		  data-img-desc-16="Cat Ba, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-17="/img/big-imgs/vietnam-climb2.jpeg"
+		  data-img-desc-17="Cat Ba, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-18="/img/big-imgs/vietnam-dunes.jpeg"
+		  data-img-desc-18="Mui Ne, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-19="/img/big-imgs/vietnam-dunes2.jpeg"
+		  data-img-desc-19="Mui Ne, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-20="/img/big-imgs/vietnam-fruits.jpeg"
+		  data-img-desc-20="Nha Trang, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-21="/img/big-imgs/vietnam-hat.jpeg"
+		  data-img-desc-21="Hoi An, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-22="/img/big-imgs/vietnam-jump.jpeg"
+		  data-img-desc-22="Mui Ne, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-23="/img/big-imgs/vietnam-ricefield.jpeg"
+		  data-img-desc-23="Sapa, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-24="/img/big-imgs/vietnam-scooter.jpeg"
+		  data-img-desc-24="Da Nang, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-25="/img/big-imgs/vietnam-walk.jpeg"
+		  data-img-desc-25="Sapa, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-26="/img/big-imgs/california-skydive.jpeg"
+		  data-img-desc-26="Davis, CA, USA (2008)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-27="/img/big-imgs/california-surf.jpeg"
+		  data-img-desc-27="Los Angeles, CA, USA (2008)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-28="/img/big-imgs/california-surf2.jpeg"
+		  data-img-desc-28="Los Angeles, CA, USA (2008)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-29="/img/big-imgs/california-surf3.jpeg"
+		  data-img-desc-29="Santa Cruz, CA, USA (2009)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-30="/img/big-imgs/costa-rica.jpeg"
+		  data-img-desc-30="Arenal, Costa Rica (2011)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-31="/img/big-imgs/rio-hanggliding.JPG"
+		  data-img-desc-31="Rio de Janeiro, Brazil (2015)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-32="/img/big-imgs/hawaii-turtles.jpg"
+		  data-img-desc-32="Oahu, HI, USA (2016)"
+		
+	  
+    
+  ></div>
+
+
+<header class="header-section has-img">
+
+<div class="big-img intro-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-heading">
+          <h1>Hi, I'm Dean</h1>
+		  
+		    
+            <hr class="small">
+            <span class="page-subheading">R-Shiny Expert / Software Tool Builder / Extreme Traveller</span>
+			
+		  
+		  
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class='img-desc'></span>
+</div>
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-heading">
+          <h1>Hi, I'm Dean</h1>
+		  
+		    
+            <hr class="small">
+            <span class="page-subheading">R-Shiny Expert / Software Tool Builder / Extreme Traveller</span>
+			
+		  
+		  
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <div class="list-filters">
+  <a href="/" class="list-filter filter-selected">All posts</a>
+  <a href="/popular" class="list-filter">Most Popular</a>
+  <a href="/tutorials" class="list-filter">Tutorials</a>
+</div>
+
+<div class="posts-list">
+  
+  <article>
+    <a class="post-preview" href="/2015/03/09/I-finally-have-a-site/">
+	    <h2 class="post-title">I finally have a site!</h2>
+	
+	    
+      <p class="post-meta">
+        Posted on March 9, 2015
+      </p>
+
+      <div class="post-entry">
+        Welcome to Dean Attali on the web! It’s been a while now that I’ve wanted to have a personal website - just somewhere to be able to park random files/documents and perhaps even host a blog where I can brain dump my personal and professional thoughts. I remember several...
+        <span href="/2015/03/09/I-finally-have-a-site/" class="post-read-more">[Read&nbsp;More]</span>
+      </div>
+    </a>  
+   </article>
+  
+</div>
+
+
+<ul class="pager main-pager">
+  
+  <li class="previous">
+    <a href="/page2/">&larr; Newer Posts</a>
+  </li>
+  
+  
+</ul>
+
+
+	  
+    </div>
+  </div>
+</div>
+
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+
+          
+          <li>
+            <a href="mailto:daattali@gmail.com?subject=Hello from deanattali.com" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/daattali" title="Twitter">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://github.com/daattali" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://www.facebook.com/daattali" title="Facebook">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://stackoverflow.com/users/3943160/daattali" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+
+          
+
+        </ul>
+
+        <p class="copyright text-muted">
+          &copy; Dean Attali
+          &nbsp;&bull;&nbsp;
+          2017
+
+          
+          &nbsp;&bull;&nbsp;
+          <a href="mailto:daattali@gmail.com?subject=Hello from deanattali.com">daattali@gmail.com</a>
+          
+        </p>
+        <p class="theme-by text-muted">
+          Theme by
+          <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+    
+
+
+  
+	<script src="/js/jquery-1.11.2.min.js"></script>
+  
+	<script src="/js/bootstrap.min.js"></script>
+  
+	<script src="/js/js.cookie.js"></script>
+  
+	<script src="/js/main.js"></script>
+  
+
+
+
+
+
+
+
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-59820529-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+	<!-- End Google Analytics -->
+
+
+
+    
+    
+  </body>
+</html>

@@ -1,87 +1,601 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>My Jekyll site</title>
-    <description>A virtual proof that name is awesome!</description>
+    <title>Dean Attali</title>
+    <description>R-Shiny developer and consultant with a MSc in Bioinformatics and a Bachelor of Computer Science. Previously a software engineer at Google, IBM, and Wish.com.</description>
     <link>http://localhost:4000</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>Plot Colour Helper - Finally an easy way to pick colours for your R plots!</title>
+		<description>
+		  
+		  You’ve just made an amazing plot in R, and the only thing remaining is finding the right colours to use. Arghhh this part is never fun… You’re probably familiar with this loop: try some colour values -&amp;gt; plot -&amp;gt; try different colours -&amp;gt; plot -&amp;gt; repeat. Don’t you wish there...
+		</description>
+        <pubDate>Mon, 09 Jan 2017 02:00:00 -0800</pubDate>
+        <link>http://localhost:4000/blog/plot-colour-helper/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/plot-colour-helper/</guid>
+		
+		  
+		    <category>professional</category>
+		  
+		    <category>rstats</category>
+		  
+		    <category>r</category>
+		  
+		    <category>r-bloggers</category>
+		  
+		    <category>shiny</category>
+		  
+		    <category>packages</category>
+		  
+		
+		
+		  
+		
+      </item>
+    
+      <item>
+        <title>How to write a useful htmlwidgets in R: tips and walk-through a real example</title>
+		<description>
+		  
+		  I’d like to share some tips and recommendations on building htmlwidgets, based on my own learning experience while creating timevis. These tips are mostly concerned with making your htmlwidget more useful and user friendly. In this post, every tip I provide will be followed by an actual code walk-through so...
+		</description>
+        <pubDate>Tue, 18 Oct 2016 11:05:00 -0700</pubDate>
+        <link>http://localhost:4000/blog/htmlwidgets-tips/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/htmlwidgets-tips/</guid>
+		
+		  
+		    <category>professional</category>
+		  
+		    <category>rstats</category>
+		  
+		    <category>r</category>
+		  
+		    <category>r-bloggers</category>
+		  
+		    <category>shiny</category>
+		  
+		    <category>tutorial</category>
+		  
+		
+		
+		  
+		
+      </item>
+    
+      <item>
+        <title>Shiny tips &amp; tricks for improving your apps and solving common problems</title>
+		<description>
+		  
+		  This document contains a collection of various Shiny tricks that I commonly use or that I know many people ask about. Each link contains a complete functional Shiny app that demonstrates how to perform a non trivial task in Shiny. The complete up-to-date list of tips, along with all the...
+		</description>
+        <pubDate>Mon, 29 Aug 2016 09:00:00 -0700</pubDate>
+        <link>http://localhost:4000/blog/advanced-shiny-tips/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/advanced-shiny-tips/</guid>
+		
+		  
+		    <category>professional</category>
+		  
+		    <category>rstats</category>
+		  
+		    <category>r</category>
+		  
+		    <category>r-bloggers</category>
+		  
+		    <category>shiny</category>
+		  
+		    <category>tutorial</category>
+		  
+		    <category>popular</category>
+		  
+		
+		
+		  
+		
+      </item>
+    
+      <item>
+        <title>Visualizing when I'm most productive during the day</title>
+		<description>
+		  Analyzing my (and others') git activity - 
+		  Click here to explore the data yourself Yesterday I saw this retweet from @timelyportfolio that links to a gist by @gka. The gist gave a few short scripts that can show you when your git commits take place during the day. I thought that was cool, so I took it...
+		</description>
+        <pubDate>Fri, 19 Aug 2016 11:00:00 -0700</pubDate>
+        <link>http://localhost:4000/blog/visualize-git-commits-time/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/visualize-git-commits-time/</guid>
+		
+		  
+		    <category>professional</category>
+		  
+		    <category>rstats</category>
+		  
+		    <category>r</category>
+		  
+		    <category>r-bloggers</category>
+		  
+		    <category>shiny</category>
+		  
+		
+		
+		  
+		
+      </item>
+    
+      <item>
+        <title>addinslist package: An RStudio addin to discover and install RStudio addins</title>
+		<description>
+		  
+		  RStudio addins were released in early 2016 to provide anyone with the ability to add “extensions” to RStudio. This feature has quickly become popular, but discoverability was a problem: there was just no easy way to know what addins exist. To address that issue, one month ago I created a...
+		</description>
+        <pubDate>Mon, 09 May 2016 11:20:00 -0700</pubDate>
+        <link>http://localhost:4000/blog/addinslist-package/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/addinslist-package/</guid>
+		
+		  
+		    <category>professional</category>
+		  
+		    <category>rstats</category>
+		  
+		    <category>r</category>
+		  
+		    <category>r-bloggers</category>
+		  
+		    <category>package</category>
+		  
+		    <category>shiny</category>
+		  
+		
+		
+		  
+		
+      </item>
+    
+      <item>
+        <title>Need any more reason to love R-Shiny? Here: you can even use Shiny to create simple games!</title>
+		<description>
+		  
+		  TL;DR Click here to play a puzzle game written entirely in Shiny (source code). Anyone who reads my blog posts knows by now that I’m very enthusiastic about Shiny (the web app framework for R - if you didn’t know what Shiny is then I suggest reading my previous post...
+		</description>
+        <pubDate>Tue, 26 Jan 2016 09:00:00 -0800</pubDate>
+        <link>http://localhost:4000/blog/shiny-game-lightsout/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/shiny-game-lightsout/</guid>
+		
+		  
+		    <category>professional</category>
+		  
+		    <category>rstats</category>
+		  
+		    <category>r</category>
+		  
+		    <category>r-bloggers</category>
+		  
+		    <category>shiny</category>
+		  
+		    <category>package</category>
+		  
+		
+		
+		  
+		
+      </item>
+    
+      <item>
+        <title>ezknitr: R package to avoid the typical working directory pain when using knitr</title>
+		<description>
+		  
+		  A new package has hit the CRAN shelves this week. While knitr is one of the most useful R packages in existence, ezknitr is a simple extension to it that adds flexibility in several ways. One common source of frustration with knitr is that it assumes the directory where the...
+		</description>
+        <pubDate>Wed, 09 Dec 2015 13:30:00 -0800</pubDate>
+        <link>http://localhost:4000/blog/ezknitr-package/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/ezknitr-package/</guid>
+		
+		  
+		    <category>professional</category>
+		  
+		    <category>rstats</category>
+		  
+		    <category>r</category>
+		  
+		    <category>r-bloggers</category>
+		  
+		    <category>package</category>
+		  
+		    <category>knitr</category>
+		  
+		
+		
+		  
+		
+      </item>
+    
+      <item>
+        <title>Building Shiny apps - an interactive tutorial</title>
+		<description>
+		  
+		  I originally developed this tutorial for the STAT545 course at UBC, but decided to publish it shortly afterwards so that everyone can benefit from it. This version is also periodically being updated. If you use this material in a classroom, I’d appreciate if you link back to my site! Shiny...
+		</description>
+        <pubDate>Mon, 07 Dec 2015 09:00:00 -0800</pubDate>
+        <link>http://localhost:4000/blog/building-shiny-apps-tutorial/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/building-shiny-apps-tutorial/</guid>
+		
+		  
+		    <category>professional</category>
+		  
+		    <category>rstats</category>
+		  
+		    <category>r</category>
+		  
+		    <category>r-bloggers</category>
+		  
+		    <category>shiny</category>
+		  
+		    <category>tutorial</category>
+		  
+		    <category>popular</category>
+		  
+		
+		
+		  
+		
+      </item>
+    
+      <item>
+        <title>Persistent data storage in Shiny apps</title>
+		<description>
+		  
+		  This article is also published on RStudio’s Shiny Articles Shiny apps often need to save data, either to load it back into a different session or to simply log some information. However, common methods of storing data from R may not work well with Shiny. Functions like write.csv() and saveRDS()...
+		</description>
+        <pubDate>Wed, 01 Jul 2015 15:00:00 -0700</pubDate>
+        <link>http://localhost:4000/blog/shiny-persistent-data-storage/</link>
+        <guid isPermaLink="true">http://localhost:4000/blog/shiny-persistent-data-storage/</guid>
+		
+		  
+		    <category>professional</category>
+		  
+		    <category>rstats</category>
+		  
+		    <category>r</category>
+		  
+		    <category>r-bloggers</category>
+		  
+		    <category>shiny</category>
+		  
+		    <category>tutorial</category>
+		  
+		    <category>popular</category>
+		  
+		
+		
+		  
+		
+      </item>
+    
+      <item>
+        <title>Shiny finally has a colour picker - use colourInput to select colours in Shiny apps</title>
+		<description>
+		  
+		  NOTE: the colour input described here is no longer part of shinyjs and is now available in the colourpicker package instead. I don’t always think Shiny is missing anything, but when I do - I fill in the gap myself. That was meant to be read as The Most Interesting...
+		</description>
+        <pubDate>Sun, 28 Jun 2015 13:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2015/06/28/introducing-shinyjs-colourinput/</link>
+        <guid isPermaLink="true">http://localhost:4000/2015/06/28/introducing-shinyjs-colourinput/</guid>
+		
+		  
+		    <category>professional</category>
+		  
+		    <category>rstats</category>
+		  
+		    <category>r</category>
+		  
+		    <category>r-bloggers</category>
+		  
+		    <category>shiny</category>
+		  
+		    <category>packages</category>
+		  
+		    <category>shinyjs</category>
+		  
+		
+		
+		  
+		
+      </item>
+    
+      <item>
+        <title>Mimicking a Google Form with a Shiny app</title>
+		<description>
+		  
+		  In this post we will walk through the steps required to build a shiny app that mimicks a Google Form. It will allow users to submit responses to some input fields, save their data, and allow admins to view the submitted responses. Like many of my other posts, it may...
+		</description>
+        <pubDate>Sun, 14 Jun 2015 05:30:00 -0700</pubDate>
+        <link>http://localhost:4000/2015/06/14/mimicking-google-form-shiny/</link>
+        <guid isPermaLink="true">http://localhost:4000/2015/06/14/mimicking-google-form-shiny/</guid>
+		
+		  
+		    <category>professional</category>
+		  
+		    <category>rstats</category>
+		  
+		    <category>r</category>
+		  
+		    <category>r-bloggers</category>
+		  
+		    <category>shiny</category>
+		  
+		    <category>shinyjs</category>
+		  
+		    <category>tutorial</category>
+		  
+		    <category>popular</category>
+		  
+		
+		
+		  
+		
+      </item>
+    
+      <item>
+        <title>New shinyjs version: Useful tools for any Shiny app developer + easily call JavaScript functions as R code</title>
+		<description>
+		  
+		  About a month ago I made an announcement about the initial release of shinyjs. After some feedback, a few feature requests, and numerous hours of work, I’m excited to say that a new version of shinyjs v0.0.6.2 was made available on CRAN this week. The package’s main objective is to...
+		</description>
+        <pubDate>Sun, 31 May 2015 18:50:00 -0700</pubDate>
+        <link>http://localhost:4000/2015/05/31/shinyjs-extend/</link>
+        <guid isPermaLink="true">http://localhost:4000/2015/05/31/shinyjs-extend/</guid>
+		
+		  
+		    <category>professional</category>
+		  
+		    <category>rstats</category>
+		  
+		    <category>r</category>
+		  
+		    <category>r-bloggers</category>
+		  
+		    <category>shiny</category>
+		  
+		    <category>packages</category>
+		  
+		    <category>shinyjs</category>
+		  
+		
+		
+		  
+		
+      </item>
+    
+      <item>
+        <title>Analyzing R-Bloggers' posts via Twitter</title>
+		<description>
+		  
+		  For those who don’t know, every time a new blog post gets added to R-Bloggers, it gets a corresponding tweet by @Rbloggers, which gets seen by Rbloggers’ ~20k followers fairly fast. And every time my post gets published, I can’t help but check up on how many people gave that...
+		</description>
+        <pubDate>Sun, 17 May 2015 23:30:00 -0700</pubDate>
+        <link>http://localhost:4000/2015/05/17/analyzing-rbloggers-posts-via-twitter/</link>
+        <guid isPermaLink="true">http://localhost:4000/2015/05/17/analyzing-rbloggers-posts-via-twitter/</guid>
+		
+		  
+		    <category>professional</category>
+		  
+		    <category>rstats</category>
+		  
+		    <category>r</category>
+		  
+		    <category>r-bloggers</category>
+		  
+		    <category>shiny</category>
+		  
+		    <category>twitter</category>
+		  
+		
+		
+		  
+		
+      </item>
+    
+      <item>
+        <title>How to get your very own RStudio Server and Shiny Server with DigitalOcean</title>
+		<description>
+		  
+		  Many people ask me to set up their Shiny Server for them or ask for a one-on-one walk-through of these instructions. If you want such help, I’m available for hire. If you’ve always wanted to have an RStudio Server of your own so that you can access R from anywhere,...
+		</description>
+        <pubDate>Sat, 09 May 2015 21:30:00 -0700</pubDate>
+        <link>http://localhost:4000/2015/05/09/setup-rstudio-shiny-server-digital-ocean/</link>
+        <guid isPermaLink="true">http://localhost:4000/2015/05/09/setup-rstudio-shiny-server-digital-ocean/</guid>
+		
+		  
+		    <category>professional</category>
+		  
+		    <category>rstats</category>
+		  
+		    <category>r</category>
+		  
+		    <category>r-bloggers</category>
+		  
+		    <category>shiny</category>
+		  
+		    <category>tutorial</category>
+		  
+		    <category>popular</category>
+		  
+		
+		
+		  
+		
+      </item>
+    
+      <item>
+        <title>Introducing shinyjs: perform common JavaScript operations in Shiny apps using plain R code</title>
+		<description>
+		  
+		  shinyjs is my second R package that managed to find its way past the CRAN review process. It lets you perform common useful JavaScript operations in Shiny applications without having to know any JavaScript. Important note The package has improved a lot since writing this post. I highly recommend you...
+		</description>
+        <pubDate>Thu, 23 Apr 2015 17:30:00 -0700</pubDate>
+        <link>http://localhost:4000/2015/04/23/shinyjs-r-package/</link>
+        <guid isPermaLink="true">http://localhost:4000/2015/04/23/shinyjs-r-package/</guid>
+		
+		  
+		    <category>professional</category>
+		  
+		    <category>rstats</category>
+		  
+		    <category>r</category>
+		  
+		    <category>r-bloggers</category>
+		  
+		    <category>shiny</category>
+		  
+		    <category>packages</category>
+		  
+		    <category>shinyjs</category>
+		  
+		    <category>popular</category>
+		  
+		
+		
+		  
+		
+      </item>
+    
+      <item>
+        <title>Supplementing your R package with a Shiny app</title>
+		<description>
+		  
+		  The R community is generally very fond of open-source-ness and the idea of releasing all code to the public. Writing packages has become such an easy experience now that Hadley’s devtools is so powerful, and as a result there are new packages being released by useRs every single day. A...
+		</description>
+        <pubDate>Tue, 21 Apr 2015 22:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2015/04/21/r-package-shiny-app/</link>
+        <guid isPermaLink="true">http://localhost:4000/2015/04/21/r-package-shiny-app/</guid>
+		
+		  
+		    <category>professional</category>
+		  
+		    <category>rstats</category>
+		  
+		    <category>r</category>
+		  
+		    <category>r-bloggers</category>
+		  
+		    <category>shiny</category>
+		  
+		    <category>packages</category>
+		  
+		    <category>tutorial</category>
+		  
+		
+		
+		  
+		
+      </item>
+    
+      <item>
         <title>Flake it till you make it</title>
-        <description>
-          Excerpt from Soulshaping by Jeff Brown - 
-          Under what circumstances should we step off a path? When is it essential that we finish what we start? If I bought a bag of peanuts and had an allergic reaction, no one would fault me if I threw it out. If I ended a relationship with a woman who...
-        </description>
-        <pubDate>Thu, 26 Feb 2015 00:00:00 -0800</pubDate>
-        <link>http://localhost:4000/2015-02-26-flake-it-till-you-make-it/</link>
-        <guid isPermaLink="true">http://localhost:4000/2015-02-26-flake-it-till-you-make-it/</guid>
+		<description>
+		  It's not always cowardly to walk away; it can be very difficult, yet enlightening, to not be afraid to step off a path, regardless of how much you've already walked it - 
+		  My mom recently showed me a very interesting bit from a book she was reading called ‘Soulshaping’ by Jeff Brown. I’ll discuss it later, but first, here is the excerpt: Under what circumstances should we step off a path? When is it essential that we finish what we start? If...
+		</description>
+        <pubDate>Thu, 02 Apr 2015 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2015/04/02/flake-it-till-you-make-it/</link>
+        <guid isPermaLink="true">http://localhost:4000/2015/04/02/flake-it-till-you-make-it/</guid>
+		
+		  
+		    <category>personal</category>
+		  
+		
+		
+		  
+		
       </item>
     
       <item>
-        <title>Test markdown</title>
-        <description>
-          Each post also has a subtitle - 
-          You can write regular markdown here and Jekyll will automatically convert it to a nice webpage. I strongly encourage you to take 5 minutes to learn how to write in markdown - it’ll teach you how to transform regular text into bold/italics/headings/tables/etc. Here is some bold text Here is a...
-        </description>
-        <pubDate>Fri, 20 Feb 2015 00:00:00 -0800</pubDate>
-        <link>http://localhost:4000/2015-02-20-test-markdown/</link>
-        <guid isPermaLink="true">http://localhost:4000/2015-02-20-test-markdown/</guid>
+        <title>ggExtra: R package for adding marginal histograms to ggplot2</title>
+		<description>
+		  
+		  My first CRAN package, ggExtra, contains several functions to enhance ggplot2, with the most important one being ggExtra::ggMarginal() - a function that finally allows easily adding marginal density plots or histograms to scatterplots. Availability You can read the full README describing the functionality in detail or browse the source code...
+		</description>
+        <pubDate>Sun, 29 Mar 2015 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2015/03/29/ggExtra-r-package/</link>
+        <guid isPermaLink="true">http://localhost:4000/2015/03/29/ggExtra-r-package/</guid>
+		
+		  
+		    <category>professional</category>
+		  
+		    <category>rstats</category>
+		  
+		    <category>r</category>
+		  
+		    <category>r-bloggers</category>
+		  
+		    <category>ggplot2</category>
+		  
+		    <category>packages</category>
+		  
+		    <category>ggExtra</category>
+		  
+		
+		
+		  
+		
       </item>
     
       <item>
-        <title>To be</title>
-        <description>
-          ... or not to be? - 
-          To be, or not to be–that is the question: Whether ‘tis nobler in the mind to suffer The slings and arrows of outrageous fortune Or to take arms against a sea of troubles And by opposing end them. To die, to sleep– No more–and by a sleep to say we...
-        </description>
-        <pubDate>Fri, 13 Feb 2015 00:00:00 -0800</pubDate>
-        <link>http://localhost:4000/2015-02-13-hamlet-monologue/</link>
-        <guid isPermaLink="true">http://localhost:4000/2015-02-13-hamlet-monologue/</guid>
+        <title>Knitr's best hidden gem: spin</title>
+		<description>
+		  Stop knitting &amp; start spinning - spin can help you write reports much faster and avoid repeating yourself - 
+		  Anyone who loves the idea of dynamic report generation with R is probably a big fan of knitr and its flagship function - knit. But not many people seem to know about knit’s awesome cousin - spin. What is spin? In short: knitr::spin is similar to knitr::knit in that it...
+		</description>
+        <pubDate>Tue, 24 Mar 2015 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2015/03/24/knitrs-best-hidden-gem-spin/</link>
+        <guid isPermaLink="true">http://localhost:4000/2015/03/24/knitrs-best-hidden-gem-spin/</guid>
+		
+		  
+		    <category>professional</category>
+		  
+		    <category>rstats</category>
+		  
+		    <category>r</category>
+		  
+		    <category>r-bloggers</category>
+		  
+		    <category>knitr</category>
+		  
+		    <category>spin</category>
+		  
+		
+		
+		  
+		
       </item>
     
       <item>
-        <title>Dear diary</title>
-        <description>
-          
-          What is it with that Mary girl? Dragging me to school every day. As if I had a choice. What you don’t hear in those nursery rhymes is that she starves me if I don’t go to school with her; it’s the only way I can stay alive! I’m thinking...
-        </description>
-        <pubDate>Tue, 27 Jan 2015 00:00:00 -0800</pubDate>
-        <link>http://localhost:4000/2015-01-27-dear-diary/</link>
-        <guid isPermaLink="true">http://localhost:4000/2015-01-27-dear-diary/</guid>
-      </item>
-    
-      <item>
-        <title>Soccer</title>
-        <description>
-          Best sport ever! - 
-          From Wikipedia: Association football, more commonly known as football or soccer,[2] is a sport played between two teams of eleven players with a spherical ball. It is played by 250 million players in over 200 countries, making it the world’s most popular sport.[3][4][5][6] The game is played on a rectangular...
-        </description>
-        <pubDate>Mon, 19 Jan 2015 00:00:00 -0800</pubDate>
-        <link>http://localhost:4000/2015-01-19-soccer/</link>
-        <guid isPermaLink="true">http://localhost:4000/2015-01-19-soccer/</guid>
-      </item>
-    
-      <item>
-        <title>Pirates arrrr</title>
-        <description>
-          
-          Piracy is typically an act of robbery or criminal violence at sea. The term can include acts committed on land, in the air, or in other major bodies of water or on a shore. It does not normally include crimes committed against persons traveling on the same vessel as the...
-        </description>
-        <pubDate>Thu, 15 Jan 2015 00:00:00 -0800</pubDate>
-        <link>http://localhost:4000/2015-01-15-pirates/</link>
-        <guid isPermaLink="true">http://localhost:4000/2015-01-15-pirates/</guid>
-      </item>
-    
-      <item>
-        <title>First post!</title>
-        <description>
-          
-          This is my first post, how exciting!
-
-        </description>
-        <pubDate>Sun, 04 Jan 2015 00:00:00 -0800</pubDate>
-        <link>http://localhost:4000/2015-01-04-first-post/</link>
-        <guid isPermaLink="true">http://localhost:4000/2015-01-04-first-post/</guid>
+        <title>Beautiful Jekyll - how to build a site in minutes</title>
+		<description>
+		  A plug-n-play template to easily get anyone a free nice looking site (same theme as this one) quickly - 
+		  Since this site went live a few days ago, I had many people ask me how I made it. Like a great politician, I will avoid that question almost entirely with a completely different answer: The core template that runs this website is available for anyone to use. I called...
+		</description>
+        <pubDate>Thu, 12 Mar 2015 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2015/03/12/beautiful-jekyll-how-to-build-a-site-in-minutes/</link>
+        <guid isPermaLink="true">http://localhost:4000/2015/03/12/beautiful-jekyll-how-to-build-a-site-in-minutes/</guid>
+		
+		  
+		    <category>personal</category>
+		  
+		    <category>professional</category>
+		  
+		    <category>jekyll</category>
+		  
+		    <category>github</category>
+		  
+		    <category>blog</category>
+		  
+		    <category>popular</category>
+		  
+		
+		
+		  
+		
       </item>
     
   </channel>

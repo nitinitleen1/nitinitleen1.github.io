@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-  <!-- Beautiful Jekyll | MIT license | Copyright Dean Attali 2016 -->
+  <!-- MIT license | Copyright Dean Attali 2016 -->
   <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>My Jekyll site - A virtual proof that name is awesome!</title>
-
-  <meta name="author" content="Some Person" />
-
   
-  <meta name="description" content="This is where I will tell my friends way too much about me">
+  <title>Dean Attali - R-Shiny consultant</title>
   
 
-  <link rel="alternate" type="application/rss+xml" title="My Jekyll site - A virtual proof that name is awesome!" href="/feed.xml" />
+  <meta name="author" content="Dean Attali" />
+  
+  
+  <meta name="description" content="R-Shiny developer and consultant with a MSc in Bioinformatics and a Bachelor of Computer Science. Previously a software engineer at Google, IBM, and Wish.com.">
+  
+  
+  <meta name="keywords" content="rstats,r,r shiny,shiny apps,r shiny apps,shiny developer,r shiny developer,shiny consultant,web application development with r using shiny">
+
+  <link rel="alternate" type="application/rss+xml" title="Dean Attali - R-Shiny developer and consultant with a MSc in Bioinformatics and a Bachelor of Computer Science. Previously a software engineer at Google, IBM, and Wish.com." href="/feed.xml" />
 
   
-
-  
+    
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
     
       
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
-
-    
   
-
   
     
       <link rel="stylesheet" href="/css/bootstrap.min.css" />
@@ -34,8 +34,8 @@
     
       <link rel="stylesheet" href="/css/main.css" />
     
+    
   
-
   
     
       <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
@@ -44,61 +44,48 @@
     
   
 
+    
+  
+  
+    
+      <link rel="stylesheet" href="/css/index.css" />
+    
   
 
   
-
   
-
-    <!-- Facebook OpenGraph tags -->
+  <!-- Facebook OpenGraph tags -->
   
-
+  <meta property="og:title" content="Dean Attali - R-Shiny consultant" />
   
-  <meta property="og:title" content="My website" />
   
-
-   
-  <meta property="og:description" content="This is where I will tell my friends way too much about me">
-  
-
-
   <meta property="og:type" content="website" />
-
+  
   
   <meta property="og:url" content="http://localhost:4000/page2/" />
   <link rel="canonical" href="http://localhost:4000/page2/" />
   
-
   
-  <meta property="og:image" content="http://localhost:4000/img/avatar-icon.png" />
   
+  <meta property="og:image" content="http://localhost:4000/img/deanimg.jpeg" />
   
 
   <!-- Twitter summary cards -->
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:site" content="@yourname" />
-  <meta name="twitter:creator" content="@yourname" />
-
+  <meta name="twitter:site" content="@daattali" />
+  <meta name="twitter:creator" content="@daattali" />
+  <meta name="twitter:title" content="Hi, I'm Dean" />
+  <meta name="twitter:description" content="All posts Most Popular Tutorials {% for post in paginator.posts %} {{ post.title }} {% if post.subtitle %} {{ post.subtitle }} {% endif %} Posted on {{ post.date | date: &quot;%B %-d, %Y&quot; }} {{ post.content | truncatewords: 50 | strip_html | xml_escape}} [Read&amp;nbsp;More] {% endfor %} {% if paginator.total_pages..." />
   
-  <meta name="twitter:title" content="My website" />
-  
-
-  
-  <meta name="twitter:description" content="This is where I will tell my friends way too much about me">
-  
-
-  
-  <meta name="twitter:image" content="http://localhost:4000/img/avatar-icon.png" />
-  
+  <meta name="twitter:image" content="http://localhost:4000/img/deanimg.jpeg" />
+    
 
 </head>
 
 
   <body>
-
-    
   
-    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom ">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
@@ -107,9 +94,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      
-        <a class="navbar-brand" href="http://localhost:4000">My Jekyll site</a>
-      
+      <a class="navbar-brand" href="http://localhost:4000">Dean Attali</a>
     </div>
 
     <div class="collapse navbar-collapse" id="main-navbar">
@@ -124,53 +109,8 @@
 
 
 
-<a href="/aboutme">About Me</a>
+<a href="/">Blog</a>
 
-          </li>
-        
-        
-        
-          <li class="navlinks-container">
-            <a class="navlinks-parent" href="javascript:void(0)">Resources</a>
-            <div class="navlinks-children">
-              
-                
-                  
-            
-
-
-
-
-
-<a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
-
-                
-              
-                
-                  
-            
-
-
-
-
-
-<a href="http://www.markdowntutorial.com/">Learn markdown</a>
-
-                
-              
-                
-                  
-            
-
-
-
-
-
-<a href="https://pages.github.com/">GitHub Pages</a>
-
-                
-              
-            </div>
           </li>
         
         
@@ -183,26 +123,63 @@
 
 
 
-<a href="http://deanattali.com">Author's home</a>
+<a href="/shiny">Shiny</a>
 
           </li>
         
         
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/projects">Projects</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/aboutme">About Me / Contact</a>
+
+          </li>
+        
+        
+		
+		
+		<li>
+		  <a href="/search" class="nav-search-link" title="Search">
+		    <span class="fa fa-search nav-search-icon"></span>
+			<span class="nav-search-text">Search</span>
+		  </a>
+		</li>
+		
       </ul>
     </div>
-
+	
 	
 	<div class="avatar-container">
 	  <div class="avatar-img-border">
 	    <a href="http://localhost:4000 ">
-	      <img class="avatar-img" src="/img/avatar-icon.png" />
+	      <img class="avatar-img" src="/img/deanimg.jpeg" />
 		</a>
 	  </div>
 	</div>
 	
-
+	
   </div>
-</nav>
+</nav>  
 
 
     <!-- TODO this file has become a mess, refactor it -->
@@ -210,19 +187,300 @@
 
 
 
+  <div id="header-big-imgs" data-num-img=32
+    
+	  
+	  
+	    
+		  data-img-src-1="/img/big-imgs/costa-rica-house.jpeg"
+		  data-img-desc-1="Montezuma, Costa Rica (2011)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-2="/img/big-imgs/grouse-grind.jpeg"
+		  data-img-desc-2="Vancouver, Canada (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-3="/img/big-imgs/hawaii1.jpeg"
+		  data-img-desc-3="Kauai, HI, USA (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-4="/img/big-imgs/hawaii2.jpeg"
+		  data-img-desc-4="Kauai, HI, USA (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-5="/img/big-imgs/hongkong-cliff-dive.jpeg"
+		  data-img-desc-5="Hong Kong (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-6="/img/big-imgs/hongkong-infinity-pool.jpeg"
+		  data-img-desc-6="Hong Kong (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-7="/img/big-imgs/israel-dive1.jpeg"
+		  data-img-desc-7="Eilat, Israel (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-8="/img/big-imgs/israel-dive2.jpeg"
+		  data-img-desc-8="Eilat, Israel (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-9="/img/big-imgs/israel-dive3.jpeg"
+		  data-img-desc-9="Eilat, Israel (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-10="/img/big-imgs/laos-pond2.jpeg"
+		  data-img-desc-10="Luang Prabang, Laos (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-11="/img/big-imgs/laos-pond1.jpeg"
+		  data-img-desc-11="Luang Prabang, Laos (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-12="/img/big-imgs/laos-pond3.jpeg"
+		  data-img-desc-12="Luang Prabang, Laos (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-13="/img/big-imgs/st-martin.jpeg"
+		  data-img-desc-13="St Maarten (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-14="/img/big-imgs/tanzania.jpeg"
+		  data-img-desc-14="Mt Kilimanjaro, Tanzania (2012)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-15="/img/big-imgs/vietnam-beach.jpg"
+		  data-img-desc-15="Mui Ne, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-16="/img/big-imgs/vietnam-climb.jpeg"
+		  data-img-desc-16="Cat Ba, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-17="/img/big-imgs/vietnam-climb2.jpeg"
+		  data-img-desc-17="Cat Ba, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-18="/img/big-imgs/vietnam-dunes.jpeg"
+		  data-img-desc-18="Mui Ne, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-19="/img/big-imgs/vietnam-dunes2.jpeg"
+		  data-img-desc-19="Mui Ne, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-20="/img/big-imgs/vietnam-fruits.jpeg"
+		  data-img-desc-20="Nha Trang, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-21="/img/big-imgs/vietnam-hat.jpeg"
+		  data-img-desc-21="Hoi An, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-22="/img/big-imgs/vietnam-jump.jpeg"
+		  data-img-desc-22="Mui Ne, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-23="/img/big-imgs/vietnam-ricefield.jpeg"
+		  data-img-desc-23="Sapa, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-24="/img/big-imgs/vietnam-scooter.jpeg"
+		  data-img-desc-24="Da Nang, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-25="/img/big-imgs/vietnam-walk.jpeg"
+		  data-img-desc-25="Sapa, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-26="/img/big-imgs/california-skydive.jpeg"
+		  data-img-desc-26="Davis, CA, USA (2008)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-27="/img/big-imgs/california-surf.jpeg"
+		  data-img-desc-27="Los Angeles, CA, USA (2008)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-28="/img/big-imgs/california-surf2.jpeg"
+		  data-img-desc-28="Los Angeles, CA, USA (2008)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-29="/img/big-imgs/california-surf3.jpeg"
+		  data-img-desc-29="Santa Cruz, CA, USA (2009)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-30="/img/big-imgs/costa-rica.jpeg"
+		  data-img-desc-30="Arenal, Costa Rica (2011)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-31="/img/big-imgs/rio-hanggliding.JPG"
+		  data-img-desc-31="Rio de Janeiro, Brazil (2015)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-32="/img/big-imgs/hawaii-turtles.jpg"
+		  data-img-desc-32="Oahu, HI, USA (2016)"
+		
+	  
+    
+  ></div>
 
-<header class="header-section ">
+
+<header class="header-section has-img">
+
+<div class="big-img intro-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-heading">
+          <h1>Hi, I'm Dean</h1>
+		  
+		    
+            <hr class="small">
+            <span class="page-subheading">R-Shiny Expert / Software Tool Builder / Extreme Traveller</span>
+			
+		  
+		  
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class='img-desc'></span>
+</div>
 
 <div class="intro-header no-img">
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <div class="page-heading">
-          <h1>My website</h1>
+          <h1>Hi, I'm Dean</h1>
 		  
 		    
             <hr class="small">
-            <span class="page-subheading">This is where I will tell my friends way too much about me</span>
+            <span class="page-subheading">R-Shiny Expert / Software Tool Builder / Extreme Traveller</span>
 			
 		  
 		  
@@ -237,80 +495,188 @@
 
 
 
+
 <div class="container" role="main">
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-      <div class="posts-list">
+      <div class="list-filters">
+  <a href="/" class="list-filter filter-selected">All posts</a>
+  <a href="/popular" class="list-filter">Most Popular</a>
+  <a href="/tutorials" class="list-filter">Tutorials</a>
+</div>
+
+<div class="posts-list">
   
-  <article class="post-preview">
-    <a href="/2015-01-15-pirates/">
-	  <h2 class="post-title">Pirates arrrr</h2>
+  <article>
+    <a class="post-preview" href="/2015/06/14/mimicking-google-form-shiny/">
+	    <h2 class="post-title">Mimicking a Google Form with a Shiny app</h2>
+	
+	    
+      <p class="post-meta">
+        Posted on June 14, 2015
+      </p>
 
-	  
-    </a>
-
-    <p class="post-meta">
-      Posted on January 15, 2015
-    </p>
-
-    <div class="post-entry-container">
-      
       <div class="post-entry">
-        Piracy is typically an act of robbery or criminal violence at sea. The term can include acts committed on land, in the air, or in other major bodies of water or on a shore. It does not normally include crimes committed against persons traveling on the same vessel as the...
-        
-        
-          <a href="/2015-01-15-pirates/" class="post-read-more">[Read&nbsp;More]</a>
-        
+        In this post we will walk through the steps required to build a shiny app that mimicks a Google Form. It will allow users to submit responses to some input fields, save their data, and allow admins to view the submitted responses. Like many of my other posts, it may...
+        <span href="/2015/06/14/mimicking-google-form-shiny/" class="post-read-more">[Read&nbsp;More]</span>
       </div>
-    </div>
-
-    
-    <div class="blog-tags">
-      Tags:
-      
-        pirates, random
-      
-    </div>
-    
-
+    </a>  
    </article>
   
-  <article class="post-preview">
-    <a href="/2015-01-04-first-post/">
-	  <h2 class="post-title">First post!</h2>
+  <article>
+    <a class="post-preview" href="/2015/05/31/shinyjs-extend/">
+	    <h2 class="post-title">New shinyjs version: Useful tools for any Shiny app developer + easily call JavaScript functions as R code</h2>
+	
+	    
+      <p class="post-meta">
+        Posted on May 31, 2015
+      </p>
 
-	  
-    </a>
-
-    <p class="post-meta">
-      Posted on January 4, 2015
-    </p>
-
-    <div class="post-entry-container">
-      
-      <div class="post-image">
-        <a href="/2015-01-04-first-post/">
-          <img src="/img/hello_world.jpeg">
-        </a>
-      </div>
-      
       <div class="post-entry">
-        This is my first post, how exciting!
-
-        
-        
+        About a month ago I made an announcement about the initial release of shinyjs. After some feedback, a few feature requests, and numerous hours of work, I’m excited to say that a new version of shinyjs v0.0.6.2 was made available on CRAN this week. The package’s main...
+        <span href="/2015/05/31/shinyjs-extend/" class="post-read-more">[Read&nbsp;More]</span>
       </div>
-    </div>
+    </a>  
+   </article>
+  
+  <article>
+    <a class="post-preview" href="/2015/05/17/analyzing-rbloggers-posts-via-twitter/">
+	    <h2 class="post-title">Analyzing R-Bloggers' posts via Twitter</h2>
+	
+	    
+      <p class="post-meta">
+        Posted on May 17, 2015
+      </p>
 
-    
-    <div class="blog-tags">
-      Tags:
-      
-        random, exciting-stuff
-      
-    </div>
-    
+      <div class="post-entry">
+        For those who don’t know, every time a new blog post gets added to R-Bloggers, it gets a corresponding tweet by @Rbloggers, which gets seen by Rbloggers’ ~20k followers fairly fast. And every time my post gets published, I can’t help but check up on how many people...
+        <span href="/2015/05/17/analyzing-rbloggers-posts-via-twitter/" class="post-read-more">[Read&nbsp;More]</span>
+      </div>
+    </a>  
+   </article>
+  
+  <article>
+    <a class="post-preview" href="/2015/05/09/setup-rstudio-shiny-server-digital-ocean/">
+	    <h2 class="post-title">How to get your very own RStudio Server and Shiny Server with DigitalOcean</h2>
+	
+	    
+      <p class="post-meta">
+        Posted on May 9, 2015
+      </p>
 
+      <div class="post-entry">
+         Many people ask me to set up their Shiny Server for them or ask for a one-on-one walk-through of these instructions. If you want such help, I’m available for hire.  If you’ve always wanted to have an RStudio Server of your own so that you can access...
+        <span href="/2015/05/09/setup-rstudio-shiny-server-digital-ocean/" class="post-read-more">[Read&nbsp;More]</span>
+      </div>
+    </a>  
+   </article>
+  
+  <article>
+    <a class="post-preview" href="/2015/04/23/shinyjs-r-package/">
+	    <h2 class="post-title">Introducing shinyjs: perform common JavaScript operations in Shiny apps using plain R code</h2>
+	
+	    
+      <p class="post-meta">
+        Posted on April 23, 2015
+      </p>
+
+      <div class="post-entry">
+        shinyjs is my second R package that managed to find its way past the CRAN review process. It lets you perform common useful JavaScript operations in Shiny applications without having to know any JavaScript. Important note The package has improved a lot since writing this post. I highly...
+        <span href="/2015/04/23/shinyjs-r-package/" class="post-read-more">[Read&nbsp;More]</span>
+      </div>
+    </a>  
+   </article>
+  
+  <article>
+    <a class="post-preview" href="/2015/04/21/r-package-shiny-app/">
+	    <h2 class="post-title">Supplementing your R package with a Shiny app</h2>
+	
+	    
+      <p class="post-meta">
+        Posted on April 21, 2015
+      </p>
+
+      <div class="post-entry">
+        The R community is generally very fond of open-source-ness and the idea of releasing all code to the public. Writing packages has become such an easy experience now that Hadley’s devtools is so powerful, and as a result there are new packages being released by useRs every single day....
+        <span href="/2015/04/21/r-package-shiny-app/" class="post-read-more">[Read&nbsp;More]</span>
+      </div>
+    </a>  
+   </article>
+  
+  <article>
+    <a class="post-preview" href="/2015/04/02/flake-it-till-you-make-it/">
+	    <h2 class="post-title">Flake it till you make it</h2>
+	
+	    
+	    <h3 class="post-subtitle">
+	      It's not always cowardly to walk away; it can be very difficult, yet enlightening, to not be afraid to step off a path, regardless of how much you've already walked it
+	    </h3>
+	    
+      <p class="post-meta">
+        Posted on April 2, 2015
+      </p>
+
+      <div class="post-entry">
+        My mom recently showed me a very interesting bit from a book she was reading called ‘Soulshaping’ by Jeff Brown. I’ll discuss it later, but first, here is the excerpt:  Under what circumstances should we step off a path? When is it essential that we finish what we start?...
+        <span href="/2015/04/02/flake-it-till-you-make-it/" class="post-read-more">[Read&nbsp;More]</span>
+      </div>
+    </a>  
+   </article>
+  
+  <article>
+    <a class="post-preview" href="/2015/03/29/ggExtra-r-package/">
+	    <h2 class="post-title">ggExtra: R package for adding marginal histograms to ggplot2</h2>
+	
+	    
+      <p class="post-meta">
+        Posted on March 29, 2015
+      </p>
+
+      <div class="post-entry">
+        My first CRAN package, ggExtra, contains several functions to enhance ggplot2, with the most important one being ggExtra::ggMarginal() - a function that finally allows easily adding marginal density plots or histograms to scatterplots. Availability You can read the full README describing the functionality in detail or...
+        <span href="/2015/03/29/ggExtra-r-package/" class="post-read-more">[Read&nbsp;More]</span>
+      </div>
+    </a>  
+   </article>
+  
+  <article>
+    <a class="post-preview" href="/2015/03/24/knitrs-best-hidden-gem-spin/">
+	    <h2 class="post-title">Knitr's best hidden gem: spin</h2>
+	
+	    
+	    <h3 class="post-subtitle">
+	      Stop knitting & start spinning - spin can help you write reports much faster and avoid repeating yourself
+	    </h3>
+	    
+      <p class="post-meta">
+        Posted on March 24, 2015
+      </p>
+
+      <div class="post-entry">
+        Anyone who loves the idea of dynamic report generation with R is probably a big fan of knitr and its flagship function - knit. But not many people seem to know about knit’s awesome cousin - spin. What is spin? In short: knitr::spin...
+        <span href="/2015/03/24/knitrs-best-hidden-gem-spin/" class="post-read-more">[Read&nbsp;More]</span>
+      </div>
+    </a>  
+   </article>
+  
+  <article>
+    <a class="post-preview" href="/2015/03/12/beautiful-jekyll-how-to-build-a-site-in-minutes/">
+	    <h2 class="post-title">Beautiful Jekyll - how to build a site in minutes</h2>
+	
+	    
+	    <h3 class="post-subtitle">
+	      A plug-n-play template to easily get anyone a free nice looking site (same theme as this one) quickly
+	    </h3>
+	    
+      <p class="post-meta">
+        Posted on March 12, 2015
+      </p>
+
+      <div class="post-entry">
+        Since this site went live a few days ago, I had many people ask me how I made it. Like a great politician, I will avoid that question almost entirely with a completely different answer: The core template that runs this website is available for anyone to use. I called...
+        <span href="/2015/03/12/beautiful-jekyll-how-to-build-a-site-in-minutes/" class="post-read-more">[Read&nbsp;More]</span>
+      </div>
+    </a>  
    </article>
   
 </div>
@@ -323,55 +689,28 @@
   </li>
   
   
+  <li class="next">
+    <a href="/page3/">Older Posts &rarr;</a>
+  </li>
+  
 </ul>
 
 
-	    
+	  
     </div>
   </div>
 </div>
 
 
     <footer>
-  <div class="container beautiful-jekyll-footer">
+  <div class="container">
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <ul class="list-inline text-center footer-links">
+
           
           <li>
-            <a href="https://www.facebook.com/yourname" title="Facebook">
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-          
-          
-          <li>
-            <a href="https://github.com/yourname" title="GitHub">
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-          
-		  
-          <li>
-            <a href="https://twitter.com/yourname" title="Twitter">
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-          
-	  
-      
-		  
-          <li>
-            <a href="mailto:youremail@domain.com" title="Email me">
+            <a href="mailto:daattali@gmail.com?subject=Hello from deanattali.com" title="Email me">
               <span class="fa-stack fa-lg">
                 <i class="fa fa-circle fa-stack-2x"></i>
                 <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
@@ -379,68 +718,110 @@
             </a>
           </li>
           
-		  
-		  
-		  
-      
-      
-      
-      
-      
-		  
-        </ul>
-        <p class="copyright text-muted">
-		  Some Person
-		  &nbsp;&bull;&nbsp;
-		  2017
 
-		  
-		  &nbsp;&bull;&nbsp;
-		  <a href="http://localhost:4000">MyWebsite.com</a>
-		  
-	    </p>
-	        <!-- Please don't remove this, keep my open source work credited :) -->
-		<p class="theme-by text-muted">
-		  Theme by
-		  <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
-		</p>
+          
+          <li>
+            <a href="https://twitter.com/daattali" title="Twitter">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://github.com/daattali" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://www.facebook.com/daattali" title="Facebook">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://stackoverflow.com/users/3943160/daattali" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+
+          
+
+        </ul>
+
+        <p class="copyright text-muted">
+          &copy; Dean Attali
+          &nbsp;&bull;&nbsp;
+          2017
+
+          
+          &nbsp;&bull;&nbsp;
+          <a href="mailto:daattali@gmail.com?subject=Hello from deanattali.com">daattali@gmail.com</a>
+          
+        </p>
+        <p class="theme-by text-muted">
+          Theme by
+          <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+        </p>
       </div>
     </div>
   </div>
 </footer>
 
-  
     
-
-
-
-
+    
 
 
   
-    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
-    
-      <script>
-      	if (typeof jQuery == 'undefined') {
-      	  document.write('<script src="/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
-      	}
-      </script>
-    
+	<script src="/js/jquery-1.11.2.min.js"></script>
   
-    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
-    
 	<script src="/js/bootstrap.min.js"></script>
-    
   
-    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
-    
+	<script src="/js/js.cookie.js"></script>
+  
 	<script src="/js/main.js"></script>
+  
+
+
+
+
+
+
+
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-59820529-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+	<!-- End Google Analytics -->
+
+
+
     
-  
-
-
-
-
-  
+    
   </body>
 </html>

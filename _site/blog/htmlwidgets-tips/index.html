@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  
+  <title>How to write a useful htmlwidgets in R: tips and walk-through a real example</title>
+  
+
+  <meta name="author" content="Dean Attali" />
+  
+  
+  <meta name="description" content="I’d like to share some tips and recommendations on building htmlwidgets, based on my own learning experience while creating timevis. These tips are mostly concerned with making your htmlwidget more useful and user friendly. In this post, every tip I provide will be followed by an actual code walk-through so...">
+  
+  
+  <meta name="keywords" content="rstats,r,r shiny,shiny apps,r shiny apps,shiny developer,r shiny developer,shiny consultant,web application development with r using shiny">
+
+  <link rel="alternate" type="application/rss+xml" title="Dean Attali - R-Shiny developer and consultant with a MSc in Bioinformatics and a Bachelor of Computer Science. Previously a software engineer at Google, IBM, and Wish.com." href="/feed.xml" />
+
+  
+    
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+    
+      
+  
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+    
+  
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+    
+  
+  
+
+  
+  
+  <!-- Facebook OpenGraph tags -->
+  
+  <meta property="og:title" content="How to write a useful htmlwidgets in R: tips and walk-through a real example" />
+  
+  
+  <meta property="og:type" content="website" />
+  
+  
+  <meta property="og:url" content="http://localhost:4000/blog/htmlwidgets-tips/" />
+  <link rel="canonical" href="http://localhost:4000/blog/htmlwidgets-tips/" />
+  
+  
+  
+  <meta property="og:image" content="http://localhost:4000/img/deanimg.jpeg" />
+  
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@daattali" />
+  <meta name="twitter:creator" content="@daattali" />
+  <meta name="twitter:title" content="How to write a useful htmlwidgets in R: tips and walk-through a real example" />
+  <meta name="twitter:description" content="I’d like to share some tips and recommendations on building htmlwidgets, based on my own learning experience while creating timevis. These tips are mostly concerned with making your htmlwidget more useful and user friendly. In this post, every tip I provide will be followed by an actual code walk-through so..." />
+  
+  <meta name="twitter:image" content="http://localhost:4000/img/deanimg.jpeg" />
+    
+
+</head>
+
+
+  <body>
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom ">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://localhost:4000">Dean Attali</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/">Blog</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/shiny">Shiny</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/projects">Projects</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/aboutme">About Me / Contact</a>
+
+          </li>
+        
+        
+		
+		
+		<li>
+		  <a href="/search" class="nav-search-link" title="Search">
+		    <span class="fa fa-search nav-search-icon"></span>
+			<span class="nav-search-text">Search</span>
+		  </a>
+		</li>
+		
+      </ul>
+    </div>
+	
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://localhost:4000 ">
+	      <img class="avatar-img" src="/img/deanimg.jpeg" />
+		</a>
+	  </div>
+	</div>
+	
+	
+  </div>
+</nav>  
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>How to write a useful htmlwidgets in R: tips and walk-through a real example</h1>
+		  
+		  
+		  
+		  <span class="post-meta">Posted on October 18, 2016</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+      	<p>I’d like to share some tips and recommendations on building htmlwidgets, based on my own learning experience while creating <a href="https://github.com/daattali/timevis"><code class="highlighter-rouge">timevis</code></a>. These tips are mostly concerned with making your htmlwidget more useful and user friendly. In this post, every tip I provide will be followed by an actual code walk-through so that you can see it applied in a real example.</p>
+
+<p>Keep in mind that two weeks ago<sup><a href="#footnote">*</a></sup> I was still an htmlwidgets virgin, so I should in no way be considered an authority figure on the subject. But I did spend a long time trying to solve all sorts of problems I ran into and I ended up making an htmlwidget that has a lot of useful functionality that isn’t documented anywhere, so I’m hoping that some of the things I learned can be useful for others as well.</p>
+
+<p>The last two tips (7 and 8) are by far the most useful, but I kept them at the end because they’re also the most complex.</p>
+
+<h2 id="table-of-contents">Table of contents</h2>
+
+<ul>
+  <li><a href="#background">Background</a></li>
+  <li><a href="#starting-point">Starting point for this “tutorial”</a></li>
+  <li><a href="#rendervalue-x-name">Tip 1: Use sensible parameter name in <code class="highlighter-rouge">renderValue(x)</code> instead of <code class="highlighter-rouge">x</code></a></li>
+  <li><a href="#custom-html">Tip 2: Add custom HTML to the widget</a></li>
+  <li><a href="#dataframeToD3">Tip 3: Convert a data frame to a D3-compatible data structure in R</a></li>
+  <li><a href="#rendervalue-multiple-times">Tip 4: The <code class="highlighter-rouge">renderValue()</code> function gets called every time the R binding function gets called</a></li>
+  <li><a href="#init-once">Tip 5: Make sure any one-time initialization code gets run only once</a></li>
+  <li><a href="#shinyMode">Tip 6: Find out if the widget is in a shiny app or not with <code class="highlighter-rouge">HTMLWidgets.shinyMode</code></a></li>
+  <li><a href="#widget-to-r-data">Tip 7a: Pass data from the widget to R</a>
+    <ul>
+      <li><a href="#javascript-to-r-handler">Tip 7b: Use a custom function to convert the JavaScript data into an R object</a></li>
+    </ul>
+  </li>
+  <li><a href="#api">Tip 8: Add API functions to lets users programmatically interact with the widget</a>
+    <ul>
+      <li><a href="#api-basic">Tip 8a: Basic implementation</a></li>
+      <li><a href="#api-abstract">Tip 8b: Abstracting the code to make it easier to add new API functions</a></li>
+      <li><a href="#api-chain">Tip 8c: Support chaining API functions with pipes (<code class="highlighter-rouge">%&gt;%</code>)</a></li>
+      <li><a href="#api-not-just-shiny">Tip 8d: Make API functions work outside of Shiny too</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="background">Background</h2>
+
+<p>For those who don’t know, <a href="http://www.htmlwidgets.org/"><code class="highlighter-rouge">htmlwidgets</code></a> is a handy package that lets you bring functionality from 3rd-party JavaScript libraries into R. This can be especially useful when wanting to use new types of visualizations in Shiny apps.</p>
+
+<p>Last year, when asked a question about htmlwidgets, <a href="https://github.com/timelyportfolio/sweetalertR/issues/1#issuecomment-123564079">my response</a> was that <em>“I’m a bit embarrassed to admit that I haven’t actually looked into htmlwidgets yet”</em>. Almost a year later, in useR 2016 conference, I had a chat with <a href="https://github.com/ramnathv">Ramnath Vaidyanathan</a>. And, again, I had to embarrassingly admit that I still don’t really know how htmlwidgets works, but this time I had the added impact of saying it directly to one of the package’s co-authors. In that moment I decided that it’s time for me to learn htmlwigets.</p>
+
+<p>So a few weeks later I set out to write my first htmlwidget. Even though it was meant to be purely a learning exercise, I wanted it to at least be minimally useful so that it’s not a waste of time. I started looking at a ton of JavaScript visualization libraries and checked each one to see if it already exists in R. This was a harder task than I imagined, but I eventually deicded to turn the <a href="http://visjs.org/docs/timeline/">vis.js Timeline module</a> into an R htmlwidgets, and hence my newest package <a href="https://github.com/daattali/timevis">timevis</a> was born.</p>
+
+<p>I’m not going to cover the basics of how to write htmlwidgets (if you just want to learn how to write htmlwidgets, the <a href="http://www.htmlwidgets.org/develop_intro.html">official documentation</a> is great). What this post will do is describe some things that I implemented in timevis that go beyond the basics and that I think can be applied to many htmlwidgets in order to make them much more useful. To help make these ideas more concrete, I created a minimal barebones htmlwidget that we will improve upon throughout this post.</p>
+
+<p>I would like to repeat and stress that I’m very new to htmlwidgets myself so it’s entirely possible that people smarter than myself would disagree with some of my ideas. But I still think it’s useful to go through this list I made and see if any of my lessons make sense in your case.</p>
+
+<h2 id="starting-point">Starting point for this “tutorial”</h2>
+
+<p>I created a GitHub repository with a minimal functioning <code class="highlighter-rouge">timevis</code> htmlwidget called <a href="https://github.com/daattali/timevisBasic"><code class="highlighter-rouge">timevisBasic</code></a>. Throughout this tutorial, I will give you tips on how to improve htmlwidgets, and we will see them in action by incrementally adding those ideas to <code class="highlighter-rouge">timevisBasic</code>.</p>
+
+<p>I recommend you take a quick look at <code class="highlighter-rouge">timevisBasic</code> before continuing to see what our starting point is. At the very least you should read the <a href="https://github.com/daattali/timevisBasic#readme">README</a> and just take a glance at the very simple <a href="https://github.com/daattali/timevisBasic/blob/master/R/timevisBasic.R">R source file</a> and <a href="https://github.com/daattali/timevisBasic/blob/master/inst/htmlwidgets/timevisBasic.js">JavaScript source file</a>.</p>
+
+<p>Just to be clear: <code class="highlighter-rouge">timevis</code> is my proper package that you can install and use, <code class="highlighter-rouge">timevisBasic</code> is a stripped down version of <code class="highlighter-rouge">timevis</code> that’s only on GitHub is used as a learning tool.</p>
+
+<h2 id="rendervalue-x-name">Tip 1: Use a sensible parameter name in <code class="highlighter-rouge">renderValue(x)</code> instead of <code class="highlighter-rouge">x</code></h2>
+
+<p>I’ll start with a very simple tip. The htmlwidgets docs tell you to define the <code class="highlighter-rouge">renderValue</code> JavaScript function as</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">renderValue</span><span class="err">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Now, this <code class="highlighter-rouge">x</code> variable is actually very useful. It contains all the values that are passed in from R to the widget itself. So you often end up referring to <code class="highlighter-rouge">x</code> a lot in your code.  I have <a href="https://github.com/daattali/timevis/commit/7bd3e7390256a7617e3642078a94d301062ab628">a commit</a> that has the sole purpose of renaming <code class="highlighter-rouge">x</code> to <code class="highlighter-rouge">opts</code>, and I think you should do that too, for two main reasons. First, <code class="highlighter-rouge">opts</code> is a much more descriptive name than <code class="highlighter-rouge">x</code> and it tells you that it holds all the different widget options. Second, I’m always against using any variable name that is only one or two characters long, because it makes it very difficuly to search for it.</p>
+
+<p>See the implementation of this tip in <code class="highlighter-rouge">timevisBasic</code>: <a href="https://github.com/daattali/timevisBasic/compare/tip1-rendervalue-x-name#diff">https://github.com/daattali/timevisBasic/compare/tip1-rendervalue-x-name#diff</a></p>
+
+<h2 id="custom-html">Tip 2: Add custom HTML elements to your widget</h2>
+
+<p>The official htmlwidgets documentation <a href="http://www.htmlwidgets.org/develop_advanced.html#custom-widget-html">tells us</a> that the widget will be “housed” inside a <code class="highlighter-rouge">&lt;div&gt;</code> tag by default. You can define a special function if you want the widget to be enclosed by a different tag, for example</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">timevis_html</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">style</span><span class="p">,</span><span class="w"> </span><span class="n">class</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p">){</span><span class="w">
+  </span><span class="n">tags</span><span class="o">$</span><span class="n">span</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">class</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">class</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>This will change the enclosing tag of the widget to be a <code class="highlighter-rouge">&lt;span&gt;</code> instead.</p>
+
+<p>But what’s more interesting is that you can also use this idea to add HTML elements that are not part of the JavaScript library into the widget. For example, I wanted to add zoom in and zoom out buttons into my timevis widget (the 3rd-party JavaScript library I use does not have zooming buttons) so I added this R function:</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">timevis_html</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">style</span><span class="p">,</span><span class="w"> </span><span class="n">class</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">tags</span><span class="o">$</span><span class="n">div</span><span class="p">(</span><span class="w">
+    </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">style</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">style</span><span class="p">,</span><span class="w"> </span><span class="n">class</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">class</span><span class="p">,</span><span class="w">
+    </span><span class="n">htmltools</span><span class="o">::</span><span class="n">div</span><span class="p">(</span><span class="w">
+      </span><span class="n">style</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"position: absolute;"</span><span class="p">,</span><span class="w">
+      </span><span class="n">htmltools</span><span class="o">::</span><span class="n">tags</span><span class="o">$</span><span class="n">button</span><span class="p">(</span><span class="s2">"+"</span><span class="p">),</span><span class="w">
+      </span><span class="n">htmltools</span><span class="o">::</span><span class="n">tags</span><span class="o">$</span><span class="n">button</span><span class="p">(</span><span class="s2">"-"</span><span class="p">)</span><span class="w">
+    </span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>You can see the actual final code I used in <code class="highlighter-rouge">timevis</code> <a href="https://github.com/daattali/timevis/blob/v0.2/R/timevis.R#L439-L459">here</a>.</p>
+
+<p>See the implementation of this tip in <code class="highlighter-rouge">timevisBasic</code>: <a href="https://github.com/daattali/timevisBasic/compare/tip1-rendervalue-x-name...tip2-custom-html#diff">https://github.com/daattali/timevisBasic/compare/tip1-rendervalue-x-name…tip2-custom-html#diff</a></p>
+
+<h2 id="dataframeToD3">Tip 3: Convert a data frame to a D3-compatible data structure in R</h2>
+
+<p>As the htmlwidgets docs <a href="http://www.htmlwidgets.org/develop_advanced.html#htmlwidgets.dataframetod3">point out</a>, R data frames are represented in “long” form (an array of named vectors) whereas D3 often requires data to be in “wide” form (an array of objects each of which includes all names and values). In order to transform an R data frame to d3 format, htmlwidgets provides us with the <code class="highlighter-rouge">HTMLWidgets.dataframeToD3()</code> JavaScript function. This should usually be good enough, but in my particular case it didn’t work quite right because it converts any <code class="highlighter-rouge">NA</code> values in the data frame into <code class="highlighter-rouge">null</code> values in JavaScript, which presented errors with the specific library I’m using. My solution was to implement my own <code class="highlighter-rouge">dataframeToD3()</code> function in R:</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">dataframeToD3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nf">missing</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nf">is.null</span><span class="p">(</span><span class="n">df</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nf">return</span><span class="p">(</span><span class="nf">list</span><span class="p">())</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">is.data.frame</span><span class="p">(</span><span class="n">df</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">stop</span><span class="p">(</span><span class="s2">"timevis: the input must be a dataframe"</span><span class="p">,</span><span class="w"> </span><span class="n">call.</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  
+  </span><span class="n">row.names</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kc">NULL</span><span class="w">
+  </span><span class="n">apply</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="n">as.list</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">row</span><span class="p">)]))</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>This function takes in a regular R data frame and converts it to a format that is compatible with D3, and it specifically drops any <code class="highlighter-rouge">NA</code> values. You can see it in use in timevis <a href="https://github.com/daattali/timevis/blob/v0.2/R/timevis.R#L314">here</a>; I simply convert any input data to wide format using this function, and pass that data to JavaScript.</p>
+
+<p>Since the d3 representation of a data frame is much more verbose, this results in bigger data to transfer over the network, so I don’t generally recommend doing this transformation in R unless you really need to (as in my case, where using the JavaScript method provided by HTMLWidgets was not sufficient).</p>
+
+<p>See the implementation of this tip in <code class="highlighter-rouge">timevisBasic</code>:
+<a href="https://github.com/daattali/timevisBasic/compare/tip2-custom-html...tip3-dataframeToD3#diff">https://github.com/daattali/timevisBasic/compare/tip2-custom-html…tip3-dataframeToD3#diff</a></p>
+
+<h2 id="rendervalue-multiple-times">Tip 4:  The <code class="highlighter-rouge">renderValue()</code> function gets called every time the R binding function gets called</h2>
+
+<p>The <code class="highlighter-rouge">renderValue()</code> function, which is responsible for creating the JavaScript widget based on some data that was passed in from R, gets called every time the R binding function is called. For example, in my package whenever <code class="highlighter-rouge">timevis()</code> is called in R, the <code class="highlighter-rouge">renderValue()</code> function is called in JavaScript. This may sound trivial, but I didn’t see it explicitly spelled out in the documentation and I think it’s important to understand.</p>
+
+<p>What this means is that if you create your widget based on a reactive value in a shiny app, then every time the reactive value updates, the widget’s <code class="highlighter-rouge">renderValue()</code> will be called again. It might not be a problem for you, but it’s good to be aware of that because you should make a conscious decision on what happens when the widget’s “initialization” code (<code class="highlighter-rouge">renderValue()</code>) is run multiple times.</p>
+
+<p>For example, suppose we want to render a timevis widget and use a dynamic height based on an input control in Shiny. You might use the following snippet in the shiny server code:</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.frame</span><span class="p">(</span><span class="n">...</span><span class="p">)</span><span class="w">
+</span><span class="n">output</span><span class="o">$</span><span class="n">vis</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">renderTimevis</span><span class="p">({</span><span class="w">
+  </span><span class="n">timevis</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">input</span><span class="o">$</span><span class="n">height</span><span class="p">)</span><span class="w">
+</span><span class="p">})</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>There are two things that can happen every time <code class="highlighter-rouge">timevis()</code> is called: either the given data is <em>added</em> to the current widget, or it <em>replaces</em> the current widget.</p>
+
+<h4 id="add-new-data-to-the-widget">1. Add new data to the widget</h4>
+
+<p>Using the following JavaScript code, every time the height input changes, more data will be added to the widget.</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">factory</span> <span class="err">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">width</span><span class="p">,</span> <span class="nx">height</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">timeline</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">vis</span><span class="p">.</span><span class="nx">Timeline</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">id</span><span class="p">),</span> <span class="p">[],</span> <span class="p">{});</span>
+  
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="na">renderValue</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">opts</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">timeline</span><span class="p">.</span><span class="nx">itemsData</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">opts</span><span class="p">.</span><span class="nx">items</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h4 id="replace-existing-widget-data-with-new-data">2. Replace existing widget data with new data</h4>
+
+<p>When I first made <code class="highlighter-rouge">timevis</code>, I didn’t consciously think about what happens when the render function is called multiple times, and I implemented the previous code. This resulted in <a href="https://github.com/daattali/timevis/issues/3">a bug</a> where every time the widget got re-rendered, the old data was not removed. Of course the fix was simple, in my case all I had to do was clear the current data from the widget before adding the new data. I simply added <code class="highlighter-rouge">timeline.itemsData.clear();</code> to the beginning of the <code class="highlighter-rouge">renderValue</code> function.  Of course the exact code you’ll have to run will depend on the JavaScript library you’re bringing into R, but hopefully you get the idea.</p>
+
+<p>In some visualizations it might make more sense to keep the old data and just add new data, so you should do whatever makes the most sense for your library.</p>
+
+<p>See the implementation of this tip in <code class="highlighter-rouge">timevisBasic</code>:
+<a href="https://github.com/daattali/timevisBasic/compare/tip3-dataframeToD3...tip4-rendervalue-multiple-times#diff">https://github.com/daattali/timevisBasic/compare/tip3-dataframeToD3…tip4-rendervalue-multiple-times#diff</a></p>
+
+<h2 id="init-once">Tip 5: Make sure any one-time initialization code gets run only once</h2>
+
+<p>The widget initialization code should live in the <code class="highlighter-rouge">renderValue()</code> JavaScript function. Since that function can get called multiple times (as explained above), it’s a good idea to ensure that as many parts as possible are only initialized once instead of getting defined every single time the function gets called.</p>
+
+<p>For example, in <code class="highlighter-rouge">timevis</code> I have some buttons (zoom buttons as mentioned <a href="#custom-html">above</a>) that need to register click listeners, but that should only happen once. In order to do that, I define a boolean flag <code class="highlighter-rouge">initialized</code>, set it to <code class="highlighter-rouge">true</code> the first time the widget code runs, and only run initialization code if it’s <code class="highlighter-rouge">false</code>. Code example:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">factory</span> <span class="err">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">width</span><span class="p">,</span> <span class="nx">height</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">initialized</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="na">renderValue</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">opts</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">initialized</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">initialized</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+        <span class="c1">// Code to set up event listeners and anything else that needs to run just once</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>You can see this code pattern in action <a href="https://github.com/daattali/timevis/blob/v0.2/inst/htmlwidgets/timevis.js#L26-L38">in timevis</a>.</p>
+
+<p>See the implementation of this tip in <code class="highlighter-rouge">timevisBasic</code>:
+<a href="https://github.com/daattali/timevisBasic/compare/tip4-rendervalue-multiple-times...tip5-init-once#diff">https://github.com/daattali/timevisBasic/compare/tip4-rendervalue-multiple-times…tip5-init-once#diff</a></p>
+
+<h2 id="shinyMode">Tip 6: Find out if the widget is in a shiny app or not with <code class="highlighter-rouge">HTMLWidgets.shinyMode</code></h2>
+
+<p>htmlwidgets can be rendered in a few different contexts: they can be embedded in Rmarkdown documents, viewed as a standalone in RStudio or in a browser, or they can be included in Shiny apps. It may be beneficial to know whether the widget is currently inside a shiny app or not (for example, if you want the widget to interact with Shiny). You can access the variable <code class="highlighter-rouge">HTMLWidgets.shinyMode</code> in JavaScript code to find out if the current widget is in a Shiny context or not.</p>
+
+<p>See the implementation of this tip in <code class="highlighter-rouge">timevisBasic</code>:
+<a href="https://github.com/daattali/timevisBasic/compare/tip5-init-once...tip6-shinyMode#diff">https://github.com/daattali/timevisBasic/compare/tip5-init-once…tip6-shinyMode#diff</a></p>
+
+<h2 id="widget-to-r-data">Tip 7a: Pass data from the widget to R</h2>
+
+<p>The native flow of information in an htmlwidget is from R to the widget. The widget cannot natively pass information back to R. But when you include an htmlwidget inside a Shiny app, you might want to be able to access some data from the widget in your Shiny app. This can be done using the typical method of passing information from JavaScript to R using <code class="highlighter-rouge">Shiny.onInputChange()</code>. If you’re not familiar with this method, you can learn about it <a href="https://github.com/daattali/advanced-shiny/tree/master/message-javascript-to-r">in my previous post</a>.</p>
+
+<p>This usually involves setting up some event listener in JavaScript for an event that you may be interested in, calling <code class="highlighter-rouge">Shiny.onInputChange()</code> in the listener callback, and listening for that data in R through the <code class="highlighter-rouge">input</code> variable. For example, in <code class="highlighter-rouge">timevis</code> I wanted the user to know what items have been selected in the widget, so I added this simple code:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">timeline</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'select'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">properties</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">Shiny</span><span class="p">.</span><span class="nx">onInputChange</span><span class="p">(</span><span class="nx">elementId</span> <span class="o">+</span> <span class="s2">"_selected"</span><span class="p">,</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">items</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>What that code does is: every time an item gets selected (<code class="highlighter-rouge">timeline.on('select', ...)</code>), we pass the data (<code class="highlighter-rouge">properties.items</code>) to R, and it will be accessible as <code class="highlighter-rouge">input$&lt;elementId&gt;_selected</code>. For completeness, I also pass this data to R when the app first starts, so that the user will be able to access that variable even before any selection is being made:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Shiny</span><span class="p">.</span><span class="nx">onInputChange</span><span class="p">(</span><span class="nx">elementId</span> <span class="o">+</span> <span class="s2">"_selected"</span><span class="p">,</span> <span class="nx">timeline</span><span class="p">.</span><span class="nx">getSelection</span><span class="p">());</span>
+</code></pre>
+</div>
+
+<p>You can see this code in the <code class="highlighter-rouge">timevis</code> source code <a href="https://github.com/daattali/timevis/blob/v0.2/inst/htmlwidgets/timevis.js#L43-L53">here</a>. You’ll also notice that I wrapped this code inside a check for <code class="highlighter-rouge">if (HTMLWidgets.shinyMode) {...}</code> since it only makes sense to pass data back to R when you’re in a Shiny app.</p>
+
+<p>See the implementation of this tip in <code class="highlighter-rouge">timevisBasic</code>:
+<a href="https://github.com/daattali/timevisBasic/compare/tip6-shinyMode...tip7a-widget-to-r-data#diff">https://github.com/daattali/timevisBasic/compare/tip6-shinyMode…tip7a-widget-to-r-data#diff</a></p>
+
+<h3 id="javascript-to-r-handler">Tip 7b: Use a custom function to convert the JavaScript data into an R object</h3>
+
+<p>This is actually purely a Shiny issue rather than an htmlwidgets issue (you can learn more about it in my <a href="https://github.com/daattali/advanced-shiny/tree/master/javascript-to-r-handler">previous post</a>), but it can come up when developing a widget so I will mention it here.</p>
+
+<p>When using <code class="highlighter-rouge">Shiny.onInputChange(name, data)</code>, you are passing in a JavaScript object (<code class="highlighter-rouge">data</code>) and expect it to get converted to an R object (<code class="highlighter-rouge">input$name</code>). This conversion happens by serializing and deserializing the data to and from JSON. Usually <code class="highlighter-rouge">input$name</code> will look exactly like you’d expect it to, but it is possible for the conversion process to not do exactly what you want. Alternatively, you may just want to alter the data slightly in R before presenting it to Shiny.</p>
+
+<p>This is where the <code class="highlighter-rouge">shiny::registerInputHandler()</code> function comes in: it allows you to transform the data passed in from JavaScript before it gets used as <code class="highlighter-rouge">input$</code>. For example, suppose you use <code class="highlighter-rouge">Shiny.onInputChange("myobj", value)</code> to send a value from JavaScript to R, but you want <code class="highlighter-rouge">input$myobj</code> to be automatically converted into a list. There are two simple steps you’d need to follow:</p>
+
+<ol>
+  <li>
+    <p>In JavaScript, change <code class="highlighter-rouge">Shiny.onInputChange("myobj", value)</code> to <code class="highlighter-rouge">Shiny.onInputChange("myobj:mylist", value)</code>. Notice that we append <code class="highlighter-rouge">:&lt;type&gt;</code> to the name of the object. This specifices the type of object that is being passed to Shiny, so that Shiny will know what handler to call when deserializing its value.</p>
+  </li>
+  <li>
+    <p>In R, define the following function:</p>
+  </li>
+</ol>
+
+<p><code class="highlighter-rouge">r
+  shiny::registerInputHandler("mylist", function(data, ...) {
+    list(data)
+  }, force = TRUE)
+ </code></p>
+
+<p>Now if you access <code class="highlighter-rouge">input$myobj</code> in shiny, the value will be wrapped in a list. Of course this particular example isn’t terribly useful, but this principle can be applied in real apps. For example, you can see how <a href="https://github.com/daattali/timevis/blob/v0.2/R/utils.R#L2-L7">I used it</a> in <code class="highlighter-rouge">timevis</code> to fix an issue where the timeline data I wanted to pass to Shiny was getting flattened to a vector by default and I wanted it to be a data.frame instead. You’ll also see that I put that code inside <code class="highlighter-rouge">.onLoad</code>, which I’m not completely sure is the correct place for that code, so let me know if you have any thoughts on that.</p>
+
+<p>See the implementation of this tip in <code class="highlighter-rouge">timevisBasic</code>:
+<a href="https://github.com/daattali/timevisBasic/compare/tip7a-widget-to-r-data...tip7b-javascript-to-r-handler#diff">https://github.com/daattali/timevisBasic/compare/tip7a-widget-to-r-data…tip7b-javascript-to-r-handler#diff</a></p>
+
+<h2 id="api">Tip 8: Add API functions to lets users programmatically interact with the widget</h2>
+
+<p>I saved this one for last because it’s the most involved suggestion, but it’s also the one that will give your htmlwidget the greatest benefit.</p>
+
+<p>You can make a decent htmlwidget by only implementing the JavaScript <code class="highlighter-rouge">renderValue()</code> function, but you can make a much more useful widget by also allowing the user to interact with the widget programmatically after its creation. Most JavaScript libraries provide some sort of a constructor function that builds a widget (this is what you’d call inside <code class="highlighter-rouge">renderValue()</code>), as well as other functions that let you interact with the widget (aka an API). I think it’s always a good idea to give the user an interface to this API, as it will make your widget more powerful.</p>
+
+<p>The exact way you’d implement an API to your widget depends on the API available by the JavaScript library you’re using, but I believe I came up with a good generic framework for adding API functions that can be used by other widgets.</p>
+
+<h3 id="api-basic">Tip 8a: Basic implementation</h3>
+
+<p>Let’s walk through implementing a real API function in a real htmlwidget (we’ll use <code class="highlighter-rouge">timevisBasic</code> of course, which closely mimics the real <code class="highlighter-rouge">timevis</code> package). If you look at the <a href="http://visjs.org/docs/timeline/#Methods">documentation for vis.js</a> (which is the JavaScript library I used to port the timeline widget), you’ll see there are many API functions available to manipulate an existing timeline widget. Let’s pick one of them at random, say <code class="highlighter-rouge">setWindow()</code>, and see how we can add a <code class="highlighter-rouge">setWindow()</code> function to our R htmlwidget package.</p>
+
+<p>Notice that <code class="highlighter-rouge">setWindow()</code> has two required arguments <code class="highlighter-rouge">start</code> and <code class="highlighter-rouge">end</code>, and one optional argument <code class="highlighter-rouge">options</code>. Essentially what we want to do is be able to call a function in R, supply it with those arguments as well as an ID (the widget ID), and have it call the library’s <code class="highlighter-rouge">setWindow()</code> method. We will rely on the system that Shiny provides for passing data from R to JavaScript using <code class="highlighter-rouge">sendCustomMessage()</code>; if you aren’t familiar with that function, you can learn about it in <a href="https://github.com/daattali/advanced-shiny/tree/master/message-r-to-javascript">my previous post about it</a>.</p>
+
+<h4 id="r-code">R code</h4>
+
+<p>The first thing we need to do is define an R function that accepts those four parameters and passes them to JavaScript. I’ll use <code class="highlighter-rouge">timevis:setWindow</code> as the name of the message - you don’t have to namespace the messages like that, but I prefer to do that in order to minimize the chance of having name collisions.</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">setWindow</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">start</span><span class="p">,</span><span class="w"> </span><span class="n">end</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">message</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">start</span><span class="p">,</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">end</span><span class="p">)</span><span class="w">
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nf">missing</span><span class="p">(</span><span class="n">options</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">message</span><span class="p">[</span><span class="s1">'options'</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">options</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  </span><span class="n">session</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">shiny</span><span class="o">::</span><span class="n">getDefaultReactiveDomain</span><span class="p">()</span><span class="w">
+  </span><span class="n">session</span><span class="o">$</span><span class="n">sendCustomMessage</span><span class="p">(</span><span class="s2">"timevis:setWindow"</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<h4 id="javascript-code">JavaScript code</h4>
+
+<p>Now we move on to the JavaScript code. First we need to have a way to access the widget JavaScript object from anywhere arbitrary in the JavaScript, so that we can refer to it after its creation. Recall that earlier we defined a <code class="highlighter-rouge">timeline</code> variable as the widget:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">timeline</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">vis</span><span class="p">.</span><span class="nx">Timeline</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">id</span><span class="p">),</span> <span class="p">[],</span> <span class="p">{});</span>
+</code></pre>
+</div>
+
+<p>This <code class="highlighter-rouge">timeline</code> object is the actual widget, and is the object we call the API methods (such as <code class="highlighter-rouge">setWindow()</code>) on. Therefore, we need to have a way to access this widget from anywhere arbitrarily in the JavaScript code. In order to make it easily available, we can attach it to the HTML element housing the widget by placing the following line inside <code class="highlighter-rouge">renderValue()</code>:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="nx">elementId</span><span class="p">).</span><span class="nx">timeline</span> <span class="o">=</span> <span class="nx">timeline</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>Since that attachment only needs to happen once per widget, you can place it inside the initialization code (as described <a href="#init-once">above</a>). What this line of code achieves is that now we can access the timeline widget associated with a specific HTML ID using <code class="highlighter-rouge">document.getElementById(id).timeline</code>.</p>
+
+<p>Now that we have an R function that sends a JavaScript message with the arguments, and we have a reference to the timeline widget, all that is left to do is implement the JavaScript function that listens for the message coming from Shiny and make the API call:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nx">HTMLWidgets</span><span class="p">.</span><span class="nx">shinyMode</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">Shiny</span><span class="p">.</span><span class="nx">addCustomMessageHandler</span><span class="p">(</span><span class="s2">"timevis:setWindow"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="nx">message</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">el</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">el</span><span class="p">.</span><span class="nx">timeline</span><span class="p">.</span><span class="nx">setWindow</span><span class="p">(</span><span class="nx">message</span><span class="p">.</span><span class="nx">start</span><span class="p">,</span> <span class="nx">message</span><span class="p">.</span><span class="nx">end</span><span class="p">,</span> <span class="nx">message</span><span class="p">.</span><span class="nx">options</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Now you have a working basic implementation of an API function. You can call <code class="highlighter-rouge">setWindow()</code> in Shiny, and it will find the appropriate htmlwidget and call its <code class="highlighter-rouge">setWindow()</code> method.</p>
+
+<p>See the implementation of this tip in <code class="highlighter-rouge">timevisBasic</code>:
+<a href="https://github.com/daattali/timevisBasic/compare/tip7b-javascript-to-r-handler...tip8a-api-basic#diff">https://github.com/daattali/timevisBasic/compare/tip7b-javascript-to-r-handler…tip8a-api-basic#diff</a></p>
+
+<h3 id="api-abstract">Tip 8b: Abstracting the code to make it easier to add new API functions</h3>
+
+<p>The code above works just fine, but if you want to start adding support for more API methods, there is going to be a lot of code duplication. So let’s see how we can generalize this code so that we have minimal work to do when we want to add new API functions.</p>
+
+<h4 id="r-code-1">R code</h4>
+
+<p>On the R side, we can rewrite the <code class="highlighter-rouge">setWindow</code> function as follows to be more generic:</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">setWindow</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">start</span><span class="p">,</span><span class="w"> </span><span class="n">end</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="c1"># Define the API method name (specific to this function)
+</span><span class="w">  </span><span class="n">method</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"setWindow"</span><span class="w">
+  
+  </span><span class="c1"># Get the parameters and pass all the info to JavaScript (non-specific code)
+</span><span class="w">  </span><span class="n">message</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">Filter</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">!</span><span class="nf">is.symbol</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="w"> </span><span class="n">as.list</span><span class="p">(</span><span class="n">environment</span><span class="p">()))</span><span class="w">
+  </span><span class="n">session</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">shiny</span><span class="o">::</span><span class="n">getDefaultReactiveDomain</span><span class="p">()</span><span class="w">
+  </span><span class="n">method</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"timevis:"</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="o">$</span><span class="n">method</span><span class="p">)</span><span class="w">
+  </span><span class="n">session</span><span class="o">$</span><span class="n">sendCustomMessage</span><span class="p">(</span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>You can compare this version to the previous version of the function, and hopefully you’ll see that the result is identical. The one line there that might be confusing is the one with <code class="highlighter-rouge">Filter()</code>; basically, it looks at all the objects in the current environment and adds them all to a list, but it filters out any argument that was not given a value. As you can see, only the first line of code <code class="highlighter-rouge">method &lt;- "setWindow"</code> is specific to this function, while the rest of the code is completely generalized. This means we can now pull out all this code into a separate function, let’s call it <code class="highlighter-rouge">callJS()</code>:</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">callJS</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">message</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">Filter</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">!</span><span class="nf">is.symbol</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="w"> </span><span class="n">as.list</span><span class="p">(</span><span class="n">parent.frame</span><span class="p">(</span><span class="m">1</span><span class="p">)))</span><span class="w">
+  </span><span class="n">session</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">shiny</span><span class="o">::</span><span class="n">getDefaultReactiveDomain</span><span class="p">()</span><span class="w">
+  </span><span class="n">method</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"timevis:"</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="o">$</span><span class="n">method</span><span class="p">)</span><span class="w">
+  </span><span class="n">session</span><span class="o">$</span><span class="n">sendCustomMessage</span><span class="p">(</span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>And now our API function simply becomes</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">setWindow</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">start</span><span class="p">,</span><span class="w"> </span><span class="n">end</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">method</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"setWindow"</span><span class="w">
+  </span><span class="n">callJS</span><span class="p">()</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Now we have a very simple way to add new API functions since most of the heavy lifting is done by <code class="highlighter-rouge">callJS()</code>. For example, if we wanted to add support for the <code class="highlighter-rouge">addCustomTime()</code> method of the JavaScript library, the R code would only need the following simple function added:</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">addCustomTime</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">time</span><span class="p">,</span><span class="w"> </span><span class="n">itemId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">method</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s2">"addCustomTime"</span><span class="w">
+  </span><span class="n">callJS</span><span class="p">()</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<h4 id="javascript-code-1">JavaScript code</h4>
+
+<p>So we have a nice generic system for adding API functions on the R side, but we should also try to abstract the process as much as possible on the JavaScript side.</p>
+
+<p>The idea here is that instead of manually defining all the message handlers, we can have some generic code that takes care of defining all the message handlers. Each message handler should call an appropriate method on the htmlwidget that will know what to do for its message type (message type = API method). This will solve another problem as well: remember that in the basic implementation we attached the <code class="highlighter-rouge">timeline</code> widget to the HTML element of the htmlwidget? It can be considered bad programming practice to expose the widget directly because then anyone can manipulate it freely. Instead, it’s safer to only expose a pre-defined set of functions that we want to allow the user to call.</p>
+
+<p>So what we’ll do is instead of making the raw <code class="highlighter-rouge">timeline</code> object available through the HTML element, we’ll only make a reference to the htmlwidget available, and we’ll add API functions to the htmlwidget.</p>
+
+<p>To add a reference to the widget from the HTML element, add the following line of code to the initialization code inside <code class="highlighter-rouge">renderValue()</code>:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="nx">elementId</span><span class="p">).</span><span class="nx">widget</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>Next we add the API function (<code class="highlighter-rouge">setWindow()</code> and <code class="highlighter-rouge">addCustomTime()</code> in this case) to the return value of the htmlwidget:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">factory</span> <span class="err">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">width</span><span class="p">,</span> <span class="nx">height</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="na">renderValue</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">opts</span><span class="p">)</span> <span class="p">{</span>
+      <span class="p">...</span>
+    <span class="p">},</span>
+    <span class="na">setWindow</span> <span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">params</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">timeline</span><span class="p">.</span><span class="nx">setWindow</span><span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">start</span><span class="p">,</span> <span class="nx">params</span><span class="p">.</span><span class="nx">end</span><span class="p">,</span> <span class="nx">params</span><span class="p">.</span><span class="nx">options</span><span class="p">);</span>
+    <span class="p">},</span>   
+    <span class="na">addCustomTime</span> <span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">params</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">timeline</span><span class="p">.</span><span class="nx">addCustomTime</span><span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">time</span><span class="p">,</span> <span class="nx">params</span><span class="p">.</span><span class="nx">itemId</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>And lastly we generalize the code to add message handlers:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nx">HTMLWidgets</span><span class="p">.</span><span class="nx">shinyMode</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">fxns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'setWindow'</span><span class="p">,</span> <span class="s1">'addCustomTime'</span><span class="p">];</span>
+
+  <span class="kd">var</span> <span class="nx">addShinyHandler</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">fxn</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">Shiny</span><span class="p">.</span><span class="nx">addCustomMessageHandler</span><span class="p">(</span>
+        <span class="s2">"timevis:"</span> <span class="o">+</span> <span class="nx">fxn</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
+          <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="nx">message</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+          <span class="k">if</span> <span class="p">(</span><span class="nx">el</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">el</span><span class="p">.</span><span class="nx">widget</span><span class="p">[</span><span class="nx">fxn</span><span class="p">](</span><span class="nx">message</span><span class="p">);</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">fxns</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">addShinyHandler</span><span class="p">(</span><span class="nx">fxns</span><span class="p">[</span><span class="nx">i</span><span class="p">])();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Whenever we want to add a new API function, we now just add the function to the htmlwidget return value, and add its name in the <code class="highlighter-rouge">fxns</code> variable in the above code chunk.</p>
+
+<p>See the implementation of this tip in <code class="highlighter-rouge">timevisBasic</code>:
+<a href="https://github.com/daattali/timevisBasic/compare/tip8a-api-basic...tip8b-api-abstract#diff">https://github.com/daattali/timevisBasic/compare/tip8a-api-basic…tip8b-api-abstract#diff</a></p>
+
+<h3 id="api-chain">Tip 8c: Support chaining API functions with pipes (<code class="highlighter-rouge">%&gt;%</code>)</h3>
+
+<p>Now that we made it easy to add many API functions, we also wan to make it easy to <em>call</em> multiple API functions together, one after the other. The natural way many people will want to do that is by chaining functions together using the magrittr <code class="highlighter-rouge">%&gt;%</code> pipe. For example, instead of running</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">addCustomTime</span><span class="p">(</span><span class="s2">"timeline"</span><span class="p">,</span><span class="w"> </span><span class="n">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Sys.Date</span><span class="p">)</span><span class="w">
+</span><span class="n">setWindow</span><span class="p">(</span><span class="s2">"timeline"</span><span class="p">,</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Sys.Date</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Sys.Date</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>It can be easier to type</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="s2">"timeline"</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">addCustomTime</span><span class="p">(</span><span class="n">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Sys.Date</span><span class="p">())</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">setWindow</span><span class="p">(</span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Sys.Date</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Sys.Date</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Right now, the first version will work, but the second version will not. To support it is actually pretty easy though, all we have to do is make sure each API function accepts the ID as its first argument (we’re already doing that), and make sure the API functions also <em>return</em> that same ID as their value.</p>
+
+<h4 id="r-code-2">R code</h4>
+
+<p>Simply add the following return call at the end of the <code class="highlighter-rouge">callJS()</code> function:</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="nf">return</span><span class="p">(</span><span class="n">message</span><span class="o">$</span><span class="n">id</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>And that’s it! No JavaScript changes. Now you can chain your API functions (assuming, of course, that you have the magrittr pipe loaded).</p>
+
+<p>See the implementation of this tip in <code class="highlighter-rouge">timevisBasic</code>:
+<a href="https://github.com/daattali/timevisBasic/compare/tip8b-api-abstract...tip8c-api-chain#diff">https://github.com/daattali/timevisBasic/compare/tip8b-api-abstract…tip8c-api-chain#diff</a></p>
+
+<h3 id="api-not-just-shiny">Tip 8d: Make API functions work outside of Shiny too</h3>
+
+<p>Right now, calling API functions is only possible within Shiny apps, using the widget’s ID after the widget has been created. It would be great if we could call an API function on the widget during initialization, such as <code class="highlighter-rouge">addCustomTime(timevis(), time = Sys.Date)</code>. There are two benefits to this syntax: first of all, it would allow us to call API functions on the widget immediately during initialization. Secondly, it would allow us to use API functions on the widget even when we’re not using Shiny (for example, in an R-markdown document or in the R console).</p>
+
+<p>The problem is that we can’t simply try to call the API function on an htmlwidget before it’s created, because the function would simply not return anything since the widget takes time to initialize. We need to somehow delay the API functions to only run after the widget initializes. And here’s how we can do that: when an API function gets called on an htmlwidget, instead of trying to run it immediately, we can simply save it as a property of the widget. Then when the widget gets created, it can look at what API functions were called on it and are in queue, and run them one by one. Simple!</p>
+
+<h4 id="r-code-3">R code</h4>
+
+<p>We need to have some sort of list attached to the htmlwidget that will keep track of all API requests. In the <code class="highlighter-rouge">timevis()</code> function, where we bundle together all the data and send it to JavaScript, add the following simple line:</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">x</span><span class="o">$</span><span class="n">api</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list</span><span class="p">()</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Now we have a place to store any future API function requests. Remember that the goal is to be able to call an API function directly using an htmlwidget, rather than using an ID. So the next thing we need to do is allow the API functions to be called with an htmlwidget as the first parameter instead of an ID (which is what is currently expected). Recall that all API function calls go through the <code class="highlighter-rouge">callJS()</code> function, so add the following few lines to that function, after the <code class="highlighter-rouge">session</code> variable gets defined:</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">methods</span><span class="o">::</span><span class="n">is</span><span class="p">(</span><span class="n">message</span><span class="o">$</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="s2">"timevisBasic"</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">widget</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">message</span><span class="o">$</span><span class="n">id</span><span class="w">
+  </span><span class="n">message</span><span class="o">$</span><span class="n">id</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kc">NULL</span><span class="w">
+  </span><span class="n">widget</span><span class="o">$</span><span class="n">x</span><span class="o">$</span><span class="n">api</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">widget</span><span class="o">$</span><span class="n">x</span><span class="o">$</span><span class="n">api</span><span class="p">,</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">message</span><span class="p">))</span><span class="w">
+  </span><span class="nf">return</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Hopefully you can understand what that code does: it looks to see if the first parameter (<code class="highlighter-rouge">id</code>) is actually an object of type <code class="highlighter-rouge">timevisBasic</code>, which indicates it’s an htmlwidget. If it is, then instead of calling JavaScript immediately, simply save all the request info (the API function’s name and the arguments) into the special list we defined earlier. Notice that we also return the widget, which is important if we want to be able to chain API calls (eg. <code class="highlighter-rouge">timeline() %&gt;% setWindow(...) %&gt;% addCustomTime(...)</code> vs <code class="highlighter-rouge">addCustomTime(setWindow(timeline(), ...))</code>).</p>
+
+<p>The one thing I don’t love about this solution is that we’re overloading the <code class="highlighter-rouge">id</code> parameter so that it actually accepts two very different types of inputs. In an ideal world this would not happen, but in practice this allows us the great flexibility of calling an API function in any way we want.</p>
+
+<h4 id="javascript-code-2">JavaScript code</h4>
+
+<p>The last piece of the puzzle is actually calling the API functions once the widget gets created. If we go back to the <code class="highlighter-rouge">renderValue()</code> function, that’s where we get all the information from R about what the widget should contain, and that’s where we initialize the widget. So all we need to do is check if there are any outstanding API function calls, loop through them, and call them one by one. This can actually be done in a very simple way, just add the following code to the end of the <code class="highlighter-rouge">renderValue()</code> function:</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// Now that the timeline is initialized, call any outstanding API</span>
+<span class="c1">// functions that the user wantd to run on the timeline before it was</span>
+<span class="c1">// ready</span>
+<span class="kd">var</span> <span class="nx">numApiCalls</span> <span class="o">=</span> <span class="nx">opts</span><span class="p">[</span><span class="s1">'api'</span><span class="p">].</span><span class="nx">length</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">numApiCalls</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">call</span> <span class="o">=</span> <span class="nx">opts</span><span class="p">[</span><span class="s1">'api'</span><span class="p">][</span><span class="nx">i</span><span class="p">];</span>
+  <span class="kd">var</span> <span class="nx">method</span> <span class="o">=</span> <span class="nx">call</span><span class="p">.</span><span class="nx">method</span><span class="p">;</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">[</span><span class="nx">method</span><span class="p">](</span><span class="nx">call</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">catch</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Now you can call API functions using an ID or an htmlwidget object, and you can even chain calls easily. I think this solution is failry simple and elegant, and can easily be implemented in other htmlwidget packages.</p>
+
+<p>See the implementation of this tip in <code class="highlighter-rouge">timevisBasic</code>:
+<a href="https://github.com/daattali/timevisBasic/compare/tip8c-api-chain...tip8d-api-not-just-shiny#diff">https://github.com/daattali/timevisBasic/compare/tip8c-api-chain…tip8d-api-not-just-shiny#diff</a></p>
+
+<hr />
+
+<p>That’s all the advice I can give based on what I learned making my first htmlwidget. Hopefully now if you look at <a href="https://github.com/daattali/timevis/blob/v0.2/inst/htmlwidgets/timevis.js">the JavaScript code</a> for the <code class="highlighter-rouge">timevis</code> widget, you’ll understand everything that I did there.</p>
+
+<p>As always, feel free to <a href="/contact">contact me</a>. Any comments and feedback are appreciated, especially if any of my code or ideas seem strange.</p>
+
+<p><span id="footnote"></span><em>*It was actually a couple months ago. I started writing this tutorial one week after releasing <code class="highlighter-rouge">timevis</code> but only wrote the accompanying <code class="highlighter-rouge">timevisBasic</code> package and the rest of the article several weeks later.</em></p>
+
+      </article>
+      
+      
+        <div class="blog-tags">
+          Tags: professional, rstats, r, r-bloggers, shiny, tutorial
+        </div>
+      
+
+      
+  <div class="share-section">
+    <h1 class="share-title">Liked what you read?</h1>
+    
+    
+      <div class="share-buttons">
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        <a href="http://localhost:4000/contact" data-ga-event=1 data-ga-category="share" data-ga-action="message" data-ga-label="/blog/htmlwidgets-tips/">
+          Let me know
+        </a>
+        <!--
+        <a href="https://www.facebook.com/dialog/feed?app_id=536330676521989&link=http://localhost:4000/blog/htmlwidgets-tips/&name=How to write a useful htmlwidgets in R: tips and walk-through a real example&caption=deanattali.com&redirect_uri=http://localhost:4000/blog/htmlwidgets-tips/?message=Thanks for sharing!" data-ga-event=1 data-ga-category="share" data-ga-action="facebook" data-ga-label="/blog/htmlwidgets-tips/">
+          Share on Facebook
+        </a>
+        -->
+        <a href="https://www.paypal.me/daattali/10" data-ga-event=1 data-ga-category="share" data-ga-action="donate" data-ga-label="/blog/htmlwidgets-tips/">
+          Support me
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=http://localhost:4000/blog/htmlwidgets-tips/&via=daattali&hashtags=rstats&text=How to write a useful htmlwidgets in R: tips and walk-through a real example" data-ga-event=1 data-ga-category="share" data-ga-action="twitter" data-ga-label="/blog/htmlwidgets-tips/">
+          Tweet it
+        </a>
+      </div>
+    
+    
+    
+      <!-- MailChimp Signup Form -->
+      <div id="mailchimp-subscribe-section-2">
+        <div id="mc_embed_signup-2">
+          <form action="//deanattali.us14.list-manage.com/subscribe/post?u=a579a88c8f09f9b8502b9d0c3&amp;id=c180f5773c" method="post" id="mc-embedded-subscribe-form-2" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+            <div id="mc_embed_signup_scroll-2">
+      	      <label for="mce-EMAIL-2">Sign up to my Shiny newsletter</label>
+              <div class="container">
+                <div class="row">
+                  <div class="col-xs-8">
+                    <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL-2" placeholder="Email" required="">
+                  </div>
+                  <div class="col-xs-4">
+                    <input type="text" value="" name="FNAME" class="text" id="mce-FNAME-2" placeholder="Name" required="">
+                  </div>
+                </div>
+              </div>
+              <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_a579a88c8f09f9b8502b9d0c3_c180f5773c" tabindex="-1" value=""></div>
+              <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe-2" class="button">
+            </div>
+          </form>
+        </div>
+      </div>
+     
+
+  </div>
+
+
+      
+      
+
+      <ul class="pager blog-pager">
+        
+          <li class="previous">
+            <a href="/blog/advanced-shiny-tips/" data-toggle="tooltip" data-placement="top" title="Shiny tips & tricks for improving your apps and solving common problems">&larr; Previous Post</a>
+          </li>
+        
+        
+          <li class="next">
+            <a href="/blog/plot-colour-helper/" data-toggle="tooltip" data-placement="top" title="Plot Colour Helper - Finally an easy way to pick colours for your R plots!">Next Post &rarr;</a>
+          </li>
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+	    var disqus_shortname = 'deanattali-site';
+	    // ensure that pages with query string or anchor get the same discussion
+            var url_parts = window.location.href.split("?");
+            url_parts = url_parts[0].split("#");
+            disqus_url = url_parts[0];
+            disqus_url = disqus_url.replace(/(\/)*$/, "/"); // make sure the URL ends with one slash
+            
+            // Jekyll 3 caused so many bugs, I'm tired of fixing them one by one properly, so I'll just hack it...
+            // https://github.com/jekyll/jekyll/issues/4483
+            // The projects page now has a trailing slash, it didn't used to
+            if (disqus_url.substr(-9) == "projects/") {
+            	disqus_url = disqus_url.substr(0, disqus_url.length - 1);
+            }
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+        </div>
+      
+      
+      <div id="scroll-box">
+  <div id="scroll-box-close">&times;</div>
+  <div id="scroll-box-hire">
+    Need Shiny help?
+    <a href="/shiny">Hire me!</a>
+  </div>
+  <div id="mailchimp-subscribe-section">
+    <div id="mc_embed_signup">
+      <form action="//deanattali.us14.list-manage.com/subscribe/post?u=a579a88c8f09f9b8502b9d0c3&amp;id=c180f5773c" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate="">
+        <div id="mc_embed_signup_scroll">
+  	      <label for="mce-EMAIL">Sign up to my Shiny newsletter</label>
+          <div class="container">
+            <div class="row">
+              <div class="col-xs-8">
+  	            <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Email" required="">
+              </div>
+              <div class="col-xs-4">
+                <input type="text" value="" name="FNAME" class="text" id="mce-FNAME" placeholder="Name" required="">
+              </div>
+            </div>
+          </div>
+          <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_a579a88c8f09f9b8502b9d0c3_c180f5773c" tabindex="-1" value=""></div>
+          <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button" title="Sign up to my Shiny newsletter">
+        </div>
+      </form>
+    </div>
+  </div>
+  <div id="scroll-box-contact">
+    Questions/comments?
+    <a href="/contact">Contact me!</a>
+  </div>
+</div>
+
+    </div>
+  </div>
+</div>
+
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+
+          
+          <li>
+            <a href="mailto:daattali@gmail.com?subject=Hello from deanattali.com" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/daattali" title="Twitter">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://github.com/daattali" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://www.facebook.com/daattali" title="Facebook">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://stackoverflow.com/users/3943160/daattali" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+
+          
+
+        </ul>
+
+        <p class="copyright text-muted">
+          &copy; Dean Attali
+          &nbsp;&bull;&nbsp;
+          2017
+
+          
+          &nbsp;&bull;&nbsp;
+          <a href="mailto:daattali@gmail.com?subject=Hello from deanattali.com">daattali@gmail.com</a>
+          
+        </p>
+        <p class="theme-by text-muted">
+          Theme by
+          <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+    
+
+
+  
+	<script src="/js/jquery-1.11.2.min.js"></script>
+  
+	<script src="/js/bootstrap.min.js"></script>
+  
+	<script src="/js/js.cookie.js"></script>
+  
+	<script src="/js/main.js"></script>
+  
+
+
+
+
+
+
+
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-59820529-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+	<!-- End Google Analytics -->
+
+
+
+     
+      <!-- AddThis plugin (floating social media sharing buttons on the left of each post) -->
+      <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57d65a4d97789dd1"></script>
+    
+    
+  </body>
+</html>

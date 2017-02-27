@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  
+  <title>Shiny tips & tricks for improving your apps and solving common problems</title>
+  
+
+  <meta name="author" content="Dean Attali" />
+  
+  
+  <meta name="description" content="This document contains a collection of various Shiny tricks that I commonly use or that I know many people ask about. Each link contains a complete functional Shiny app that demonstrates how to perform a non trivial task in Shiny. The complete up-to-date list of tips, along with all the...">
+  
+  
+  <meta name="keywords" content="rstats,r,r shiny,shiny apps,r shiny apps,shiny developer,r shiny developer,shiny consultant,web application development with r using shiny">
+
+  <link rel="alternate" type="application/rss+xml" title="Dean Attali - R-Shiny developer and consultant with a MSc in Bioinformatics and a Bachelor of Computer Science. Previously a software engineer at Google, IBM, and Wish.com." href="/feed.xml" />
+
+  
+    
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+    
+      
+  
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+    
+  
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+    
+  
+  
+
+  
+  
+  <!-- Facebook OpenGraph tags -->
+  
+  <meta property="og:title" content="Shiny tips & tricks for improving your apps and solving common problems" />
+  
+  
+  <meta property="og:type" content="website" />
+  
+  
+  <meta property="og:url" content="http://localhost:4000/blog/advanced-shiny-tips/" />
+  <link rel="canonical" href="http://localhost:4000/blog/advanced-shiny-tips/" />
+  
+  
+  
+  <meta property="og:image" content="https://raw.githubusercontent.com/daattali/advanced-shiny/master/plot-spinner/plot-spinner.gif" />
+  
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@daattali" />
+  <meta name="twitter:creator" content="@daattali" />
+  <meta name="twitter:title" content="Shiny tips & tricks for improving your apps and solving common problems" />
+  <meta name="twitter:description" content="This document contains a collection of various Shiny tricks that I commonly use or that I know many people ask about. Each link contains a complete functional Shiny app that demonstrates how to perform a non trivial task in Shiny. The complete up-to-date list of tips, along with all the..." />
+  
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/daattali/advanced-shiny/master/plot-spinner/plot-spinner.gif" />
+    
+
+</head>
+
+
+  <body>
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom ">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://localhost:4000">Dean Attali</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/">Blog</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/shiny">Shiny</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/projects">Projects</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/aboutme">About Me / Contact</a>
+
+          </li>
+        
+        
+		
+		
+		<li>
+		  <a href="/search" class="nav-search-link" title="Search">
+		    <span class="fa fa-search nav-search-icon"></span>
+			<span class="nav-search-text">Search</span>
+		  </a>
+		</li>
+		
+      </ul>
+    </div>
+	
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://localhost:4000 ">
+	      <img class="avatar-img" src="/img/deanimg.jpeg" />
+		</a>
+	  </div>
+	</div>
+	
+	
+  </div>
+</nav>  
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Shiny tips & tricks for improving your apps and solving common problems</h1>
+		  
+		  
+		  
+		  <span class="post-meta">Posted on August 29, 2016</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+      	<p>This document contains a collection of various Shiny tricks that I commonly use or that I know many people ask about. Each link contains a complete functional Shiny app that demonstrates how to perform a non trivial task in Shiny. <strong>The complete up-to-date list of tips, along with all the code, is <a href="https://github.com/daattali/advanced-shiny#readme">on GitHub</a>.</strong></p>
+
+<p><a class="btn btn-lg btn-success" href="https://github.com/daattali/advanced-shiny#readme">Click here to see the most up-to-date list of tips</a></p>
+
+<p>Since I first learned about <a href="http://shiny.rstudio.com/">Shiny</a> 2 years ago, I was always looking for ways to push Shiny to its limits and I enjoyed finding ways to work around common problems people were having (the harder the problem, the better!). I’ve built <a href="https://daattali.com/shiny/">many Shiny apps</a> over these 2 years, both for myself and as a contractor for other people/companies, and throughout this time I developed a handy list of Shiny design patterns and tricks, some of which I present here.</p>
+
+<p>This also seems like an appropriate place to mention that I am available for hire, so if you need some help with anything Shiny, feel free to <a href="http://deanattali.com/contact">contact me</a>.</p>
+
+<h3 id="table-of-contents">Table of contents</h3>
+
+<ul>
+  <li><a href="#shinyjs">Prereq: How to hide/show something in Shiny? How to disable an input? How do I reset an input?</a></li>
+  <li>Easy
+    <ul>
+      <li><a href="#plot-spinner">Show a spinning “loading” animation while a plot is recalculating</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/plot-spinner">code</a>)</li>
+      <li><a href="#hide-tab">Hide a tab</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/hide-tab">code</a>)</li>
+      <li><a href="#shinydashboard-sidebar-hide">Hide/show shinydashboard sidebar programmatically</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/shinydashboard-sidebar-hide">code</a>)</li>
+      <li><a href="#loading-screen">Loading screen</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/loading-screen">code</a>)</li>
+      <li><a href="#auto-kill-app">Automatically stop a Shiny app when closing the browser tab</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/auto-kill-app">code</a>)</li>
+      <li><a href="#close-window">Close the window (and stop the app) with a button click</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/close-window">code</a>)</li>
+      <li><a href="#select-input-large">Select input with more breathing room</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/select-input-large">code</a>)</li>
+      <li><a href="#dropdown-groups">Select input with groupings of options</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/dropdown-groups">code</a>)</li>
+      <li><a href="#debug-value">Getting the value of an object in a running Shiny app without access to a debugger</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/debug-value">code</a>)</li>
+      <li><a href="#navbar-add-text">Adding text (or inputs) to the navigation bar in a navbarPage</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/navbar-add-text">code</a>)</li>
+    </ul>
+  </li>
+  <li>Intermediate
+    <ul>
+      <li><a href="#url-inputs">Pre-populate Shiny inputs when an app loads based on URL parameters</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/url-inputs">code</a>)</li>
+      <li><a href="#split-code">Split app code across multiple files (when codebase is large)</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/split-code">code</a>)</li>
+      <li><a href="#server-to-ui-variable">Use a variable from the server in a UI <code class="highlighter-rouge">conditionalPanel()</code></a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/server-to-ui-variable">code</a>)</li>
+      <li><a href="#error-custom-message">Show user a generic error message when a Shiny error occurs in an output</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/error-custom-message">code</a>)</li>
+      <li><a href="#show-warnings-messages">Show a function’s messages and warnings to the user</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/show-warnings-messages">code</a>)</li>
+      <li><a href="#upload-file-names">Fix filenames of files uploaded via fileInput()</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/upload-file-names">code</a>)</li>
+      <li><a href="#multiple-pages">Shiny app with sequence of pages</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/multiple-pages">code</a>)</li>
+      <li><a href="#simple-toggle">Toggle a UI element (alternate between show/hide) with a button</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/simple-toggle">code</a>)</li>
+      <li><a href="#message-r-to-javascript">Send a message from R to JavaScript</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/message-r-to-javascript">code</a>)</li>
+      <li><a href="#message-javascript-r">Send a message from JavaScript to R</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/message-javascript-to-r">code</a>)</li>
+      <li><a href="#message-javascript-r-force">Send a message from JavaScript to R - force repetitive messages to get sent</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/message-javascript-to-r-force">code</a>)</li>
+      <li><a href="#proxy-click">Press the Enter key to simulate a button press</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/proxy-click">code</a>)</li>
+      <li><a href="#run-arbitrary-code">Run arbitrary code live in Shiny - great for testing during development</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/run-arbitrary-code">code</a>)</li>
+    </ul>
+  </li>
+  <li>Advanced
+    <ul>
+      <li><a href="#serve-images-files">Serve files (images/text files/etc) instead of webpages from a Shiny app</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/serve-images-files">code</a>)</li>
+      <li><a href="#update-input">Update multiple Shiny inputs without knowing input type</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/update-input">code</a>)</li>
+      <li><a href="#busy-indicator">“Busy…” / “Done!” / “Error” feedback after pressing a button</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/busy-indicator">code</a>)</li>
+      <li><a href="#api-ajax">Simple AJAX system for Shiny apps (JS -&gt; R -&gt; JS communication)</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/api-ajax">code</a>)</li>
+      <li><a href="#javascript-to-r-handler">Use a custom function to convert the JavaScript data into an R object</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master//javascript-to-r-handler">code</a>)</li>
+      <li><a href="#navigate-history">Navigation in a Shiny app (forward/backwards in history)</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/navigate-history">code</a>)</li>
+      <li><a href="#fb-share-img">Sharing images on Facebook</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/fb-share-img">code</a>)</li>
+      <li><a href="#fb-login">Facebook login through JavaScript in Shiny</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/fb-login">code</a>)</li>
+      <li><a href="#multiple-scrollspy-basic">Multiple scrollspy on same page - basic</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/multiple-scrollspy-basic">code</a>)</li>
+      <li><a href="#multiple-scrollspy-advanced">Multiple scrollspy on same page - advanced</a> (<a href="https://github.com/daattali/advanced-shiny/tree/master/multiple-scrollspy-advanced">code</a>)</li>
+    </ul>
+  </li>
+  <li><a href="#updates">Updates</a></li>
+</ul>
+
+<h2 id="shinyjs">Prereq: How to hide/show something in Shiny? How to disable an input? How do I reset an input?</h2>
+
+<p>A few very common questions in Shiny are “how do I hide/show something”, “how do I disable an input”, and “how do I reset an input”. Many of the code samples in this document also rely on being able to do these things, so I wanted to start by saying that I will be using the <a href="https://github.com/daattali/shinyjs">shinyjs</a> package to do all that. (Yes, I know it looks like I’m shamelessly advertising shinyjs by saying this… but it is going to be useful for many concepts here)</p>
+
+<h2 id="plot-spinner">Show a spinning "loading" animation while a plot is recalculating</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/plot-spinner">Link to code</a></strong></p>
+
+<p>When a Shiny plot is recalculating, the plot gets grayed out. This app shows how you can add a spinner wheel on top of the plot while it is recalculating, to make it clear to the user that the plot is reloading. There can be many different ways to achieve a similar result using different combinations of HTML/CSS, this example is just the simplest one I came up with.</p>
+
+<p><a href="https://github.com/daattali/advanced-shiny/tree/master/plot-spinner"><img src="https://raw.githubusercontent.com/daattali/advanced-shiny/master/plot-spinner/plot-spinner.gif" alt="Demo" /></a></p>
+
+<h2 id="hide-tab">Hide a tab</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/hide-tab">Link to code</a></strong></p>
+
+<p>This app demonstrates how <code class="highlighter-rouge">shinyjs</code> can be used to hide/show a specific tab in a <code class="highlighter-rouge">tabsetPanel</code>.  In order to use this trick, the <code class="highlighter-rouge">tabsetPanel</code> must have an id. Using this id and the value of the specific tab you want to hide/show, you can call <code class="highlighter-rouge">shinyjs::hide()</code>/<code class="highlighter-rouge">shinyjs::show()</code>/<code class="highlighter-rouge">shinyjs::toggle()</code>.</p>
+
+<p><a href="https://github.com/daattali/advanced-shiny/tree/master/hide-tab"><img src="https://raw.githubusercontent.com/daattali/advanced-shiny/master/hide-tab/hide-tab.gif" alt="Demo" /></a></p>
+
+<h2 id="shinydashboard-sidebar-hide">Hide/show shinydashboard sidebar programmatically</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/shinydashboard-sidebar-hide">Link to code</a></strong></p>
+
+<p>A common question regarding <code class="highlighter-rouge">shinydashboard</code> is how to programmatically hide/show the sidebar. This can very easily be done using the <a href="https://github.com/daattali/shinyjs">shinyjs</a> package, as demonstrated here.</p>
+
+<p><a href="https://github.com/daattali/advanced-shiny/tree/master/shinydashboard-sidebar-hide"><img src="https://raw.githubusercontent.com/daattali/advanced-shiny/master/shinydashboard-sidebar-hide/shinydashboard-sidebar-hide.gif" alt="Demo" /></a></p>
+
+<h2 id="loading-screen">Loading screen</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/loading-screen">Link to code</a></strong></p>
+
+<p>This simple app shows how to add a “Loading…” screen overlaying the main app while the app’s server is initializing.  The main idea is to include an overlay element that covers the entire app (using CSS), hide the main app’s UI, and at the end of the server function show the UI and hide the overlay.</p>
+
+<p><a href="https://github.com/daattali/advanced-shiny/tree/master/loading-screen"><img src="https://raw.githubusercontent.com/daattali/advanced-shiny/master/loading-screen/loading-screen.gif" alt="Demo" /></a></p>
+
+<h2 id="auto-kill-app">Automatically stop a Shiny app when closing the browser tab</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/auto-kill-app">Link to code</a></strong></p>
+
+<p>When developing a Shiny app and running the app in the browser (as opposed to inside the RStudio Viewer), it can be annoying that when you close the browser window, the app is still running and you need to manually press “Esc” to kill it. By adding a single line to the server code <code class="highlighter-rouge">session$onSessionEnded(stopApp)</code>, a Shiny app will automatically stop running whenever the browser tab (or any session) is closed.</p>
+
+<h2 id="close-window">Close the window (and stop the app) with a button click</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/close-window">Link to code</a></strong></p>
+
+<p>This simple example shows how you can have a button that, when clicked, will close the current browser tab and stop the running Shiny app (you can choose to do only one of these two actions).</p>
+
+<h2 id="select-input-large">Select input with more breathing room</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/select-input-large">Link to code</a></strong></p>
+
+<p>One common CSS question in Shiny is how to make the select input dropdown menu have some more whitespace.  It’s actually very easy to do with just two CSS rules, as demonstrated in this example.</p>
+
+<p><a href="https://github.com/daattali/advanced-shiny/tree/master/select-input-large"><img src="https://raw.githubusercontent.com/daattali/advanced-shiny/master/select-input-large/selectize-large.png" alt="Demo" /></a></p>
+
+<h2 id="dropdown-groups">Select input with groupings of options</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/dropdown-groups">Link to code</a></strong></p>
+
+<p>This isn’t really a trick as much as an <a href="https://github.com/rstudio/shiny/issues/1321">undocumented feature</a> in Shiny that not many people know about. Usually when people write dropdowns in Shiny, all the options are just provided as one long list. But it is possible to have groups of items, and it’s very easy to do.</p>
+
+<p><a href="https://github.com/daattali/advanced-shiny/tree/master/dropdown-groups"><img src="https://raw.githubusercontent.com/daattali/advanced-shiny/master/dropdown-groups/dropdown-groups.png" alt="Demo" /></a></p>
+
+<h2 id="debug-value">Getting the value of an object in a running Shiny app without access to a debugger</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/debug-value">Link to code</a></strong></p>
+
+<p>Sometimes you may need to know the value of some variable/function call in a Shiny app when you don’t have easy access to debugging tools. For example, suppose you deploy your shiny app on shinyapps.io and it’s running into a weird error there. You’re sure that it’s because one of the packages on the shinyapps.io server is not the version that you expect, but you want to make sure that your suspicion is correct. It’s a bit difficult to debug on shinyapps.io (one thing you could do is try to use the log files), but there’s a quick and easy way to see any value in a Shiny app in real-time.</p>
+
+<h2 id="navbar-add-text">Adding text (or inputs) to the navigation bar in a navbarPage</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/navbar-add-text">Link to code</a></strong></p>
+
+<p>Traditionally, a <code class="highlighter-rouge">navbarPage()</code> only accepts tabs and menu items inside of it. Even though the Bootstrap navbar (which is what Shiny uses) supports adding text and input widgets into the navbar, Shiny doesn’t have support for that. This app shows you how to very easily achieve that.</p>
+
+<h2 id="url-inputs">Pre-populate Shiny inputs when an app loads based on URL parameters</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/url-inputs">Link to code</a></strong></p>
+
+<p>This simple app demonstrates how you can fill out certain input fields when a Shiny app loads based on URL parameters.</p>
+
+<p><a href="https://github.com/daattali/advanced-shiny/tree/master/url-inputs"><img src="https://raw.githubusercontent.com/daattali/advanced-shiny/master/url-inputs/url-inputs.gif" alt="Demo" /></a></p>
+
+<h2 id="split-code">Split app code across multiple files (when codebase is large)</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/split-code">Link to code</a></strong></p>
+
+<p>When creating Shiny apps with a lot of code and a complex UI, it can sometimes get very messy and difficult to maintain your code when it’s all in one file. What you can do instead is have one “main” UI and “main” server and split your UI and server code into multiple files. This can make your code much more manageable and easier to develop when it grows large. You can split the code however you want, but I usually like to split it logically: for example, if my app has 4 tabs then the UI for each tab would be in its own file and the server code for each tab would be in its own file. The example code here shows how to separate the code of an app with two tabs into 2 UI files and 2 server files (one for each tab).</p>
+
+<h2 id="server-to-ui-variable">Use a variable from the server in a UI `conditionalPanel()`</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/server-to-ui-variable">Link to code</a></strong></p>
+
+<p>When using a conditional panel in the UI, the condition is usually an expression that uses an input value. But what happens when you want to use a conditional panel with a more complex condition that is not necessarily directly related to an input field? This example shows how to define an output variable in the server code that you can use in the UI. An alternative approach is to use the <code class="highlighter-rouge">show()</code> and <code class="highlighter-rouge">hide()</code> functions from the <a href="https://github.com/daattali/shinyjs">shinyjs</a> package.</p>
+
+<h2 id="error-custom-message">Show user a generic error message when a Shiny error occurs in an output</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/error-custom-message">Link to code</a></strong></p>
+
+<p>When a Shiny output encounters an error, the exact error message will be shown to the user in place of the output. This is generally a good feature because it’s easier to debug when you know the exact error. But sometimes this is undesireable if you want to keep the specifics of what happened unknown to the user, and you prefer to just show the user a generic “Some error occurred; please contact us” message. This may sound counter intuitive, but you can actually do this with a tiny bit of CSS, as this example shows.</p>
+
+<h2 id="show-warnings-messages">Show a function's messages and warnings to the user</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/show-warnings-messages">Link to code</a></strong></p>
+
+<p>Sometimes when you call a function, it may print out some messages and/or warnings to the console. If you want to be able to relay these warnings/messages to your app in real time, you can combine <code class="highlighter-rouge">withCallingHandlers</code> with the <code class="highlighter-rouge">html</code> function from <a href="https://github.com/daattali/shinyjs">shinyjs</a>.</p>
+
+<p>(Originally developed as an <a href="http://stackoverflow.com/questions/30474538/possible-to-show-console-messages-written-with-message-in-a-shiny-ui">answer on StackOverflow</a>)</p>
+
+<h2 id="upload-file-names">Fix filenames of files uploaded via fileInput()</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/upload-file-names">Link to code</a></strong></p>
+
+<p>When selecting files using a <code class="highlighter-rouge">fileInput()</code>, the filenames of the selected files are not retained. This is not usually a problem because usually you only care about the contents of a file and not its name. But sometimes you may actually need to know the original name of each selected file. This example shows how to write a simple function <code class="highlighter-rouge">fixUploadedFilesNames()</code> to rename uploaded files back to their original names.</p>
+
+<h2 id="multiple-pages">Shiny app with sequence of pages</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/multiple-pages">Link to code</a></strong></p>
+
+<p>This app demonstrates how to write a Shiny app that has a sequence of different pages, where the user can navigate to the next/previous page. This can be useful in many scenarios that involve a multi-step process. This behaviour can also be achieved by simply using tabs, but when using tabs the user can freely move from any tab to any other tab, while this approach restricts the user to only move to the previous/next step, and can also control when the user can move on to the next page.</p>
+
+<p><a href="https://github.com/daattali/advanced-shiny/tree/master/multiple-pages"><img src="https://raw.githubusercontent.com/daattali/advanced-shiny/master/multiple-pages/multiple-pages.gif" alt="Demo" /></a></p>
+
+<h2 id="simple-toggle">Toggle a UI element (alternate between show/hide) with a button</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/simple-toggle">Link to code</a></strong></p>
+
+<p>Sometimes you want to toggle a section of the UI every time a button is clicked. This app shows how to achieve very basic toggle functionality using <code class="highlighter-rouge">conditionalPanel()</code>. If you want anything more advanced, you can use the <code class="highlighter-rouge">toggle()</code> function from the <a href="https://github.com/daattali/shinyjs">shinyjs</a> package.</p>
+
+<h2 id="message-r-to-javascript">Send a message from R to JavaScript</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/message-r-to-javascript">Link to code</a></strong></p>
+
+<p>While Shiny is very powerful, there are many things that cannot be achieved in R and must be done in JavaScript. When including JavaScript code in a Shiny app, you sometimes need to send a message or a value from R to the JavaScript layer. This example how this is done.</p>
+
+<h2 id="message-javascript-r">Send a message from JavaScript to R</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/message-javascript-to-r">Link to code</a></strong></p>
+
+<p>In some shiny applications you may want to send a value from JavaScript to the R server. This can be useful in a variety of applications, for example if you want to capture a mouse click or a keyboard press of the user and tell R about it. This example shows how this is done.</p>
+
+<h2 id="message-javascript-r-force">Send a message from JavaScript to R - force repetitive messages to get sent</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/message-javascript-to-r-force">Link to code</a></strong></p>
+
+<p>When you send a message from JS to R with the exact same value multiple times in a row, only the first time actually gets sent to Shiny. This can often be problematic, and this example shows a fairly simple workaround.</p>
+
+<h2 id="proxy-click">Press the Enter key to simulate a button press</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/proxy-click">Link to code</a></strong></p>
+
+<p>This is a simple app with a tiny bit of JavaScript that shows you how to cause an Enter key press inside an input to trigger a click on a button.</p>
+
+<h2 id="run-arbitrary-code">Run arbitrary code live in Shiny - great for testing during development</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/run-arbitrary-code">Link to code</a></strong></p>
+
+<p><strong>NOTE: This is now part of the shinyjs package – read the documentation for <code class="highlighter-rouge">?shinyjs::runcode</code></strong></p>
+
+<p>When I develop Shiny apps or packages for Shiny, I often find myself wanting to be able to run R code on-demand while the app is running. Outside of Shiny, in regular R programming, we have the R console where we can run any command at any point in time, but in Shiny we don’t really have that.  So while developing, I often add a text input that lets me type any R code into it and then run it. This is very useful for testing.</p>
+
+<p><a href="https://github.com/daattali/advanced-shiny/tree/master/run-arbitrary-code"><img src="https://raw.githubusercontent.com/daattali/advanced-shiny/master//run-arbitrary-code/run-arbitrary-code.gif" alt="Demo" /></a></p>
+
+<h2 id="serve-images-files">Serve files (images/text files/etc) instead of webpages from a Shiny app </h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/serve-images-files">Link to code</a></strong></p>
+
+<p>It is possible to serve an image or another file directly from your Shiny app instead of a webpage.  The method shown here is a simple proof-of-concept of how to achieve this functionality.  It also supports passing GET parameters to the file-generating logic so that the file can be parameterized.</p>
+
+<p><a href="https://github.com/daattali/advanced-shiny/tree/master/serve-images-files"><img src="https://raw.githubusercontent.com/daattali/advanced-shiny/master/serve-images-files/serve-images-files.gif" alt="Demo" /></a></p>
+
+<h2 id="update-input">Update multiple Shiny inputs without knowing input type </h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/update-input">Link to code</a></strong></p>
+
+<p>Shiny allows you to update an input element only if you know the type of input. Furthermore, Shiny only allows you to update input elements one by one.  This Shiny app shows how you can update an input only using its ID and without knowing its type, and how to update multiple inputs together.</p>
+
+<h2 id="busy-indicator">"Busy..." / "Done!" / "Error" feedback after pressing a button</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/busy-indicator">Link to code</a></strong></p>
+
+<p>When the user clicks on a button, it usually results in some R code being run. Sometimes the resulting code is short and quick and the user doesn’t even notice any delay, but sometimes the button click initialiates some long process or computation that can take more than 1 second to complete. In those cases, it might be a bit confusing to the user if there is no immediate feedback notifying that the action is being performed. For example, if the user clicked a button to load data from a database and it takes 3 seconds to connect to the database, it can be useful to show a “Connecting…” and then a “Done!” (or “Error”) message, instead of just letting the user wait without seeing any message. Of course when the wait time is only 2-3 seconds it’s not a big deal, but you can imagine that for a 20-second process, the user might think that something went wrong if there is no feedback. This example shows how to add some immediate feedback to the user after a button is clicked, including disabling/enabling the button and showing a success/error message when appropriate.</p>
+
+<p><a href="https://github.com/daattali/advanced-shiny/tree/master/busy-indicator"><img src="https://raw.githubusercontent.com/daattali/advanced-shiny/master/busy-indicator/busy-indicator.gif" alt="Demo" /></a></p>
+
+<h2 id="api-ajax">Simple AJAX system for Shiny apps (JS -&gt; R -&gt; JS communication)</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/api-ajax">Link to code</a></strong></p>
+
+<p>Sometimes it’s useful to be able to call an R function from JavaScript and use the return value from R back in JavaScript. This sort of communication is usually done with AJAX in JavaScript. This app shows how to implement a simple and ultra lightweight AJAX-like system in Shiny, to be able to call functions in R.</p>
+
+<h2 id="javascript-to-r-handler">Use a custom function to convert the JavaScript data into an R object</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/javascript-to-r-handler">Link to code</a></strong></p>
+
+<p>When using <code class="highlighter-rouge">Shiny.onInputChange(name, data)</code> (as described <a href="https://github.com/daattali/advanced-shiny/tree/master/message-javascript-to-r">here</a>), you are passing in a JavaScript object (<code class="highlighter-rouge">data</code>) and expect it to get converted to an R object (<code class="highlighter-rouge">input$name</code>). This conversion happens by serializing and deserializing the data to and from JSON. Usually <code class="highlighter-rouge">input$name</code> will look exactly like you’d expect it to, but it is possible for the conversion process to not do exactly what you want. Alternatively, you may just want to alter the data slightly in R before presenting it to Shiny.</p>
+
+<h2 id="navigate-history">Navigation in a Shiny app (forward/backwards in history)</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/navigate-history">Link to code</a></strong></p>
+
+<p>Sometimes it’s nice to be able to support navigation within a Shiny app, especially when there are multiple tabs or some other form of “multiple pages” in a Shiny app. Since Shiny apps are a single page, the browser nagivation buttons (previous/next page) don’t work when “navigating” within a Shiny app. You also can’t bookmark a certain “page” in a Shiny app - every time you go to an app, you will be shown the initial state of the app. This app shows how to implement basic navigation in Shiny apps.</p>
+
+<p><a href="https://github.com/daattali/advanced-shiny/tree/master/navigate-history"><img src="https://raw.githubusercontent.com/daattali/advanced-shiny/master/navigate-history/navigate-history.gif" alt="Demo" /></a></p>
+
+<h2 id="fb-share-img">Sharing images on Facebook</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/fb-share-img">Link to code</a></strong></p>
+
+<p>There are two ways to share images on Facebook: either using an image URL and a popup dialog, or by programmatically supplying the Facebook API with a base64 encoded image. This example shows both.</p>
+
+<h2 id="fb-login">Facebook login through JavaScript in Shiny</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/fb-login">Link to code</a></strong></p>
+
+<p>This app shows how you can use the <a href="https://github.com/daattali/advanced-shiny/tree/master/api-ajax">AJAX-like system</a> in Shiny to authorize a user using Facebook’s JavaScript library and pass the user’s information to R for processing.</p>
+
+<h2 id="multiple-scrollspy-basic">Multiple scrollspy on same page - basic</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/multiple-scrollspy-basic">Link to code</a></strong></p>
+
+<p>The Bootstrap <em>scrollspy</em> plugin does not support multiple scrollspy objects per page. This Shiny app demonstrates how to support scrollspy on multiple tabs by having one common scrollspy control that gets updated via JavaScript whenever a tab is changed to reflect the contents of the new tab.</p>
+
+<h2 id="multiple-scrollspy-advanced">Multiple scrollspy on same page - advanced</h2>
+
+<p><strong><a href="https://github.com/daattali/advanced-shiny/tree/master/multiple-scrollspy-advanced">Link to code</a></strong></p>
+
+<p>The Bootstrap <em>scrollspy</em> plugin does not support multiple scrollspy objects per page.
+This Shiny app demonstrates how to support scrollspy on multiple tabs by allowing each tab to have its own independent scrollspy control and using JavaScript to ensure only the scrollspy on the current tab is activated.</p>
+
+<h1 id="updates">Updates</h1>
+
+<p>This list is slowly growing with time. Here are the new tricks added since the post was originally published:</p>
+
+<ul>
+  <li>2016-08-29: <a href="#debug-value">Getting the value of an object in a running Shiny app without access to a debugger</a></li>
+  <li>2016-09-03: <a href="#show-warnings-messages">Show a function’s messages and warnings to the user</a></li>
+  <li>2016-09-16: <a href="#javascript-to-r-handler">Use a custom function to convert the JavaScript data into an R object</a></li>
+  <li>2016-10-11: <a href="#run-arbitrary-code">Run arbitrary code live in Shiny - great for testing during development</a></li>
+  <li>2016-11-23: <a href="#navbar-add-text">Adding text (or inputs) to the navigation bar in a navbarPage</a></li>
+  <li>2017: I am no longer updating this article - for the updated list, <a href="https://github.com/daattali/advanced-shiny#readme">click here</a></li>
+</ul>
+
+      </article>
+      
+      
+        <div class="blog-tags">
+          Tags: professional, rstats, r, r-bloggers, shiny, tutorial, popular
+        </div>
+      
+
+      
+  <div class="share-section">
+    <h1 class="share-title">Liked what you read?</h1>
+    
+    
+      <div class="share-buttons">
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        <a href="http://localhost:4000/contact" data-ga-event=1 data-ga-category="share" data-ga-action="message" data-ga-label="/blog/advanced-shiny-tips/">
+          Let me know
+        </a>
+        <!--
+        <a href="https://www.facebook.com/dialog/feed?app_id=536330676521989&link=http://localhost:4000/blog/advanced-shiny-tips/&name=Shiny tips & tricks for improving your apps and solving common problems&caption=deanattali.com&redirect_uri=http://localhost:4000/blog/advanced-shiny-tips/?message=Thanks for sharing!&picture=https://raw.githubusercontent.com/daattali/advanced-shiny/master/plot-spinner/plot-spinner.gif" data-ga-event=1 data-ga-category="share" data-ga-action="facebook" data-ga-label="/blog/advanced-shiny-tips/">
+          Share on Facebook
+        </a>
+        -->
+        <a href="https://www.paypal.me/daattali/10" data-ga-event=1 data-ga-category="share" data-ga-action="donate" data-ga-label="/blog/advanced-shiny-tips/">
+          Support me
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=http://localhost:4000/blog/advanced-shiny-tips/&via=daattali&hashtags=rstats&text=Shiny tips & tricks for improving your apps and solving common problems" data-ga-event=1 data-ga-category="share" data-ga-action="twitter" data-ga-label="/blog/advanced-shiny-tips/">
+          Tweet it
+        </a>
+      </div>
+    
+    
+    
+      <!-- MailChimp Signup Form -->
+      <div id="mailchimp-subscribe-section-2">
+        <div id="mc_embed_signup-2">
+          <form action="//deanattali.us14.list-manage.com/subscribe/post?u=a579a88c8f09f9b8502b9d0c3&amp;id=c180f5773c" method="post" id="mc-embedded-subscribe-form-2" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+            <div id="mc_embed_signup_scroll-2">
+      	      <label for="mce-EMAIL-2">Sign up to my Shiny newsletter</label>
+              <div class="container">
+                <div class="row">
+                  <div class="col-xs-8">
+                    <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL-2" placeholder="Email" required="">
+                  </div>
+                  <div class="col-xs-4">
+                    <input type="text" value="" name="FNAME" class="text" id="mce-FNAME-2" placeholder="Name" required="">
+                  </div>
+                </div>
+              </div>
+              <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_a579a88c8f09f9b8502b9d0c3_c180f5773c" tabindex="-1" value=""></div>
+              <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe-2" class="button">
+            </div>
+          </form>
+        </div>
+      </div>
+     
+
+  </div>
+
+
+      
+      
+
+      <ul class="pager blog-pager">
+        
+          <li class="previous">
+            <a href="/blog/visualize-git-commits-time/" data-toggle="tooltip" data-placement="top" title="Visualizing when I'm most productive during the day">&larr; Previous Post</a>
+          </li>
+        
+        
+          <li class="next">
+            <a href="/blog/htmlwidgets-tips/" data-toggle="tooltip" data-placement="top" title="How to write a useful htmlwidgets in R: tips and walk-through a real example">Next Post &rarr;</a>
+          </li>
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+	    var disqus_shortname = 'deanattali-site';
+	    // ensure that pages with query string or anchor get the same discussion
+            var url_parts = window.location.href.split("?");
+            url_parts = url_parts[0].split("#");
+            disqus_url = url_parts[0];
+            disqus_url = disqus_url.replace(/(\/)*$/, "/"); // make sure the URL ends with one slash
+            
+            // Jekyll 3 caused so many bugs, I'm tired of fixing them one by one properly, so I'll just hack it...
+            // https://github.com/jekyll/jekyll/issues/4483
+            // The projects page now has a trailing slash, it didn't used to
+            if (disqus_url.substr(-9) == "projects/") {
+            	disqus_url = disqus_url.substr(0, disqus_url.length - 1);
+            }
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+        </div>
+      
+      
+      <div id="scroll-box">
+  <div id="scroll-box-close">&times;</div>
+  <div id="scroll-box-hire">
+    Need Shiny help?
+    <a href="/shiny">Hire me!</a>
+  </div>
+  <div id="mailchimp-subscribe-section">
+    <div id="mc_embed_signup">
+      <form action="//deanattali.us14.list-manage.com/subscribe/post?u=a579a88c8f09f9b8502b9d0c3&amp;id=c180f5773c" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate="">
+        <div id="mc_embed_signup_scroll">
+  	      <label for="mce-EMAIL">Sign up to my Shiny newsletter</label>
+          <div class="container">
+            <div class="row">
+              <div class="col-xs-8">
+  	            <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Email" required="">
+              </div>
+              <div class="col-xs-4">
+                <input type="text" value="" name="FNAME" class="text" id="mce-FNAME" placeholder="Name" required="">
+              </div>
+            </div>
+          </div>
+          <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_a579a88c8f09f9b8502b9d0c3_c180f5773c" tabindex="-1" value=""></div>
+          <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button" title="Sign up to my Shiny newsletter">
+        </div>
+      </form>
+    </div>
+  </div>
+  <div id="scroll-box-contact">
+    Questions/comments?
+    <a href="/contact">Contact me!</a>
+  </div>
+</div>
+
+    </div>
+  </div>
+</div>
+
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+
+          
+          <li>
+            <a href="mailto:daattali@gmail.com?subject=Hello from deanattali.com" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/daattali" title="Twitter">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://github.com/daattali" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://www.facebook.com/daattali" title="Facebook">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://stackoverflow.com/users/3943160/daattali" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+
+          
+
+        </ul>
+
+        <p class="copyright text-muted">
+          &copy; Dean Attali
+          &nbsp;&bull;&nbsp;
+          2017
+
+          
+          &nbsp;&bull;&nbsp;
+          <a href="mailto:daattali@gmail.com?subject=Hello from deanattali.com">daattali@gmail.com</a>
+          
+        </p>
+        <p class="theme-by text-muted">
+          Theme by
+          <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+    
+
+
+  
+	<script src="/js/jquery-1.11.2.min.js"></script>
+  
+	<script src="/js/bootstrap.min.js"></script>
+  
+	<script src="/js/js.cookie.js"></script>
+  
+	<script src="/js/main.js"></script>
+  
+
+
+
+
+
+
+
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-59820529-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+	<!-- End Google Analytics -->
+
+
+
+     
+      <!-- AddThis plugin (floating social media sharing buttons on the left of each post) -->
+      <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57d65a4d97789dd1"></script>
+    
+    
+  </body>
+</html>

@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  
+  <title>Visualizing when I'm most productive during the day</title>
+  
+
+  <meta name="author" content="Dean Attali" />
+  
+  
+  <meta name="description" content="Analyzing my (and others') git activity">
+  
+  
+  <meta name="keywords" content="rstats,r,r shiny,shiny apps,r shiny apps,shiny developer,r shiny developer,shiny consultant,web application development with r using shiny">
+
+  <link rel="alternate" type="application/rss+xml" title="Dean Attali - R-Shiny developer and consultant with a MSc in Bioinformatics and a Bachelor of Computer Science. Previously a software engineer at Google, IBM, and Wish.com." href="/feed.xml" />
+
+  
+    
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+    
+      
+  
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+    
+  
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+    
+  
+  
+
+  
+  
+  <!-- Facebook OpenGraph tags -->
+  
+  <meta property="og:title" content="Visualizing when I'm most productive during the day" />
+  
+  
+  <meta property="og:type" content="website" />
+  
+  
+  <meta property="og:url" content="http://localhost:4000/blog/visualize-git-commits-time/" />
+  <link rel="canonical" href="http://localhost:4000/blog/visualize-git-commits-time/" />
+  
+  
+  
+  <meta property="og:image" content="https://daattali.com/shiny/visualize-git-commits-time/dean-git-plot.png" />
+  
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@daattali" />
+  <meta name="twitter:creator" content="@daattali" />
+  <meta name="twitter:title" content="Visualizing when I'm most productive during the day" />
+  <meta name="twitter:description" content="Click here to explore the data yourself Yesterday I saw this retweet from @timelyportfolio that links to a gist by @gka. The gist gave a few short scripts that can show you when your git commits take place during the day. I thought that was cool, so I took it..." />
+  
+  <meta name="twitter:image" content="https://daattali.com/shiny/visualize-git-commits-time/dean-git-plot.png" />
+    
+
+</head>
+
+
+  <body>
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom ">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://localhost:4000">Dean Attali</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/">Blog</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/shiny">Shiny</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/projects">Projects</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/aboutme">About Me / Contact</a>
+
+          </li>
+        
+        
+		
+		
+		<li>
+		  <a href="/search" class="nav-search-link" title="Search">
+		    <span class="fa fa-search nav-search-icon"></span>
+			<span class="nav-search-text">Search</span>
+		  </a>
+		</li>
+		
+      </ul>
+    </div>
+	
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://localhost:4000 ">
+	      <img class="avatar-img" src="/img/deanimg.jpeg" />
+		</a>
+	  </div>
+	</div>
+	
+	
+  </div>
+</nav>  
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Visualizing when I'm most productive during the day</h1>
+		  
+		    
+			<h2 class="post-subheading">Analyzing my (and others') git activity</h2>
+			
+		  
+		  
+		  
+		  <span class="post-meta">Posted on August 19, 2016</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+      	<p><a class="btn btn-lg btn-success" href="https://daattali.com/shiny/visualize-git-commits-time/">Click here to explore the data yourself</a></p>
+
+<p>Yesterday I saw <a href="https://t.co/u3uHy6a9d4">this retweet</a> from <a href="https://twitter.com/timelyportfolio">@timelyportfolio</a> that links to a <a href="https://gist.github.com/gka/393f5ab2b95e927d305eb6e14767180e">gist by @gka</a>.</p>
+
+<p>The gist gave a few short scripts that can show you when your git commits take place during the day. I thought that was cool, so I took it a step (or five) further by writing it all up in R code and made nice wrapper functions for it and added interactive visualizations and made a shiny app… I just had a bit of fun. This is the result.</p>
+
+<p>Note that all commit times are reported as PST timezone.</p>
+
+<p><strong>TL;DR: I’m dead before 10am — My prime working time is 2am — My supervisor Jenny Bryan has a very compatible schedule to mine — Hadley somehow learned in the past 3 years to be so productive that he doesn’t even work on weekends</strong></p>
+
+<p>This post shows a few plots and discusses them, but it can be more fun to <a href="https://daattali.com/shiny/visualize-git-commits-time/">play with the data yourself</a>.</p>
+
+<h2 id="table-of-contents">Table of contents</h2>
+
+<ul>
+  <li><a href="https://daattali.com/shiny/visualize-git-commits-time/">Explore the data interactively yourself</a></li>
+  <li><a href="#dean-commits">My work hours since first learning R</a></li>
+  <li><a href="#dean-6-months">My work hours in the past 6 months</a></li>
+  <li><a href="#dean-density">Adding marginal density plots to see exactly what times are alive/dead</a></li>
+  <li><a href="#jenny-commits">How’s my (ex) supervisor Jenny Bryan doing?</a></li>
+  <li><a href="#hadley-commits">And the grand finale: the R master Hadley</a></li>
+  <li><a href="#weekends">Working on weekends</a></li>
+  <li><a href="#code">R code used to generate this data</a></li>
+</ul>
+
+<h1 id="dean-commits">My work hours since first learning R</h1>
+
+<p>This plot shows the times of all my git commits since Sept 2013, colour-coded by git repo (aka project). If you go the <a href="https://daattali.com/shiny/visualize-git-commits-time/">app hosting this data</a>, you’ll see this plot as fully interactive: you can zoom, move, or remove all observations from a specific repo by clicking on the repo name in the legend.</p>
+
+<p><a href="http://localhost:4000/img/blog/git-commits-time/dean-commits-100.png"><img src="http://localhost:4000/img/blog/git-commits-time/dean-commits-100.png" alt="Dean commits all" /></a></p>
+
+<p>September 2013 is when I first learned R in the beginning of my masters degree, and the project I was working on then (<a href="https://github.com/daattali/statsTerrorismProject">statsTerrorismProject</a>) was my final project for STAT545.</p>
+
+<p>After taking my introductory R course, I spent the next year on my other masters courses and didn’t do any R-ing and coding, hence the giant gap. The next time I used git was when I took the second half of STAT545 in 2014, and that’s where I learned how to write a package – <a href="https://github.com/daattali/rsalad">rsalad</a> was my first R package, developed as homework. Then I didn’t do any open source work for a few months because I was working in a lab that wasn’t very supportive of that… And in January 2015 I started working with Jenny as my supervisor, and as you can see, I was pretty much busy with just about everything in the world except for my actual masters project! :)</p>
+
+<h3 id="a-few-things-that-are-easy-to-notice">A few things that are easy to notice:</h3>
+
+<ul>
+  <li>I refuse to work before 10am</li>
+  <li>It looks like I work until 2am-4am fairly consistently</li>
+  <li>I did a LOT of work on my website (<a href="http://daattali.github.io">dattali.github.io</a>) around March 2015 (which is when I got the idea to make a website and when I released it)</li>
+  <li>There were a few days in July 2015 where I started coding at 6am! Nope, that’s a lie, I was in Toronto that week so that’s actually 9am…</li>
+  <li>It’s cool to see when I work on which projects. You can very clearly see the two-week effort on <a href="https://github.com/daattali/timevis">timevis</a> in July 2016 for example</li>
+</ul>
+
+<h1 id="dean-6-months">My work hours in the past 6 months</h1>
+
+<p><a href="http://localhost:4000/img/blog/git-commits-time/dean-commits-6.png"><img src="http://localhost:4000/img/blog/git-commits-time/dean-commits-6.png" alt="Dean commits 6 months" /></a></p>
+
+<h3 id="observations">Observations</h3>
+
+<p>It’s interesting to see how my commits very closely relate to what’s going on in my life :)</p>
+
+<ul>
+  <li>During Feb-March I was writing my masters thesis on my package <a href="https://github.com/daattali/ddpcr">ddpcr</a> and you can see how I had one last burst of work on the package at the end of Feb, and then I completely stopped coding for a few weeks while I focused on writing. I was such a good boy.</li>
+  <li>June seems like a dead month. I was in Toronto, Berkeley and Stanford for conferences and didn’t code at all. It’s cool how clearly that shows up!</li>
+  <li>It’s nice to see that <a href="https://github.com/daattali/shinyjs">shinyjs</a> has reached a fairly stable state and I don’t have to spend much time on it anymore</li>
+</ul>
+
+<h1 id="dean-density">Adding marginal density plots to see exactly what times are alive/dead</h1>
+
+<p>Just for fun, I can use my <a href="https://github.com/daattali/ggExtra">ggMarginal()</a> function to add marginal density plots, to make it more clear when most of my commits take place.</p>
+
+<p><a href="http://localhost:4000/img/blog/git-commits-time/dean-density.png"><img src="http://localhost:4000/img/blog/git-commits-time/dean-density.png" alt="Dean density plot" /></a></p>
+
+<h1 id="jenny-commits">How’s my (ex) supervisor Jenny Bryan doing?</h1>
+
+<p>After working with Jenny for a couple years, I learned that we have very compatible schedules. It was very normal for us to exchange emails past midnight when we had a 9am class the following morning, and I’d often see her making commits at 1-2am when I was just getting in the zone!</p>
+
+<p>With this graph we can see that our schedules really are very similar, although she is shifted 2 hours from me: I work 10am-4am, she works 8am-2am. What an early bird.</p>
+
+<p><a href="http://localhost:4000/img/blog/git-commits-time/jenny-commits-100.png"><img src="http://localhost:4000/img/blog/git-commits-time/jenny-commits-100.png" alt="Jenny commits all" /></a></p>
+
+<h1 id="hadley-commits">And the grand finale: the R master Hadley</h1>
+
+<p>No introduction needed, the name speaks for itself. (Note these are all PST times)</p>
+
+<p>Just one thing I’d like to note: we’ve all heard “this is going to be the year of ‘ggvis’!”, yet it looks like 2013 was the year-est of ‘ggvis’ so far :)</p>
+
+<p><a href="http://localhost:4000/img/blog/git-commits-time/hadley-commits-100.png"><img src="http://localhost:4000/img/blog/git-commits-time/hadley-commits-100.png" alt="Hadley commits all" /></a></p>
+
+<h1 id="weekends">Working on weekends</h1>
+
+<p>If you look at day of the week, you’ll see that weekends and weekdays are essentially the same to me.</p>
+
+<p><a href="http://localhost:4000/img/blog/git-commits-time/dean-days.png"><img src="http://localhost:4000/img/blog/git-commits-time/dean-days.png" alt="Dean day of week" /></a></p>
+
+<p>But what’s amazing is that if you look at Hadley, he seems to be such a good time manager that he manages to almost never work on weekends in the past 3 years, despite producing output at a speed of a dozen adults. That discipline of not working on weekends is commendable.</p>
+
+<p><a href="http://localhost:4000/img/blog/git-commits-time/hadley-days.png"><img src="http://localhost:4000/img/blog/git-commits-time/hadley-days.png" alt="Hadley day of week" /></a></p>
+
+<h1 id="code">R code used to generate this data</h1>
+
+<p>If you want to replicate these kinds of plots, here is the exact R code that was used to generate all the plots. The two functions you need to call are <code class="highlighter-rouge">create_git_log_file()</code> to generate the data file, and then <code class="highlighter-rouge">plot_git_commits()</code> to visualize the data.</p>
+
+<p>I know this code isn’t amazing and could be optimized some more (I especially don’t love that I’m using system calls) but I wanted to get this out ASAP because I have real projects I need to work on :)</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="cd">#' Plot the time or date of your git commits
+#' 
+#' IMPORTANT: Before calling this function, you must use the `create_git_log_file()` function
+#' to generate the data file that is used to make the plot!
+#' You also need to have 'dplyr', 'git2r', 'ggplot2', 'ggExtra' and 'scales' packages installed.
+#' 
+#' @param logfile The output from `create_git_log_file()`. This is a file containing all the 
+#'   necessary info for generating the activity plots. You must call `create_git_log_file()`
+#'   first to create the data file, and then you can call this plot function to
+#'   plot the data based on that file
+#' @param num_months How many months back to look at your commits
+#' @param plot_type What type of plot to output ("plotly", "ggplot", or "density")
+#'   if you choose "density" then the result will be a ggplot2 plot with marginal density plots
+#' @param x The variable to plot along the x axis (one of "repo", "time", "date", or "weekday") 
+#' @param y The variable to plot along the y axis (one of "repo", "time", "date", or "weekday") 
+</span><span class="n">plot_git_commits</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">logfile</span><span class="p">,</span><span class="w"> </span><span class="n">num_months</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w">
+                             </span><span class="n">plot_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"plotly"</span><span class="p">,</span><span class="w"> </span><span class="s2">"ggplot"</span><span class="p">,</span><span class="w"> </span><span class="s2">"density"</span><span class="p">),</span><span class="w">
+                             </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"date"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"time"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">requireNamespace</span><span class="p">(</span><span class="s2">"dplyr"</span><span class="p">,</span><span class="w"> </span><span class="n">quietly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">stop</span><span class="p">(</span><span class="s2">"You need to install the 'dplyr' package"</span><span class="p">,</span><span class="w"> </span><span class="n">call.</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">requireNamespace</span><span class="p">(</span><span class="s2">"ggplot2"</span><span class="p">,</span><span class="w"> </span><span class="n">quietly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">stop</span><span class="p">(</span><span class="s2">"You need to install the 'ggplot2' package"</span><span class="p">,</span><span class="w"> </span><span class="n">call.</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">requireNamespace</span><span class="p">(</span><span class="s2">"scales"</span><span class="p">,</span><span class="w"> </span><span class="n">quietly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">stop</span><span class="p">(</span><span class="s2">"You need to install the 'scales' package"</span><span class="p">,</span><span class="w"> </span><span class="n">call.</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">requireNamespace</span><span class="p">(</span><span class="s2">"ggExtra"</span><span class="p">,</span><span class="w"> </span><span class="n">quietly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">stop</span><span class="p">(</span><span class="s2">"You need to install the 'ggExtra' package"</span><span class="p">,</span><span class="w"> </span><span class="n">call.</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  
+  </span><span class="n">plot_type</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">match.arg</span><span class="p">(</span><span class="n">plot_type</span><span class="p">)</span><span class="w">
+  
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">file.exists</span><span class="p">(</span><span class="n">logfile</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">stop</span><span class="p">(</span><span class="s2">"The git log file was not found"</span><span class="p">,</span><span class="w"> </span><span class="n">call.</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nf">is.numeric</span><span class="p">(</span><span class="n">num_months</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">num_months</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">stop</span><span class="p">(</span><span class="s2">"num_months must be a positive integer"</span><span class="p">,</span><span class="w"> </span><span class="n">call.</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="nf">all</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"repo"</span><span class="p">,</span><span class="w"> </span><span class="s2">"time"</span><span class="p">,</span><span class="w"> </span><span class="s2">"date"</span><span class="p">,</span><span class="w"> </span><span class="s2">"weekday"</span><span class="p">)))</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">stop</span><span class="p">(</span><span class="s1">'x and y must each be one of "repo", "time", "date" or "weekday" and must be unique'</span><span class="p">,</span><span class="w"> </span><span class="n">call.</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  
+  </span><span class="c1"># read the logfile and transform it into a useful dataframe
+</span><span class="w">  </span><span class="n">gitdata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">get_git_df</span><span class="p">(</span><span class="n">logfile</span><span class="p">,</span><span class="w"> </span><span class="n">num_months</span><span class="p">)</span><span class="w">
+  
+  </span><span class="c1"># plot the result
+</span><span class="w">  </span><span class="n">plot_git_commits_helper</span><span class="p">(</span><span class="n">gitdata</span><span class="p">,</span><span class="w"> </span><span class="n">plot_type</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="cd">#' Create a data file with all the git commit info of a particular user for some repos
+#' 
+#' In order to create this data file, all the git repos specified have to be cloned to your
+#' local machine (this happens automatically). The result of this function is a data file with
+#' information about git commits, and this file can be used as input for `plot_git_commit_time()`
+#' (which will visualize the times of day commits were made)
+#' 
+#' @param username The git name of the peson to track their commits (if you
+#'   commit to git under multiple names, you can pass a vector of names)
+#' @param repos A list of all the GitHub repos you want to analyze (all these
+#'   repos will get cloned locally
+#' @param dir The directory where all the git repos will 
+#' @param logfile THe name of the data file (the file with all the git lgs
+</span><span class="n">create_git_log_file</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="w">
+  </span><span class="n">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Dean Attali"</span><span class="p">,</span><span class="w"> </span><span class="s2">"daattali"</span><span class="p">),</span><span class="w">
+  </span><span class="n">repos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"daattali/beautiful-jekyll"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"daattali/shinyjs"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"daattali/timevis"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"jennybc/bingo"</span><span class="p">),</span><span class="w">
+  </span><span class="n">dir</span><span class="w"> </span><span class="o">=</span><span class="s2">"git_repos_vis"</span><span class="p">,</span><span class="w">
+  </span><span class="n">logfile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"project-logs.csv"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">requireNamespace</span><span class="p">(</span><span class="s2">"git2r"</span><span class="p">,</span><span class="w"> </span><span class="n">quietly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">stop</span><span class="p">(</span><span class="s2">"You need to install the 'git2r' package"</span><span class="p">,</span><span class="w"> </span><span class="n">call.</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">dir.exists</span><span class="p">(</span><span class="n">dir</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">dir.create</span><span class="p">(</span><span class="n">dir</span><span class="p">,</span><span class="w"> </span><span class="n">recursive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">showWarnings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  
+  </span><span class="n">dir</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">normalizePath</span><span class="p">(</span><span class="n">dir</span><span class="p">)</span><span class="w">
+  
+  </span><span class="c1"># clone all the git repos into one folder and get their commit messages
+</span><span class="w">  </span><span class="n">logs</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">lapply</span><span class="p">(</span><span class="n">repos</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">repo</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="c1"># get the unique repo
+</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">grepl</span><span class="p">(</span><span class="s2">"/"</span><span class="p">,</span><span class="w"> </span><span class="n">repo</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">stop</span><span class="p">(</span><span class="n">repo</span><span class="p">,</span><span class="w"> </span><span class="s2">" is not a valid repo name (you forgot to specify the user)"</span><span class="p">,</span><span class="w"> </span><span class="n">call.</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+    </span><span class="n">repo_name</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sub</span><span class="p">(</span><span class="s2">".*/(.*)"</span><span class="p">,</span><span class="w"> </span><span class="n">replacement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\\1"</span><span class="p">,</span><span class="w"> </span><span class="n">repo</span><span class="p">)</span><span class="w">
+    </span><span class="n">repo_dir</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">file.path</span><span class="p">(</span><span class="n">dir</span><span class="p">,</span><span class="w"> </span><span class="n">repo_name</span><span class="p">)</span><span class="w">
+
+    </span><span class="c1"># clone the repo
+</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dir.exists</span><span class="p">(</span><span class="n">repo_dir</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">message</span><span class="p">(</span><span class="s2">"Note: Not cloning "</span><span class="p">,</span><span class="w"> </span><span class="n">repo</span><span class="p">,</span><span class="w"> </span><span class="s2">" because a folder with that name already exists"</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">message</span><span class="p">(</span><span class="s2">"Cloning "</span><span class="p">,</span><span class="w"> </span><span class="n">repo</span><span class="p">)</span><span class="w">
+      </span><span class="n">repo_url</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"https://github.com/"</span><span class="p">,</span><span class="w"> </span><span class="n">repo</span><span class="p">)</span><span class="w">
+      </span><span class="n">git2r</span><span class="o">::</span><span class="n">clone</span><span class="p">(</span><span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">repo_url</span><span class="p">,</span><span class="w"> </span><span class="n">local_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">repo_dir</span><span class="p">,</span><span class="w">
+                   </span><span class="n">progress</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+
+    </span><span class="c1"># get the git log
+</span><span class="w">    </span><span class="n">repo</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">git2r</span><span class="o">::</span><span class="n">repository</span><span class="p">(</span><span class="n">repo_dir</span><span class="p">)</span><span class="w">
+    </span><span class="n">commits</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">git2r</span><span class="o">::</span><span class="n">commits</span><span class="p">(</span><span class="n">repo</span><span class="p">)</span><span class="w">
+
+    </span><span class="n">dates</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">unlist</span><span class="p">(</span><span class="n">lapply</span><span class="p">(</span><span class="n">commits</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">commit</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">commit</span><span class="o">@</span><span class="n">author</span><span class="o">@</span><span class="n">name</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">username</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nf">as.character</span><span class="p">(</span><span class="n">as.POSIXlt</span><span class="p">(</span><span class="n">commit</span><span class="o">@</span><span class="n">author</span><span class="o">@</span><span class="n">when</span><span class="o">@</span><span class="n">time</span><span class="p">,</span><span class="w"> </span><span class="n">origin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"1970-01-01"</span><span class="p">))</span><span class="w">
+      </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="kc">NULL</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}))</span><span class="w">
+    </span><span class="n">data.frame</span><span class="p">(</span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="n">repo_name</span><span class="p">,</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">dates</span><span class="p">)),</span><span class="w">
+               </span><span class="n">timestamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dates</span><span class="p">,</span><span class="w">
+               </span><span class="n">stringsAsFactors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+  </span><span class="p">})</span><span class="w">
+
+  </span><span class="c1"># write the logs to a file
+</span><span class="w">  </span><span class="n">logs</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">do.call</span><span class="p">(</span><span class="n">rbind</span><span class="p">,</span><span class="w"> </span><span class="n">logs</span><span class="p">)</span><span class="w">
+  </span><span class="n">logfile</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">file.path</span><span class="p">(</span><span class="n">dir</span><span class="p">,</span><span class="w"> </span><span class="n">logfile</span><span class="p">)</span><span class="w">
+  </span><span class="n">write.csv</span><span class="p">(</span><span class="n">logs</span><span class="p">,</span><span class="w"> </span><span class="n">logfile</span><span class="p">,</span><span class="w"> </span><span class="n">quote</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">file.exists</span><span class="p">(</span><span class="n">logfile</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">message</span><span class="p">(</span><span class="s2">"Created logfile at "</span><span class="p">,</span><span class="w"> </span><span class="n">normalizePath</span><span class="p">(</span><span class="n">logfile</span><span class="p">))</span><span class="w">
+  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">stop</span><span class="p">(</span><span class="s2">"The git log file could not get creatd for some reason"</span><span class="p">,</span><span class="w"> </span><span class="n">call.</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  
+  </span><span class="nf">return</span><span class="p">(</span><span class="n">logfile</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="c1">#--- Helper functions ---#
+</span><span class="w">
+</span><span class="n">get_git_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">logfile</span><span class="p">,</span><span class="w"> </span><span class="n">num_months</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span><span class="w">
+  
+  </span><span class="n">date_cutoff</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.POSIXct</span><span class="p">(</span><span class="n">seq</span><span class="p">(</span><span class="n">Sys.Date</span><span class="p">(),</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="o">-</span><span class="n">num_months</span><span class="p">,</span><span class="w"> </span><span class="s2">" months"</span><span class="p">))[</span><span class="m">2</span><span class="p">])</span><span class="w">
+  </span><span class="n">gitdata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="n">logfile</span><span class="p">,</span><span class="w"> </span><span class="n">stringsAsFactors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">dplyr</span><span class="o">::</span><span class="n">filter</span><span class="p">(</span><span class="n">project</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s2">""</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">dplyr</span><span class="o">::</span><span class="n">mutate</span><span class="p">(</span><span class="n">ts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as.POSIXct</span><span class="p">(</span><span class="n">timestamp</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">dplyr</span><span class="o">::</span><span class="n">filter</span><span class="p">(</span><span class="n">ts</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">date_cutoff</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">dplyr</span><span class="o">::</span><span class="n">mutate</span><span class="p">(</span><span class="w">
+      </span><span class="n">repo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as.factor</span><span class="p">(</span><span class="n">project</span><span class="p">),</span><span class="w">
+      </span><span class="n">date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as.Date</span><span class="p">(</span><span class="n">ts</span><span class="p">),</span><span class="w">
+      </span><span class="n">time_short</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">strftime</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="w"> </span><span class="n">format</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"%H:%M"</span><span class="p">),</span><span class="w">
+      </span><span class="n">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">as.POSIXct</span><span class="p">(</span><span class="n">time_short</span><span class="p">,</span><span class="w"> </span><span class="n">format</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"%H:%M"</span><span class="p">,</span><span class="w"> </span><span class="n">tz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"UTC"</span><span class="p">),</span><span class="w">
+      </span><span class="n">weekday</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">weekdays</span><span class="p">(</span><span class="n">date</span><span class="p">),</span><span class="w">
+                       </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Monday"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Tuesday"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Wednesday"</span><span class="p">,</span><span class="w">
+                                  </span><span class="s2">"Thursday"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Friday"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Saturday"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Sunday"</span><span class="p">))</span><span class="w">
+    </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">dplyr</span><span class="o">::</span><span class="n">select</span><span class="p">(</span><span class="n">repo</span><span class="p">,</span><span class="w"> </span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">time_short</span><span class="p">,</span><span class="w"> </span><span class="n">time</span><span class="p">,</span><span class="w"> </span><span class="n">weekday</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">droplevels</span><span class="p">()</span><span class="w">
+  </span><span class="n">gitdata</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="n">plot_git_commits_helper</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">gitdata</span><span class="p">,</span><span class="w"> </span><span class="n">plot_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"plotly"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"repo"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"time"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="c1"># Define a large set of distinct colours
+</span><span class="w">  </span><span class="n">all_cols</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="w">
+    </span><span class="s2">"#FFFF00"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#1CE6FF"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#FF34FF"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#FF4A46"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#008941"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#006FA6"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#A30059"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#000000"</span><span class="p">,</span><span class="w"> 
+    </span><span class="s2">"#FFDBE5"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#7A4900"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#0000A6"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#B79762"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#004D43"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#8FB0FF"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#63FFAC"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#997D87"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"#5A0007"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#809693"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#FEFFE6"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#1B4400"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#4FC601"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#3B5DFF"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#4A3B53"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#FF2F80"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"#61615A"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#BA0900"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#6B7900"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#00C2A0"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#FFAA92"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#FF90C9"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#B903AA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#D16100"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"#DDEFFF"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#000035"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#7B4F4B"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#A1C299"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#300018"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#0AA6D8"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#013349"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#00846F"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"#372101"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#FFB500"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#C2FFED"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#A079BF"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#CC0744"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#C0B9B2"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#C2FF99"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#001E09"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"#00489C"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#6F0062"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#0CBD66"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#EEC3FF"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#456D75"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#B77B68"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#7A87A1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#788D66"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"#885578"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#FAD09F"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#FF8A9A"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#D157A0"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#BEC459"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#456648"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#0086ED"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#886F4C"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"#34362D"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#B4A8BD"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#00A6AA"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#452C2C"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#636375"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#A3C8C9"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#FF913F"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#938A81"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"#575329"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#00FECF"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#B05B6F"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#8CD0FF"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#3B9700"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#04F757"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#C8A1A1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#1E6E00"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"#7900D7"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#A77500"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#6367A9"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#A05837"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#6B002C"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#772600"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#D790FF"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#9B9700"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"#549E79"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#FFF69F"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#201625"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#72418F"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#BC23FF"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#99ADC0"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#3A2465"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#922329"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"#5B4534"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#FDE8DC"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#404E55"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#0089A3"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#CB7E98"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#A4E804"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#324E72"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#6A3A4C"</span><span class="p">)</span><span class="w">
+  
+  </span><span class="n">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span><span class="w">
+  
+  </span><span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggplot</span><span class="p">(</span><span class="n">gitdata</span><span class="p">,</span><span class="w"> </span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"time_short"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">geom_point</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">repo</span><span class="p">),</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#555555"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w">
+               </span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">21</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">position_jitter</span><span class="p">())</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">theme_bw</span><span class="p">(</span><span class="m">20</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+    </span><span class="n">xlab</span><span class="p">(</span><span class="kc">NULL</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ylab</span><span class="p">(</span><span class="kc">NULL</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">all_cols</span><span class="p">[</span><span class="nf">seq_along</span><span class="p">(</span><span class="n">unique</span><span class="p">(</span><span class="n">gitdata</span><span class="o">$</span><span class="n">repo</span><span class="p">))])</span><span class="w"> </span><span class="o">+</span><span class="w">
+    </span><span class="n">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bottom"</span><span class="p">)</span><span class="w">
+  
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"date"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w">
+      </span><span class="n">scale_x_date</span><span class="p">()</span><span class="w">
+  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"time"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w">
+      </span><span class="n">scale_x_datetime</span><span class="p">(</span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scales</span><span class="o">::</span><span class="n">date_format</span><span class="p">(</span><span class="s2">"%H:00"</span><span class="p">),</span><span class="w"> </span><span class="n">date_breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"2 hour"</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ggExtra</span><span class="o">::</span><span class="n">rotateTextX</span><span class="p">()</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"date"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w">
+      </span><span class="n">scale_y_date</span><span class="p">()</span><span class="w">
+  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"time"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w">
+      </span><span class="n">scale_y_datetime</span><span class="p">(</span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scales</span><span class="o">::</span><span class="n">date_format</span><span class="p">(</span><span class="s2">"%H:00"</span><span class="p">),</span><span class="w"> </span><span class="n">date_breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"2 hour"</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">plot_type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"plotly"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">requireNamespace</span><span class="p">(</span><span class="s2">"plotly"</span><span class="p">,</span><span class="w"> </span><span class="n">quietly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">stop</span><span class="p">(</span><span class="s2">"You need to install the 'plotly' package"</span><span class="p">,</span><span class="w"> </span><span class="n">call.</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"time"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">tooltip</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"fill"</span><span class="p">,</span><span class="w"> </span><span class="s2">"label"</span><span class="p">,</span><span class="w"> </span><span class="s2">"y"</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"time"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">tooltip</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"fill"</span><span class="p">,</span><span class="w"> </span><span class="s2">"x"</span><span class="p">,</span><span class="w"> </span><span class="s2">"label"</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">tooltip</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"fill"</span><span class="p">,</span><span class="w"> </span><span class="s2">"x"</span><span class="p">,</span><span class="w"> </span><span class="s2">"y"</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+    
+    </span><span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">plotly</span><span class="o">::</span><span class="n">ggplotly</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">tooltip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tooltip</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">plot_type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"density"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ggExtra</span><span class="o">::</span><span class="n">ggMarginal</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  
+  </span><span class="n">p</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+      </article>
+      
+      
+        <div class="blog-tags">
+          Tags: professional, rstats, r, r-bloggers, shiny
+        </div>
+      
+
+      
+  <div class="share-section">
+    <h1 class="share-title">Liked what you read?</h1>
+    
+    
+      <div class="share-buttons">
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        <a href="http://localhost:4000/contact" data-ga-event=1 data-ga-category="share" data-ga-action="message" data-ga-label="/blog/visualize-git-commits-time/">
+          Let me know
+        </a>
+        <!--
+        <a href="https://www.facebook.com/dialog/feed?app_id=536330676521989&link=http://localhost:4000/blog/visualize-git-commits-time/&name=Visualizing when I'm most productive during the day&caption=deanattali.com&redirect_uri=http://localhost:4000/blog/visualize-git-commits-time/?message=Thanks for sharing!&picture=https://daattali.com/shiny/visualize-git-commits-time/dean-git-plot.png" data-ga-event=1 data-ga-category="share" data-ga-action="facebook" data-ga-label="/blog/visualize-git-commits-time/">
+          Share on Facebook
+        </a>
+        -->
+        <a href="https://www.paypal.me/daattali/10" data-ga-event=1 data-ga-category="share" data-ga-action="donate" data-ga-label="/blog/visualize-git-commits-time/">
+          Support me
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=http://localhost:4000/blog/visualize-git-commits-time/&via=daattali&hashtags=rstats&text=Visualizing when I'm most productive during the day" data-ga-event=1 data-ga-category="share" data-ga-action="twitter" data-ga-label="/blog/visualize-git-commits-time/">
+          Tweet it
+        </a>
+      </div>
+    
+    
+    
+      <!-- MailChimp Signup Form -->
+      <div id="mailchimp-subscribe-section-2">
+        <div id="mc_embed_signup-2">
+          <form action="//deanattali.us14.list-manage.com/subscribe/post?u=a579a88c8f09f9b8502b9d0c3&amp;id=c180f5773c" method="post" id="mc-embedded-subscribe-form-2" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+            <div id="mc_embed_signup_scroll-2">
+      	      <label for="mce-EMAIL-2">Sign up to my Shiny newsletter</label>
+              <div class="container">
+                <div class="row">
+                  <div class="col-xs-8">
+                    <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL-2" placeholder="Email" required="">
+                  </div>
+                  <div class="col-xs-4">
+                    <input type="text" value="" name="FNAME" class="text" id="mce-FNAME-2" placeholder="Name" required="">
+                  </div>
+                </div>
+              </div>
+              <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_a579a88c8f09f9b8502b9d0c3_c180f5773c" tabindex="-1" value=""></div>
+              <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe-2" class="button">
+            </div>
+          </form>
+        </div>
+      </div>
+     
+
+  </div>
+
+
+      
+      
+
+      <ul class="pager blog-pager">
+        
+          <li class="previous">
+            <a href="/blog/addinslist-package/" data-toggle="tooltip" data-placement="top" title="addinslist package: An RStudio addin to discover and install RStudio addins">&larr; Previous Post</a>
+          </li>
+        
+        
+          <li class="next">
+            <a href="/blog/advanced-shiny-tips/" data-toggle="tooltip" data-placement="top" title="Shiny tips & tricks for improving your apps and solving common problems">Next Post &rarr;</a>
+          </li>
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+	    var disqus_shortname = 'deanattali-site';
+	    // ensure that pages with query string or anchor get the same discussion
+            var url_parts = window.location.href.split("?");
+            url_parts = url_parts[0].split("#");
+            disqus_url = url_parts[0];
+            disqus_url = disqus_url.replace(/(\/)*$/, "/"); // make sure the URL ends with one slash
+            
+            // Jekyll 3 caused so many bugs, I'm tired of fixing them one by one properly, so I'll just hack it...
+            // https://github.com/jekyll/jekyll/issues/4483
+            // The projects page now has a trailing slash, it didn't used to
+            if (disqus_url.substr(-9) == "projects/") {
+            	disqus_url = disqus_url.substr(0, disqus_url.length - 1);
+            }
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+        </div>
+      
+      
+      <div id="scroll-box">
+  <div id="scroll-box-close">&times;</div>
+  <div id="scroll-box-hire">
+    Need Shiny help?
+    <a href="/shiny">Hire me!</a>
+  </div>
+  <div id="mailchimp-subscribe-section">
+    <div id="mc_embed_signup">
+      <form action="//deanattali.us14.list-manage.com/subscribe/post?u=a579a88c8f09f9b8502b9d0c3&amp;id=c180f5773c" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate="">
+        <div id="mc_embed_signup_scroll">
+  	      <label for="mce-EMAIL">Sign up to my Shiny newsletter</label>
+          <div class="container">
+            <div class="row">
+              <div class="col-xs-8">
+  	            <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Email" required="">
+              </div>
+              <div class="col-xs-4">
+                <input type="text" value="" name="FNAME" class="text" id="mce-FNAME" placeholder="Name" required="">
+              </div>
+            </div>
+          </div>
+          <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_a579a88c8f09f9b8502b9d0c3_c180f5773c" tabindex="-1" value=""></div>
+          <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button" title="Sign up to my Shiny newsletter">
+        </div>
+      </form>
+    </div>
+  </div>
+  <div id="scroll-box-contact">
+    Questions/comments?
+    <a href="/contact">Contact me!</a>
+  </div>
+</div>
+
+    </div>
+  </div>
+</div>
+
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+
+          
+          <li>
+            <a href="mailto:daattali@gmail.com?subject=Hello from deanattali.com" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/daattali" title="Twitter">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://github.com/daattali" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://www.facebook.com/daattali" title="Facebook">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://stackoverflow.com/users/3943160/daattali" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+
+          
+
+        </ul>
+
+        <p class="copyright text-muted">
+          &copy; Dean Attali
+          &nbsp;&bull;&nbsp;
+          2017
+
+          
+          &nbsp;&bull;&nbsp;
+          <a href="mailto:daattali@gmail.com?subject=Hello from deanattali.com">daattali@gmail.com</a>
+          
+        </p>
+        <p class="theme-by text-muted">
+          Theme by
+          <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+    
+
+
+  
+	<script src="/js/jquery-1.11.2.min.js"></script>
+  
+	<script src="/js/bootstrap.min.js"></script>
+  
+	<script src="/js/js.cookie.js"></script>
+  
+	<script src="/js/main.js"></script>
+  
+
+
+
+
+
+
+
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-59820529-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+	<!-- End Google Analytics -->
+
+
+
+     
+      <!-- AddThis plugin (floating social media sharing buttons on the left of each post) -->
+      <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57d65a4d97789dd1"></script>
+    
+    
+  </body>
+</html>

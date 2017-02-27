@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  
+  <title>Shiny finally has a colour picker - use colourInput to select colours in Shiny apps</title>
+  
+
+  <meta name="author" content="Dean Attali" />
+  
+  
+  <meta name="description" content="NOTE: the colour input described here is no longer part of shinyjs and is now available in the colourpicker package instead. I don’t always think Shiny is missing anything, but when I do - I fill in the gap myself. That was meant to be read as The Most Interesting...">
+  
+  
+  <meta name="keywords" content="rstats,r,r shiny,shiny apps,r shiny apps,shiny developer,r shiny developer,shiny consultant,web application development with r using shiny">
+
+  <link rel="alternate" type="application/rss+xml" title="Dean Attali - R-Shiny developer and consultant with a MSc in Bioinformatics and a Bachelor of Computer Science. Previously a software engineer at Google, IBM, and Wish.com." href="/feed.xml" />
+
+  
+    
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+    
+      
+  
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+    
+  
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+    
+  
+  
+
+  
+  
+  <!-- Facebook OpenGraph tags -->
+  
+  <meta property="og:title" content="Shiny finally has a colour picker - use colourInput to select colours in Shiny apps" />
+  
+  
+  <meta property="og:type" content="website" />
+  
+  
+  <meta property="og:url" content="http://localhost:4000/2015/06/28/introducing-shinyjs-colourinput/" />
+  <link rel="canonical" href="http://localhost:4000/2015/06/28/introducing-shinyjs-colourinput/" />
+  
+  
+  
+  <meta property="og:image" content="http://deanattali.com/img/blog/colourInput/colourInputDemo.png" />
+  
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@daattali" />
+  <meta name="twitter:creator" content="@daattali" />
+  <meta name="twitter:title" content="Shiny finally has a colour picker - use colourInput to select colours in Shiny apps" />
+  <meta name="twitter:description" content="NOTE: the colour input described here is no longer part of shinyjs and is now available in the colourpicker package instead. I don’t always think Shiny is missing anything, but when I do - I fill in the gap myself. That was meant to be read as The Most Interesting..." />
+  
+  <meta name="twitter:image" content="http://deanattali.com/img/blog/colourInput/colourInputDemo.png" />
+    
+
+</head>
+
+
+  <body>
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom ">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://localhost:4000">Dean Attali</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/">Blog</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/shiny">Shiny</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/projects">Projects</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/aboutme">About Me / Contact</a>
+
+          </li>
+        
+        
+		
+		
+		<li>
+		  <a href="/search" class="nav-search-link" title="Search">
+		    <span class="fa fa-search nav-search-icon"></span>
+			<span class="nav-search-text">Search</span>
+		  </a>
+		</li>
+		
+      </ul>
+    </div>
+	
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://localhost:4000 ">
+	      <img class="avatar-img" src="/img/deanimg.jpeg" />
+		</a>
+	  </div>
+	</div>
+	
+	
+  </div>
+</nav>  
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Shiny finally has a colour picker - use colourInput to select colours in Shiny apps</h1>
+		  
+		  
+		  
+		  <span class="post-meta">Posted on June 28, 2015</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+      	<p><strong>NOTE: the colour input described here is no longer part of <code class="highlighter-rouge">shinyjs</code> and is now available in the <code class="highlighter-rouge">colourpicker</code> package instead.</strong></p>
+
+<blockquote>
+  <p>I don’t always think Shiny is missing anything, but when I do - I fill in the gap myself.</p>
+</blockquote>
+
+<p>That was meant to be read as The Most Interesting Man In The World, but now that I think about it - maybe he’s not the type of guy who would be building Shiny R packages…</p>
+
+<p>Shiny has many useful input controls, but there was one that was always missing until today - a colour picker.  The package <a href="https://github.com/daattali/colourpicker"><strong><code class="highlighter-rouge">colourpicker</code></strong></a> now offers a <strong><code class="highlighter-rouge">colourInput()</code></strong> function and, of course, a corresponding <strong><code class="highlighter-rouge">updateColourInput()</code></strong>. There have been many times when I wanted to allow users in a Shiny app to select a colour, and I’ve seen that feature being requested multiple times on different online boards, so I decided to make my own such input control.</p>
+
+<p><strong>UPDATE 2016-03-27:</strong> There is now an awesome RStudio addin/gadget that lets you select multiple colours interactively if you need help picking colours. <a href="https://github.com/daattali/colourpicker#to-select-colours-to-use-in-your-r-code-colourpicker">Read more here</a>.</p>
+
+<h2 id="table-of-contents">Table of contents</h2>
+
+<ul>
+  <li><a href="#demo">Demo</a></li>
+  <li><a href="#availability">Availability</a></li>
+  <li><a href="#features">Features</a>
+    <ul>
+      <li><a href="#simple">Simple and familiar</a></li>
+      <li><a href="#transparent">Allowing “transparent”</a></li>
+      <li><a href="#showColour">How the chosen colour is shown inside the input</a></li>
+      <li><a href="#limited">Limited colour selection</a></li>
+      <li><a href="#update">Updating a colourInput</a></li>
+      <li><a href="#colour-spec">Flexible colour specification</a></li>
+      <li><a href="#compatibility">Works on any device</a></li>
+    </ul>
+  </li>
+  <li><a href="#misc">Misc</a></li>
+</ul>
+
+<h2 id="demo">Demo</h2>
+
+<p><a href="http://daattali.com/shiny/colourInput/">Click here for a Shiny app showing several demos of colourInput</a>. If you don’t want to check out the Shiny app, here is a short GIF demonstrating the most basic functionality of <code class="highlighter-rouge">colourInput</code>.</p>
+
+<p><a href="http://localhost:4000/img/blog/colourInput/colourInputDemo.gif"><img src="http://localhost:4000/img/blog/colourInput/colourInputDemo.gif" alt="colourInput demo" /></a></p>
+
+<p>The colours of course don’t look as ugly as in the GIF, here’s a screenshot of what a plain <code class="highlighter-rouge">colourInput</code> looks like.</p>
+
+<p><a href="http://localhost:4000/img/blog/colourInput/colourInputDemo.png"><img src="http://localhost:4000/img/blog/colourInput/colourInputDemo.png" alt="colourInput demo" /></a></p>
+
+<h2 id="availability">Availability</h2>
+
+<p><code class="highlighter-rouge">colourInput()</code> is available in <a href="https://github.com/daattali/colourpicker"><code class="highlighter-rouge">colourpicker</code></a>.  You can either install it <a href="https://github.com/daattali/colourpicker">from GitHub</a> with <code class="highlighter-rouge">devtools::install_github("daattali/colourpicker")</code> or from CRAN with <code class="highlighter-rouge">install.packages("colourpicker")</code>.</p>
+
+<h2 id="features">Features</h2>
+
+<h3 id="simple">Simple and familiar</h3>
+
+<p>Using <code class="highlighter-rouge">colourInput</code> is extremely trivial if you’ve used Shiny, and it’s as easy to use as any other input control.  It was implemented to very closely mimic all other Shiny inputs so that using it will feel very familiar. You can add a simple colour input to your Shiny app with <code class="highlighter-rouge">colourInput("col", "Select colour", value = "red")</code>. The return value from a <code class="highlighter-rouge">colourInput</code> is an uppercase HEX colour, so in the previous example the value of <code class="highlighter-rouge">input$col</code> would be <code class="highlighter-rouge">#FF0000</code> (#FF0000 is the HEX value of the colour red). The default value at initialization is white (#FFFFFF).</p>
+
+<h3 id="transparent">Allowing “transparent”</h3>
+
+<p>Since most functions in R that accept colours can also accept the value “transparent”, <code class="highlighter-rouge">colourInput</code> has an option to allow selecting the “transparent” colour. By default, only real colours can be selected, so you need to use the <code class="highlighter-rouge">allowTransparent = TRUE</code> parameter. When this feature is turned on, a checkbox appears inside the input box.</p>
+
+<p>If the user checks the checkbox for “transparent”, then the colour input is grayed out and the returned value of the input is <code class="highlighter-rouge">transparent</code>. This is the only case when the value returned from a <code class="highlighter-rouge">colourInput</code> is not a HEX value. When the checkbox is unchecked, the value of the input will be the last selected colour prior to selecting “transparent”.</p>
+
+<p>By default, the text of the checkbox reads “Transparent”, but you can change that with the <code class="highlighter-rouge">transparentText</code> parameter. For example, it might be more clear to a user to use the word “None” instead of “Transparent”. Note that even if you change the checkbox text, the return value will still be <code class="highlighter-rouge">transparent</code> since that’s the actual colour name in R.</p>
+
+<p>This is what a colour input with transparency enabled looks like</p>
+
+<p><a href="http://localhost:4000/img/blog/colourInput/allowTransparent.png"><img src="http://localhost:4000/img/blog/colourInput/allowTransparent.png" alt="allowTransparent demo" /></a></p>
+
+<h3 id="showColour">How the chosen colour is shown inside the input</h3>
+
+<p>By default, the colour input’s background will match the selected colour and the text inside the input field will be the colour’s HEX value. If that’s too much for you, you can customize the input with the <code class="highlighter-rouge">showColour</code> parameter to either only show the text or only show the background colour.</p>
+
+<p>Here is what a colour input with each of the possible values for <code class="highlighter-rouge">showColour</code> looks like</p>
+
+<p><a href="http://localhost:4000/img/blog/colourInput/showColour.png"><img src="http://localhost:4000/img/blog/colourInput/showColour.png" alt="showColour demo" /></a></p>
+
+<h3 id="limited">Limited colour selection</h3>
+
+<p>If you want to only allow the user to select a colour from a specific list of colours, rather than any possible HEX colour, you can use the <code class="highlighter-rouge">palette = "limited"</code> parameter.  By default, the limited palette will contain 40 common colours, but you can supply your own list of colours using the <code class="highlighter-rouge">allowedCols</code> parameter. Here is an image of the default limited colour palette.</p>
+
+<p><a href="http://localhost:4000/img/blog/colourInput/limited-palette.png"><img src="http://localhost:4000/img/blog/colourInput/limited-palette.png" alt="colourInput demo" /></a></p>
+
+<h3 id="update">Updating a colourInput</h3>
+
+<p>As with all other Shiny inputs, <code class="highlighter-rouge">colourInput</code> can be updated with the <code class="highlighter-rouge">updateColourInput</code> function.  Any parameter that can be used in <code class="highlighter-rouge">colourInput</code> can be used in <code class="highlighter-rouge">updateColourInput</code>. This means that you can start with a basic colour input such as <code class="highlighter-rouge">colourInput("col", "Select colour")</code> and completely redesign it with</p>
+
+<div class="language-r highlighter-rouge"><pre class="highlight"><code><span class="n">updateColourInput</span><span class="p">(</span><span class="n">session</span><span class="p">,</span><span class="w"> </span><span class="s2">"col"</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"COLOUR:"</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"orange"</span><span class="p">,</span><span class="w">
+  </span><span class="n">showColour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"background"</span><span class="p">,</span><span class="w"> </span><span class="n">allowTransparent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">transparentText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"None"</span><span class="p">)</span><span class="w">
+</span></code></pre>
+</div>
+
+<h3 id="colour-spec">Flexible colour specification</h3>
+
+<p>Specifying a colour to the colour input is made very flexible to allow for easier use. When giving a colour as the <code class="highlighter-rouge">value</code> parameter of either <code class="highlighter-rouge">colourInput</code> or <code class="highlighter-rouge">updateColourInput</code>, there are a few ways to specify a colour:</p>
+
+<ul>
+  <li>Using a name of an R colour, such as <code class="highlighter-rouge">red</code>, <code class="highlighter-rouge">gold</code>, <code class="highlighter-rouge">blue3</code>, or any other name that R supports (for a full list of R colours, type <code class="highlighter-rouge">colours()</code>)</li>
+  <li>If transparency is allowed in the <code class="highlighter-rouge">colourInput</code>, the value <code class="highlighter-rouge">transparent</code> (lowercase) can be used. This will update the UI to check the checkbox.</li>
+  <li>Using a 6-character HEX value, either with or without the leading <code class="highlighter-rouge">#</code>.  For example, initializing a <code class="highlighter-rouge">colourInput</code> with any of the following values will all result in the colour red: <code class="highlighter-rouge">ff0000</code>, <code class="highlighter-rouge">FF0000</code>, <code class="highlighter-rouge">#ff0000</code>.</li>
+  <li>Using a 3-character HEX value, either with or without the leading <code class="highlighter-rouge">#</code>. These values will be converted to full HEX values by automatically doubling every character. For example, all the following values would result in the same colour: <code class="highlighter-rouge">1ac</code>, <code class="highlighter-rouge">#1Ac</code>, <code class="highlighter-rouge">11aacc</code>.</li>
+</ul>
+
+<h3 id="compatibility">Works on any device</h3>
+
+<p>If you’re worried that maybe someone viewing your Shiny app on a phone won’t be able to use this input properly - don’t you worry. I haven’t quite checked every single device out there, but I did spend extra time making sure the colour selection JavaScript works in most devices I could think of. <code class="highlighter-rouge">colourInput</code> will work fine in Shiny apps that are viewed on Android cell phones, iPhones, iPads, and even Internet Explorer 8+.</p>
+
+<h2 id="misc">Misc</h2>
+
+<p>In order to build <code class="highlighter-rouge">colourInput</code>, I needed to use a JavaScript colour picker library. After experimenting with many different colour pickers, I decided to use <a href="https://github.com/claviska/jquery-minicolors">this popular jQuery colour picker</a> as a base, and extend it myself to make it geared to work with Shiny. I simplified much of the code and added some features that would make it integrate with Shiny much easier. You can see the exact changes I’ve made in the <a href="https://github.com/daattali/jquery-colourpicker">README for my version of the library</a>. The main features I added were the support for a “transparent” checkbox, the complete look of the input field was redesigned, and I also changed the colour picker colours to render completely in CSS instead of using images.</p>
+
+<p>The colour picker functions were initially developed in the <code class="highlighter-rouge">shinyjs</code> package but it has been pointed out by many people that these functions are not exactly in-line with the general <code class="highlighter-rouge">shinyjs</code> idea, so they eventually graduated into the <code class="highlighter-rouge">colourpicker</code> pacakge.</p>
+
+<hr />
+
+<p>If anyone has any comments or feedback, both negative or positive, I’d love to <a href="http://localhost:4000/aboutme#contact">hear about it</a>! Feel free to open issues <a href="https://github.com/daattali/colourpicker">on GitHub</a> if there are any problems.</p>
+
+      </article>
+      
+      
+        <div class="blog-tags">
+          Tags: professional, rstats, r, r-bloggers, shiny, packages, shinyjs
+        </div>
+      
+
+      
+  <div class="share-section">
+    <h1 class="share-title">Liked what you read?</h1>
+    
+    
+      <div class="share-buttons">
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        <a href="http://localhost:4000/contact" data-ga-event=1 data-ga-category="share" data-ga-action="message" data-ga-label="/2015/06/28/introducing-shinyjs-colourinput/">
+          Let me know
+        </a>
+        <!--
+        <a href="https://www.facebook.com/dialog/feed?app_id=536330676521989&link=http://localhost:4000/2015/06/28/introducing-shinyjs-colourinput/&name=Shiny finally has a colour picker - use colourInput to select colours in Shiny apps&caption=deanattali.com&redirect_uri=http://localhost:4000/2015/06/28/introducing-shinyjs-colourinput/?message=Thanks for sharing!&picture=http://deanattali.com/img/blog/colourInput/colourInputDemo.png" data-ga-event=1 data-ga-category="share" data-ga-action="facebook" data-ga-label="/2015/06/28/introducing-shinyjs-colourinput/">
+          Share on Facebook
+        </a>
+        -->
+        <a href="https://www.paypal.me/daattali/10" data-ga-event=1 data-ga-category="share" data-ga-action="donate" data-ga-label="/2015/06/28/introducing-shinyjs-colourinput/">
+          Support me
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=http://localhost:4000/2015/06/28/introducing-shinyjs-colourinput/&via=daattali&hashtags=rstats&text=Shiny finally has a colour picker - use colourInput to select colours in Shiny apps" data-ga-event=1 data-ga-category="share" data-ga-action="twitter" data-ga-label="/2015/06/28/introducing-shinyjs-colourinput/">
+          Tweet it
+        </a>
+      </div>
+    
+    
+    
+      <!-- MailChimp Signup Form -->
+      <div id="mailchimp-subscribe-section-2">
+        <div id="mc_embed_signup-2">
+          <form action="//deanattali.us14.list-manage.com/subscribe/post?u=a579a88c8f09f9b8502b9d0c3&amp;id=c180f5773c" method="post" id="mc-embedded-subscribe-form-2" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+            <div id="mc_embed_signup_scroll-2">
+      	      <label for="mce-EMAIL-2">Sign up to my Shiny newsletter</label>
+              <div class="container">
+                <div class="row">
+                  <div class="col-xs-8">
+                    <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL-2" placeholder="Email" required="">
+                  </div>
+                  <div class="col-xs-4">
+                    <input type="text" value="" name="FNAME" class="text" id="mce-FNAME-2" placeholder="Name" required="">
+                  </div>
+                </div>
+              </div>
+              <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_a579a88c8f09f9b8502b9d0c3_c180f5773c" tabindex="-1" value=""></div>
+              <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe-2" class="button">
+            </div>
+          </form>
+        </div>
+      </div>
+     
+
+  </div>
+
+
+      
+      
+
+      <ul class="pager blog-pager">
+        
+          <li class="previous">
+            <a href="/2015/06/14/mimicking-google-form-shiny/" data-toggle="tooltip" data-placement="top" title="Mimicking a Google Form with a Shiny app">&larr; Previous Post</a>
+          </li>
+        
+        
+          <li class="next">
+            <a href="/blog/shiny-persistent-data-storage/" data-toggle="tooltip" data-placement="top" title="Persistent data storage in Shiny apps">Next Post &rarr;</a>
+          </li>
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          
+<div class="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+	    var disqus_shortname = 'deanattali-site';
+	    // ensure that pages with query string or anchor get the same discussion
+            var url_parts = window.location.href.split("?");
+            url_parts = url_parts[0].split("#");
+            disqus_url = url_parts[0];
+            disqus_url = disqus_url.replace(/(\/)*$/, "/"); // make sure the URL ends with one slash
+            
+            // Jekyll 3 caused so many bugs, I'm tired of fixing them one by one properly, so I'll just hack it...
+            // https://github.com/jekyll/jekyll/issues/4483
+            // The projects page now has a trailing slash, it didn't used to
+            if (disqus_url.substr(-9) == "projects/") {
+            	disqus_url = disqus_url.substr(0, disqus_url.length - 1);
+            }
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+        </div>
+      
+      
+      <div id="scroll-box">
+  <div id="scroll-box-close">&times;</div>
+  <div id="scroll-box-hire">
+    Need Shiny help?
+    <a href="/shiny">Hire me!</a>
+  </div>
+  <div id="mailchimp-subscribe-section">
+    <div id="mc_embed_signup">
+      <form action="//deanattali.us14.list-manage.com/subscribe/post?u=a579a88c8f09f9b8502b9d0c3&amp;id=c180f5773c" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate="">
+        <div id="mc_embed_signup_scroll">
+  	      <label for="mce-EMAIL">Sign up to my Shiny newsletter</label>
+          <div class="container">
+            <div class="row">
+              <div class="col-xs-8">
+  	            <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Email" required="">
+              </div>
+              <div class="col-xs-4">
+                <input type="text" value="" name="FNAME" class="text" id="mce-FNAME" placeholder="Name" required="">
+              </div>
+            </div>
+          </div>
+          <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_a579a88c8f09f9b8502b9d0c3_c180f5773c" tabindex="-1" value=""></div>
+          <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button" title="Sign up to my Shiny newsletter">
+        </div>
+      </form>
+    </div>
+  </div>
+  <div id="scroll-box-contact">
+    Questions/comments?
+    <a href="/contact">Contact me!</a>
+  </div>
+</div>
+
+    </div>
+  </div>
+</div>
+
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+
+          
+          <li>
+            <a href="mailto:daattali@gmail.com?subject=Hello from deanattali.com" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/daattali" title="Twitter">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://github.com/daattali" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://www.facebook.com/daattali" title="Facebook">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://stackoverflow.com/users/3943160/daattali" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+
+          
+
+        </ul>
+
+        <p class="copyright text-muted">
+          &copy; Dean Attali
+          &nbsp;&bull;&nbsp;
+          2017
+
+          
+          &nbsp;&bull;&nbsp;
+          <a href="mailto:daattali@gmail.com?subject=Hello from deanattali.com">daattali@gmail.com</a>
+          
+        </p>
+        <p class="theme-by text-muted">
+          Theme by
+          <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+    
+
+
+  
+	<script src="/js/jquery-1.11.2.min.js"></script>
+  
+	<script src="/js/bootstrap.min.js"></script>
+  
+	<script src="/js/js.cookie.js"></script>
+  
+	<script src="/js/main.js"></script>
+  
+
+
+
+
+
+
+
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-59820529-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+	<!-- End Google Analytics -->
+
+
+
+     
+      <!-- AddThis plugin (floating social media sharing buttons on the left of each post) -->
+      <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-57d65a4d97789dd1"></script>
+    
+    
+  </body>
+</html>

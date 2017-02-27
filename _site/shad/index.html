@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  
+  <title>Hello SHAD!</title>
+  
+
+  <meta name="author" content="Dean Attali" />
+  
+  
+  <meta name="description" content="Soon-to-be Program Assistant @ SHAD (with your help!)">
+  
+  
+  <meta name="keywords" content="rstats,r,r shiny,shiny apps,r shiny apps,shiny developer,r shiny developer,shiny consultant,web application development with r using shiny">
+
+  <link rel="alternate" type="application/rss+xml" title="Dean Attali - R-Shiny developer and consultant with a MSc in Bioinformatics and a Bachelor of Computer Science. Previously a software engineer at Google, IBM, and Wish.com." href="/feed.xml" />
+
+  
+    
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+    
+      
+  
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+    
+  
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+    
+  
+  
+    
+      <link rel="stylesheet" href="/css/index.css" />
+    
+  
+
+  
+  
+  <!-- Facebook OpenGraph tags -->
+  
+  <meta property="og:title" content="Hello SHAD!" />
+  
+  
+  <meta property="og:type" content="website" />
+  
+  
+  <meta property="og:url" content="http://localhost:4000/shad/" />
+  <link rel="canonical" href="http://localhost:4000/shad/" />
+  
+  
+  
+  <meta property="og:image" content="http://localhost:4000/img/deanimg.jpeg" />
+  
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@daattali" />
+  <meta name="twitter:creator" content="@daattali" />
+  <meta name="twitter:title" content="Hi, I'm Dean" />
+  <meta name="twitter:description" content="Hello SHAD recruiter! Before we continue, let's see if you can guess which two of the following three statements about myself are true. I love teaching I love people I love Saskatoon Submit Nice try, but that's not quite right, unless you know me better than I do? Try again!..." />
+  
+  <meta name="twitter:image" content="http://localhost:4000/img/deanimg.jpeg" />
+    
+
+</head>
+
+
+  <body>
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom ">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://localhost:4000">Dean Attali</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/">Blog</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/shiny">Shiny</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/projects">Projects</a>
+
+          </li>
+        
+        
+        
+          <li>
+            
+            
+
+
+
+
+
+<a href="/aboutme">About Me / Contact</a>
+
+          </li>
+        
+        
+		
+		
+		<li>
+		  <a href="/search" class="nav-search-link" title="Search">
+		    <span class="fa fa-search nav-search-icon"></span>
+			<span class="nav-search-text">Search</span>
+		  </a>
+		</li>
+		
+      </ul>
+    </div>
+	
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://localhost:4000 ">
+	      <img class="avatar-img" src="/img/deanimg.jpeg" />
+		</a>
+	  </div>
+	</div>
+	
+	
+  </div>
+</nav>  
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+  <div id="header-big-imgs" data-num-img=30
+    
+	  
+	  
+	    
+		  data-img-src-1="/img/big-imgs/costa-rica-house.jpeg"
+		  data-img-desc-1="Montezuma, Costa Rica (2011)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-2="/img/big-imgs/grouse-grind.jpeg"
+		  data-img-desc-2="Vancouver, Canada (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-3="/img/big-imgs/hawaii1.jpeg"
+		  data-img-desc-3="Kauai, HI, USA (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-4="/img/big-imgs/hawaii2.jpeg"
+		  data-img-desc-4="Kauai, HI, USA (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-5="/img/big-imgs/hongkong-cliff-dive.jpeg"
+		  data-img-desc-5="Hong Kong (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-6="/img/big-imgs/hongkong-infinity-pool.jpeg"
+		  data-img-desc-6="Hong Kong (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-7="/img/big-imgs/israel-dive1.jpeg"
+		  data-img-desc-7="Eilat, Israel (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-8="/img/big-imgs/israel-dive2.jpeg"
+		  data-img-desc-8="Eilat, Israel (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-9="/img/big-imgs/israel-dive3.jpeg"
+		  data-img-desc-9="Eilat, Israel (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-10="/img/big-imgs/laos-pond2.jpeg"
+		  data-img-desc-10="Luang Prabang, Laos (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-11="/img/big-imgs/laos-pond1.jpeg"
+		  data-img-desc-11="Luang Prabang, Laos (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-12="/img/big-imgs/laos-pond3.jpeg"
+		  data-img-desc-12="Luang Prabang, Laos (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-13="/img/big-imgs/st-martin.jpeg"
+		  data-img-desc-13="St Maarten (2014)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-14="/img/big-imgs/tanzania.jpeg"
+		  data-img-desc-14="Mt Kilimanjaro, Tanzania (2012)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-15="/img/big-imgs/vietnam-beach.jpg"
+		  data-img-desc-15="Mui Ne, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-16="/img/big-imgs/vietnam-climb.jpeg"
+		  data-img-desc-16="Cat Ba, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-17="/img/big-imgs/vietnam-climb2.jpeg"
+		  data-img-desc-17="Cat Ba, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-18="/img/big-imgs/vietnam-dunes.jpeg"
+		  data-img-desc-18="Mui Ne, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-19="/img/big-imgs/vietnam-dunes2.jpeg"
+		  data-img-desc-19="Mui Ne, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-20="/img/big-imgs/vietnam-fruits.jpeg"
+		  data-img-desc-20="Nha Trang, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-21="/img/big-imgs/vietnam-hat.jpeg"
+		  data-img-desc-21="Hoi An, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-22="/img/big-imgs/vietnam-jump.jpeg"
+		  data-img-desc-22="Mui Ne, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-23="/img/big-imgs/vietnam-ricefield.jpeg"
+		  data-img-desc-23="Sapa, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-24="/img/big-imgs/vietnam-scooter.jpeg"
+		  data-img-desc-24="Da Nang, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-25="/img/big-imgs/vietnam-walk.jpeg"
+		  data-img-desc-25="Sapa, Vietnam (2013)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-26="/img/big-imgs/california-skydive.jpeg"
+		  data-img-desc-26="Davis, CA, USA (2008)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-27="/img/big-imgs/california-surf.jpeg"
+		  data-img-desc-27="Los Angeles, CA, USA (2008)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-28="/img/big-imgs/california-surf2.jpeg"
+		  data-img-desc-28="Los Angeles, CA, USA (2008)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-29="/img/big-imgs/california-surf3.jpeg"
+		  data-img-desc-29="Santa Cruz, CA, USA (2009)"
+		
+	  
+    
+	  
+	  
+	    
+		  data-img-src-30="/img/big-imgs/costa-rica.jpeg"
+		  data-img-desc-30="Arenal, Costa Rica (2011)"
+		
+	  
+    
+  ></div>
+
+
+<header class="header-section has-img">
+
+<div class="big-img intro-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-heading">
+          <h1>Hi, I'm Dean</h1>
+		  
+		    
+            <hr class="small">
+            <span class="page-subheading">Soon-to-be Program Assistant @ SHAD (with your help!)</span>
+			
+		  
+		  
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class='img-desc'></span>
+</div>
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-heading">
+          <h1>Hi, I'm Dean</h1>
+		  
+		    
+            <hr class="small">
+            <span class="page-subheading">Soon-to-be Program Assistant @ SHAD (with your help!)</span>
+			
+		  
+		  
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <p>Hello SHAD recruiter!</p>
+
+<p>Before we continue, let's see if you can guess which two of the following three statements about myself are true.</p>
+
+<div class="row">
+  <div class="col-xs-3 col-md-3 col-lg-3"></div>
+  <div id="questions" class="col-xs-6 col-md-6 col-lg-6">
+    <label class="checkbox"><input type="checkbox" value="teaching" id="teaching">I love teaching</label>
+    <label class="checkbox"><input type="checkbox" value="people" id="people">I love people</label>      	  
+    <label class="checkbox"><input type="checkbox" value="saskatoon" id="saskatoon">I love Saskatoon</label>
+  </div>       
+</div>
+<div class="row">
+  <div class="col-xs-3 col-md-3 col-lg-3"></div>
+  <div class="col-xs-6 col-md-6 col-lg-6">        
+    <button type="button" class="btn btn-default btn-lg btn-success" id="submitqs">
+      <span class="fa fa-check"></span>
+      Submit
+    </button>  
+  </div>
+</div>        
+<br/>
+<div class="alert alert-warning hideme" role="alert" id="error">Nice try, but that's not quite right, unless you know me better than I do? Try again!</div>
+
+
+<div id="showafter" class="hideme">
+  <p>See, it's like you know me already :) Hopefully you'll pick me as one of the Program Assistants so that I'll get to know you too!</p>
+  
+  <p>Let me just expand on each of these items.</p>
+  
+  <ul>
+    <li>My love for teaching has always been part of me. All throughout high school and university I tutored maths and sciences often. Now as a graduate student I enjoy being a TA in a few courses, and I also TA in extra-curricular educational workshops.</li>
+    <li>My love for people is evident by the fact that one of my favourite things to do when I'm bored is go to the local hostel bar and meet the travelers there. My <a href="http://deanattali.com/aboutme/">About Me</a> page also says that I love meeting people (I swear that sentence was always there!).</li>
+    <li>I have nothing against Saskatoon! I've just never been, so I can't love it. At least not <em>yet</em>...</li>
+  </ul>
+  
+  <p>To be honest, I don't have too much to say here that I didn't already say in the application.  I usually don't like to talk about myself too much and that whole application was just "me me me, I'm so great", which felt weird. I invite you to see my <a href="http://deanattali.com/aboutme">About Me page</a> to see how I present myself to the world.  Even though this is my "professional" website I still chose to keep it very light and make it clear that I love both hard work and fun.</p>
+
+  <p>Oh, one small thing that I left out from the application, regarding the question about previous work with kids. I did volunteer at an orphanage in Costa Rica for a month in 2011, but the application page was getting too long and I didn't want it to be over a full page so I left it out.    </p>
+  
+  <p>I realize other applicants might make a super cool video or have some other very impressive way to showcase themselves. I'm in the middle of a race against time to write my thesis so I didn't want to spend too much time, I hope you understand. If I had the time, I would go out and make a video with 100 strangers in Vancouver doing a little dance and ending it by spelling out "SHAD" from an aerial perspective, and I'd get them all to say how awesome I am (even though they don't know me). But instead, you're here on this simple webpage!</p>
+  
+  <p>Thanks for reading, good luck with the program this summer!</p>
+  
+  <p>Just to make sure we end on a good note, here are photos of the cute kids I had the pleasure of knowing for a month in Costa Rica. Even after all they went through, they were so loving and welcoming and trusting and warm, it was an amazing experience to be with them.</p>
+
+  <div id="carousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner" role="listbox">
+      <div class="item active">
+        <img src="http://i.imgur.com/pLKgAJu.jpg">
+      </div>
+      <div class="item">
+        <img src="http://i.imgur.com/qZ3d1Sz.jpg">
+      </div>
+      <div class="item">
+        <img src="http://i.imgur.com/F6zMTDF.jpg">
+      </div>
+      <div class="item">
+        <img src="http://i.imgur.com/NB0NJQ3.jpg">
+      </div>            
+      <div class="item">
+        <img src="http://i.imgur.com/qaB1FfA.jpg">
+      </div>            
+    </div>        
+  </div> 
+  
+</div>
+
+<style>
+.page-heading {
+  background: rgba(0,0,0,0.2);
+}
+
+#questions {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#carousel {
+  margin-top: 30px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  border: 4px solid #333;
+}
+
+.container[role="main"] {
+  font-size: 1.1em;
+}
+</style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+	    $('.carousel').carousel({ interval: 3000 });
+      
+      $("#submitqs").click(function() {
+        $("#error").hide();
+        if ( $("#teaching").prop('checked') &&
+             $("#people").prop('checked') &&
+             !$("#saskatoon").prop('checked')
+        ) {
+          $("#showafter").fadeIn();
+        } else {
+          $("#error").fadeIn();
+        }
+      });      
+    });
+  </script>
+
+	  
+    </div>
+  </div>
+</div>
+
+
+    <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+
+          
+          <li>
+            <a href="mailto:daattali@gmail.com?subject=Hello from deanattali.com" title="Email me">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/daattali" title="Twitter">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://github.com/daattali" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://www.facebook.com/daattali" title="Facebook">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+          <li>
+            <a href="https://stackoverflow.com/users/3943160/daattali" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+
+          
+
+          
+
+        </ul>
+
+        <p class="copyright text-muted">
+          &copy; Dean Attali
+          &nbsp;&bull;&nbsp;
+          2017
+
+          
+          &nbsp;&bull;&nbsp;
+          <a href="mailto:daattali@gmail.com?subject=Hello from deanattali.com">daattali@gmail.com</a>
+          
+        </p>
+        <p class="theme-by text-muted">
+          Theme by
+          <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+    
+
+
+  
+	<script src="/js/jquery-1.11.2.min.js"></script>
+  
+	<script src="/js/bootstrap.min.js"></script>
+  
+	<script src="/js/js.cookie.js"></script>
+  
+	<script src="/js/main.js"></script>
+  
+
+
+
+
+
+
+
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-59820529-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+	<!-- End Google Analytics -->
+
+
+
+    
+    
+  </body>
+</html>
