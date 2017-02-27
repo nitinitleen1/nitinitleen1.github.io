@@ -7,12 +7,12 @@
 gems: [jekyll-paginate]
 
 
-url: "http://deanattali.com"
+url: "http://nitinitleen1.github.io"
 baseurl: ""
 
 # Brief name and description of the site
-title: Dean Attali
-description: "R-Shiny developer and consultant with a MSc in Bioinformatics and a Bachelor of Computer Science. Previously a software engineer at Google, IBM, and Wish.com."
+title: Nitin Singh
+description: "A computer science student persuing B.TECH from IIITVADODARA and a programming enthusiast."
 
 # --- Outputting options --- #
 # More information can be found on Jekyll's site
@@ -42,13 +42,13 @@ nav-search: "search"
 # Change all these values or delete the ones you don't want.
 # Important: you must keep the "name" parameter, everything else you can remove
 author:
-  name: Dean Attali
-  email: "daattali@gmail.com"
-  facebook: daattali
-  github: daattali
-  twitter: daattali
-  linkedin: "pub/dean-attali/8/946/143"
-  stackoverflow: "users/3943160/daattali" 
+  name: Nitin Singh
+  email: "nitin.iiitv@gmail.com"
+  facebook: nitinitleen1
+  github: nitinitleen1
+  twitter: nitinitleen1
+  linkedin: "nitinitleen1"
+  stackoverflow: "nitinitleen1" 
   
 # Select which links to show in the footer  
 footer-links-active:
@@ -67,12 +67,12 @@ share-links-active:
 
 # How to display the link to the website in the footer
 # Remove this if you don't want a link in the footer
-url-pretty: "deanattali.com" 
+url-pretty: "nitinitleen1.github.io" 
 
 # --- Misc --- #
 
 # Fill in your Disqus shortname (NOT the userid) if you want to support Disqus comments
-disqus: "deanattali-site"
+disqus: "nitin-site"
 
 # Fill in your Google Analytics ID to track your website using GA
 google_analytics: "UA-59820529-1"  # Your Google Analytics ID
