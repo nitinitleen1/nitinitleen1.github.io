@@ -13,8 +13,8 @@
 
 .list-filters {
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 18px;
-  margin-bottom: 30px;
+  font-size: 12px;
+  margin-bottom: 18px;
   text-align: center;
 }
 
@@ -69,8 +69,9 @@
 }
 
 .post-preview .post-title {
-  font-size: 32px;
-  font-weight: 700;
+  font-family: 'Lobster','Droid-Sans','Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 500;
   margin-top: 0;
 }
 @media only screen and (max-width: 550px) {
@@ -96,7 +97,7 @@
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 .post-preview .post-read-more {
-  font-weight: 800;
+  font-weight: 500;
 }
 
 .post-preview .post-entry {

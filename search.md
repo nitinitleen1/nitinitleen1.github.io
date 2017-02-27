@@ -1,10 +1,10 @@
 ---
 layout: default
-title: "Search deanattali.com"
+title: "Search nitinitleen1.github.io"
 css: "/css/search.css"
 ---
 
-# Search deanattali.com
+# Search nitinitleen1.github.io
 
 ### Using the Amazing Google
 

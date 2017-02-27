@@ -98,7 +98,8 @@ img::-moz-selection {
 
 .navbar-custom .navbar-brand,
 .navbar-custom .nav li a {
-  font-weight: 800;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 600;
   color: #404040;
   text-decoration: none;
 }
