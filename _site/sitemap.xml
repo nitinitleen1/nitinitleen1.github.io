@@ -5,7 +5,7 @@
     <url>
       <loc>http://localhost:4000/blog/plot-colour-helper/</loc>
       
-        <lastmod>2017-01-09T02:00:00-08:00</lastmod>
+        <lastmod>2017-01-09T10:00:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -20,7 +20,7 @@
     <url>
       <loc>http://localhost:4000/blog/htmlwidgets-tips/</loc>
       
-        <lastmod>2016-10-18T11:05:00-07:00</lastmod>
+        <lastmod>2016-10-18T18:05:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -35,7 +35,7 @@
     <url>
       <loc>http://localhost:4000/blog/advanced-shiny-tips/</loc>
       
-        <lastmod>2016-08-29T09:00:00-07:00</lastmod>
+        <lastmod>2016-08-29T16:00:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -50,7 +50,7 @@
     <url>
       <loc>http://localhost:4000/blog/visualize-git-commits-time/</loc>
       
-        <lastmod>2016-08-19T11:00:00-07:00</lastmod>
+        <lastmod>2016-08-19T18:00:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -65,7 +65,7 @@
     <url>
       <loc>http://localhost:4000/blog/addinslist-package/</loc>
       
-        <lastmod>2016-05-09T11:20:00-07:00</lastmod>
+        <lastmod>2016-05-09T18:20:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -80,7 +80,7 @@
     <url>
       <loc>http://localhost:4000/blog/shiny-game-lightsout/</loc>
       
-        <lastmod>2016-01-26T09:00:00-08:00</lastmod>
+        <lastmod>2016-01-26T17:00:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -95,7 +95,7 @@
     <url>
       <loc>http://localhost:4000/blog/ezknitr-package/</loc>
       
-        <lastmod>2015-12-09T13:30:00-08:00</lastmod>
+        <lastmod>2015-12-09T21:30:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -110,7 +110,7 @@
     <url>
       <loc>http://localhost:4000/blog/building-shiny-apps-tutorial/</loc>
       
-        <lastmod>2015-12-07T09:00:00-08:00</lastmod>
+        <lastmod>2015-12-07T17:00:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -125,7 +125,7 @@
     <url>
       <loc>http://localhost:4000/blog/shiny-persistent-data-storage/</loc>
       
-        <lastmod>2015-07-01T15:00:00-07:00</lastmod>
+        <lastmod>2015-07-01T22:00:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -140,7 +140,7 @@
     <url>
       <loc>http://localhost:4000/2015/06/28/introducing-shinyjs-colourinput/</loc>
       
-        <lastmod>2015-06-28T13:00:00-07:00</lastmod>
+        <lastmod>2015-06-28T20:00:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -155,7 +155,7 @@
     <url>
       <loc>http://localhost:4000/2015/06/14/mimicking-google-form-shiny/</loc>
       
-        <lastmod>2015-06-14T05:30:00-07:00</lastmod>
+        <lastmod>2015-06-14T12:30:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -170,7 +170,7 @@
     <url>
       <loc>http://localhost:4000/2015/05/31/shinyjs-extend/</loc>
       
-        <lastmod>2015-05-31T18:50:00-07:00</lastmod>
+        <lastmod>2015-06-01T01:50:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -185,7 +185,7 @@
     <url>
       <loc>http://localhost:4000/2015/05/17/analyzing-rbloggers-posts-via-twitter/</loc>
       
-        <lastmod>2015-05-17T23:30:00-07:00</lastmod>
+        <lastmod>2015-05-18T06:30:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -200,7 +200,7 @@
     <url>
       <loc>http://localhost:4000/2015/05/09/setup-rstudio-shiny-server-digital-ocean/</loc>
       
-        <lastmod>2015-05-09T21:30:00-07:00</lastmod>
+        <lastmod>2015-05-10T04:30:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -215,7 +215,7 @@
     <url>
       <loc>http://localhost:4000/2015/04/23/shinyjs-r-package/</loc>
       
-        <lastmod>2015-04-23T17:30:00-07:00</lastmod>
+        <lastmod>2015-04-24T00:30:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -230,7 +230,7 @@
     <url>
       <loc>http://localhost:4000/2015/04/21/r-package-shiny-app/</loc>
       
-        <lastmod>2015-04-21T22:00:00-07:00</lastmod>
+        <lastmod>2015-04-22T05:00:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -245,7 +245,7 @@
     <url>
       <loc>http://localhost:4000/2015/04/02/flake-it-till-you-make-it/</loc>
       
-        <lastmod>2015-04-02T00:00:00-07:00</lastmod>
+        <lastmod>2015-04-02T00:00:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -260,7 +260,7 @@
     <url>
       <loc>http://localhost:4000/2015/03/29/ggExtra-r-package/</loc>
       
-        <lastmod>2015-03-29T00:00:00-07:00</lastmod>
+        <lastmod>2015-03-29T00:00:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -275,7 +275,7 @@
     <url>
       <loc>http://localhost:4000/2015/03/24/knitrs-best-hidden-gem-spin/</loc>
       
-        <lastmod>2015-03-24T00:00:00-07:00</lastmod>
+        <lastmod>2015-03-24T00:00:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -290,7 +290,7 @@
     <url>
       <loc>http://localhost:4000/2015/03/12/beautiful-jekyll-how-to-build-a-site-in-minutes/</loc>
       
-        <lastmod>2015-03-12T00:00:00-07:00</lastmod>
+        <lastmod>2015-03-12T00:00:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -305,7 +305,7 @@
     <url>
       <loc>http://localhost:4000/2015/03/09/I-finally-have-a-site/</loc>
       
-        <lastmod>2015-03-09T00:00:00-07:00</lastmod>
+        <lastmod>2015-03-09T00:00:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -321,7 +321,7 @@
     <url>
       <loc>http://localhost:4000/blog/colourpicker-ggmarginal-gadgets/</loc>
       
-        <lastmod>2016-03-30T03:00:00-07:00</lastmod>
+        <lastmod>2016-03-30T10:00:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -336,7 +336,7 @@
     <url>
       <loc>http://localhost:4000/blog/rstudio-addins-list/</loc>
       
-        <lastmod>2016-03-31T13:00:00-07:00</lastmod>
+        <lastmod>2016-03-31T20:00:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -351,7 +351,7 @@
     <url>
       <loc>http://localhost:4000/blog/colourpicker-package/</loc>
       
-        <lastmod>2016-08-15T10:00:00-07:00</lastmod>
+        <lastmod>2016-08-15T17:00:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -366,7 +366,7 @@
     <url>
       <loc>http://localhost:4000/blog/shinyjs-v08/</loc>
       
-        <lastmod>2016-11-07T05:00:00-08:00</lastmod>
+        <lastmod>2016-11-07T13:00:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -381,7 +381,7 @@
     <url>
       <loc>http://localhost:4000/404.html</loc>
       
-        <lastmod>2017-02-27T02:27:41-08:00</lastmod>
+        <lastmod>2017-03-01T10:52:16+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -396,7 +396,7 @@
     <url>
       <loc>http://localhost:4000/aboutme/</loc>
       
-        <lastmod>2017-02-27T02:27:41-08:00</lastmod>
+        <lastmod>2017-03-01T10:52:16+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -411,7 +411,7 @@
     <url>
       <loc>http://localhost:4000/contact/</loc>
       
-        <lastmod>2017-02-27T02:27:41-08:00</lastmod>
+        <lastmod>2017-03-01T10:52:16+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -426,7 +426,7 @@
     <url>
       <loc>http://localhost:4000/dives/</loc>
       
-        <lastmod>2015-02-22T00:00:00-08:00</lastmod>
+        <lastmod>2015-02-22T00:00:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -443,7 +443,7 @@
     <url>
       <loc>http://localhost:4000/blog/advanced-htmlwidgets-tips/</loc>
       
-        <lastmod>2017-02-27T02:27:41-08:00</lastmod>
+        <lastmod>2017-03-01T10:52:16+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -458,7 +458,7 @@
     <url>
       <loc>http://localhost:4000/files/java/Connect4/</loc>
       
-        <lastmod>2017-02-27T02:27:41-08:00</lastmod>
+        <lastmod>2017-03-01T10:52:16+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -473,7 +473,7 @@
     <url>
       <loc>http://localhost:4000/</loc>
       
-        <lastmod>2017-02-27T02:27:41-08:00</lastmod>
+        <lastmod>2017-03-01T10:52:16+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -488,7 +488,7 @@
     <url>
       <loc>http://localhost:4000/kesh/</loc>
       
-        <lastmod>2015-02-10T00:00:00-08:00</lastmod>
+        <lastmod>2015-02-10T00:00:00+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -503,7 +503,7 @@
     <url>
       <loc>http://localhost:4000/popular/</loc>
       
-        <lastmod>2017-02-27T02:27:41-08:00</lastmod>
+        <lastmod>2017-03-01T10:52:16+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -518,7 +518,7 @@
     <url>
       <loc>http://localhost:4000/projects/</loc>
       
-        <lastmod>2017-02-27T02:27:41-08:00</lastmod>
+        <lastmod>2017-03-01T10:52:16+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -535,7 +535,7 @@
     <url>
       <loc>http://localhost:4000/search/</loc>
       
-        <lastmod>2017-02-27T02:27:41-08:00</lastmod>
+        <lastmod>2017-03-01T10:52:16+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -550,7 +550,7 @@
     <url>
       <loc>http://localhost:4000/shad/</loc>
       
-        <lastmod>2017-02-27T02:27:41-08:00</lastmod>
+        <lastmod>2017-03-01T10:52:16+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -565,7 +565,7 @@
     <url>
       <loc>http://localhost:4000/shiny/</loc>
       
-        <lastmod>2017-02-27T02:27:41-08:00</lastmod>
+        <lastmod>2017-03-01T10:52:16+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -580,7 +580,7 @@
     <url>
       <loc>http://localhost:4000/shinyjs-shinydevcon-2016/</loc>
       
-        <lastmod>2017-02-27T02:27:41-08:00</lastmod>
+        <lastmod>2017-03-01T10:52:16+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -595,7 +595,7 @@
     <url>
       <loc>http://localhost:4000/shinyjs-user-2016/</loc>
       
-        <lastmod>2017-02-27T02:27:41-08:00</lastmod>
+        <lastmod>2017-03-01T10:52:16+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -612,7 +612,7 @@
     <url>
       <loc>http://localhost:4000/tutorials/</loc>
       
-        <lastmod>2017-02-27T02:27:41-08:00</lastmod>
+        <lastmod>2017-03-01T10:52:16+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -627,7 +627,7 @@
     <url>
       <loc>http://localhost:4000/page2/</loc>
       
-        <lastmod>2017-02-27T02:27:41-08:00</lastmod>
+        <lastmod>2017-03-01T10:52:16+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -642,7 +642,7 @@
     <url>
       <loc>http://localhost:4000/page3/</loc>
       
-        <lastmod>2017-02-27T02:27:41-08:00</lastmod>
+        <lastmod>2017-03-01T10:52:16+00:00</lastmod>
       
       
         <changefreq>monthly</changefreq>

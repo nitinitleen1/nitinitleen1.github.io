@@ -12,7 +12,7 @@
 		  
 		  You’ve just made an amazing plot in R, and the only thing remaining is finding the right colours to use. Arghhh this part is never fun… You’re probably familiar with this loop: try some colour values -&amp;gt; plot -&amp;gt; try different colours -&amp;gt; plot -&amp;gt; repeat. Don’t you wish there...
 		</description>
-        <pubDate>Mon, 09 Jan 2017 02:00:00 -0800</pubDate>
+        <pubDate>Mon, 09 Jan 2017 10:00:00 +0000</pubDate>
         <link>http://localhost:4000/blog/plot-colour-helper/</link>
         <guid isPermaLink="true">http://localhost:4000/blog/plot-colour-helper/</guid>
 		
@@ -41,7 +41,7 @@
 		  
 		  I’d like to share some tips and recommendations on building htmlwidgets, based on my own learning experience while creating timevis. These tips are mostly concerned with making your htmlwidget more useful and user friendly. In this post, every tip I provide will be followed by an actual code walk-through so...
 		</description>
-        <pubDate>Tue, 18 Oct 2016 11:05:00 -0700</pubDate>
+        <pubDate>Tue, 18 Oct 2016 18:05:00 +0000</pubDate>
         <link>http://localhost:4000/blog/htmlwidgets-tips/</link>
         <guid isPermaLink="true">http://localhost:4000/blog/htmlwidgets-tips/</guid>
 		
@@ -70,7 +70,7 @@
 		  
 		  This document contains a collection of various Shiny tricks that I commonly use or that I know many people ask about. Each link contains a complete functional Shiny app that demonstrates how to perform a non trivial task in Shiny. The complete up-to-date list of tips, along with all the...
 		</description>
-        <pubDate>Mon, 29 Aug 2016 09:00:00 -0700</pubDate>
+        <pubDate>Mon, 29 Aug 2016 16:00:00 +0000</pubDate>
         <link>http://localhost:4000/blog/advanced-shiny-tips/</link>
         <guid isPermaLink="true">http://localhost:4000/blog/advanced-shiny-tips/</guid>
 		
@@ -101,7 +101,7 @@
 		  Analyzing my (and others') git activity - 
 		  Click here to explore the data yourself Yesterday I saw this retweet from @timelyportfolio that links to a gist by @gka. The gist gave a few short scripts that can show you when your git commits take place during the day. I thought that was cool, so I took it...
 		</description>
-        <pubDate>Fri, 19 Aug 2016 11:00:00 -0700</pubDate>
+        <pubDate>Fri, 19 Aug 2016 18:00:00 +0000</pubDate>
         <link>http://localhost:4000/blog/visualize-git-commits-time/</link>
         <guid isPermaLink="true">http://localhost:4000/blog/visualize-git-commits-time/</guid>
 		
@@ -128,7 +128,7 @@
 		  
 		  RStudio addins were released in early 2016 to provide anyone with the ability to add “extensions” to RStudio. This feature has quickly become popular, but discoverability was a problem: there was just no easy way to know what addins exist. To address that issue, one month ago I created a...
 		</description>
-        <pubDate>Mon, 09 May 2016 11:20:00 -0700</pubDate>
+        <pubDate>Mon, 09 May 2016 18:20:00 +0000</pubDate>
         <link>http://localhost:4000/blog/addinslist-package/</link>
         <guid isPermaLink="true">http://localhost:4000/blog/addinslist-package/</guid>
 		
@@ -157,7 +157,7 @@
 		  
 		  TL;DR Click here to play a puzzle game written entirely in Shiny (source code). Anyone who reads my blog posts knows by now that I’m very enthusiastic about Shiny (the web app framework for R - if you didn’t know what Shiny is then I suggest reading my previous post...
 		</description>
-        <pubDate>Tue, 26 Jan 2016 09:00:00 -0800</pubDate>
+        <pubDate>Tue, 26 Jan 2016 17:00:00 +0000</pubDate>
         <link>http://localhost:4000/blog/shiny-game-lightsout/</link>
         <guid isPermaLink="true">http://localhost:4000/blog/shiny-game-lightsout/</guid>
 		
@@ -186,7 +186,7 @@
 		  
 		  A new package has hit the CRAN shelves this week. While knitr is one of the most useful R packages in existence, ezknitr is a simple extension to it that adds flexibility in several ways. One common source of frustration with knitr is that it assumes the directory where the...
 		</description>
-        <pubDate>Wed, 09 Dec 2015 13:30:00 -0800</pubDate>
+        <pubDate>Wed, 09 Dec 2015 21:30:00 +0000</pubDate>
         <link>http://localhost:4000/blog/ezknitr-package/</link>
         <guid isPermaLink="true">http://localhost:4000/blog/ezknitr-package/</guid>
 		
@@ -215,7 +215,7 @@
 		  
 		  I originally developed this tutorial for the STAT545 course at UBC, but decided to publish it shortly afterwards so that everyone can benefit from it. This version is also periodically being updated. If you use this material in a classroom, I’d appreciate if you link back to my site! Shiny...
 		</description>
-        <pubDate>Mon, 07 Dec 2015 09:00:00 -0800</pubDate>
+        <pubDate>Mon, 07 Dec 2015 17:00:00 +0000</pubDate>
         <link>http://localhost:4000/blog/building-shiny-apps-tutorial/</link>
         <guid isPermaLink="true">http://localhost:4000/blog/building-shiny-apps-tutorial/</guid>
 		
@@ -246,7 +246,7 @@
 		  
 		  This article is also published on RStudio’s Shiny Articles Shiny apps often need to save data, either to load it back into a different session or to simply log some information. However, common methods of storing data from R may not work well with Shiny. Functions like write.csv() and saveRDS()...
 		</description>
-        <pubDate>Wed, 01 Jul 2015 15:00:00 -0700</pubDate>
+        <pubDate>Wed, 01 Jul 2015 22:00:00 +0000</pubDate>
         <link>http://localhost:4000/blog/shiny-persistent-data-storage/</link>
         <guid isPermaLink="true">http://localhost:4000/blog/shiny-persistent-data-storage/</guid>
 		
@@ -277,7 +277,7 @@
 		  
 		  NOTE: the colour input described here is no longer part of shinyjs and is now available in the colourpicker package instead. I don’t always think Shiny is missing anything, but when I do - I fill in the gap myself. That was meant to be read as The Most Interesting...
 		</description>
-        <pubDate>Sun, 28 Jun 2015 13:00:00 -0700</pubDate>
+        <pubDate>Sun, 28 Jun 2015 20:00:00 +0000</pubDate>
         <link>http://localhost:4000/2015/06/28/introducing-shinyjs-colourinput/</link>
         <guid isPermaLink="true">http://localhost:4000/2015/06/28/introducing-shinyjs-colourinput/</guid>
 		
@@ -308,7 +308,7 @@
 		  
 		  In this post we will walk through the steps required to build a shiny app that mimicks a Google Form. It will allow users to submit responses to some input fields, save their data, and allow admins to view the submitted responses. Like many of my other posts, it may...
 		</description>
-        <pubDate>Sun, 14 Jun 2015 05:30:00 -0700</pubDate>
+        <pubDate>Sun, 14 Jun 2015 12:30:00 +0000</pubDate>
         <link>http://localhost:4000/2015/06/14/mimicking-google-form-shiny/</link>
         <guid isPermaLink="true">http://localhost:4000/2015/06/14/mimicking-google-form-shiny/</guid>
 		
@@ -341,7 +341,7 @@
 		  
 		  About a month ago I made an announcement about the initial release of shinyjs. After some feedback, a few feature requests, and numerous hours of work, I’m excited to say that a new version of shinyjs v0.0.6.2 was made available on CRAN this week. The package’s main objective is to...
 		</description>
-        <pubDate>Sun, 31 May 2015 18:50:00 -0700</pubDate>
+        <pubDate>Mon, 01 Jun 2015 01:50:00 +0000</pubDate>
         <link>http://localhost:4000/2015/05/31/shinyjs-extend/</link>
         <guid isPermaLink="true">http://localhost:4000/2015/05/31/shinyjs-extend/</guid>
 		
@@ -372,7 +372,7 @@
 		  
 		  For those who don’t know, every time a new blog post gets added to R-Bloggers, it gets a corresponding tweet by @Rbloggers, which gets seen by Rbloggers’ ~20k followers fairly fast. And every time my post gets published, I can’t help but check up on how many people gave that...
 		</description>
-        <pubDate>Sun, 17 May 2015 23:30:00 -0700</pubDate>
+        <pubDate>Mon, 18 May 2015 06:30:00 +0000</pubDate>
         <link>http://localhost:4000/2015/05/17/analyzing-rbloggers-posts-via-twitter/</link>
         <guid isPermaLink="true">http://localhost:4000/2015/05/17/analyzing-rbloggers-posts-via-twitter/</guid>
 		
@@ -401,7 +401,7 @@
 		  
 		  Many people ask me to set up their Shiny Server for them or ask for a one-on-one walk-through of these instructions. If you want such help, I’m available for hire. If you’ve always wanted to have an RStudio Server of your own so that you can access R from anywhere,...
 		</description>
-        <pubDate>Sat, 09 May 2015 21:30:00 -0700</pubDate>
+        <pubDate>Sun, 10 May 2015 04:30:00 +0000</pubDate>
         <link>http://localhost:4000/2015/05/09/setup-rstudio-shiny-server-digital-ocean/</link>
         <guid isPermaLink="true">http://localhost:4000/2015/05/09/setup-rstudio-shiny-server-digital-ocean/</guid>
 		
@@ -432,7 +432,7 @@
 		  
 		  shinyjs is my second R package that managed to find its way past the CRAN review process. It lets you perform common useful JavaScript operations in Shiny applications without having to know any JavaScript. Important note The package has improved a lot since writing this post. I highly recommend you...
 		</description>
-        <pubDate>Thu, 23 Apr 2015 17:30:00 -0700</pubDate>
+        <pubDate>Fri, 24 Apr 2015 00:30:00 +0000</pubDate>
         <link>http://localhost:4000/2015/04/23/shinyjs-r-package/</link>
         <guid isPermaLink="true">http://localhost:4000/2015/04/23/shinyjs-r-package/</guid>
 		
@@ -465,7 +465,7 @@
 		  
 		  The R community is generally very fond of open-source-ness and the idea of releasing all code to the public. Writing packages has become such an easy experience now that Hadley’s devtools is so powerful, and as a result there are new packages being released by useRs every single day. A...
 		</description>
-        <pubDate>Tue, 21 Apr 2015 22:00:00 -0700</pubDate>
+        <pubDate>Wed, 22 Apr 2015 05:00:00 +0000</pubDate>
         <link>http://localhost:4000/2015/04/21/r-package-shiny-app/</link>
         <guid isPermaLink="true">http://localhost:4000/2015/04/21/r-package-shiny-app/</guid>
 		
@@ -496,7 +496,7 @@
 		  It's not always cowardly to walk away; it can be very difficult, yet enlightening, to not be afraid to step off a path, regardless of how much you've already walked it - 
 		  My mom recently showed me a very interesting bit from a book she was reading called ‘Soulshaping’ by Jeff Brown. I’ll discuss it later, but first, here is the excerpt: Under what circumstances should we step off a path? When is it essential that we finish what we start? If...
 		</description>
-        <pubDate>Thu, 02 Apr 2015 00:00:00 -0700</pubDate>
+        <pubDate>Thu, 02 Apr 2015 00:00:00 +0000</pubDate>
         <link>http://localhost:4000/2015/04/02/flake-it-till-you-make-it/</link>
         <guid isPermaLink="true">http://localhost:4000/2015/04/02/flake-it-till-you-make-it/</guid>
 		
@@ -515,7 +515,7 @@
 		  
 		  My first CRAN package, ggExtra, contains several functions to enhance ggplot2, with the most important one being ggExtra::ggMarginal() - a function that finally allows easily adding marginal density plots or histograms to scatterplots. Availability You can read the full README describing the functionality in detail or browse the source code...
 		</description>
-        <pubDate>Sun, 29 Mar 2015 00:00:00 -0700</pubDate>
+        <pubDate>Sun, 29 Mar 2015 00:00:00 +0000</pubDate>
         <link>http://localhost:4000/2015/03/29/ggExtra-r-package/</link>
         <guid isPermaLink="true">http://localhost:4000/2015/03/29/ggExtra-r-package/</guid>
 		
@@ -546,7 +546,7 @@
 		  Stop knitting &amp; start spinning - spin can help you write reports much faster and avoid repeating yourself - 
 		  Anyone who loves the idea of dynamic report generation with R is probably a big fan of knitr and its flagship function - knit. But not many people seem to know about knit’s awesome cousin - spin. What is spin? In short: knitr::spin is similar to knitr::knit in that it...
 		</description>
-        <pubDate>Tue, 24 Mar 2015 00:00:00 -0700</pubDate>
+        <pubDate>Tue, 24 Mar 2015 00:00:00 +0000</pubDate>
         <link>http://localhost:4000/2015/03/24/knitrs-best-hidden-gem-spin/</link>
         <guid isPermaLink="true">http://localhost:4000/2015/03/24/knitrs-best-hidden-gem-spin/</guid>
 		
@@ -575,7 +575,7 @@
 		  A plug-n-play template to easily get anyone a free nice looking site (same theme as this one) quickly - 
 		  Since this site went live a few days ago, I had many people ask me how I made it. Like a great politician, I will avoid that question almost entirely with a completely different answer: The core template that runs this website is available for anyone to use. I called...
 		</description>
-        <pubDate>Thu, 12 Mar 2015 00:00:00 -0700</pubDate>
+        <pubDate>Thu, 12 Mar 2015 00:00:00 +0000</pubDate>
         <link>http://localhost:4000/2015/03/12/beautiful-jekyll-how-to-build-a-site-in-minutes/</link>
         <guid isPermaLink="true">http://localhost:4000/2015/03/12/beautiful-jekyll-how-to-build-a-site-in-minutes/</guid>
 		

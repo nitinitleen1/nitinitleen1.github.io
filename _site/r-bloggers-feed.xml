@@ -34,7 +34,7 @@
 &lt;p&gt;Go ahead and install &lt;a href=&quot;https://github.com/daattali/colourpicker&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;colourpicker&lt;/code&gt;&lt;/a&gt; to get started. I hope you find this addin useful, and as always - &lt;a href=&quot;http://deanattali.com/contact/&quot;&gt;feedback is welcomed&lt;/a&gt;.&lt;/p&gt;
 
 		</description>
-        <pubDate>Mon, 09 Jan 2017 02:00:00 -0800</pubDate>
+        <pubDate>Mon, 09 Jan 2017 10:00:00 +0000</pubDate>
         <link>http://localhost:4000/blog/plot-colour-helper/</link>
         <guid isPermaLink="true">http://localhost:4000/blog/plot-colour-helper/</guid>
 		
@@ -577,7 +577,7 @@
 &lt;p&gt;&lt;span id=&quot;footnote&quot;&gt;&lt;/span&gt;&lt;em&gt;*It was actually a couple months ago. I started writing this tutorial one week after releasing &lt;code class=&quot;highlighter-rouge&quot;&gt;timevis&lt;/code&gt; but only wrote the accompanying &lt;code class=&quot;highlighter-rouge&quot;&gt;timevisBasic&lt;/code&gt; package and the rest of the article several weeks later.&lt;/em&gt;&lt;/p&gt;
 
 		</description>
-        <pubDate>Tue, 18 Oct 2016 11:05:00 -0700</pubDate>
+        <pubDate>Tue, 18 Oct 2016 18:05:00 +0000</pubDate>
         <link>http://localhost:4000/blog/htmlwidgets-tips/</link>
         <guid isPermaLink="true">http://localhost:4000/blog/htmlwidgets-tips/</guid>
 		
@@ -911,7 +911,7 @@ This Shiny app demonstrates how to support scrollspy on multiple tabs by allowin
 &lt;/ul&gt;
 
 		</description>
-        <pubDate>Mon, 29 Aug 2016 09:00:00 -0700</pubDate>
+        <pubDate>Mon, 29 Aug 2016 16:00:00 +0000</pubDate>
         <link>http://localhost:4000/blog/advanced-shiny-tips/</link>
         <guid isPermaLink="true">http://localhost:4000/blog/advanced-shiny-tips/</guid>
 		
@@ -1264,7 +1264,7 @@ This Shiny app demonstrates how to support scrollspy on multiple tabs by allowin
 &lt;/div&gt;
 
 		</description>
-        <pubDate>Fri, 19 Aug 2016 11:00:00 -0700</pubDate>
+        <pubDate>Fri, 19 Aug 2016 18:00:00 +0000</pubDate>
         <link>http://localhost:4000/blog/visualize-git-commits-time/</link>
         <guid isPermaLink="true">http://localhost:4000/blog/visualize-git-commits-time/</guid>
 		
@@ -1308,7 +1308,7 @@ This Shiny app demonstrates how to support scrollspy on multiple tabs by allowin
 &lt;p&gt;I should mention that &lt;a href=&quot;https://github.com/csgillespie&quot;&gt;Colin Gillespie&lt;/a&gt; actually thought of this idea first and created &lt;a href=&quot;https://github.com/csgillespie/addinmanager&quot;&gt;a similar addin&lt;/a&gt;, but unfortunately I was not aware of it until after my work was done.&lt;/p&gt;
 
 		</description>
-        <pubDate>Mon, 09 May 2016 11:20:00 -0700</pubDate>
+        <pubDate>Mon, 09 May 2016 18:20:00 +0000</pubDate>
         <link>http://localhost:4000/blog/addinslist-package/</link>
         <guid isPermaLink="true">http://localhost:4000/blog/addinslist-package/</guid>
 		
@@ -1364,7 +1364,7 @@ This Shiny app demonstrates how to support scrollspy on multiple tabs by allowin
 &lt;p&gt;Disclaimer: I realize this may not necessarily be super practical because R isn’t used for these kinds of applications, but if anyone ever writes a chess or connect4 or any similar logic game in R, then complementing it with a similar Shiny app might make sense.&lt;/p&gt;
 
 		</description>
-        <pubDate>Tue, 26 Jan 2016 09:00:00 -0800</pubDate>
+        <pubDate>Tue, 26 Jan 2016 17:00:00 +0000</pubDate>
         <link>http://localhost:4000/blog/shiny-game-lightsout/</link>
         <guid isPermaLink="true">http://localhost:4000/blog/shiny-game-lightsout/</guid>
 		
@@ -1565,7 +1565,7 @@ This Shiny app demonstrates how to support scrollspy on multiple tabs by allowin
 &lt;p&gt;When the core of this package was developed, none of its functionality was supported in any way by either &lt;code class=&quot;highlighter-rouge&quot;&gt;knitr&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;rmarkdown&lt;/code&gt;. Over time, &lt;code class=&quot;highlighter-rouge&quot;&gt;rmarkdown::render()&lt;/code&gt; got some new features that are very similar to features of &lt;code class=&quot;highlighter-rouge&quot;&gt;ezknitr&lt;/code&gt;.  Native support for parameters inside Rmarkdown files using YAML is a big feature which makes the use of &lt;code class=&quot;highlighter-rouge&quot;&gt;set_default_params()&lt;/code&gt; and the &lt;code class=&quot;highlighter-rouge&quot;&gt;params&lt;/code&gt; argument of &lt;code class=&quot;highlighter-rouge&quot;&gt;ezknitr&lt;/code&gt; less important.  However, the core problem that &lt;code class=&quot;highlighter-rouge&quot;&gt;ezknitr&lt;/code&gt; wants to solve is the working directory issue, and this issue has yet to be addressed by &lt;code class=&quot;highlighter-rouge&quot;&gt;rmarkdown&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;knitr&lt;/code&gt;, which makes &lt;code class=&quot;highlighter-rouge&quot;&gt;ezknitr&lt;/code&gt; still useful.&lt;/p&gt;
 
 		</description>
-        <pubDate>Wed, 09 Dec 2015 13:30:00 -0800</pubDate>
+        <pubDate>Wed, 09 Dec 2015 21:30:00 +0000</pubDate>
         <link>http://localhost:4000/blog/ezknitr-package/</link>
         <guid isPermaLink="true">http://localhost:4000/blog/ezknitr-package/</guid>
 		
@@ -2677,7 +2677,7 @@ renderPlot({
 &lt;/ul&gt;
 
 		</description>
-        <pubDate>Mon, 07 Dec 2015 09:00:00 -0800</pubDate>
+        <pubDate>Mon, 07 Dec 2015 17:00:00 +0000</pubDate>
         <link>http://localhost:4000/blog/building-shiny-apps-tutorial/</link>
         <guid isPermaLink="true">http://localhost:4000/blog/building-shiny-apps-tutorial/</guid>
 		
@@ -3310,7 +3310,7 @@ renderPlot({
 &lt;/table&gt;
 
 		</description>
-        <pubDate>Wed, 01 Jul 2015 15:00:00 -0700</pubDate>
+        <pubDate>Wed, 01 Jul 2015 22:00:00 +0000</pubDate>
         <link>http://localhost:4000/blog/shiny-persistent-data-storage/</link>
         <guid isPermaLink="true">http://localhost:4000/blog/shiny-persistent-data-storage/</guid>
 		
@@ -3453,7 +3453,7 @@ renderPlot({
 &lt;p&gt;If anyone has any comments or feedback, both negative or positive, I’d love to &lt;a href=&quot;http://localhost:4000/aboutme#contact&quot;&gt;hear about it&lt;/a&gt;! Feel free to open issues &lt;a href=&quot;https://github.com/daattali/colourpicker&quot;&gt;on GitHub&lt;/a&gt; if there are any problems.&lt;/p&gt;
 
 		</description>
-        <pubDate>Sun, 28 Jun 2015 13:00:00 -0700</pubDate>
+        <pubDate>Sun, 28 Jun 2015 20:00:00 +0000</pubDate>
         <link>http://localhost:4000/2015/06/28/introducing-shinyjs-colourinput/</link>
         <guid isPermaLink="true">http://localhost:4000/2015/06/28/introducing-shinyjs-colourinput/</guid>
 		
@@ -3941,7 +3941,7 @@ renderPlot({
 &lt;p&gt;&lt;strong&gt;[2015-09-28]&lt;/strong&gt; Here are two articles that others have written as extensions of this tutorial: &lt;a href=&quot;https://pviefers.wordpress.com/2015/08/16/programming-simple-economic-experiments-in-shiny/&quot;&gt;Programming simple economic experiments in Shiny&lt;/a&gt; and &lt;a href=&quot;http://ipub.com/shiny-crud-app/&quot;&gt;Supporting CRUD in Shiny tables&lt;/a&gt;.&lt;/p&gt;
 
 		</description>
-        <pubDate>Sun, 14 Jun 2015 05:30:00 -0700</pubDate>
+        <pubDate>Sun, 14 Jun 2015 12:30:00 +0000</pubDate>
         <link>http://localhost:4000/2015/06/14/mimicking-google-form-shiny/</link>
         <guid isPermaLink="true">http://localhost:4000/2015/06/14/mimicking-google-form-shiny/</guid>
 		
@@ -4193,7 +4193,7 @@ shinyjs.backgroundCol = function(params) {
 &lt;p&gt;If you have any feedback on &lt;code class=&quot;highlighter-rouge&quot;&gt;shinyjs&lt;/code&gt;, I’d love to &lt;a href=&quot;http://localhost:4000/aboutme#contact&quot;&gt;hear about it&lt;/a&gt;!  I really do hope that it’s as easy to use as possible and that many of you will find it useful. If you have any suggestions, please do &lt;a href=&quot;https://github.com/daattali/shinyjs/issues&quot;&gt;open a GitHub issue&lt;/a&gt; or let me know in any other way.&lt;/p&gt;
 
 		</description>
-        <pubDate>Sun, 31 May 2015 18:50:00 -0700</pubDate>
+        <pubDate>Mon, 01 Jun 2015 01:50:00 +0000</pubDate>
         <link>http://localhost:4000/2015/05/31/shinyjs-extend/</link>
         <guid isPermaLink="true">http://localhost:4000/2015/05/31/shinyjs-extend/</guid>
 		
@@ -4819,7 +4819,7 @@ shinyjs.backgroundCol = function(params) {
 &lt;p&gt;&lt;strong&gt;Remember to check out the &lt;a href=&quot;http://daattali.com/shiny/rbloggers-twitter/&quot;&gt;accompanying interactive doc + source code&lt;/a&gt;!&lt;/strong&gt;&lt;/p&gt;
 
 		</description>
-        <pubDate>Sun, 17 May 2015 23:30:00 -0700</pubDate>
+        <pubDate>Mon, 18 May 2015 06:30:00 +0000</pubDate>
         <link>http://localhost:4000/2015/05/17/analyzing-rbloggers-posts-via-twitter/</link>
         <guid isPermaLink="true">http://localhost:4000/2015/05/17/analyzing-rbloggers-posts-via-twitter/</guid>
 		
@@ -5278,7 +5278,7 @@ proxy_set_header Connection &quot;upgrade&quot;;
 &lt;p&gt;I’m not a sysadmin and a lot of this stuff was learned very quickly from random Googling, so it’s very possible that some steps here are not the very best way of performing some tasks. If anyone has any comments on anything in this document, I’d love to &lt;a href=&quot;http://localhost:4000/aboutme#contact&quot;&gt;hear about it&lt;/a&gt;!&lt;/p&gt;
 
 		</description>
-        <pubDate>Sat, 09 May 2015 21:30:00 -0700</pubDate>
+        <pubDate>Sun, 10 May 2015 04:30:00 +0000</pubDate>
         <link>http://localhost:4000/2015/05/09/setup-rstudio-shiny-server-digital-ocean/</link>
         <guid isPermaLink="true">http://localhost:4000/2015/05/09/setup-rstudio-shiny-server-digital-ocean/</guid>
 		
@@ -5734,7 +5734,7 @@ come in handy.&lt;/p&gt;
 &lt;p&gt;If anyone has any suggestions or feedback, I would love to hear about it. If you have improvements, feel free to make a pull request.  I’d like to give a special thanks to the Shiny developers, especially Joe Cheng for always answering all my Shiny questions.&lt;/p&gt;
 
 		</description>
-        <pubDate>Thu, 23 Apr 2015 17:30:00 -0700</pubDate>
+        <pubDate>Fri, 24 Apr 2015 00:30:00 +0000</pubDate>
         <link>http://localhost:4000/2015/04/23/shinyjs-r-package/</link>
         <guid isPermaLink="true">http://localhost:4000/2015/04/23/shinyjs-r-package/</guid>
 		
@@ -5860,7 +5860,7 @@ come in handy.&lt;/p&gt;
 &lt;p&gt;Now running &lt;code class=&quot;highlighter-rouge&quot;&gt;runExample(&quot;myapp&quot;)&lt;/code&gt; will launch the “myapp” app, and running &lt;code class=&quot;highlighter-rouge&quot;&gt;runExample()&lt;/code&gt; will generate a message telling the user what examples are allowed.&lt;/p&gt;
 
 		</description>
-        <pubDate>Tue, 21 Apr 2015 22:00:00 -0700</pubDate>
+        <pubDate>Wed, 22 Apr 2015 05:00:00 +0000</pubDate>
         <link>http://localhost:4000/2015/04/21/r-package-shiny-app/</link>
         <guid isPermaLink="true">http://localhost:4000/2015/04/21/r-package-shiny-app/</guid>
 		
@@ -6096,7 +6096,7 @@ come in handy.&lt;/p&gt;
 &lt;p&gt;These were my solutions to the &lt;code class=&quot;highlighter-rouge&quot;&gt;gridExtra&lt;/code&gt; problems that I implemented in &lt;code class=&quot;highlighter-rouge&quot;&gt;ggExtra&lt;/code&gt;, but I would appreciate feedback on other approaches.&lt;/p&gt;
 
 		</description>
-        <pubDate>Sun, 29 Mar 2015 00:00:00 -0700</pubDate>
+        <pubDate>Sun, 29 Mar 2015 00:00:00 +0000</pubDate>
         <link>http://localhost:4000/2015/03/29/ggExtra-r-package/</link>
         <guid isPermaLink="true">http://localhost:4000/2015/03/29/ggExtra-r-package/</guid>
 		
@@ -6190,7 +6190,7 @@ come in handy.&lt;/p&gt;
 &lt;p&gt;There is one nice benefit for &lt;code class=&quot;highlighter-rouge&quot;&gt;render&lt;/code&gt; as Jenny Bryan mentioned - it will automatically detect what format your input is, and either call &lt;code class=&quot;highlighter-rouge&quot;&gt;spin&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;knit&lt;/code&gt; or whatever is most appropriate.&lt;/p&gt;
 
 		</description>
-        <pubDate>Tue, 24 Mar 2015 00:00:00 -0700</pubDate>
+        <pubDate>Tue, 24 Mar 2015 00:00:00 +0000</pubDate>
         <link>http://localhost:4000/2015/03/24/knitrs-best-hidden-gem-spin/</link>
         <guid isPermaLink="true">http://localhost:4000/2015/03/24/knitrs-best-hidden-gem-spin/</guid>
 		
