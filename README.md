@@ -8,7 +8,6 @@ The theme for this website has been open-sourced as [Beautiful Jekyll](http://de
 Either you can download the theme or you can fork this repository and change the personal details which is metioned in the repository.
 
 ### Instruction to run on the local system
-* You need to have bundle installed in the system.
+* You need to have jekyll bundle installed in the system.
 
 
-Please do not fork this repo, as it contains some configuration values that are very specific to my site. If you want to have a similar site then use this theme [Beautiful Jekyll](https://github.com/daattali/beautiful-jekyll).
