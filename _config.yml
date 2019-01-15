@@ -11,9 +11,9 @@ timezone: " Asia/Calcutta"
 markdown: kramdown
 highlighter: rouge
 permalink: /blog/:title/
-paginate: 10
+paginate: 5
 paginate_path: "/page:num/"
-avatar: "/img/deanimg.jpeg"
+avatar: "/img/nitinimg.jpeg"
 
 # List of links in the navigation bar
 navbar-links:
@@ -26,11 +26,11 @@ nav-search: "search"
 author:
   name: Nitin Singh
   email: "nitin.iiitv@gmail.com"
-  facebook: nitinitleen1
+  facebook: nitin.singh.357622
   github: nitinitleen1
-  twitter: nitinitleen1
-  linkedin: "nitinitleen1"
-  stackoverflow: "nitinitleen1" 
+  twitter: nitinkumarsin10
+  linkedin: nitinnks
+stackoverflow: nitin-singh
   
 # Select which links to show in the footer  
 footer-links-active:
