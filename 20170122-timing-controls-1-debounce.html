@@ -1,0 +1,104 @@
+<!DOCTYPE html><html lang="en-US"><head><meta charSet="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="/assets/Inter.css"/><link rel="stylesheet" href="/assets/atom-one-dark.css"/><title>Timing Controls 1 - Debounce | BLOG.MY</title><link rel="stylesheet" href="/assets/styles.css"/></head><body><nav><a href="/" class="brand_3">BLOG.MY</a><a href="/about" class="link_4">About</a><a href="/archive" class="link_4 siblingLink_5">Archive</a></nav><hr class="hidden_1"/><h1>Timing Controls 1 - Debounce</h1><main><p>In analog electrical systems, pressing a spring based mechanical switch is results in several tightly packed signals as the spring bounces for a short while. Various mechanism and techniques are used to &quot;de bounce&quot; to filter out these unwanted signal spikes.</p>
+<h2 id="js-debounce-function">JS debounce function</h2>
+<p>The basic idea behind debounce is to discard all but one events that occur within a fixed time duration.</p>
+<figure><pre class="hljs"><code><span class="hljs-keyword">const</span> delay = <span class="hljs-number">1000</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'foo'</span>)
+}
+
+<span class="hljs-keyword">let</span> timeoutID = <span class="hljs-literal">null</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">debouncedFoo</span>(<span class="hljs-params"></span>) </span>{
+    clearTimeout(timeoutID)
+    timeoutID = setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        foo()
+    }, delay)
+}
+
+<span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'mousemove'</span>, debouncedFoo)</code></pre><figcaption>Debounced function</figcaption></figure><p>When <code>debouncedFoo()</code> is called, it sets a timer for <code>delay</code> milliseconds and waits. If it is called another time within that waiting period then it will reset the timer and start all over again. When the timer finally runs out, call the original <code>foo()</code> function.</p>
+<p>This works fine in principle but there are few problems with this implementation.</p>
+<h3 id="problem-1-passing-arguments">Problem #1: Passing arguments</h3>
+<p>What if <code>foo()</code> accepts some arguments? We need to provide those arguments on call. This problem can be resolved by adding parameters to <code>debouncedFoo</code>.</p>
+<figure><pre class="hljs"><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params">a, b, c</span>) </span>{
+    <span class="hljs-comment">// ...</span>
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">debouncedFoo</span>(<span class="hljs-params">x, y, z</span>) </span>{
+    <span class="hljs-comment">// ...</span>
+    foo(x, y, z)
+    <span class="hljs-comment">// ...</span>
+}</code></pre></figure><h3 id="problem-2-functions-with-variable-arity">Problem #2: Functions with variable arity</h3>
+<p>Arity is the number of required parameters of a function. If we know how many arguments <code>foo()</code> requires, the above works just fine. In case of variable arity function, we can use the <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Functions/arguments" rel="nofollow noopener noreferrer"><code>arguments</code></a> object.</p>
+<p>We can use <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Function/apply" rel="nofollow noopener noreferrer"><code>Function#apply()</code></a> method because it allows function execution with the arguments being passed as an array or array-like object (ex: <code>arguments</code>).</p>
+<figure><pre class="hljs"><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params">a, b, c</span>) </span>{
+    <span class="hljs-comment">// ...</span>
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">debouncedFoo</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-comment">// ...</span>
+    foo.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>)
+    <span class="hljs-comment">// ...</span>
+}</code></pre></figure><h2 id="capturing-the-idea">Capturing the idea</h2>
+<p>We can create a <a href="https://en.wikipedia.org/wiki/Higher-order_function" rel="nofollow noopener noreferrer">Higher Order Function</a> that abstracts away the process of creating a debounced function. We will call this new function <code>debounce()</code>:</p>
+<p>By creating our <code>debounce()</code> HOF, we can now create multiple debounced functions with ease since each one is only responsible for its own timekeeping.</p>
+<figure><pre class="hljs"><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'foo'</span>)
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">debounce</span>(<span class="hljs-params">fn, delay</span>) </span>{
+    <span class="hljs-keyword">let</span> timeoutID = <span class="hljs-literal">null</span>
+
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        clearTimeout(timeoutID)
+        timeoutID = setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+            fn.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>)
+        }, delay)
+    }
+}
+
+<span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'mousemove'</span>, debounce(foo, <span class="hljs-number">1000</span>))</code></pre><figcaption>Simple debounce HOF</figcaption></figure><h2 id="demo">Demo</h2>
+<figure><iframe src="https://codepen.io/zhirzh/embed/MEEXWL?default-tab=js,result" title="Timing Controls: Debounce"></iframe><figcaption>Timing Controls: Debounce</figcaption></figure><h2 id="debouncing-in-reverse">Debouncing in reverse</h2>
+<p>Since we are discarding all but one event within a time window, why not processs the first event and discard the rest? This is called reverse debounce, leading deobunce, Immediate etc.</p>
+<h3 id="immediate">Immediate</h3>
+<figure><pre class="hljs"><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">immediate</span>(<span class="hljs-params">fn, delay</span>) </span>{
+    <span class="hljs-keyword">let</span> timeoutID = <span class="hljs-literal">null</span>
+    <span class="hljs-keyword">let</span> isWaiting = <span class="hljs-literal">false</span>
+
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">if</span> (!isWaiting) {
+            isWaiting = <span class="hljs-literal">true</span>
+
+            fn.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>)
+        }
+
+        clearTimeout(timeoutID)
+        timeoutID = setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+            isWaiting = <span class="hljs-literal">false</span>
+        }, delay)
+    }
+}
+
+<span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'mousemove'</span>, immediate(foo, <span class="hljs-number">1000</span>))</code></pre><figcaption>Immediate debounce</figcaption></figure><h2 id="the-end">The end</h2>
+<p>We can write a single function that can handle either mode.</p>
+<figure><pre class="hljs"><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">debounce</span>(<span class="hljs-params">fn, delay, immediate = false</span>) </span>{
+    <span class="hljs-keyword">let</span> timeoutID = <span class="hljs-literal">null</span>
+    <span class="hljs-keyword">let</span> isWaiting = <span class="hljs-literal">false</span>
+
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">if</span> (!isWaiting &amp;&amp; immediate) {
+            isWaiting = <span class="hljs-literal">true</span>
+
+            fn.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>)
+        }
+
+        clearTimeout(timeoutID)
+        timeoutID = setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+            <span class="hljs-keyword">if</span> (immediate) {
+                isWaiting = <span class="hljs-literal">false</span>
+            } <span class="hljs-keyword">else</span> {
+                fn.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>)
+            }
+        }, delay)
+    }
+}</code></pre><figcaption>Debounce with immediate flag</figcaption></figure><figure><iframe src="https://codepen.io/zhirzh/embed/vYYQWwM?default-tab=js,result" title="Timing Controls: Debounce+Immediate"></iframe><figcaption>Timing Controls: Debounce+Immediate</figcaption></figure></main><footer class="footer_8"><a href="/20170129-timing-controls-2-throttle" class="relatedPosts_9 prevPost_11">⟵ Timing Controls 2 - Throttle</a><a href="/20170108-flowtype-modern-js/" class="relatedPosts_9 nextPost_10">Flowtype &amp; Modern JS ⟶</a></footer></body></html>

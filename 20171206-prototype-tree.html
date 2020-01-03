@@ -1,0 +1,187 @@
+<!DOCTYPE html><html lang="en-US"><head><meta charSet="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="/assets/Inter.css"/><link rel="stylesheet" href="/assets/atom-one-dark.css"/><title>Prototype Tree | BLOG.MY</title><link rel="stylesheet" href="/assets/styles.css"/></head><body><nav><a href="/" class="brand_3">BLOG.MY</a><a href="/about" class="link_4">About</a><a href="/archive" class="link_4 siblingLink_5">Archive</a></nav><hr class="hidden_1"/><h1>Prototype Tree</h1><main><p>Anyone who has worked with JS long enough knows something or the other about delegation, prototype chains, <a href="http://2ality.com/2012/10/dunder.html" rel="nofollow noopener noreferrer">dunder proto</a> and other similar things.
+There are times when I wonder how complex and deep this chaining can be.
+This past week, however, my curiosity got the best of me and I just had to find the answer for myself.</p>
+<p>I wrote a script that scans the global namespace and generates an <em>inheritance</em> tree (prototype tree, actually).</p>
+<p>There are a few fundamental properties of JS (and probably Java too):</p>
+<ol>
+<li>Every <em>thing</em> is an object.</li>
+<li>All objects delegate to some parent class.</li>
+<li>All delegation chains end at the same <code>null</code>. <!-- 4. All objects have the common ancestor [`Object` class]\*. -->
+
+</li>
+</ol>
+<p>The function <code>parse</code> recursively traverses up a <code>class</code>&#39;s prototype chain and populates a tree structure in <code>data</code>.</p>
+<figure><pre class="hljs"><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">parse</span>(<span class="hljs-params">data, Class</span>) </span>{
+    <span class="hljs-keyword">if</span> (Class === <span class="hljs-literal">null</span>) {
+        <span class="hljs-keyword">return</span> data.children
+    }
+
+    <span class="hljs-keyword">const</span> parentPrototype = <span class="hljs-built_in">Object</span>.getPrototypeOf(Class.prototype)
+    <span class="hljs-keyword">const</span> parentClass =
+        parentPrototype === <span class="hljs-literal">null</span> ? <span class="hljs-literal">null</span> : parentPrototype.constructor
+
+    <span class="hljs-keyword">const</span> prevLevel = parse(data, parentClass)
+    <span class="hljs-keyword">const</span> node = prevLevel.find(<span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span> n.name === Class.name)
+
+    <span class="hljs-keyword">if</span> (node !== <span class="hljs-literal">undefined</span>) {
+        <span class="hljs-keyword">return</span> node.children
+    }
+
+    <span class="hljs-keyword">const</span> newNode = {
+        <span class="hljs-attr">name</span>: Class.name,
+        <span class="hljs-attr">children</span>: [],
+    }
+
+    prevLevel.push(newNode)
+
+    <span class="hljs-keyword">return</span> newNode.children
+}</code></pre></figure><p>This works perfect in browsers because everything that is a part of the JS execution environment, BOM, DOM and CSSOM reside under the global scope <code>window</code>.
+You can see the prototype tree below or in a
+<a href="https://zhirzh.github.io/prototype-tree/build/index.html?data=browser" target="_blank">new tab</a>.</p>
+<iframe
+  class="demo"
+  frameborder="0"
+  src="https://zhirzh.github.io/prototype-tree/build/index.html?data=browser&iframe"
+  style="height: 400px"
+></iframe>
+
+<p>There are, however, some differences in the structures present in the global scope.
+Here&#39;s a list of a few examples:</p>
+<ul>
+<li>Different Browsers - The <a href="https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/captureStream" rel="nofollow noopener noreferrer"><code>captureStream()</code></a> method of <code>&lt;canvas /&gt;</code> element returns an instance of <code>CanvasCaptureMediaStreamTrack</code> on Chrome and of <code>CanvasCaptureMediaStream</code> on Firefox.
+There are many more differences, especially in the availability of SVG elements.</li>
+<li>Browser Versions - As browsers progress, new features are added and older ones canned</li>
+<li>Different Platform - Chrome on android devices has the <a href="https://developer.mozilla.org/docs/Web/API/Web_Bluetooth_API" rel="nofollow noopener noreferrer">Bluetooth</a> API, Linux does not.</li>
+<li>Protocol - Chrome allows access to the new <a href="https://developer.mozilla.org/docs/Web/API/Credential_Management_API" rel="nofollow noopener noreferrer">Credential</a> and <a href="https://developer.mozilla.org/docs/Web/API/MediaKeys" rel="nofollow noopener noreferrer">MediaKeys</a> APIs on secure websites (HTTPS protocol).</li>
+<li>Different Websites - It is no surprise that websites can and will pollute the global scope with things they need.
+In all fairness though, this isn&#39;t all too important.</li>
+</ul>
+<br/>
+
+<h2 id="nodejs">NodeJS</h2>
+<p>Things are a bit different for NodeJS.
+The default execution environment only contains the language&#39;s minimal feature set.
+All additional features are in separate modules.
+Naively running the code above results in a
+<a href="https://zhirzh.github.io/prototype-tree/build/index.html?data=node-sparse" target="_blank">sparse tree</a>.</p>
+<iframe
+  class="demo"
+  frameborder="0"
+  src="https://zhirzh.github.io/prototype-tree/build/index.html?data=node-sparse&iframe"
+  style="height: 400px"
+></iframe>
+
+<p>If we want to <em>look</em> at a module&#39;s structures, we must import the module and traverse it.
+This might sound a simple thing to do, but can make the code really messy.
+Instead, we will invert the module inside-out, adding all its structures to the global scope.</p>
+<p>When polluting the global scope, we need to be wary of name clashes and overwrites.
+This can be avoided by adding the module name to the structure name, i.e., scoping it.</p>
+<figure><pre class="hljs"><code><span class="hljs-keyword">const</span> modNames = [<span class="hljs-string">'assert'</span>, <span class="hljs-string">'async_hooks'</span>, ...<span class="hljs-string">'vm'</span>, <span class="hljs-string">'zlib'</span>]
+
+modNames.forEach(<span class="hljs-function"><span class="hljs-params">modName</span> =&gt;</span> {
+    <span class="hljs-keyword">const</span> mod = <span class="hljs-built_in">require</span>(modName)
+
+    <span class="hljs-built_in">Object</span>.getOwnPropertyNames(mod)
+        .filter(<span class="hljs-function"><span class="hljs-params">propName</span> =&gt;</span> <span class="hljs-regexp">/[A-Z]/</span>.test(propName[<span class="hljs-number">0</span>]))
+        .forEach(<span class="hljs-function"><span class="hljs-params">propName</span> =&gt;</span> {
+            <span class="hljs-keyword">const</span> prop = mod[propName]
+
+            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> prop.name === <span class="hljs-string">'string'</span> &amp;&amp; prop.name.length &gt; <span class="hljs-number">0</span>) {
+                prop.scopedName = prop.name + <span class="hljs-string">'['</span> + modName + <span class="hljs-string">']'</span>
+            }
+
+            <span class="hljs-keyword">const</span> scopedPropName = propName + <span class="hljs-string">'['</span> + modName + <span class="hljs-string">']'</span>
+            global[scopedPropName] = prop
+        })
+})</code></pre></figure><p>After adding the code above, we get the
+<a href="https://zhirzh.github.io/prototype-tree/build/index.html?data=node" target="_blank">full tree</a>.</p>
+<p>Notice how the class <code>Server</code> is present at multiple branches and levels in the tree.
+Without scoping the class names, <code>tls</code> would&#39;ve overwritten <code>http</code> server node.</p>
+<iframe
+  class="demo"
+  frameborder="0"
+  src="https://zhirzh.github.io/prototype-tree/build/index.html?data=node&iframe"
+  style="height: 400px"
+></iframe>
+
+<h3 id="addendum">Addendum</h3>
+<p>There&#39;s one more things I&#39;d like to add.
+It isn&#39;t a coincidence that everything is connected to the <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object" rel="nofollow noopener noreferrer"><code>Object</code> class</a>.
+This is by design of the language.</p>
+<p>We can also create orphan objects - objects not connected to <code>Object</code>.
+By delegating to orphans, we can write classes that are free of any delegation based <em>side effects</em>.
+This is great for someone who wants to create <a href="https://www.javatpoint.com/interface-in-java" rel="nofollow noopener noreferrer">interfaces</a> or <a href="https://www.javatpoint.com/abstract-class-in-java" rel="nofollow noopener noreferrer">abstract classes</a>, since</p>
+<figure><pre class="hljs"><code><span class="hljs-keyword">const</span> orphan = <span class="hljs-built_in">Object</span>.create(<span class="hljs-literal">null</span>)
+orphan.foo = <span class="hljs-number">111</span>
+
+<span class="hljs-built_in">console</span>.log(orphan)
+<span class="hljs-comment">// { foo: 111 }</span>
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">Object</span>.getPrototypeOf(orphan))
+<span class="hljs-comment">// null</span>
+
+<span class="hljs-keyword">const</span> obj = <span class="hljs-built_in">Object</span>.create(orphan)
+obj.bar = <span class="hljs-number">222</span>
+
+<span class="hljs-built_in">console</span>.log(obj)
+<span class="hljs-comment">// { bar: 222 }</span>
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">Object</span>.getPrototypeOf(obj))
+<span class="hljs-comment">// { foo: 111 }  &lt;  orphan</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Animal</span> </span>{}
+<span class="hljs-built_in">Object</span>.setPrototypeOf(Animal.prototype, orphan)
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Human</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Animal</span> </span>{}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Bacteria</span>(<span class="hljs-params"></span>) </span>{}
+<span class="hljs-built_in">Object</span>.setPrototypeOf(Bacteria.prototype, obj)
+<span class="hljs-comment">// Bacteria.prototype = Object.create(obj);  &lt;  also works</span></code></pre></figure><iframe
+  class="demo"
+  frameborder="0"
+  src="https://zhirzh.github.io/prototype-tree/build/index.html?data=orphan&iframe"
+  style="height: 400px"
+></iframe>
+
+<p><strong>Note</strong>: You must <strong>never</strong> use dunder proto (<code>__proto__</code>).
+Its behavior has only been standardized as a legacy feature.
+Instead, when working with <code>[[Prototype]]</code>, use:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/getPrototypeOf" rel="nofollow noopener noreferrer"><code>Object.getPrototypeOf()</code></a> for reading</li>
+<li>and <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/setPrototypeOf" rel="nofollow noopener noreferrer"><code>Object.setPrototypeOf()</code></a> for writing</li>
+</ul>
+<figure><pre class="hljs"><code><span class="hljs-keyword">const</span> foo = <span class="hljs-built_in">Object</span>.create(<span class="hljs-literal">null</span>)
+
+<span class="hljs-built_in">console</span>.log(foo.__proto__)
+<span class="hljs-comment">// undefined  &lt;  should be `null`</span>
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">Object</span>.getPrototypeOf(foo))
+<span class="hljs-comment">// null  &lt;  this is correct</span></code></pre></figure><p>You can read more about this <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/proto" rel="nofollow noopener noreferrer">on MDN</a>.</p>
+<h2 id="the-end">The End</h2>
+<p>Plotting these beautiful <a href="http://bl.ocks.org/robschmuecker/7880033" rel="nofollow noopener noreferrer">D3 tree charts</a> revealed more things about JS than I originally sought.</p>
+<p>The minimal set is tiny compared.
+Everything on the sparse tree can be grouped into:</p>
+<ul>
+<li><strong>Primitive Data Types</strong> - Number, String, Boolean &hellip;</li>
+<li><strong>Abstract Data Types</strong> - Function, Object &hellip;</li>
+<li><strong>Container Data Types</strong> - Array, Map, Set &hellip;</li>
+<li><strong>Timers</strong> - setTimeout, setInterval &hellip;</li>
+<li><strong>Errors</strong> - SyntaxError, ReferenceError &hellip;</li>
+<li><strong>Misc items</strong> - Promise, RegExp, TypedArrays &hellip;</li>
+</ul>
+<p>I also realised just how huge BOM and DOM are.
+Every entity in HTML, SVG, CSS, XML entity has its own class.
+Every WebAPI comes with its structures and each one of them has its class.</p>
+<p>You can further explore the graphs or even plot your own.
+The code and example links are below:</p>
+<ul>
+<li>Code: <a href="https://github.com/zhirzh/zhirzh.github.io/tree/master/gists/2017-12-06-prototype-tree/" rel="nofollow noopener noreferrer">gists/2017-12-06-prototype-tree</a></li>
+<li>Demos:<ul>
+<li><a href="https://zhirzh.github.io/prototype-tree/build/index.html?data=browser" rel="nofollow noopener noreferrer">Browser</a></li>
+<li><a href="https://zhirzh.github.io/prototype-tree/build/index.html?data=node-sparse" rel="nofollow noopener noreferrer">Node (sparse)</a></li>
+<li><a href="https://zhirzh.github.io/prototype-tree/build/index.html?data=node" rel="nofollow noopener noreferrer">Node</a></li>
+<li><a href="https://zhirzh.github.io/prototype-tree/build/index.html?data=orphan" rel="nofollow noopener noreferrer">Orphan</a></li>
+</ul>
+</li>
+</ul>
+</main><footer class="footer_8"><a href="/20171130-cra-apps-with-ssr" class="relatedPosts_9 nextPost_10">CRA apps with SSR ⟶</a></footer></body></html>

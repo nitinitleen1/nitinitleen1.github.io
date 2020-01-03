@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="en-US"><head><meta charSet="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="/assets/Inter.css"/><link rel="stylesheet" href="/assets/atom-one-dark.css"/><title>react-router modals the way Twitter &amp; Pinterest do it | BLOG.MY</title><link rel="stylesheet" href="/assets/styles.css"/></head><body><nav><a href="/" class="brand_3">BLOG.MY</a><a href="/about" class="link_4">About</a><a href="/archive" class="link_4 siblingLink_5">Archive</a></nav><hr class="hidden_1"/><h1>react-router modals the way Twitter &amp; Pinterest do it</h1><main><p>Twitter and Pinterest are two websites that use modals heavily. I&#39;d go as far as to say that they use modals as a central components of their design, and not just some auxiliary tools.</p>
+<blockquote>
+<p><strong>Update</strong>
+Since the time of posting this article, both Twitter and Pinterest have ditched the &quot;show modal or load container&quot; approach and now load fully-featured screens for each interaction. I have copied the original behavior in a separate <a href="https://github.com/zhirzh/react-router-twitter-pinterest-style" rel="nofollow noopener noreferrer">repo</a>. You can try it out <a href="https://zhirzh.github.io/react-router-twitter-pinterest-style" rel="nofollow noopener noreferrer">here</a>.</p>
+</blockquote>
+<h2 id="twitter">Twitter</h2>
+<p>When a user opens an tweet, URL changes to the tweet&#39;s URL (indicating a navigation) and a modal pops up showing the tweet. Close the modal and you go back to the screen below. Pretty standard stuff.</p>
+<p>What&#39;s different is that if a user opens the tweet in a new tab (vir URL) or reloads the page white the modal is open, a new <em>container element</em> is loaded first and then the tweet loads in the modal. The container is a simple screen resembling the profile of the user who posted the tweet.</p>
+<p>Now when the modal is closed, the URL changes to the profile page of the user who posted the tweet and the container is populated with past tweets.</p>
+<p>The main content can be accessed with <code>$(&#39;.PermalinkOverlay&#39;)</code>.</p>
+<figure><pre class="hljs"><code><span class="hljs-keyword">const</span> App = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Switch</span> <span class="hljs-attr">location</span>=<span class="hljs-string">{isModal</span> ? <span class="hljs-attr">this.previousLocation</span> <span class="hljs-attr">:</span> <span class="hljs-attr">location</span>}&gt;</span>
+        ...
+        <span class="hljs-tag">&lt;<span class="hljs-name">Route</span>
+            <span class="hljs-attr">path</span>=<span class="hljs-string">"/twitter"</span>
+            <span class="hljs-attr">render</span>=<span class="hljs-string">{()</span> =&gt;</span> (
+                <span class="hljs-tag">&lt;&gt;</span>
+                    {isModal ? null : <span class="hljs-tag">&lt;<span class="hljs-name">Container</span> /&gt;</span>}
+
+                    <span class="hljs-tag">&lt;<span class="hljs-name">Modal</span> /&gt;</span>
+                <span class="hljs-tag">&lt;/&gt;</span>
+            )}
+        /&gt;
+    <span class="hljs-tag">&lt;/<span class="hljs-name">Switch</span>&gt;</span>
+)</span></code></pre></figure><h3 id="pinterest">Pinterest</h3>
+<p>Everything is the same as Twitter until the <em>container element</em> comes into play. However, unlike Twitter, the container that Pinterest loads has extra features related to the content: like, share, bookmark, etc.</p>
+<p>In fact, Pinterest seems to use the same container in the modal as well. You can inspect the common components on either page by accessing it from the console using <code>$(&#39;.Closeup.Module.flex&#39;)</code>.</p>
+<figure><pre class="hljs"><code><span class="hljs-keyword">const</span> App = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Switch</span> <span class="hljs-attr">location</span>=<span class="hljs-string">{isModal</span> ? <span class="hljs-attr">this.previousLocation</span> <span class="hljs-attr">:</span> <span class="hljs-attr">location</span>}&gt;</span>
+        ...
+        <span class="hljs-tag">&lt;<span class="hljs-name">Route</span>
+            <span class="hljs-attr">path</span>=<span class="hljs-string">"/pinterest"</span>
+            <span class="hljs-attr">render</span>=<span class="hljs-string">{()</span> =&gt;</span> {
+                const Component = isModal ? Modal : Container
+
+                return <span class="hljs-tag">&lt;<span class="hljs-name">Component</span> /&gt;</span>
+            }}
+        /&gt;
+    <span class="hljs-tag">&lt;/<span class="hljs-name">Switch</span>&gt;</span>
+)</span></code></pre></figure><h2 id="the-difference">The difference</h2>
+<p>The difference is in the purpose of the said <em>container element</em>.</p>
+<p>Twitter uses a super-simple container that acts as a placeholder for future content whereas Pinterest loads a component that loads the image, any related metadata and relevant actions.</p>
+</main><footer class="footer_8"><a href="/20170622-obfuscation-with-protext/" class="relatedPosts_9 prevPost_11">⟵ Obfuscation With Protext</a><a href="/20170327-animating-dots-dashes" class="relatedPosts_9 nextPost_10">Animating Dots &amp; Dashes ⟶</a></footer></body></html>

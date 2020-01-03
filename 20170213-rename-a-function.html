@@ -1,0 +1,48 @@
+<!DOCTYPE html><html lang="en-US"><head><meta charSet="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="/assets/Inter.css"/><link rel="stylesheet" href="/assets/atom-one-dark.css"/><title>Rename a function | BLOG.MY</title><link rel="stylesheet" href="/assets/styles.css"/></head><body><nav><a href="/" class="brand_3">BLOG.MY</a><a href="/about" class="link_4">About</a><a href="/archive" class="link_4 siblingLink_5">Archive</a></nav><hr class="hidden_1"/><h1>Rename a function</h1><main><p>MDN states that <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Function/name" rel="nofollow noopener noreferrer"><code>Function#name</code> is a read-only property</a> and this gives the false impression that a function cannot be renamed. But that is not the case.</p>
+<p>At the time of writing, JavaScript supports 3 kinds of functions:</p>
+<ul>
+<li>Simple function</li>
+<li><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/async_function" rel="nofollow noopener noreferrer">Async Function</a></li>
+<li><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function*" rel="nofollow noopener noreferrer">Generator Function</a> (can be async too)</li>
+</ul>
+<p>A function can be defined in 3 ways:</p>
+<ul>
+<li><strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function" rel="nofollow noopener noreferrer">Function Declaration</a></strong></li>
+<li><a href="https://developer.mozilla.org/docs/web/JavaScript/Reference/Operators/function" rel="nofollow noopener noreferrer">Function Expression</a></li>
+<li><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Functions/Arrow_functions" rel="nofollow noopener noreferrer">Arrow Function expression</a></li>
+</ul>
+<p>A function defined as a function declaration or a <em>named</em> expression will have its <code>.name</code> attribute set to the name used in the definition.</p>
+<figure><pre class="hljs"><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>{}
+<span class="hljs-built_in">console</span>.log(foo.name) <span class="hljs-comment">//&gt; foo</span>
+
+<span class="hljs-keyword">const</span> a = foo
+<span class="hljs-built_in">console</span>.log(a.name) <span class="hljs-comment">//&gt; foo</span>
+
+<span class="hljs-keyword">const</span> b = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">baz</span>(<span class="hljs-params"></span>) </span>{}
+<span class="hljs-built_in">console</span>.log(b.name) <span class="hljs-comment">//&gt; baz</span>
+
+<span class="hljs-keyword">const</span> c = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{}
+<span class="hljs-built_in">console</span>.log(c.name) <span class="hljs-comment">//&gt; c</span></code></pre></figure><p>Here&#39;s the property descriptor for the <code>foo()</code> function:</p>
+<figure><pre class="hljs"><code>{
+    <span class="hljs-attr">value</span>: <span class="hljs-string">'foo'</span>,
+    <span class="hljs-attr">configurable</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">enumerable</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">writable</span>: <span class="hljs-literal">false</span>,
+}</code></pre></figure><p>Since <code>writable</code> is set to <code>false</code> we can&#39;t change the <code>value</code> by simple assignment.</p>
+<figure><pre class="hljs"><code><span class="hljs-built_in">console</span>.log(foo.name) <span class="hljs-comment">//&gt; foo</span>
+
+foo.name = <span class="hljs-string">'not foo'</span>
+<span class="hljs-built_in">console</span>.log(foo.name) <span class="hljs-comment">//&gt; foo</span></code></pre></figure><p>However, <code>configurable</code> is set to <code>true</code> and this means that we can override this descriptor with a new one. We can also delete <code>.name</code> if we want to.</p>
+<figure><pre class="hljs"><code><span class="hljs-built_in">console</span>.log(foo.name) <span class="hljs-comment">//&gt; foo</span>
+
+<span class="hljs-built_in">Object</span>.defineProperty(foo, <span class="hljs-string">'name'</span>, { <span class="hljs-attr">value</span>: <span class="hljs-string">'not foo'</span> })
+<span class="hljs-built_in">console</span>.log(foo.name) <span class="hljs-comment">//&gt; not foo</span>
+
+<span class="hljs-keyword">delete</span> foo.name
+<span class="hljs-built_in">console</span>.log(foo.name) <span class="hljs-comment">//&gt; undefined</span></code></pre></figure><h2 id="display-name">Display name</h2>
+<p>There is a non-standard property <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Function/displayName" rel="nofollow noopener noreferrer"><code>Function#displayName</code></a> that only Firefox supports and is used to display the function with an <em>alter ego</em> in the console.</p>
+<figure><pre class="hljs"><code><span class="hljs-comment">// Firefox</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>{}
+foo.displayName = <span class="hljs-string">'notFoo'</span>
+foo <span class="hljs-comment">// "function notFoo()"</span></code></pre></figure></main><footer class="footer_8"><a href="/20170302-ssh-into-private-machines/" class="relatedPosts_9 prevPost_11">⟵ SSH Into Private Machines</a><a href="/20170129-timing-controls-2-throttle" class="relatedPosts_9 nextPost_10">Timing Controls 2 - Throttle ⟶</a></footer></body></html>

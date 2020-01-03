@@ -1,0 +1,358 @@
+<!DOCTYPE html><html lang="en-US"><head><meta charSet="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="/assets/Inter.css"/><link rel="stylesheet" href="/assets/atom-one-dark.css"/><title>Tiny Transfers | BLOG.MY</title><link rel="stylesheet" href="/assets/styles.css"/></head><body><nav><a href="/" class="brand_3">BLOG.MY</a><a href="/about" class="link_4">About</a><a href="/archive" class="link_4 siblingLink_5">Archive</a></nav><hr class="hidden_1"/><h1>Tiny Transfers</h1><main><p>It&#39;s fair to say that JSON has become the most common format for sending data over network, but it is too verbose and can take up a considerable amount of space. Sometimes, it is a good idea to normalize and <em>deflate</em> your JSON.</p>
+<p>All the code used here is available in <a href="https://gist.github.com/zhirzh/7666c2742a2c7dfbd9859b05ee76aef1" rel="nofollow noopener noreferrer">this gist</a>.</p>
+<h2 id="the-dataset">The dataset</h2>
+<p>The first thing we need is a good dataset. Google&#39;s doodle database looks good. So let&#39;s download it and then merge it into a single file.</p>
+<figure><pre class="hljs"><code>DATA_PATH=<span class="hljs-string">"raw"</span>
+mkdir -p <span class="hljs-variable">$DATA_PATH</span>
+
+NULL_FILESIZE=2
+
+<span class="hljs-keyword">for</span> (( MONTH = 1; MONTH &lt;= 12; MONTH++ )) <span class="hljs-keyword">do</span>
+    ZERO_MONTH=$(<span class="hljs-built_in">printf</span> %02d <span class="hljs-variable">$MONTH</span>)
+    FILEPATH=<span class="hljs-string">"<span class="hljs-variable">$DATA_PATH</span>/2016-<span class="hljs-variable">$ZERO_MONTH</span>.json"</span>
+
+    <span class="hljs-keyword">if</span> [[ ! -f <span class="hljs-string">"<span class="hljs-variable">$FILEPATH</span>"</span> ]]
+    <span class="hljs-keyword">then</span>
+        <span class="hljs-built_in">echo</span> <span class="hljs-string">"FETCH: <span class="hljs-variable">$FILEPATH</span>"</span>
+
+        URL=<span class="hljs-string">"https://www.google.com/doodles/json/2016/<span class="hljs-variable">$ZERO_MONTH</span>?full=1"</span>
+        wget --quiet -c <span class="hljs-variable">$URL</span> -O <span class="hljs-string">"<span class="hljs-variable">$FILEPATH</span>"</span>
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-built_in">echo</span> <span class="hljs-string">"SKIP: <span class="hljs-variable">$FILEPATH</span>"</span>
+    <span class="hljs-keyword">fi</span>
+<span class="hljs-keyword">done</span></code></pre><figcaption>Fetch all Google doodles that came out in 2016</figcaption></figure><figure><pre class="hljs"><code><span class="hljs-keyword">const</span> { readdirSync, readFileSync, writeFileSync } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>)
+<span class="hljs-keyword">const</span> { join } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'path'</span>)
+
+<span class="hljs-keyword">const</span> rawDirPath = join(__dirname, <span class="hljs-string">'raw'</span>)
+<span class="hljs-keyword">const</span> allDoodlesPath = join(__dirname, <span class="hljs-string">'doodles.all.json'</span>)
+
+<span class="hljs-keyword">const</span> allDoodles = readdirSync(rawDirPath).reduce(
+    <span class="hljs-function">(<span class="hljs-params">_allDoodles, fileName</span>) =&gt;</span> {
+        <span class="hljs-keyword">const</span> filePath = join(rawDirPath, fileName)
+        <span class="hljs-keyword">const</span> fileDoodles = <span class="hljs-built_in">JSON</span>.parse(readFileSync(filePath))
+
+        <span class="hljs-keyword">return</span> _allDoodles.concat(fileDoodles)
+    },
+    []
+)
+
+writeFileSync(allDoodlesPath, <span class="hljs-built_in">JSON</span>.stringify(allDoodles))</code></pre><figcaption>Combine doodles JSON files into single JSON</figcaption></figure><h3 id="measure">Measure</h3>
+<p>If everything goes well, you&#39;ll end up with the following files. The exact sizes might differ (more on this later).</p>
+<figure><pre class="hljs"><code>$ du -h raw/*
+708K    raw/2016-01.json
+708K    raw/2016-02.json
+2.0M    raw/2016-03.json
+708K    raw/2016-04.json
+836K    raw/2016-05.json
+2.0M    raw/2016-06.json
+644K    raw/2016-07.json
+2.0M    raw/2016-08.json
+2.0M    raw/2016-09.json
+708K    raw/2016-10.json
+964K    raw/2016-11.json
+964K    raw/2016-12.json
+
+$ du -h doodles.all.json
+9.5M    doodles.all.json</code></pre><figcaption>Data sizes may differ slightly.</figcaption></figure><h2 id="understanding-the-data">Understanding the data</h2>
+<p>Before we can begin the cleaning process, we need to understand the structure of our data.</p>
+<figure><pre class="hljs"><code><span class="hljs-keyword">const</span> { join } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'path'</span>)
+
+<span class="hljs-keyword">const</span> allDoodles = <span class="hljs-built_in">require</span>(join(__dirname, <span class="hljs-string">'doodles.all.json'</span>))
+
+<span class="hljs-keyword">const</span> keys = {}
+allDoodles.forEach(<span class="hljs-function"><span class="hljs-params">doodle</span> =&gt;</span> {
+    <span class="hljs-built_in">Object</span>.keys(doodle).forEach(<span class="hljs-function"><span class="hljs-params">k</span> =&gt;</span> {
+        keys[k] = <span class="hljs-keyword">typeof</span> doodle[k]
+    })
+})
+
+<span class="hljs-built_in">console</span>.table(keys)</code></pre></figure><p>This gives us the following list.</p>
+<figure><pre class="hljs"><code>┌──────────────────────────┬─────────┐
+│         (index)          │ Values  │
+├──────────────────────────┼─────────┤
+│ alternate_url            │ string  │
+│ blog_text                │ string  │
+│ call_to_action_image_url │ string  │
+│ collection_id            │ number  │
+│ countries                │ string  │
+│ doodle_args              │ object  │
+│ doodle_type              │ string  │
+│ height                   │ number  │
+│ high_res_height          │ number  │
+│ high_res_url             │ string  │
+│ high_res_width           │ number  │
+│ history_doodles          │ object  │
+│ id                       │ number  │
+│ is_animated_gif          │ boolean │
+│ is_dynamic               │ boolean │
+│ is_global                │ boolean │
+│ is_highlighted           │ boolean │
+│ name                     │ string  │
+│ next_doodle              │ object  │
+│ persistent_id            │ number  │
+│ prev_doodle              │ object  │
+│ query                    │ string  │
+│ related_doodles          │ object  │
+│ run_date_array           │ number  │
+│ share_text               │ string  │
+│ standalone_html          │ string  │
+│ tags                     │ string  │
+│ title                    │ string  │
+│ translated_blog_posts    │ object  │
+│ translations             │ object  │
+│ url                      │ string  │
+│ width                    │ number  │
+│ youtube_id               │ string  │
+└──────────────────────────┴─────────┘</code></pre></figure><p>Here are the <em>doodle</em> keys:</p>
+<figure><pre class="hljs"><code>┌─────────────────┬───────────────┐
+│     (index)     │ Values        │
+├─────────────────┼───────────────┤
+| history_doodles │ Array&lt;Doodle&gt; │
+| next_doodle     │ Doodle        │
+| prev_doodle     │ Doodle        │
+| related_doodles │ Array&lt;Doodle&gt; │
+└─────────────────┴───────────────┘</code></pre></figure><h2 id="normalizing-data">Normalizing data</h2>
+<p>Now we can normalize the data in 3 steps:</p>
+<ol>
+<li>Extract unique instances for all Models:<ul>
+<li>Doodle</li>
+<li>Country</li>
+<li>Tag</li>
+</ul>
+</li>
+<li>Replace redundant instances with unique IDs</li>
+<li>Save all instances as separate JSON files</li>
+</ol>
+<figure><pre class="hljs"><code><span class="hljs-keyword">const</span> { createHash } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'crypto'</span>)
+<span class="hljs-keyword">const</span> { writeFileSync } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>)
+<span class="hljs-keyword">const</span> { join } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'path'</span>)
+
+<span class="hljs-keyword">const</span> allDoodles = <span class="hljs-built_in">require</span>(join(__dirname, <span class="hljs-string">'doodles.all.json'</span>))
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">generateDoodleHash</span>(<span class="hljs-params">doodle</span>) </span>{
+    <span class="hljs-keyword">return</span> createHash(<span class="hljs-string">'md5'</span>)
+        .update(<span class="hljs-string">`[<span class="hljs-subst">${doodle.name}</span>](<span class="hljs-subst">${doodle.url}</span>)`</span>, <span class="hljs-string">'ascii'</span>)
+        .digest(<span class="hljs-string">'hex'</span>)
+}
+
+<span class="hljs-comment">// step 1</span>
+<span class="hljs-keyword">const</span> uniqueDoodles = {}
+<span class="hljs-keyword">const</span> uniqueCountriesSet = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Set</span>()
+<span class="hljs-keyword">const</span> uniqueTagsSet = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Set</span>()
+
+allDoodles.forEach(<span class="hljs-function"><span class="hljs-params">doodle</span> =&gt;</span> {
+    doodle._id = generateDoodleHash(doodle)
+
+    uniqueDoodles[doodle._id] = doodle
+
+    doodle.countries.forEach(<span class="hljs-function"><span class="hljs-params">country</span> =&gt;</span> {
+        country = country.trim().toLowerCase()
+
+        uniqueCountriesSet.add(country)
+    })
+
+    doodle.tags.forEach(<span class="hljs-function"><span class="hljs-params">tag</span> =&gt;</span> {
+        tag = tag.trim().toLowerCase()
+
+        uniqueTagsSet.add(tag)
+    })
+})
+
+<span class="hljs-comment">// step 2</span>
+<span class="hljs-keyword">const</span> uniqueCountries = <span class="hljs-built_in">Array</span>.from(uniqueCountriesSet)
+<span class="hljs-keyword">const</span> uniqueTags = <span class="hljs-built_in">Array</span>.from(uniqueTagsSet)
+
+allDoodles.forEach(<span class="hljs-function"><span class="hljs-params">doodle</span> =&gt;</span> {
+    <span class="hljs-keyword">if</span> (doodle.next_doodle !== <span class="hljs-literal">null</span>) {
+        <span class="hljs-keyword">const</span> nextDoodle = doodle.next_doodle
+        <span class="hljs-keyword">const</span> nextDoodleHash = generateDoodleHash(nextDoodle)
+
+        doodle.next_doodle = nextDoodleHash
+    }
+
+    <span class="hljs-keyword">if</span> (doodle.prev_doodle !== <span class="hljs-literal">null</span>) {
+        <span class="hljs-keyword">const</span> prevDoodle = doodle.prev_doodle
+        <span class="hljs-keyword">const</span> prevDoodleHash = generateDoodleHash(prevDoodle)
+
+        doodle.prev_doodle = prevDoodleHash
+    }
+
+    doodle.related_doodles = doodle.related_doodles.map(<span class="hljs-function"><span class="hljs-params">relatedDoodle</span> =&gt;</span> {
+        <span class="hljs-keyword">const</span> relatedDoodleHash = generateDoodleHash(relatedDoodle)
+
+        <span class="hljs-keyword">return</span> relatedDoodleHash
+    })
+
+    doodle.history_doodles = doodle.history_doodles.map(<span class="hljs-function"><span class="hljs-params">historyDoodle</span> =&gt;</span> {
+        <span class="hljs-keyword">const</span> historyDoodleHash = generateDoodleHash(historyDoodle)
+
+        <span class="hljs-keyword">return</span> historyDoodleHash
+    })
+
+    doodle.countries = doodle.countries.map(<span class="hljs-function"><span class="hljs-params">country</span> =&gt;</span>
+        uniqueCountries.indexOf(country.trim().toLowerCase())
+    )
+
+    doodle.tags = doodle.tags.map(<span class="hljs-function"><span class="hljs-params">tag</span> =&gt;</span>
+        uniqueTags.indexOf(tag.trim().toLowerCase())
+    )
+})
+
+<span class="hljs-comment">// step 3</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">writeJSON</span>(<span class="hljs-params">filepath, json</span>) </span>{
+    writeFileSync(filepath, <span class="hljs-built_in">JSON</span>.stringify(json))
+}
+
+writeJSON(<span class="hljs-string">'doodles.norm.json'</span>, allDoodles)
+writeJSON(<span class="hljs-string">'countries.json'</span>, uniqueCountries)
+writeJSON(<span class="hljs-string">'tags.json'</span>, uniqueTags)</code></pre></figure><p>We can apply the same idea to all the URLs by extracting all base URLs and store them as separate JSON for the following keys:</p>
+<ul>
+<li><code>url</code></li>
+<li><code>alternate_url</code></li>
+<li><code>hires_url</code></li>
+<li><code>standalone_html</code></li>
+<li><code>call_to_action_image_url</code></li>
+</ul>
+<p>And all of those URLs have the following base URLs:</p>
+<ul>
+<li><code>https://lh3.googleusercontent.com</code></li>
+<li><code>https://www.google.com/logos/doodles</code></li>
+<li><code>https://www.google.com/logos</code></li>
+</ul>
+<figure><pre class="hljs"><code><span class="hljs-comment">// ...</span>
+
+<span class="hljs-keyword">const</span> linkTypes = [
+    <span class="hljs-string">'alternate_url'</span>,
+    <span class="hljs-string">'call_to_action_image_url'</span>,
+    <span class="hljs-string">'hires_url'</span>,
+    <span class="hljs-string">'standalone_html'</span>,
+    <span class="hljs-string">'url'</span>,
+]
+
+<span class="hljs-keyword">const</span> urlPrefixes = [
+    <span class="hljs-string">'lh3.googleusercontent.com'</span>,
+    <span class="hljs-string">'www.google.com/logos'</span>,
+    <span class="hljs-string">'www.google.com/logos/doodles'</span>,
+]
+
+<span class="hljs-comment">// step 4</span>
+allDoodles.forEach(<span class="hljs-function"><span class="hljs-params">doodle</span> =&gt;</span> {
+    linkTypes.forEach(<span class="hljs-function"><span class="hljs-params">linkType</span> =&gt;</span> {
+        <span class="hljs-keyword">const</span> link = doodle[linkType]
+
+        <span class="hljs-keyword">switch</span> (<span class="hljs-literal">true</span>) {
+            <span class="hljs-keyword">case</span> link.startsWith(<span class="hljs-string">'https://lh3.googleusercontent.com'</span>):
+                doodle[linkType] = link.replace(
+                    <span class="hljs-string">'https://lh3.googleusercontent.com'</span>,
+                    <span class="hljs-number">0</span>
+                )
+                <span class="hljs-keyword">break</span>
+
+            <span class="hljs-keyword">case</span> link.startsWith(<span class="hljs-string">'//www.google.com/logos'</span>):
+                doodle[linkType] = link.replace(
+                    <span class="hljs-string">'//www.google.com/logos'</span>,
+                    <span class="hljs-number">1</span>
+                )
+                <span class="hljs-keyword">break</span>
+
+            <span class="hljs-keyword">case</span> link.startsWith(<span class="hljs-string">'/logos'</span>):
+                doodle[linkType] = link.replace(<span class="hljs-string">'/logos'</span>, <span class="hljs-number">1</span>)
+                <span class="hljs-keyword">break</span>
+
+            <span class="hljs-keyword">case</span> link.startsWith(<span class="hljs-string">'//www.google.com/logos/doodles'</span>):
+                doodle[linkType] = link.replace(
+                    <span class="hljs-string">'//www.google.com/logos/doodles'</span>,
+                    <span class="hljs-number">2</span>
+                )
+                <span class="hljs-keyword">break</span>
+        }
+    })
+})
+
+writeJSON(<span class="hljs-string">'doodles.norm.json'</span>, allDoodles)
+writeJSON(<span class="hljs-string">'urls.json'</span>, urlPrefixes)</code></pre></figure><h3 id="measure-1">Measure</h3>
+<figure><pre class="hljs"><code>$ du -h *.json
+4.0K    countries.json
+9.5M    doodles.all.json
+1.9M    doodles.norm.json
+ 12K    tags.json
+4.0K    urls.json</code></pre></figure><h2 id="cleaning-up-the-gunk">Cleaning up the gunk</h2>
+<p>There&#39;s still more work we can do. Right now, we are transferring all the 32 key-value pairs but we won&#39;t need all of them. Once we decide what which ones to keep, we can create a schema for our data.</p>
+<figure><pre class="hljs"><code><span class="hljs-comment">// ...</span>
+
+<span class="hljs-keyword">const</span> schema = [
+    <span class="hljs-comment">/*
+    'alternate_url',
+    'blog_text',
+    'call_to_action_image_url',
+    'collection_id',
+    'doodle_args',
+    'doodle_type',
+    'height',
+    'hires_height',
+    'hires_width',
+    'history_doodles',
+    'id',
+    'is_animated_gif',
+    'is_dynamic',
+    'is_global',
+    'is_highlighted',
+    'name',
+    'persistent_id',
+    'query',
+    'related_doodles',
+    'share_text',
+    'standalone_html',
+    'translations',
+    'width',
+    'youtube_id',
+    */</span>
+
+    <span class="hljs-string">'countries'</span>,
+    <span class="hljs-string">'hires_url'</span>,
+    <span class="hljs-string">'next_doodle'</span>,
+    <span class="hljs-string">'prev_doodle'</span>,
+    <span class="hljs-string">'run_date_array'</span>,
+    <span class="hljs-string">'tags'</span>,
+    <span class="hljs-string">'title'</span>,
+    <span class="hljs-string">'url'</span>,
+
+    <span class="hljs-string">'_id'</span>, <span class="hljs-comment">// unique ID for each doodle</span>
+]
+
+<span class="hljs-keyword">const</span> cleanDoodles = allDoodles.map(<span class="hljs-function"><span class="hljs-params">doodle</span> =&gt;</span>
+    schema.map(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> doodle[key])
+)
+
+writeJSON(<span class="hljs-string">'doodles.clean.json'</span>, cleanDoodles)
+writeJSON(<span class="hljs-string">'schema.json'</span>, schema)</code></pre></figure><h3 id="measure-2">Measure</h3>
+<figure><pre class="hljs"><code>$ du -h doodles.clean.json
+124K    doodles.clean.json</code></pre></figure><h2 id="packaging-and-compression">Packaging and Compression</h2>
+<h3 id="packaging">Packaging</h3>
+<p>The final part is packaging and compression. At the end of normalization, we end up the following files:</p>
+<ul>
+<li><code>schema.json</code></li>
+<li><code>countries.json</code></li>
+<li><code>tags.json</code></li>
+<li><code>urls.json</code></li>
+</ul>
+<p>Fetching these 4 files would require 8 round trips from the client, to the server, and back to the client. If we merge everything into a single <code>meta.json</code>, we can get the same data with just one request.</p>
+<figure><pre class="hljs"><code><span class="hljs-comment">// ...</span>
+
+writeJSON(<span class="hljs-string">'meta.json'</span>, {
+    schema,
+    <span class="hljs-attr">countries</span>: uniqueCountries,
+    <span class="hljs-attr">tags</span>: uniqueTags,
+    <span class="hljs-attr">urls</span>: urlPrefixes,
+})</code></pre></figure><h3 id="compression">Compression</h3>
+<p>We can compress our final JSON data with <code>gzip</code> or a higher compression ratio algorithm <a href="https://wikipedia.org/wiki/Brotli" rel="nofollow noopener noreferrer"><code>brotli</code></a>.</p>
+<figure><pre class="hljs"><code>$ gzip --keep --best doodles.clean.json
+
+$ du -h meta.json doodles.clean.json.gz
+12K    meta.json
+32K    doodles.clean.json.gz</code></pre></figure><h3 id="measure-3">Measure</h3>
+<p>Packaging reduced the number of requests and compression brought down our final payload size. We started out with a single huge blob of <code>9.5MB</code> and ended up with 2 <em>lean</em> files that add up to less than <code>50KB</code>. This is a almost a <code>x200</code> times reduction (<code>x190</code> to be precise).</p>
+<h2 id="the-end">The end</h2>
+<p>Google has been releasing doodles since 1998 and has released over 3000 doodles. 386 doodles were released in 2016 alone. At time of writing, the entire doodles data adds up to <code>60MB</code>.</p>
+<p>If we apply the same pipeline on their entire dataset, we get out <code>52KB</code> of metadata and <code>340KB</code> of compressed data. This is still 150 times better and under <code>1MB</code>.</p>
+</main><footer class="footer_8"><a href="/20170902-write-a-stream-ripper-with-mediarecorder" class="relatedPosts_9 prevPost_11">⟵ Write a stream ripper with MediaRecorder</a><a href="/20170730-correct-blur-with-de-gamma/" class="relatedPosts_9 nextPost_10">Correct blur with de-gamma ⟶</a></footer></body></html>
