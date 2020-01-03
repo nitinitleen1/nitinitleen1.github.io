@@ -1,27 +1,23 @@
-{% if site.disqus %}
-<div class="comments">
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-	    var disqus_shortname = '{{ site.disqus }}';
-	    // ensure that pages with query string or anchor get the same discussion
-            var url_parts = window.location.href.split("?");
-            url_parts = url_parts[0].split("#");
-            disqus_url = url_parts[0];
-            disqus_url = disqus_url.replace(/(\/)*$/, "/"); // make sure the URL ends with one slash
-            
-            // Jekyll 3 caused so many bugs, I'm tired of fixing them one by one properly, so I'll just hack it...
-            // https://github.com/jekyll/jekyll/issues/4483
-            // The projects page now has a trailing slash, it didn't used to
-            if (disqus_url.substr(-9) == "projects/") {
-            	disqus_url = disqus_url.substr(0, disqus_url.length - 1);
-            }
+<br><br>
+ <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = '{{ site.disqusid }}'; // required: replace example with your forum shortname
+	{% if layout.rtype == "post" %}
+        var disqus_identifier = "{{ site.disqusid }}/{{ page.date | date: "%Y/%m/%d" }}{{ page.id | replace: '/blog','' }}";
+        var disqus_url = "{{ site.disqusurl }}{{ page.url | replace:'index.html','' }}";
+	{% else %}
+	   var disqus_identifier = "{{ site.disqusid }}{{ page.url | replace:'index.html','' }}";
+	{% endif %}
 
-	    (function() {
-	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	    })();
-	</script>
-	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-{% endif %}
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<!-- disqus -->
+<br><br>

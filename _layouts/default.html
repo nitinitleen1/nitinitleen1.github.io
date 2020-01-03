@@ -1,9 +1,190 @@
----
-layout: base
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
-<div class="intro-header"></div>
+  <meta charset="UTF-8">
+  <title>{{ page.title }} &middot; {{ site.title }}</title>
+  <meta name="viewport" content="width=device-width">
+  <meta name="author" content="{{ site.author.fullname }}">
+  <link rel="author" href="https://plus.google.com/u/0/+{{ site.author.google }}/posts">
+  {% if layout.rtype == "post" or layout.rtype == "page" %}
+  <!-- takes raw content -->
+  <meta name="description" content="{{ page.content | strip_html | truncatewords: 30 }}">
+  {% else %}
+  <meta name="description" content="{{ site.description | strip_html | truncatewords: 30 }}">
+  {% endif %}
 
-<div role="main" class="container">
-  {{ content }}
-</div>
+  {% if page.title == "Home" %}
+  <meta name="google-site-verification" content="{{ site.googleverify }}" />
+  {% endif %}
+
+  <!-- pinterest -->
+  <meta name="p:domain_verify" content="5144061c573fee339d95e37b245809f6"/>
+
+  <!-- fix multiple links -->
+  <link rel="canonical" href="{{ site.fullpath }}{{ page.url | replace:'index.html','' }}" />
+
+  <!-- icons -->
+  {% if page.favicon != null %}
+  <link rel="shortcut icon" href="favicon.ico" />
+  {% endif %}
+
+  <!-- HIGHLIGHTER SCRIPTS -->
+
+  <!-- fonts -->
+<!--   <link href='https://fonts.googleapis.com/css?family=Anonymous+Pro:700,400' rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/css?family=Raleway:200,400,500" rel="stylesheet"> -->
+
+  <!-- stylesheets -->
+  <link rel="alternate" type="application/atom+xml" href="http://feeds.feedburner.com/aviaryan" title="RSS feed" />
+  <link rel="preload" href="/assets/uikit/css/uikit.min.css" as="style">
+  <link href="/assets/uikit/css/uikit.min.css" rel="stylesheet" />
+  <link href="/assets/css/style_new.css" rel="stylesheet" />
+  <link href="/assets/css/zenburn.css" rel="stylesheet" />
+
+
+{% include ga.html %}
+
+{% if layout.rtype == "post" %}
+  <!-- meta for blog posts -->
+  {% include meta_json_ld.html %}
+{% endif %}
+
+</head>
+
+<body>
+
+  <div class="uk-container-expand">
+
+    {% if page.title == "Home" %}
+    <div class="uk-inline">
+      <!-- https://www.pexels.com/photo/abstract-action-art-astronomy-262831/ -->
+      <img src="https://aviaryan.in/downloads/static/avi_site_bg_w1400.jpg" 
+        srcset="https://aviaryan.in/downloads/static/avi_site_bg_w550.jpg 550w,
+          https://aviaryan.in/downloads/static/avi_site_bg_w1000.jpg 1000w,
+          https://aviaryan.in/downloads/static/avi_site_bg_w1400.jpg 1400w,
+          https://aviaryan.in/downloads/static/avi_site_bg_w2000.jpg 2000w,
+          https://aviaryan.in/downloads/static/avi_site_bg_w3500.jpeg 3500w"
+        sizes="(max-width: 570px) 550px,
+          (max-width: 1020px) 1000px,
+          (max-width: 1420px) 1400px,
+          (max-width: 2020px) 2000px,
+          3500px"
+        class="overlay" alt="A beautiful background image that makes no sense">
+      <div class="uk-overlay uk-position-center">
+        <div class="uk-flex my-info">
+          <div class="my-image center-image">
+            <img class="uk-border-circle" src="https://gravatar.com/avatar/4ab40e6b657e0bc91bf4961450f96420?size=200"
+              alt="Avi's head shot" />
+          </div>
+          <div class="uk-overlay-primary uk-padding uk-margin-left my-message">
+            Hi! 👋,<br>
+            I am Avi. I like making stuff and I am planning to start my own business💰 soon enough.
+            These days, I work 💼 part-time ✈️ with Udacity and <a href="https://www.toptal.com/resume/avi-aryan#engage-nothing-but-knowing-software-programmers" class="normal-link" target="_blank">Toptal</a>.
+            I have worked with Google (gsoc) and appbase.io in the past.
+          </div>
+        </div>
+      </div>
+
+      <div class="uk-position-top">
+        <nav class="uk-navbar-container uk-navbar-transparent home-nav" uk-navbar>
+          {% include nav_items.html %}
+        </nav>
+      </div>
+    </div>
+    {% else %}
+    <nav class="uk-navbar-container" uk-navbar>
+      {% include nav_items.html %}
+    </nav>
+    {% endif %}
+
+          <!-- <li><a href="{% if page.ghlink != null %}{{page.ghlink}}{% else %}http://www.github.com/{{site.author.github}}{% endif %}" target="_blank">GitHub</a></li> -->
+
+        <!-- <div class="latest-post">
+            {% if layout.rtype != "post" %}
+            <li class="latestposts-header">Latest Posts</li>
+            {% for post in site.posts limit:5%}
+            <li class="latestposts-box">
+                <a href="{{ post.url }}"> <span class="latestposts">{{ post.title }}</span> </a>
+            </li>
+            {% endfor %}
+            <li></li>
+            {% else %}
+            {% if page.category != null %}
+            <li class="navigation-header-small latestposts-header">Category</li>
+            <li class="top-xs category-list bottom-xs"><font class="heading"><a href="/blog/{{ page.category }}/"><span class="button button-cat">{{ page.category }}</span></a></font></li>
+            {% endif %}
+
+            <li class="navigation-header-small latestposts-header">Tags</li>
+            <li class="top-xs tag-list">
+                <a href="/blog/tags.html#untagged"><span class="button button-tag">Untagged</span></a>
+                {% for tag in site.tags %}<a href="/blog/tags.html#{{ tag | first }}">
+                <span class="button button-tag">{{ tag | first }}</span></a>
+                {% endfor %}
+            </li>
+            {% endif %}
+        </div> -->
+    
+    <!--<br><br> &lt;!&ndash; extra space in case of small page &ndash;&gt;-->
+
+    <!-- {% if layout.rtype == "page" %}
+      {% capture xcid %}xcpg{% endcapture %}
+    {% else %}
+      {% capture xcid %}xc{% endcapture %}
+    {% endif %} -->
+
+   {% if page.title != "Home" %}
+
+   <div id="page" class="uk-container uk-container-small uk-margin-large-top">
+      
+    <header class="uk-heading-divider">
+      <h1 class="uk-h1">{{ page.title }}</h1>
+
+      <span>
+        <small>
+        {% if layout.rtype == "post" %}
+        by <a href="https://plus.google.com/u/0/+{{ site.author.google }}/posts">{{ site.author.fullname }}</a>
+        <span style="margin: 0px 5px 0px 5px;">|</span>
+        <span class="post_date">{{ page.date | date: "%b %d, %Y" }}</span>
+        {% else %}
+        {{ page.tagline }}{% endif %}
+        </small>
+      </span>
+    </header>
+
+    <div id="data" class="uk-margin-top">
+      {{ content }}
+    </div>
+
+    {% if layout.rtype == "post" %}
+      {% if page.nod == null %}
+        {% include disqus_notauto.html %}
+        <!-- was disqus.html -->
+      {% endif %}
+    {% elsif layout.rtype == "page" %}
+      {% if page.nod == null %}
+        {% include disqus_notauto.html %}
+      {% endif %}
+    {% endif %}
+  
+
+    <footer id="footer" class="uk-text-center uk-text-small uk-margin-large-top">
+      <p>Copyright &copy; {{ site.time | date: '%Y' }} {{ site.author.fullname }}<br>
+      <span style="color: #8F8F8F;">Powered by <a href="http://jekyllrb.com">Jekyll</a>, Hosted on <a href="https://goo.gl/x1sZID">GitHub</a></span></p>
+    </footer>
+
+  </div>
+
+  {% endif %}
+
+
+  </div>
+
+
+<!-- JS AT THE END FOR FASTER LOAD -->
+
+<script src="/assets/uikit/js/uikit.min.js"></script>
+<script src="/assets/uikit/js/uikit-icons.min.js"></script>
+
+</body>
+</html>

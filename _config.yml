@@ -1,82 +1,31 @@
-gems: [jekyll-paginate]
+name: Avi Aryan
 
-url: "http://nitinitleen1.github.io"
-baseurl: ""
-title: Nitin Singh
-description: "A computer science student persuing B.TECH from IIITVADODARA and a programming enthusiast."
-
-# --- Outputting options --- #
-# More information can be found on Jekyll's site
-timezone: " Asia/Calcutta"
 markdown: kramdown
+
+fullpath: https://aviaryan.in
+description: Avi Aryan's personal website
+baseurl: 
+permalink: /blog/:categories/:title.html
+title: Avi Aryan
+
 highlighter: rouge
-permalink: /blog/:title/
-paginate: 5
-paginate_path: "/page:num/"
-avatar: "/img/nitinimg.jpeg"
 
-# List of links in the navigation bar
-navbar-links:
-  Blog: ""
-  Shiny: "shiny"
-  Projects: "projects"
-  About Me / Contact: "aboutme"
-nav-search: "search"
+plugins:
+  - jemoji
+  - jekyll-mentions
 
+# More
 author:
-  name: Nitin Singh
-  email: "nitin.iiitv@gmail.com"
-  facebook: nitin.singh.357622
-  github: nitinitleen1
-  twitter: nitinkumarsin10
-  linkedin: nitinnks
-  stackoverflow: users/7629885/nitin-singh
-  
-# Select which links to show in the footer  
-footer-links-active:
-  rss: false
-  facebook: true
-  email: true
-  twitter: true
-  github: true
-  linkedin: false
-  stackoverflow: true
-  
-share-links-active:
-  twitter: true
-  facebook: true
-  linkedin: true
+    fullname: Avi Aryan
+    twitter: aviaryan123
+    github: aviaryan
+    facebook: aviaryan123
+    image: https://avatars0.githubusercontent.com/u/4047597?v=3&s=256
+    google: AviAryan
+    gplusid: 110328513842183229282
 
-url-pretty: "nitinitleen1.github.io" 
-
-disqus: "nitin-site"
-
-# Fill in your Google Analytics ID to track your website using GA
-google_analytics: "UA-59820529-1"  # Your Google Analytics ID
-
-fb_app_id: "536330676521989"
- 
-defaults:
-  -
-    scope:
-      path: ""
-      type: "posts"
-    values:
-      layout: "post"
-      comments: true  # add comments to all blog posts 		
-      show-share: true # add sharing buttons to all blog posts		
-      show-subscribe: true # add subscribe email to all blog posts
-      addthis-plugin: true
-  -
-    scope:
-      path: "" # all files
-    values:
-      layout: "page"
-      show-avatar: true
-
-exclude:
-  - CNAME
-  - LICENSE
-  - README.md
-
-
+googleverify: gC8gMLC1UpPDYi2y5KR_9Sq79n4TYMiQM7UcSvtyfms
+disqusid: avi-aryan-github
+disqusurl: https://aviaryan.in
+exclude: ['README.md', 'Gemfile.lock', 'Gemfile', 'Rakefile']
+jekyllversion: 3.7.3
