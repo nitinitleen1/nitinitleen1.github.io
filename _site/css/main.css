@@ -332,7 +332,7 @@ green     #859900  operators, other keywords
 
 .by-line { display: block; color: #894938; line-height: 1.5em; /* 24px/16px */ margin-bottom: 1.5em; /* 24px/16px */ font-weight: 600; }
 
-@media (min-width: 940px) { .by-line { display: block; color: #747474; line-height: 1.3334em; /* 24px/18px */ margin-bottom: 1.3334em; /* 24px/18px */ font-weight: 200; } }
+@media (min-width: 940px) { .by-line { display: block; color: #747474; line-height: 1.3334em; /* 24px/18px */ margin-bottom: 1.3334em; /* 24px/18px */ font-weight: 600; } }
 
 img { max-width: 100%; display: block; margin: 0 auto; margin-bottom: 24px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -ms-border-radius: 4px; border-radius: 4px; }
 
