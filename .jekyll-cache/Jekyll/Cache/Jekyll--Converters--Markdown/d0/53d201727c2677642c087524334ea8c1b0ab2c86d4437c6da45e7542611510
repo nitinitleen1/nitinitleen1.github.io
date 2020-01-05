@@ -1,0 +1,57 @@
+I"j<h2 id="engeene">Engeene</h2>
+<p>Sito verticale, focalizzato su notizie, articoli ed approfondimenti relativi al mondo delle tecnologie informatiche.</p>
+
+<p><img src="/img/engeene.png" alt="Engeene" title="Engeene" /></p>
+
+<p>Nato nel 2011 con il nome di <strong>Googlab</strong>, inizialmente si concentrava su notizie e articoli inerenti il mondo delle tecnologie Google, per poi espandere le proprie tematiche verso tutto il settore. Oltre alla scrittura di <a href="http://www.engeene.it/author/jacopo-rabolini/">molti articoli</a>, per questo progetto mi sono occupato di tutta la parte tecnica e grafica, partendo dall’installazione di <strong>Wordpress</strong>, su cui è basato il sito, fino alla realizzazione delle funzionalità di cui avevamo bisogno, di tutto l’HTML e delle varie parti grafiche.</p>
+
+<blockquote>
+  <p><strong>Link:</strong> <a href="http://www.engeene.it">www.engeene.it</a></p>
+</blockquote>
+
+<h2 id="gdg-milano">GDG Milano</h2>
+<p>Nuovo sito ufficiale del Google Developer Group di Milano, una delle principali community di sviluppatori presenti sul territorio.</p>
+
+<p><img src="/img/gdgmilano.png" alt="GDG Milano" title="GDG Milano" /></p>
+
+<p>Oltre ad essere uno dei manager del GDG Milano, mi sono occupato della realizzazione del nuovo sito di riferimento, dove poter trovare informazioni sul gruppo e notizie sugli eventi.</p>
+
+<p>Il sito è stato realizzato utilizzando <a href="http://jekyllrb.com">Jekyll</a>, uno <strong>static site generator</strong> del quale ho parlato anche su <a href="https://medium.com/@jacoporabolini/introduzione-a-jekyll-1c47612b9c85">Medium</a>. Oltre all’ideazione del sito e alla sua realizzazione in HTML, CSS, jQuery e Bootstrap, ne curo anche l’aggiornamento e la manutenzione.</p>
+
+<blockquote>
+  <p><strong>Link:</strong> <a href="http://www.gdgmilano.org">www.gdgmilano.org</a></p>
+</blockquote>
+
+<h2 id="emerald-star">Emerald <a class="github-button" href="https://github.com/KingFelix/Emerald" data-icon="octicon-star" data-count-href="/KingFelix/Emerald/stargazers" data-count-api="/repos/KingFelix/Emerald#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star KingFelix/Emerald on GitHub">Star</a></h2>
+<p>Blog minimale creato per <strong>Jekyll</strong>, il cui scopo principale è quello di fornire un tema semplice e pronto all’uso.</p>
+
+<p><img src="/img/emerald.png" alt="Emerald" title="Emerald" /></p>
+
+<p>Emerald è stato realizzato in HTML, CSS e Javascript, senza l’ausilio di nessuna libreria esterna. Il sito su cui vi trovate ora si basa proprio su Emerald, progetto che potete <a href="https://github.com/KingFelix/emerald">trovare su Github</a> e che può essere liberamente scaricato ed utilizzato.</p>
+
+<blockquote>
+  <p><strong>Link:</strong> <a href="http://www.jacoporabolini.com/emerald">www.jacoporabolini.com/emerald</a></p>
+</blockquote>
+
+<h2 id="wired-next-fest-2015">Wired Next Fest 2015</h2>
+<p>Workshop sul responsive design.</p>
+
+<p><img src="/img/wnf15.jpg" alt="Wired Next Fest 2015" title="WNF15" /></p>
+
+<p>In occasione dell’edizione 2015 della Wired Next Fest, ho tenuto un <a href="http://nextfest2015.wired.it/events/web-cross-device-costruire-siti-web-responsive/">workshop di una giornata sul responsive design</a>. Il workshop si è svolto in due momenti distinti con una prima parte nel quale ho tenuto un talk dal titolo <a href="https://speakerdeck.com/kingfelix/web-cross-device">Web Cross Device</a>, ed una seconda parte di codelab, in cui gli intervenuti dovevano utilizzare quanto appreso per modificare un sito statico d’esempio, nella corrispettiva responsive, raggiungibile dal link qui di seguito.</p>
+
+<blockquote>
+  <p><strong>Link:</strong> <a href="http://www.jacoporabolini.com/wnf-demo/">www.jacoporabolini.com/wnf-demo/</a></p>
+</blockquote>
+
+<h2 id="blu">Blu</h2>
+<p>Preview del prossimo progetto basato su Jekyll.</p>
+
+<p><img src="/img/blu.png" alt="Blu" title="Blu" /></p>
+
+<p><strong>Blu</strong> prende una strada leggermente diversa da <strong>Emerald</strong> e introduce un uso più ampio delle immagini, l’uso di categorie per i post e il classico meno orizzontale a scomparsa. Anche in questo caso non sto facendo uso di librerie esterne per lo sviluppo e il tutto sarà poi rilasciato <strong>open source</strong>.</p>
+
+<blockquote>
+  <p><strong>Link:</strong> <a href="http://www.jacoporabolini.com/blu/">www.jacoporabolini.com/blu/</a></p>
+</blockquote>
+:ET

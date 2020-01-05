@@ -1,0 +1,36 @@
+I"O<p>Ho rilasciato, già da un po’ a dire il vero, la nuova versione di <strong>Emerald</strong>, il template per Jekyll su cui si basa questo sito. Ho avuto un po’ da fare in questo periodo, quindi non sono riuscito a scrivere subito un post a riguardo, ma adesso eccoci qua.</p>
+
+<p>Partiamo col dire che il blog che state leggendo è aggiornato proprio alla 1.1.0 e che in questa versione ho voluto includere alcune migliorie, sopratutto per quanto riguarda la personalizzazione del tema una volta scaricato.</p>
+
+<p>Il mio intento era quello di rendere Emerald personalizzabile in maniera veloce e, allo stesso tempo, fare in modo che non fosse complicato aggiornare il tema alle future versioni.</p>
+
+<p>Detto questo, via alle novità.</p>
+
+<h3 id="custom-header">Custom Header</h3>
+<p>Una delle prime cose che logicamente si vuole personalizzare di un template è l’intestazione contenente il proprio logo. Per questo motivo ho voluto facilitare questa operazione includendo un’opzione apposita. Nel file <code class="highlighter-rouge">_config.yml</code> sotto la sezione dedicata alle opzioni, potete ora impostare <code class="highlighter-rouge">custom_header</code> su <code class="highlighter-rouge">true</code>. In questo modo Emerald andrà ad inserire nel layot del blog, il codice presente in <code class="highlighter-rouge">header-custom.html</code>, che potete trovare nella cartella <code class="highlighter-rouge">_includes</code>, al posto del normale <code class="highlighter-rouge">header.html</code>.</p>
+
+<h3 id="custom-nav-footer">Custom Nav Footer</h3>
+<p>Allo stesso modo dell’intestazione, ora è possibile personalizzare il footer del menu di navigazione, inseren do ad esempio icone social, un messaggio o quello che desiderate. Per poterlo fare è sufficiente impostare l’opzione <code class="highlighter-rouge">custom_nav_footer</code> su <code class="highlighter-rouge">true</code> e inserire il vostro codice all’interno del file <code class="highlighter-rouge">nav-footer-custom.html</code>.</p>
+
+<h3 id="reverse-menu">Reverse Menu</h3>
+<p>Di base il menu e la relativa icona ad “hamburger”, si trovano sulla destra del sito. Ho pensato di metterla in quel punto sopratutto in ottica mobile, perchè semplifica l’apertura del menu all’utente. In ogni caso ho pensato di inserire un’opzione che permettesse, in modo semplice, di modificare questa impostazione e posizionare icona e menu sulla sinistra del sito. Per poterlo fare è sufficiente impostare l’opzione <code class="highlighter-rouge">reverse</code> su <code class="highlighter-rouge">true</code>.</p>
+
+<h3 id="automatic-link">Automatic Link</h3>
+<p>In questa nuova versione ho incluso la generazione automatica dei link alle pagine all’interno del menu. Per poterla attivare tutto quello che dovete fare è impostare il layout della pagina su <code class="highlighter-rouge">page</code> e lasciare che Emerald faccia il resto. L’anchor del link sarà equivalente al title della pagina.</p>
+
+<h3 id="custom-link">Custom Link</h3>
+<p>All’interno del menu potreste vole inserire dei link che rimandano a specifici post del vostro blog, oppure a pagine esterne. Per poterlo fare vi basta inserire i link all’interno del file <code class="highlighter-rouge">link.html</code> che trovate nella cartella <code class="highlighter-rouge">_includes</code>. I link vanno inseriti con normali tag <code class="highlighter-rouge">&lt;a&gt;...&lt;/a&gt;</code>.</p>
+
+<h3 id="atom-feed">Atom Feed</h3>
+<p>In utlimo ho aggiunto un feed Atom che viene aggiornato ogni volta che il blog viene rigenerato ed è disponibile all’indirizzo <code class="highlighter-rouge">/atom.xml</code>.</p>
+
+<h3 id="prossimamente">Prossimamente…</h3>
+<p>Per la prossima versione di Emerald ho già delle idee, anche se vorrei mantenere il tema semplice. In ogni caso prevedo di inserire alcuni elemnti per far crescere il tema e renderlo più completo rispetto a quelle caratteristiche che ci si aspetta da un blog. Alcune caratteristiche future potrebbero essere:</p>
+
+<ul>
+  <li>Categorie</li>
+  <li>Commenti</li>
+  <li>Temi di base</li>
+  <li>Gestione delle bozze</li>
+</ul>
+:ET

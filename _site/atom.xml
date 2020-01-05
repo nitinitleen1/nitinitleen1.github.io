@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+ <title>Nitin Kumar Singh | Data Architect</title>
+ <link href="http://localhost:4000/atom.xml" rel="self"/>
+ <id>http://localhost:4000</id>
+ <updated>2020-01-03T19:44:32+05:30</updated>
+ <author>
+   <name>Nitin Kumar Singh</name>
+   <uri>https://nkstech.live</uri>
+   <email>nitin.iiitv@gmail.com</email>
+ </author>
+
+ 
+
+ <entry>
+   <title>Le Leggi della UX</title>
+   <link href="http://localhost:4000/le-leggi-della-ux/"/>
+   <id>http://localhost:4000/le-leggi-della-ux</id>
+   <updated>2018-07-26T00:00:00+05:30</updated>
+   <content type="html">&lt;p&gt;Un interessante lavoro di &lt;a href=&quot;https://jonyablonski.com&quot;&gt;Jon Yablonski&lt;/a&gt;, Interaction Designer a &lt;a href=&quot;https://www.vectorform.com/&quot;&gt;Vectorform&lt;/a&gt;, raccoglie una serie di principi e massime utili ai designer che lavorano alla creazione di interfacce utente. La prima volta che sono stato sul sito in questione le &lt;a href=&quot;https://lawsofux.com/&quot;&gt;Leggi della UX&lt;/a&gt; erano 12, mentre ora sono arrivate...</content>
+ </entry>
+
+ 
+
+ <entry>
+   <title>Illustratore, Grafico e Web Designer: facciamo chiarezza</title>
+   <link href="http://localhost:4000/un-po-di-chiarezza/"/>
+   <id>http://localhost:4000/un-po-di-chiarezza</id>
+   <updated>2018-06-26T00:00:00+05:30</updated>
+   <content type="html">&lt;p&gt;Spinto dal desiderio di fare chiarezza su titoli e professioni in apparenza, ma solo ad occhio inesperto, molto simili, ho scritto un articolo sul &lt;a href=&quot;https://www.linkedin.com/in/jacopo-rabolini/&quot;&gt;mio profilo Linkedin&lt;/a&gt;. Non ho dubbi sul fatto che non sarà esaustivo, ma per lo meno può essere un punto di partenza per chi non...</content>
+ </entry>
+
+ 
+
+ <entry>
+   <title>Usare Jekyll con Gulp e BrowserSync</title>
+   <link href="http://localhost:4000/jekyll-gulp-browsersync/"/>
+   <id>http://localhost:4000/jekyll-gulp-browsersync</id>
+   <updated>2016-10-01T00:00:00+05:30</updated>
+   <content type="html">&lt;p&gt;Durante lo sviluppo di un nuovo progetto, Jekyll mette a disposizione un server interno, che si occupa di generare il sito a partire dai nostri file e dai nostri contenuti. A seconda delle esigenze, potrebbe essere utile avere a disposizione qualche opzione più evoluta, come il live reloading. Ed è...</content>
+ </entry>
+
+ 
+
+ <entry>
+   <title>Display, opacity e visibility: facciamo chiarezza</title>
+   <link href="http://localhost:4000/display-opacity-visibility/"/>
+   <id>http://localhost:4000/display-opacity-visibility</id>
+   <updated>2016-04-12T00:00:00+05:30</updated>
+   <content type="html">&lt;p&gt;Esistono diversi modi per far scomparire un elemento dal nostro layout tramite l’uso dei CSS. A volte è facile confondersi perchè in apparenza le proprietà che andremo ad analizzare svolgono funzioni molto simili. Conoscerne le differenze però è importante, non solo per evitare effetti indesiderati, ma per poterle utilizzare al...</content>
+ </entry>
+
+ 
+
+ <entry>
+   <title>Jekyll 3 e la paginazione dei post</title>
+   <link href="http://localhost:4000/jekyll-3-paginazione/"/>
+   <id>http://localhost:4000/jekyll-3-paginazione</id>
+   <updated>2016-02-25T00:00:00+05:30</updated>
+   <content type="html">&lt;p&gt;Dalla versione 3 in poi di Jekyll, alcune delle funzionalità principali di questo &lt;strong&gt;static site generator&lt;/strong&gt;, sono state portate all’esterno del modulo principale, il core di Jekyll e resi dei moduli indipendenti. In questo modo si semplifica lo sviluppo e la manutenzione delle diverse componenti e si rende tutto il...</content>
+ </entry>
+
+ 
+
+ <entry>
+   <title>Hamburger icon animata senza immagini</title>
+   <link href="http://localhost:4000/hamburger/"/>
+   <id>http://localhost:4000/hamburger</id>
+   <updated>2015-11-30T00:00:00+05:30</updated>
+   <content type="html">&lt;p&gt;La classica icona ad hamburger, quella con le tre linee parallele che potete vedere anche in questo blog in alto a destra, è ormai diventata uno standard the facto per quel che riguarda l’accesso a menu di navigazione ed opzioni.&lt;/p&gt; &lt;p&gt;La si può realizzare in molti modi, a partire da...</content>
+ </entry>
+
+ 
+
+ <entry>
+   <title>Emerald 1.1.0</title>
+   <link href="http://localhost:4000/emerald-1-1-0/"/>
+   <id>http://localhost:4000/emerald-1-1-0</id>
+   <updated>2015-06-27T00:00:00+05:30</updated>
+   <content type="html">&lt;p&gt;Ho rilasciato, già da un po’ a dire il vero, la nuova versione di &lt;strong&gt;Emerald&lt;/strong&gt;, il template per Jekyll su cui si basa questo sito. Ho avuto un po’ da fare in questo periodo, quindi non sono riuscito a scrivere subito un post a riguardo, ma adesso eccoci qua.&lt;/p&gt; &lt;p&gt;Partiamo...</content>
+ </entry>
+
+ 
+
+ <entry>
+   <title>Google I/O Extended 2015</title>
+   <link href="http://localhost:4000/google-io-extended-2015/"/>
+   <id>http://localhost:4000/google-io-extended-2015</id>
+   <updated>2015-04-29T00:00:00+05:30</updated>
+   <content type="html">&lt;p&gt;Tra meno di un mese avrà inizio il &lt;a href=&quot;http://google.com/io&quot;&gt;Google I/O&lt;/a&gt;, l’appuntamento annuale più importante di Google, in cui verranno presentate le novità per gli sviluppatori per l’anno a seguire e che, inevitabilmente, porterà diverse novità anche in casa (e nelle mani) di milioni di utenti.&lt;/p&gt; &lt;p&gt;Come sapete sono tra...</content>
+ </entry>
+
+ 
+
+ <entry>
+   <title>Jekyll Hosting - Github Pages</title>
+   <link href="http://localhost:4000/jekyll-hosting-github-pages/"/>
+   <id>http://localhost:4000/jekyll-hosting-github-pages</id>
+   <updated>2015-04-15T00:00:00+05:30</updated>
+   <content type="html">&lt;p&gt;Una delle cose più belle di Jekyll è la sua versatilità sul fronte hosting. Ok, si tratta di un generatore di siti statici, quindi, trattandosi di file statici appunto, la versatilità è un fattore comune a quasi tutti i generatori di questo tipo. Jekyll però ha dalla sua un’arma in...</content>
+ </entry>
+
+ 
+
+ <entry>
+   <title>Vi presento Emerald</title>
+   <link href="http://localhost:4000/vi-presento-emerald/"/>
+   <id>http://localhost:4000/vi-presento-emerald</id>
+   <updated>2015-03-01T00:00:00+05:30</updated>
+   <content type="html">&lt;p&gt;Il sito che vi trovate di fronte è realizzato mediante l’uso di &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll&lt;/a&gt;, uno &lt;strong&gt;static site generator&lt;/strong&gt; di cui parleremo ancora su queste pagine. In particolare però, si basa su un piccolo progetto che ho realizzato proprio per Jekyll.&lt;/p&gt; &lt;p&gt;Dato che Jekyll è fondamentalmente realizzato in Ruby, mi è...</content>
+ </entry>
+
+ 
+
+</feed>

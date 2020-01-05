@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- Meta -->
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+	<meta name="generator" content="Jekyll">
+
+	<title>Jekyll 3 e la paginazione dei post</title>
+
+	<!-- CSS & fonts -->
+	<link rel="stylesheet" href="/css/main.css">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700,800" rel="stylesheet">
+
+	<!-- RSS -->
+	<link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" />
+<script type="text/javascript"> window.$crisp=[];window.CRISP_WEBSITE_ID="af5a7516-d932-4078-af4a-4d58fdebb1fa";(function(){ d=document;s=d.createElement("script"); s.src="https://client.crisp.chat/l.js"; s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})(); </script>
+<script type="text/javascript" charset="utf-8" src="https://connect.getliner.com/sdk/sdk-in-site.js"></script>
+</head>
+
+
+<body>
+	<div id="wrap">
+	  	
+	  	<!-- Navigation -->
+	  	<nav id="nav">
+	<div id="nav-list">
+		<a href="">Home</a>
+
+		<!-- Nav pages -->
+	  
+	    
+	      <a href="/about/" title="Due parole su di me">Due parole su di me</a>
+	    
+	  
+	    
+	  
+	    
+	  
+	    
+	  
+	    
+	      <a href="/portfolio/" title="Alcune cose che ho fatto">Alcune cose che ho fatto</a>
+	    
+	  
+	    
+	  
+    
+    <!-- Nav links -->
+	  <a href="http://www.gdgmilano.org">GDG Milano</a>
+
+
+	</div>
+  
+  <!-- Nav footer -->
+	
+	  <footer>
+	
+	<span>Seguimi su:</span>	 
+	  <a class="social github" href="https://github.com/KingFelix"></a>
+      <a class="social linkedin" href="https://www.linkedin.com/in/jacopo-rabolini-a8824426"></a>
+	<a class="social dribbble" href="https://dribbble.com/JacopoRabolini"></a>
+      <a class="social behance" href="https://www.behance.net/jacoporabolini"></a>
+      <a id="theme" href="/emerald">Sito basato su Emerald</a>
+	
+</footer>
+
+	
+
+</nav>
+
+    
+    <!-- Icon menu -->
+	  <a href="#" id="nav-menu">
+	  	<div id="menu"></div>
+	  </a>
+
+      <!-- Header -->
+      
+        <header id="header">
+
+	<h3>Hello! I'm</h3>
+	<a href="http://localhost:4000">
+	  <h1><span>Nitin Kumar</span> Singh</h1>
+	</a>
+	
+</header>
+      
+
+    <!-- Main content -->
+	  <div id="container">
+		  
+		<main>
+
+			<article id="post-page">
+	<h2>Jekyll 3 e la paginazione dei post</h2>		
+	<time datetime="2016-02-25T00:00:00+05:30" class="by-line">25 Feb 2016</time>
+	<div class="content">
+
+		<p>Dalla versione 3 in poi di Jekyll, alcune delle funzionalità principali di questo <strong>static site generator</strong>, sono state portate all’esterno del modulo principale, il core di Jekyll e resi dei moduli indipendenti. In questo modo si semplifica lo sviluppo e la manutenzione delle diverse componenti e si rende tutto il sistema più flessibile.</p>
+
+<p>Una delle funzionalità che è stata portata all’esterno del core e resa un modulo indipendente è la funzione di paginazione, molto importante per un blog. Ora questa funzione è racchiusa in un modulo specifico: <strong>jekyll-paginate</strong>.</p>
+
+<p>Questo modulo non è altro che una gemma Ruby, da aggiungere alla configurazione del nostro progetto. L’operazione è molto semplice. Come prima cosa dobbiamo scaricare il plugin che vogliamo utilizzare, nel nostro caso quindi da terminale digitiamo:</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">~<span class="nv">$ </span>gem <span class="nb">install </span>jekyll-paginate</code></pre></figure>
+
+<p>Una volta installato il plugin, nel file file _config.yml non dobiamo far altro che aggiungere, se già non l’avete, la sezione dedicata alla “gemme” (i plugin che vogliamo utilizzare con il nostro progetto Jekyll) ed elencare di seguito i plugin che voglaimo utilizzare, nel nostro caso:</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="c1"># Plugins</span>
+<span class="na">gems</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">jekyll-paginate</span></code></pre></figure>
+
+<p>Ora il plugin è pronto per essere utilizzato all’interno del nostro progetto come accadeva per la versione 2 di Jekyll.</p>
+
+<p>Una volta in produzione con il nostro progetto, non dovremmo avere problemi di sorta se, ad esempio, decidessimo di pubblicare il nostro sito statico su Amazon S3 e mantenere la sorgente in locale. Il plugin si occupa di generare in locale le pagine e su S3 (o servizio simile), vengono pubblicate belle che pronte.</p>
+
+<p>Ma per quanto riguarda la pubblicazione su Github?</p>
+
+<p>Le Github Pages sono la principale e naturale destinazione di un sito creato mediante Jekyll, tanto che le stesse vengono generate proprio tramite questo static site generator. Di norma quindi sulla Github Pages non facciamo altro che caricare tutto il codice sorgente e lasciare che sia Github ha generare il sito per noi. Ne ho già parlato in un mio <a href="http://www.jacoporabolini.com/jekyll-hosting-github-pages">precedente post su queste pagine</a>.</p>
+
+<p>Le Github Pages non accettano però tutti i plugin. Anzi, a dire il vero ne accetta solo una <a href="https://help.github.com/articles/adding-jekyll-plugins-to-a-github-pages-site/">ristrettisima selezione</a>, tra i quali non è presente il plugin relativo alla paginazione.</p>
+
+<p>In realtà non esiste una reale soluzione a questo problema. Certo, potreste anche in questo caso generare il sito localmente e caricare il codice risultante sulle Github Pages, ma si perderebbe molta dell’utilità e della velocità di questo sistema. Fortunatamente però, al momento Github sembra supportare la paginazione anche senza aver incluso <strong>jekyll-paginate</strong> nella lista dei plugin supportati. Sospetto che la cosa sia dovuta al supporto per le versioni di Jekyll antecedenti alla 3.0 e che lo stesso rimarrà tale fino a quando sarà necessario supportare le vecchie versioni di Jekyll.</p>
+
+<p>E a quel punto credo proprio vedremo comparire nella lista dei plugin supportati anche <strong>jekyll-paginate</strong>.</p>
+
+		
+	</div>
+	
+</article>
+
+
+
+	  </main>
+		
+		  <!-- Pagination links -->
+      
+
+	  </div>
+	    
+	    <!-- Footer -->
+	    <footer><span>@2019 - Jacopo Rabolini</span></footer>
+
+
+	    <!-- Script -->
+      <script src="/js/main.js"></script>	
+<script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+
+
+	</div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+I"8<p>Durante lo sviluppo di un nuovo progetto, Jekyll mette a disposizione un server interno, che si occupa di generare il sito a partire dai nostri file e dai nostri contenuti. A seconda delle esigenze, potrebbe essere utile avere a disposizione qualche opzione più evoluta, come il live reloading. Ed è qui che ci viene in aiuto <a href="https://www.browsersync.io/">Browser Sync</a>. Grazie a <a href="http://gulpjs.com/">Gulp</a>, possiamo espandere le funzioni di base offerte da Jekyll ed includere nel nostro workflow anche Browser Sync, con il quale potremo sfruttare, oltre al live reloading, anche l’opzione di sync tra browser diversi.</p>
+
+<p>Do per scontato che abbiate installato <a href="https://www.nodejs.org">Node.js</a> e relativo package manager, quindi iniziamo con il setup e da terminale digitiamo:</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">~<span class="nv">$ </span>npm init</code></pre></figure>
+
+<p>Inizializziamo il file <em>package.json</em> e rispondiamo alle domande che compariranno sul terminale, inserendo il nome del progetto, la versione, la descrizione e cose di questo genere. Una volta terminato passiamo all’installazione dei componenti che ci servono, quindi digitiamo:</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">~<span class="nv">$ </span>npm <span class="nb">install</span> <span class="nt">--save-dev</span> gulp gulp-shell browser-sync</code></pre></figure>
+
+<p>Con questo comando andremo ad installare, in modalità sviluppo, tre componenti:</p>
+
+<ol>
+  <li><strong>Gulp</strong>: il nostro gestore di task ovviamente</li>
+  <li><strong>Gulp Shell</strong>: plugin per Gulp che permette di lanciare comandi da terminale</li>
+  <li><strong>Browser Sync</strong>: che sfrutteremo per il live reloading e il sync</li>
+</ol>
+
+<p>Una volta installati i componenti procediamo con la creazione del nostro <em>gulpfile.js</em>, in cui inserire le nostre task. Il codice è il seguente:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">gulp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">gulp</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">shell</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">gulp-shell</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">bs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">browser-sync</span><span class="dl">'</span><span class="p">).</span><span class="nx">create</span><span class="p">(</span><span class="dl">'</span><span class="s1">Dev Server</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="dl">'</span><span class="s1">jekyll</span><span class="dl">'</span><span class="p">,</span> <span class="nx">shell</span><span class="p">.</span><span class="nx">task</span><span class="p">([</span><span class="dl">'</span><span class="s1">jekyll build --watch --draft</span><span class="dl">'</span><span class="p">]));</span>
+<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="dl">'</span><span class="s1">serve</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">bs</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
+		<span class="na">server</span><span class="p">:</span> <span class="p">{</span> 
+			<span class="na">baseDir</span><span class="p">:</span> <span class="dl">'</span><span class="s1">_site/</span><span class="dl">'</span> 
+		<span class="p">}</span>
+	<span class="p">});</span>
+	<span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="dl">'</span><span class="s1">_site/**/*.*</span><span class="dl">'</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">change</span><span class="dl">'</span><span class="p">,</span> <span class="nx">bs</span><span class="p">.</span><span class="nx">reload</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="dl">'</span><span class="s1">default</span><span class="dl">'</span><span class="p">,</span> <span class="p">[</span><span class="dl">'</span><span class="s1">jekyll</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">serve</span><span class="dl">'</span><span class="p">]);</span></code></pre></figure>
+
+<p>Il codice è piuttosto semplice. Inizialmente richiamiamo i tre componenti che abbiamo precedentemente scaricato all’interno di tre variabili. Poi nella prima riga impostiamo la task <code class="highlighter-rouge">jekyll</code> in cui, grazie all’utilizzo di  <code class="highlighter-rouge">gulp-shell</code>, lanciamo il comando <code class="highlighter-rouge">jekyll build</code> per generare il sito a partire dai nostri contenuti e template. Al comando passiamo i parametri <code class="highlighter-rouge">--watch</code>, per rigenerare il sito ogni volta che vengono effettuati dei cambiamenti e <code class="highlighter-rouge">--draft</code>, per poter visionare in produzione anche le bozze dei post. Ovviamente quest’ultimo parametro è opzionale.</p>
+
+<p>Proseguiamo con la seconda task che si occupa in primo luogo di lanciare un server locale, tramite <code class="highlighter-rouge">browser-sync</code>, a partire dalla cartella di destinazione del sito generato da Jekyll. Nel nostro caso viene utilizzata l’opzione di default <code class="highlighter-rouge">_site/</code>. Sucessivamente viene inserita una seconda funzione che rimarrà in attesa di cambiamenti all’interno della nostra cartella (cambiamenti generati dalla task precedente) e che ricaricherà il browser ogni volta che ne rivelerà uno.</p>
+
+<p>In ultimo la task <code class="highlighter-rouge">default</code> che ci permetterà di lanciare il tutto tramite il semplice comando <code class="highlighter-rouge">gulp</code>. Prima di lanciarlo però occorre un’ultima cosa. All’interno del file <code class="highlighter-rouge">_config.yml</code> del nostro progetto, dovremo inserire la seguente riga:</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="na">exclude</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">node_modules</span><span class="pi">,</span> <span class="nv">gulpfile.js</span><span class="pi">,</span> <span class="nv">package.json</span><span class="pi">]</span></code></pre></figure>
+
+<p>In questo modo, durante la generazione del sito, Jekyll ignorerà i file che ci servono esclusivamente durante la fase di sviluppo.</p>
+
+<p>Fatto questo possiamo finalmente lanciare il tutto:</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">~<span class="nv">$ </span>gulp</code></pre></figure>
+
+<p>Come avrete visto il tutto è piuttosto semplice e funziona con poche righe di codice. Potreste tuttavia aver notato una certa lentezza nel live reloading, dovuta sopratutto alla parte di build di Jekyll. Ci sono alcune alternative all’utilizzo della prima task, che consistono più che altro nella compilazione dei file Sass, Coffe Script e dei template in task separate.</p>
+
+<p>A voi il compito di cercarle e implementarle, magari integrandole nel vostro attuale utilizzo di Gulp!</p>
+:ET

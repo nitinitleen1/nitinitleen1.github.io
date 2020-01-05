@@ -1,0 +1,46 @@
+# Site settings
+title: Nitin Kumar Singh | Data Architect
+description: "Mi occupo di web disign, grafica, web writing e sviluppo web."
+url: "http://nkstech.live"
+author:
+  name: "Nitin Kumar Singh"
+  email: "nitin.iiitv@gmail.com"
+  url: "https://nkstech.live"
+
+# Build settings
+baseurl: ""
+markdown: kramdown
+
+source: .
+destination: ./_site
+permalink: /:title/
+paginate: 8
+paginate_path: /page:num/
+exclude: [node_modules, gulpfile.js, package.json]
+
+# Default values
+defaults:
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+  -
+    scope:
+      path: ""
+      type: "drafts"
+    values:
+      layout: "post"
+
+# Custom variables
+version: "1.1.0"
+
+# Options
+custom_header: true
+custom_nav_footer: true
+reverse: false
+
+# Plugins
+plugins:
+  - jekyll-paginate
