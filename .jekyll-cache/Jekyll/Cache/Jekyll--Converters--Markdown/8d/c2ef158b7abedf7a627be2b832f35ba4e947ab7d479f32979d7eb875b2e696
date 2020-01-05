@@ -1,0 +1,73 @@
+I"c<p>Esistono diversi modi per far scomparire un elemento dal nostro layout tramite l’uso dei CSS. A volte è facile confondersi perchè in apparenza le proprietà che andremo ad analizzare svolgono funzioni molto simili. Conoscerne le differenze però è importante, non solo per evitare effetti indesiderati, ma per poterle utilizzare al loro pieno potenziale.</p>
+
+<p>Le proprietà e relativi valori sono:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">display:none</code></li>
+  <li><code class="highlighter-rouge">opacity:0</code></li>
+  <li><code class="highlighter-rouge">visibility:hidden</code></li>
+</ul>
+
+<p>Tutte queste proprietà sortiscono l’effetto di eliminare dal nostro layout l’elemento al quale sono applicate ma, nella realtà dei fatti, lo fanno in modo diverso. Per capire come si comportano iniziamo con il dare un’occhiata alla seguente tabella:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>Display</th>
+      <th>Opacity</th>
+      <th>Visibility</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>dimensioni</td>
+      <td>collassate</td>
+      <td>normali</td>
+      <td>normali</td>
+    </tr>
+    <tr>
+      <td>eventi</td>
+      <td>no</td>
+      <td>si</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <td>transizioni</td>
+      <td>no</td>
+      <td>si</td>
+      <td>no</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="display">Display</h3>
+<p>Questa proprietà è forse la più usata quando si vuole far scomparire un elemento. Quando si applica <code class="highlighter-rouge">display:none</code>, l’elemento viene praticamente eliminato dal rendering della pagina. Osservando il markup HTML il tag sarà ancora presente, ma a tutti gli effetti non occuperà spazio perchè le dimensioni dell’elemento saranno completamente collassate.</p>
+
+<p>L’elemento non sarà nemmeno più target di eventi come, ad esempio, l’<strong>hover del mouse</strong>. Quindi per interagire con esso dovremmo ricorrere ad un po’ di <strong>Javascript</strong>.</p>
+
+<p>In ultimo la proprietà <code class="highlighter-rouge">display</code> non è soggetta ad animazioni e trasnizioni CSS, quindi non è possibile utilizzarla per questo genere di effetti.</p>
+
+<h3 id="opacity">Opacity</h3>
+<p>Con <code class="highlighter-rouge">opacity:0</code> la situazione è differente. Come prima cosa, al contrario della proprietà <code class="highlighter-rouge">display</code>, l’elemento diventa trasparente, ma continua a mantenere le dimensioni originali, occupando il relativo spazio nella pagina. Questo vuol dire che pur non visualizzandolo, l’elemento andrà ad incidere come farebbe normalmente sul layout della pagina.</p>
+
+<p>Conseguenza di quanto descritto poco sopra, è che l’elemento, pur essendo invisibile, è presente a tutti gli effetti ed è quindi soggetto ai normali eventi come, per rifarci all’esempio di prima, l’<strong>hover del mouse</strong>.</p>
+
+<p>A differenza di <code class="highlighter-rouge">display</code>, con <code class="highlighter-rouge">opacity</code> abbiamo a disposizione animazioni e transizioni. La proprietà accetta infatti come valore, un numero compreso tra 0 e 1, mettendoci a disposizione tutta una serie di valori intermedi adatti per transizioni come ad esempio il <strong>fade-in</strong> e il <strong>fade-out</strong>.</p>
+
+<h3 id="visibility">Visibility</h3>
+<p>Questa proprietà possiamo dire che si colloca più o meno a metà strada tra le due precedenti. Andando ad applicare <code class="highlighter-rouge">visibility:hidden</code>, l’elemento scomparirà ma, come per <code class="highlighter-rouge">opacity</code>, continuerà ad occupare lo spazio all’interno del nostro layout.</p>
+
+<p>Al contrario di <code class="highlighter-rouge">opacity</code> però, l’elemento è completamente invisibile, ed eventi come il già citato <strong>hover del mouse</strong>, non potranno interagire con esso.</p>
+
+<p>Per quanto riguarda animazioni e transizioni <code class="highlighter-rouge">visibility</code> si comporta in maniera un po’ particolare. La proprietà è disponibile per le animazioni, ma non per le transizioni, accettando come valori <code class="highlighter-rouge">visibility:hidden</code> o <code class="highlighter-rouge">visibility:visible</code> senza possibilità di valori intermedi utili ad una transizione. Impostando quindi un tempo di transizione tra una stato e l’altro, l’elemento semplicemente scomparirà di colpo al termine del tempo impostato.</p>
+
+<p>NB: la proprietà accetta anche un terzo valore, <code class="highlighter-rouge">visibility:collapse</code>, che si comporta più o meno come <code class="highlighter-rouge">display:none</code>, ma solo per gli elementi di una tabella. Su tutti gli altri elementi questo valore si comporta come <code class="highlighter-rouge">visibility:hidden</code>.</p>
+
+<h3 id="demo">Demo</h3>
+<p>Di seguito potete vedere una semplice demo sul comportamento delle tre proprità. Cliccando sui pulsanti verrà applicata la proprietà del caso per nascondere l’elemento <code class="highlighter-rouge">div</code>, all’interno del quale si trova un link che, come discusso sopra, per <code class="highlighter-rouge">opacity</code> rimane raggiungibile anche con l’elemento completamente trasparente.</p>
+
+<p data-height="268" data-theme-id="0" data-slug-hash="KzQRaE" data-default-tab="result" data-user="jacoporabolini" class="codepen">See the Pen <a href="http://codepen.io/jacoporabolini/pen/KzQRaE/">Display-Opacity-Visibility</a> by Jacopo Rabolini (<a href="http://codepen.io/jacoporabolini">@jacoporabolini</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async="" src="//assets.codepen.io/assets/embed/ei.js"></script>
+
+:ET

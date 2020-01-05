@@ -4,12 +4,22 @@
  <title>Nitin Kumar Singh | Data Architect</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <id>http://localhost:4000</id>
- <updated>2020-01-05T22:48:41+05:30</updated>
+ <updated>2020-01-05T22:54:46+05:30</updated>
  <author>
    <name>Nitin Kumar Singh</name>
    <uri>https://nkstech.live</uri>
    <email>nitin.iiitv@gmail.com</email>
  </author>
+
+ 
+
+ <entry>
+   <title>Hello World</title>
+   <link href="http://localhost:4000/hello-world/"/>
+   <id>http://localhost:4000/hello-world</id>
+   <updated>2015-02-10T00:00:00+05:30</updated>
+   <content type="html">&lt;p&gt;Chiaramente non si può lanciare un nuovo sito senza un “Hello World” come si deve, quindi eccoci qui! Quello che vedete è il mio nuovo sito personale. Un sito molto semplice e che propone un piccolo blog subito in home page.&lt;/p&gt; &lt;p&gt;Alle sue pagine dedicherò alcuni post relativi alle cose...</content>
+ </entry>
 
  
 

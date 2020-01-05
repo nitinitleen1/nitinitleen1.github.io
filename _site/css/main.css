@@ -330,7 +330,7 @@ green     #859900  operators, other keywords
 
 .post + .post:before { display: block; content: ''; width: 5rem; height: 1px; margin: 23px auto; background-color: #e7e7e7; }
 
-.by-line { display: block; color: #894938; line-height: 1.5em; /* 24px/16px */ margin-bottom: 1.5em; /* 24px/16px */ font-weight: 300; }
+.by-line { display: block; color: #894938; line-height: 1.5em; /* 24px/16px */ margin-bottom: 1.5em; /* 24px/16px */ font-weight: 600; }
 
 @media (min-width: 940px) { .by-line { display: block; color: #747474; line-height: 1.3334em; /* 24px/18px */ margin-bottom: 1.3334em; /* 24px/18px */ font-weight: 200; } }
 
