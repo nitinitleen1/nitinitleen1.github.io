@@ -1,5 +1,5 @@
 ---
-title: Build Production Grade Airflow Cluster
+title: Setting up Airflow Cluster
 date: 2019-12-19 21:13:00 +0530
 description: Airflow Cluster setup with Celery as an executor and PostgresSQL as the backend database.
 categories:
@@ -10,7 +10,7 @@ tags:
 - data-pipeline
 - aws
 - rabbitmq
-image: "/assets/Build Production Grade Dedezium Cluster With Confluent Kafka.jpg"
+image: "/assets/airflow-image.jpg"
 
 ---
 We are living in the DataLake world. Now almost every organizations wants their reporting in Near Real Time. Kafka is of the best streaming platform for realtime reporting. Based on the Kafka connector, RedHat designed the Debezium which is an OpenSource product and high recommended for real time CDC from transnational databases. I referred many blogs to setup this cluster. But I found just basic installation steps. So I setup this cluster for AWS with Production grade and publishing this blog.
