@@ -1,5 +1,5 @@
 ---
-title: Setting up Airflow Cluster
+title: Setting up an Airflow Cluster
 date: 2019-12-19 21:13:00 +0530
 description: Airflow Cluster setup with Celery as an executor and PostgresSQL as the backend database.
 categories:
@@ -10,28 +10,31 @@ tags:
 - data-pipeline
 - aws
 - rabbitmq
-image: "/assets/airflow-image.jpg"
+image: "/assets/airflow-code.png"
 
 ---
-We are living in the DataLake world. Now almost every organizations wants their reporting in Near Real Time. Kafka is of the best streaming platform for realtime reporting. Based on the Kafka connector, RedHat designed the Debezium which is an OpenSource product and high recommended for real time CDC from transnational databases. I referred many blogs to setup this cluster. But I found just basic installation steps. So I setup this cluster for AWS with Production grade and publishing this blog.
+Data-driven companies often hinge their business intelligence and product development on the execution of complex data pipelines. These pipelines are often referred to as data workflows, a term that can be somewhat opaque in that workflows are not limited to one specific definition and do not perform a specific set of functions per se. To orchestrate these workflows there are lot of schedulers like oozie, Luigi, Azkaban and Airflow. This blog demonstrate the setup of one of these orchestrator i.e Airflow. 
 
 ## A shot intro:
 
-Debezium is a set of distributed services to capture changes in your databases so that your applications can see those changes and respond to them. Debezium records all row-level changes within each database table in a _change event stream_, and applications simply read these streams to see the change events in the same order in which they occurred.
+There are many orchestrators which are there in the technology space but Airflow provides a slight edge if our requirement hinges on of the following:
+
+* No cron – With Airflows included scheduler we don't need to rely on cron to schedule our DAG and only use one framework (not like Luigi)
+* Code Bases – In Airflow all the workflows, dependencies, and scheduling are done in python code. Therefore, it is rather easy to build complex structures and extend the flows.
+* Language – Python is a language somewhat natural to pick up and was available on our team.
+
+However setting up a production grade setup required some effort and this blog address the same.
 
 ## Basic Tech Terms:
 
-* **Kafka Broker:** Brokers are the core for the kafka streaming, they'll keep your messages and giving it to the consumers. 
-* **Zookeeper**: It'll maintain the cluster status and node status. It'll help to make the Kafka's availability. 
-* **Producers:** The component who will send the messages(data) to the Broker.
-* **Consumers:** The component who will get the messages from the Queue for further analytics.
-* **Confluent:** Confluent is having their own steaming platform which basically using Apache Kafka under the hood. But it has more features.
-
-Here **Debezium** is our data producer and **S3sink** is our consumer. For this setup, Im going to stream the MySQL data changes to S3 with customized format. 
+* **Metastore:** Its a database which stores information regarding the state of tasks. Database updates are performed using an abstraction layer implemented in SQLAlchemy. This abstraction layer cleanly separates the function of the remaining components of Airflow from the database. 
+* **Executor**: The Executor is a message queuing process that is tightly bound to the Scheduler and determines the worker processes that actually execute each scheduled task. 
+* **Scheduler:** The Scheduler is a process that uses DAG definitions in conjunction with the state of tasks in the metadata database to decide which tasks need to be executed, as well as their execution priority. The Scheduler is generally run as a service.
+* **Worker:** These are the processes that actually execute the logic of tasks, and are determined by the Executor being used.
 
 ## AWS Architecture: 
 
-![](/assets/Build Production Grade Dedezium Cluster With Confluent Kafka-3.jpg)
+![](/assets/airflow-schematic.jpg)
 
 Kafka and Zookeepers are installed on the same EC2. We we'll deploy 3 node confluent Kafka cluster. Each node will be in a different availability zone.
 
