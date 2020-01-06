@@ -32,9 +32,30 @@
   
 
   
-    <title>Build Production Grade Debezium Cluster With Confluent Kafka</title>
-    <meta name="description" content="We are living in the DataLake world. Now almost every organizations wants their reporting in Near Real Time. Kafka is of the best streaming platform for real...">
-    <link rel="canonical" href="http://localhost:4000/build-production-grade-debezium-with-confluent-kafka-cluster/">
+    
+    <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Build Production Grade Debezium Cluster With Confluent Kafka | Nitin Kumar Singh</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Build Production Grade Debezium Cluster With Confluent Kafka" />
+<meta name="author" content="Nitin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Configure the Production grade debezium cluster with confluent kafka in aws. Sync data between MySQL and S3 with Debezium MySQL connector." />
+<meta property="og:description" content="Configure the Production grade debezium cluster with confluent kafka in aws. Sync data between MySQL and S3 with Debezium MySQL connector." />
+<link rel="canonical" href="http://localhost:4000/build-production-grade-debezium-with-confluent-kafka-cluster/" />
+<meta property="og:url" content="http://localhost:4000/build-production-grade-debezium-with-confluent-kafka-cluster/" />
+<meta property="og:site_name" content="Nitin Kumar Singh" />
+<meta property="og:image" content="http://localhost:4000/assets/Build%20Production%20Grade%20Dedezium%20Cluster%20With%20Confluent%20Kafka.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-12-19T21:13:00+05:30" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="http://localhost:4000/assets/Build%20Production%20Grade%20Dedezium%20Cluster%20With%20Confluent%20Kafka.jpg" />
+<meta property="twitter:title" content="Build Production Grade Debezium Cluster With Confluent Kafka" />
+<meta name="twitter:site" content="@nitinkumarsin10" />
+<meta name="twitter:creator" content="@https://twitter.com/nitinkumarsin10" />
+<script type="application/ld+json">
+{"image":"http://localhost:4000/assets/Build%20Production%20Grade%20Dedezium%20Cluster%20With%20Confluent%20Kafka.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/build-production-grade-debezium-with-confluent-kafka-cluster/"},"@type":"BlogPosting","url":"http://localhost:4000/build-production-grade-debezium-with-confluent-kafka-cluster/","dateModified":"2019-12-19T21:13:00+05:30","datePublished":"2019-12-19T21:13:00+05:30","headline":"Build Production Grade Debezium Cluster With Confluent Kafka","author":{"@type":"Person","name":"Nitin"},"description":"Configure the Production grade debezium cluster with confluent kafka in aws. Sync data between MySQL and S3 with Debezium MySQL connector.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
   
 
   <script>
@@ -45,7 +66,10 @@
   </script>
 
   <link rel="stylesheet" href="/assets/css/main.css">
-  <!-- start custom head snippets -->
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Nitin Kumar Singh" href="/atom.xml">
+<!-- start custom head snippets -->
 
 <!-- insert favicons. use http://realfavicongenerator.net/ -->
 
@@ -71,7 +95,7 @@
   <div class="navigation-wrapper">
     <a href="#menu-toggle" id="menu-toggle">Menu</a>
     <nav id="primary-nav" class="site-nav animated drop">
-      <ul><li><a href="/">Home</a></li><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="https://medium.com/@bhuvithedataguy">BigData Articles</a></li><li><a href="/search/">Search</a></li></ul>
+      <ul><li><a href="/">Home</a></li><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="/search/">Search</a></li></ul>
     </nav>
   </div><!-- /.navigation-wrapper -->
 
@@ -109,10 +133,15 @@
       </header>
       
       <div class="page-sidebar">
-        <div class="page-author h-card p-author"><div class="author-info"><div class="author-name">
-        <span class="p-name">Nitin Kumar Singh</span>
-      </div>
-    <time class="page-date dt-published" datetime="2019-12-19T21:13:00+05:30"><a class="u-url" href="">December 19, 2019</a>
+        <div class="page-author h-card p-author"><img src="/assets/bhuvi-photo-dp.jpg" class="author-avatar u-photo" alt="Nitin"><div class="author-info"><div class="author-name">
+        <em>by</em> <span class="p-name">Nitin</span>
+      </div><ul class="author-links"><li class="author-link">
+            <a class="u-url" rel="me" href="https://linkedin.com/in/nitinnks"><i class="fas fa-link fa-lg" title="LinkedIn"></i></a>
+          </li></ul>
+
+<span class="read-time">8 min read</span>
+
+    <time class="page-date dt-published" datetime="2019-12-19T21:13:00+05:30"><a class="u-url" href="">2019-12-19</a>
 </time>
 
   </div>
@@ -120,13 +149,13 @@
 
         
   <h3 class="page-taxonomies-title">Categories</h3>
-  <ul class="page-taxonomies"><li class="page-taxonomy">Kafka</li>
+  <ul class="page-taxonomies"><li class="page-taxonomy"><a class="p-category" href="/categories/#kafka" title="Pages filed under Kafka">Kafka</a></li>
   </ul>
 
 
         
   <h3 class="page-taxonomies-title">Tags</h3>
-  <ul class="page-taxonomies"><li class="page-taxonomy">aws</li><li class="page-taxonomy">kafka</li><li class="page-taxonomy">confluent</li><li class="page-taxonomy">debezium</li><li class="page-taxonomy">cdc</li><li class="page-taxonomy">mysql</li><li class="page-taxonomy">s3</li>
+  <ul class="page-taxonomies"><li class="page-taxonomy"><a href="/tags/#aws" title="Pages tagged aws" rel="tag">aws</a></li><li class="page-taxonomy"><a href="/tags/#kafka" title="Pages tagged kafka" rel="tag">kafka</a></li><li class="page-taxonomy"><a href="/tags/#confluent" title="Pages tagged confluent" rel="tag">confluent</a></li><li class="page-taxonomy"><a href="/tags/#debezium" title="Pages tagged debezium" rel="tag">debezium</a></li><li class="page-taxonomy"><a href="/tags/#cdc" title="Pages tagged cdc" rel="tag">cdc</a></li><li class="page-taxonomy"><a href="/tags/#mysql" title="Pages tagged mysql" rel="tag">mysql</a></li><li class="page-taxonomy"><a href="/tags/#s3" title="Pages tagged s3" rel="tag">s3</a></li>
   </ul>
 
 
@@ -134,7 +163,7 @@
 <!-- ad-vertical -->
 <ins class="adsbygoogle"
      style="display:block"
-     data-ad-client="ca-pub-9518508677792760"
+     data-ad-client="ca-pub-4568423959519693"
      data-ad-slot="4154399056"
      data-ad-format="auto"
      data-full-width-responsive="true"></ins>
@@ -192,7 +221,7 @@
 
 <p>Kafka nodes are generally needs Memory and Network Optimized. You can choose either Persistent and ephemeral storage. I prefer Persistent SSD Disks for Kafka storage. So add n GB size disk to your Kafka broker nodes. For Normal work loads its better to go with R5 instance Family.</p>
 
-<p>Mount the Volume in <code class="highlighter-rouge">/kafkadata</code> location.</p>
+<p>Mount the Volume in <code class="language-plaintext highlighter-rouge">/kafkadata</code> location.</p>
 
 <h2 id="security-group">Security Group:</h2>
 
@@ -215,7 +244,7 @@ wget <span class="nt">-qO</span> - https://packages.confluent.io/deb/5.3/archive
 
 <h2 id="configuration">Configuration:</h2>
 
-<p>We need to configure Zookeeper and Kafaka properties, Edit the <code class="highlighter-rouge">/etc/kafka/zookeeper.properties</code> on all the kafka nodes</p>
+<p>We need to configure Zookeeper and Kafaka properties, Edit the <code class="language-plaintext highlighter-rouge">/etc/kafka/zookeeper.properties</code> on all the kafka nodes</p>
 
 <figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nt">--</span> On Node 1
 <span class="nv">dataDir</span><span class="o">=</span>/var/lib/zookeeper
@@ -264,7 +293,7 @@ autopurge.purgeInterval<span class="o">=</span>24
  <span class="nt">--On</span> Node 3
  <span class="nb">echo</span> <span class="s2">"3"</span> <span class="o">&gt;</span> /var/lib/zookeeper/myid</code></pre></figure>
 
-<p>Now we need to configure Kafka broker. So edit the <code class="highlighter-rouge">/etc/kafka/server.properties</code> on all the kafka nodes.</p>
+<p>Now we need to configure Kafka broker. So edit the <code class="language-plaintext highlighter-rouge">/etc/kafka/server.properties</code> on all the kafka nodes.</p>
 
 <figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nt">--On</span> Node 1
 broker.id.generation.enable<span class="o">=</span><span class="nb">true
@@ -293,7 +322,7 @@ zookeeper.connect<span class="o">=</span>172.31.47.152:2181,172.31.38.158:2181,1
 num.partitions<span class="o">=</span>1
 log.retention.hours<span class="o">=</span>168</code></pre></figure>
 
-<p>The next step is optimizing the <code class="highlighter-rouge">Java JVM Heap</code> size, In many places kafka will go down due to the less heap size. So Im allocating 50% of the Memory to Heap. But make sure more Heap size also bad. Please refer some documentation to set this value for very heavy systems.</p>
+<p>The next step is optimizing the <code class="language-plaintext highlighter-rouge">Java JVM Heap</code> size, In many places kafka will go down due to the less heap size. So Im allocating 50% of the Memory to Heap. But make sure more Heap size also bad. Please refer some documentation to set this value for very heavy systems.</p>
 
 <figure class="highlight"><pre><code class="language-shell" data-lang="shell">vi /usr/bin/kafka-server-start
 <span class="nb">export </span><span class="nv">KAFKA_HEAP_OPTS</span><span class="o">=</span><span class="s2">"-Xmx2G -Xms2G"</span></code></pre></figure>
@@ -310,7 +339,7 @@ vi /etc/security/limits.conf
 cp-kafka                soft    nofile          10000
 cp-kafka                hard    nofile          100000</code></pre></figure>
 
-<p>Here the <code class="highlighter-rouge">cp-kafka</code> is the default user for the kafka process.</p>
+<p>Here the <code class="language-plaintext highlighter-rouge">cp-kafka</code> is the default user for the kafka process.</p>
 
 <h3 id="create-kafka-data-dir">Create Kafka data dir:</h3>
 
@@ -349,7 +378,7 @@ wget <span class="nt">-qO</span> - https://packages.confluent.io/deb/5.3/archive
 
 <h3 id="configuration-1">Configuration:</h3>
 
-<p>Edit the <code class="highlighter-rouge">/etc/kafka/connect-distributed.properties</code> on all the producer nodes to make our producer will run on a distributed manner.</p>
+<p>Edit the <code class="language-plaintext highlighter-rouge">/etc/kafka/connect-distributed.properties</code> on all the producer nodes to make our producer will run on a distributed manner.</p>
 
 <figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nt">--</span> On all the connector nodes
 bootstrap.servers<span class="o">=</span>172.31.47.152:9092,172.31.38.158:9092,172.31.46.207:9092
@@ -360,7 +389,7 @@ plugin.path<span class="o">=</span>/usr/share/java,/usr/share/confluent-hub-comp
 
 <figure class="highlight"><pre><code class="language-shell" data-lang="shell">confluent-hub <span class="nb">install </span>debezium/debezium-connector-mysql:latest</code></pre></figure>
 
-<p>it’ll ask for making some changes just select <code class="highlighter-rouge">Y</code> for everything.</p>
+<p>it’ll ask for making some changes just select <code class="language-plaintext highlighter-rouge">Y</code> for everything.</p>
 
 <h3 id="run-the-distributed-connector-as-a-service">Run the distributed connector as a service:</h3>
 
@@ -389,7 +418,7 @@ systemctl start confluent-connect-distributed</code></pre></figure>
 
 <h2 id="configure-debezium-mysql-connector">Configure Debezium MySQL Connector:</h2>
 
-<p>Create a <code class="highlighter-rouge">mysql.json</code> file which contains the MySQL information and other formatting options.</p>
+<p>Create a <code class="language-plaintext highlighter-rouge">mysql.json</code> file which contains the MySQL information and other formatting options.</p>
 
 <figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
 	</span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mysql-connector-db01"</span><span class="p">,</span><span class="w">
@@ -427,7 +456,7 @@ systemctl start confluent-connect-distributed</code></pre></figure>
   <li>key.converter and value.converter and transforms parameters - By default Debezium output will have more detailed information. But I don’t want all of those information. Im only interested in to get the new row and the timestamp when its inserted.</li>
 </ul>
 
-<p>If you don’t want to customize anythings then just remove everything after the <code class="highlighter-rouge">database.whitelist</code></p>
+<p>If you don’t want to customize anythings then just remove everything after the <code class="language-plaintext highlighter-rouge">database.whitelist</code></p>
 
 <h3 id="register-the-mysql-connector">Register the MySQL Connector:</h3>
 
@@ -454,7 +483,7 @@ systemctl start confluent-connect-distributed</code></pre></figure>
 
 <h3 id="test-the-mysql-consumer">Test the MySQL Consumer:</h3>
 
-<p>Now insert something into any tables in <code class="highlighter-rouge">proddb or test</code> (because we have whilelisted only these databaes to capture the CDC.</p>
+<p>Now insert something into any tables in <code class="language-plaintext highlighter-rouge">proddb or test</code> (because we have whilelisted only these databaes to capture the CDC.</p>
 
 <figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">use</span> <span class="n">test</span><span class="p">;</span>
 <span class="k">create</span> <span class="k">table</span> <span class="n">rohi</span> <span class="p">(</span><span class="n">id</span> <span class="nb">int</span><span class="p">,</span>
@@ -474,7 +503,7 @@ systemctl start confluent-connect-distributed</code></pre></figure>
 
 <blockquote>
   <p><strong>mysql-db01.test.rohi</strong> <br />
-This is the combination of <code class="highlighter-rouge">servername.databasename.tablename</code> <br />
+This is the combination of <code class="language-plaintext highlighter-rouge">servername.databasename.tablename</code> <br />
 servername(you mentioned this in as a server name in mysql json file).</p>
 </blockquote>
 
@@ -489,13 +518,13 @@ only, NOT <span class="k">for </span>production usage. https://docs.confluent.io
 
 <h2 id="setup-s3-sink-connector-in-all-producer-nodes">Setup S3 Sink connector in All Producer Nodes:</h2>
 
-<p>I want to send this data to S3 bucket. So you must have an EC2 IAM role which has access to the target S3 bucket. Or install <code class="highlighter-rouge">awscli</code> and configure access and secret key(but its not recommended)</p>
+<p>I want to send this data to S3 bucket. So you must have an EC2 IAM role which has access to the target S3 bucket. Or install <code class="language-plaintext highlighter-rouge">awscli</code> and configure access and secret key(but its not recommended)</p>
 
 <h3 id="install-s3-connector">Install S3 Connector:</h3>
 
 <figure class="highlight"><pre><code class="language-shell" data-lang="shell">confluent-hub <span class="nb">install </span>confluentinc/kafka-connect-s3:latest</code></pre></figure>
 
-<p>Create <code class="highlighter-rouge">s3.json</code> file.</p>
+<p>Create <code class="language-plaintext highlighter-rouge">s3.json</code> file.</p>
 
 <figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
 	</span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"s3-sink-db01"</span><span class="p">,</span><span class="w">
@@ -530,8 +559,8 @@ only, NOT <span class="k">for </span>production usage. https://docs.confluent.io
 </span><span class="p">}</span></code></pre></figure>
 
 <ul>
-  <li><code class="highlighter-rouge">"topics.regex": "mysql-db01"</code> - It’ll send the data only from the topics which has <code class="highlighter-rouge">mysql-db01</code> as prefix. In our case all the MySQL databases related topics will start  with this prefix.</li>
-  <li><code class="highlighter-rouge">"flush.size"</code> - The data will uploaded to S3 only after these many number of records stored. Or after <code class="highlighter-rouge">"rotate.schedule.interval.ms"</code> this duration.</li>
+  <li><code class="language-plaintext highlighter-rouge">"topics.regex": "mysql-db01"</code> - It’ll send the data only from the topics which has <code class="language-plaintext highlighter-rouge">mysql-db01</code> as prefix. In our case all the MySQL databases related topics will start  with this prefix.</li>
+  <li><code class="language-plaintext highlighter-rouge">"flush.size"</code> - The data will uploaded to S3 only after these many number of records stored. Or after <code class="language-plaintext highlighter-rouge">"rotate.schedule.interval.ms"</code> this duration.</li>
 </ul>
 
 <h3 id="register-this-s3-sink-connector">Register this S3 sink connector:</h3>
@@ -569,7 +598,7 @@ only, NOT <span class="k">for </span>production usage. https://docs.confluent.io
 
 <h3 id="test-the-s3-sync">Test the S3 sync:</h3>
 
-<p>Insert the 10000 rows into the <code class="highlighter-rouge">rohi</code> table. Then check the S3 bucket. It’ll save the data in JSON format with GZIP compression. Also in a HOUR wise partitions.</p>
+<p>Insert the 10000 rows into the <code class="language-plaintext highlighter-rouge">rohi</code> table. Then check the S3 bucket. It’ll save the data in JSON format with GZIP compression. Also in a HOUR wise partitions.</p>
 
 <p><img src="/assets/Build Production Grade Dedezium Cluster With Confluent Kafka-1.jpg" alt="" /></p>
 
@@ -615,7 +644,7 @@ only, NOT <span class="k">for </span>production usage. https://docs.confluent.io
 <!-- ad-horizontal -->
 <ins class="adsbygoogle"
      style="display:block"
-     data-ad-client="ca-pub-9518508677792760"
+     data-ad-client="ca-pub-4568423959519693"
      data-ad-slot="4874591962"
      data-ad-format="auto"
      data-full-width-responsive="true"></ins>
@@ -626,6 +655,17 @@ only, NOT <span class="k">for </span>production usage. https://docs.confluent.io
         <h3> Share this article </h3>
       
         
+          <div class="page-share">
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fbuild-production-grade-debezium-with-confluent-kafka-cluster%2F" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" class="btn btn--facebook btn--small"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i> <span>Share</span></a>
+  <a href="https://twitter.com/intent/tweet?text=Build+Production+Grade+Debezium+Cluster+With+Confluent+Kafka%20http%3A%2F%2Flocalhost%3A4000%2Fbuild-production-grade-debezium-with-confluent-kafka-cluster%2F" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" class="btn btn--twitter btn--small"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i> <span>Tweet</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fbuild-production-grade-debezium-with-confluent-kafka-cluster%2F" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" class="btn btn--linkedin btn--small"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> <span>LinkedIn</span></a>
+  <a href="https://reddit.com/submit?title=Build+Production+Grade+Debezium+Cluster+With+Confluent+Kafka&url=http%3A%2F%2Flocalhost%3A4000%2Fbuild-production-grade-debezium-with-confluent-kafka-cluster%2F" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" class="btn btn--reddit btn--small"><i class="fab fa-fw fa-reddit" aria-hidden="true"></i> <span>Reddit</span></a>
+</div>
+
+        
+
+        
+          
 
         
 
@@ -645,9 +685,10 @@ only, NOT <span class="k">for </span>production usage. https://docs.confluent.io
   <!-- start custom footer snippets -->
 
 <!-- end custom footer snippets -->
-<div class="copyright">
+<div class="social-icons"><a class="social-icon" href="https://twitter.com/nitinkumarsin10"><i class="fab fa-twitter-square fa-2x" title="Twitter"></i></a><a class="social-icon" href="https://github.com/nitinitleen1"><i class="fab fa-github-square fa-2x" title="GitHub"></i></a><a class="social-icon" href="/atom.xml"><i class="fas fa-rss-square fa-2x" title="Feed"></i></a></div><div class="copyright">
     
-      <p>&copy; 2020 Nitin Kumar Singh | Data Architect. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+      <p>©2019 All Right Reserved.</p>
+
     
   </div>
 </footer>
@@ -656,6 +697,9 @@ only, NOT <span class="k">for </span>production usage. https://docs.confluent.io
   <script src="/assets/js/main.min.js"></script>
   <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
 
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   </body>
 

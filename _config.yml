@@ -1,10 +1,10 @@
 # Config file:
 remote_theme: "mmistakes/so-simple-theme@3.2.0"
 locale: en-US
-title: "The Data Guy"
-description: "Adventures of a DBA in Cloud, Data and DevOps"
+title: "Nitin Kumar Singh"
+description: "My Learning and Adventures in Computer Science and Life"
 baseurl: 
-url: "https://thedataguy.in"
+url: "http://nkstech.live"
 logo: # path of site logo, e.g. "/images/logo.png"
 date_format: "%Y-%m-%d"
 read_time: true
@@ -15,11 +15,11 @@ google_fonts:
     weights: "400,400i,700,700i"
   - name: "Lora"
     weights: "400,400i,700,700i"
-google_analytics: "UA-134677199-1"
+google_analytics: "UA-155354311-1"
 disqus:
-  shortname: "bhuvithedataguy"
+  shortname: ""
 twitter:
-  username: "BhuviTheDataGuy"
+  username: "nitinkumarsin10"
 gems:
     - jekyll-seo-tag
     - jekyll-lunr-js-search
@@ -46,7 +46,7 @@ category_archive_path: "/categories/#"
 tag_archive_path: "/tags/#"
 
 # SiteMap
-url: "https://thedataguy.in" # the base hostname & protocol for your site
+url: "http://nkstech.live" # the base hostname & protocol for your site
 
 plugins:
   - jekyll-seo-tag
@@ -67,30 +67,30 @@ defaults:
 
 # Site Author
 author: 
-  name: Bhuvanesh
+  name: Nitin
   picture: /assets/bhuvi-photo-dp.jpg
   email:
-  twitter: https://twitter.com/BhuviTheDataGuy
+  twitter: https://twitter.com/nitinkumarsin10
   links:
     - title: LinkedIn
-      url: https://linkedin.com/in/rbhuvanesh
+      url: https://linkedin.com/in/nitinnks
       icon:
 
 social:
-  name: Bhuvanesh
+  name: Nitin
   links:
     - https://twitter.com/BhuviTheDataGuy
-    - https://www.linkedin.com/in/rbhuvanesh/
+    - https://www.linkedin.com/in/nitinnks/
 
 # Footer Links
 footer_links:
   - title: Twitter
-    url: https://twitter.com/BhuviTheDataGuy
+    url: https://twitter.com/nitinkumarsin10
     icon: fab fa-twitter-square
   - title: GitHub
-    url: https://github.com/BhuviTheDataGuy
+    url: https://github.com/nitinitleen1
     icon: fab fa-github-square
   - title: Feed
     url: atom.xml
     icon: fas fa-rss-square
-copyright: "©2017 - 2019 All Right Reserved. "
+copyright: "©2019 All Right Reserved. "
