@@ -1,0 +1,113 @@
+I"<p><img src="/assets/Automation-Script-For-Percona-Xtrabackup-FULLIncremental.jpg" alt="Automation Script For Percona Xtrabackup FULL/Incremental" /></p>
+
+<p>Image Source: DigitalOcean</p>
+
+<p>This is my first post in 2019, and Im starting with a MySQL solution. In MySQL world, implementing a better backup strategy to meet all of your requirement is still a challenging thing. The complexity depends on your RPO and RTO. Percona has many tools to help DBAs in many scenarios. <strong><code class="highlighter-rouge">[Xtrabackup](https://www.percona.com/software/mysql-database/percona-xtrabackup)</code></strong> is one of the best backup tools to perform a better backup on TeraBytes size of databases. Also, another great feature is it supports Incremental and Differential backup.</p>
+
+<p>There are couple of tools which is available in MySQL world, But due to some restrictions we can’t achieve what we are expecting.</p>
+
+<h2 id="1mysqldump">#1 <a href="https://dev.mysql.com/doc/refman/8.0/en/mysqldump.html">mysqldump</a></h2>
+
+<p>This is a widely used backup tool and most of the DBAs are trust this. This comes with the mysql package. Initially, it was a single thread process but now we have multi-thread in native mysqldump. Its completely a logical backup tool. It has a wide range of parameters to use while taking backups (like include routines, events, triggers).</p>
+
+<p><strong>Right place to use</strong> <code class="highlighter-rouge">mysqldump﻿</code></p>
+
+<p>Use if your databases are less than 20GB. Because the restore process will take more time. This will affect your RTO.</p>
+
+<h3 id="advantages">Advantages:</h3>
+
+<ul>
+  <li>Easy to use</li>
+  <li>More detailed documentation.</li>
+  <li>Multi-Thread (we need to add parameters to perform this)</li>
+  <li>Comes with MySQL, so they will fix if any bugs and implementing new features.</li>
+</ul>
+
+<h3 id="drawbacks">Drawbacks:</h3>
+
+<ul>
+  <li>Backup is multi-thread, but not restore. Its still a single thread process.</li>
+  <li>No incremental backup feature.</li>
+  <li>Restoration takes more time for large backups.</li>
+</ul>
+
+<h2 id="2mydumpermyloader">#2 <a href="https://github.com/maxbube/mydumper">mydumper/myloader</a></h2>
+
+<p>This is an opensource tool and DBAs are using this for dump the huge databases. It has inbuild multi-thread dump and restore feature. This is the pioneer for mysql’s multi thread dump. It supports snapshot consistency. So it’ll provide the accurate binlog file and its position.</p>
+
+<p><strong>The right place to use</strong> <code class="highlighter-rouge">mydumper/myloader</code></p>
+
+<p>If you have the databases grater then 20GB to TB/PB. I have used this to dump TB size. If you used this to take dump for a PB size DB using mysqldumper then please comment below.</p>
+
+<h3 id="advantages-1">Advantages:</h3>
+
+<ul>
+  <li>Multi-thread backup and restore.</li>
+  <li>Supports for Incremental backups.</li>
+  <li>Log the binlog info, so we can easily built a new slave.</li>
+  <li>We can control the number of threads.</li>
+  <li>Compression support.</li>
+  <li>Include/Exclude tables in backup.</li>
+  <li>Split the table into chunks.</li>
+  <li>And etc,etc.</li>
+</ul>
+
+<h3 id="drawbacks-1">Drawbacks:</h3>
+
+<ul>
+  <li>This is also a logical dump. So it needs to scan the complete tables.</li>
+  <li>Performance degrade during the backup.</li>
+  <li>No checksum.</li>
+</ul>
+
+<h2 id="3percona-xtrabackup">#3 <a href="https://www.percona.com/software/mysql-database/percona-xtrabackup">Percona Xtrabackup</a>:</h2>
+
+<p>This is my favourite opensource tool from Percona. This is also supports incremental backup. The main reason is its very fast since its Physical backup. Instead of reading my story just go through this <a href="https://www.percona.com/doc/percona-xtrabackup/LATEST/index.html">Doc link</a> and see its features.</p>
+
+<p>You can use this to backup &gt;20GB databases to TB or PB.</p>
+
+<h3 id="advantages-2">Advantages:</h3>
+
+<ul>
+  <li>Multi-thread</li>
+  <li>Super fast</li>
+  <li>Compression</li>
+  <li>Checksum</li>
+  <li>Encryption</li>
+  <li>Master/Slave binlog info.</li>
+  <li>Directly restore the backups to AWS Aurora.</li>
+</ul>
+
+<h3 id="drawback">Drawback:</h3>
+
+<ul>
+  <li>Not much, I’ll update this section if I found something.</li>
+</ul>
+
+<h2 id="shell-script-to-automate-xtrabackup">Shell Script to Automate Xtrabackup:</h2>
+
+<p>Now coming to the automation part. Im using a shell script to automate FULL and Incremental backup also sync them with GCS and S3. This script is already written by <a href="https://www.percona.com/forums/questions-discussions/percona-xtrabackup/10772-[script]-automatic-backups-incremental-full-and-restore">bigzaqui</a> at 2013. But I replaced innobackupex with Xtrabackup and few more changes.</p>
+
+<h3 id="parameters-needs-to-change">Parameters needs to change:</h3>
+
+<ul>
+  <li><strong><code class="highlighter-rouge">-u sqladmin</code></strong> – Mysql user to take the dump. Replace with <code class="highlighter-rouge">-u your_user</code></li>
+  <li><strong><code class="highlighter-rouge">SECRET='mysql-user-password'</code></strong>– Mysql user’s password.</li>
+  <li><strong><code class="highlighter-rouge">--history</code></strong>– Im tacking backup activity into a database. If you don’t want to track just remove this.</li>
+  <li><strong><code class="highlighter-rouge">--slave-info</code></strong> – If you are taking the backup from a slave, it’ll capture the master’s binloginfo. So you can setup a new replica for the Master Server. You can remove this if you are not using slave to take backup.</li>
+  <li><strong><code class="highlighter-rouge">--compress-threads=4,---parallel=4</code></strong> The number of threads needs to perform compress. Its a best practice to allocate 30%-40% from the total cores. I have 40core cpu, so I used 15 threads.</li>
+  <li><strong><code class="highlighter-rouge">--remove-original</code></strong> – While decompressing a compressed backup, it’ll leave the compressed files. So this will remove compressed files after the extraction process.</li>
+  <li><strong><code class="highlighter-rouge">BACKUP_DIR=/mysqldump/xtrabackup/</code></strong> – Location for saving the dump.</li>
+  <li><strong><code class="highlighter-rouge">DATA_DIR=/mysqldata</code></strong> – Location of mysql data directory. If you added <strong><code class="highlighter-rouge">[xtrabackup]</code></strong> parameters in <strong><code class="highlighter-rouge">my.cnf</code></strong> file, then no need to mention this.</li>
+</ul>
+
+<script src="https://gist.github.com/SQLadmin/e9706736186fab3135822c291eee99c6.js"></script>
+
+<h2 id="run-this-script">Run this script:</h2>
+
+<ul>
+  <li><strong>FULL Backup</strong> – <code class="highlighter-rouge">./xtrabackup_full_increment_restore.sh full</code></li>
+  <li><strong>Incremental Backup</strong> – <code class="highlighter-rouge">./xtrabackup_full_increment_restore.sh incremental</code></li>
+  <li><strong>Restore</strong> – <code class="highlighter-rouge">./xtrabackup_full_increment_restore.sh restore</code></li>
+</ul>
+:ET

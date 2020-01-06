@@ -1,0 +1,172 @@
+I"�P<p>RedShift stored procedures are really useful feature and after a long time they introduced it. I tried this stored procedure for many use cases and recently I came up with a complexity in it. You can’t get a comma separated sting in the argument. Lets say I have an employee table and I want to pass the employee names in a variable/argument and you need to <code class="highlighter-rouge">select * from table where employee_name in ('your comma separated values)</code>. It’ll not work directly.</p>
+
+<p>Why? many SQL peoples already know the reason. Because you have multiple values in one string and you need to parse it as multiple quotes string and pass it.</p>
+
+<p><strong>Example:</strong></p>
+
+<p>Input: <code class="highlighter-rouge">'emp1, emp2, emp3'</code></p>
+
+<p>In SQL you can’t use IN clause like this. You need to split each and every value with single quote. Then it should be</p>
+
+<p><code class="highlighter-rouge">'emp1', 'emp2', 'emp3'</code></p>
+
+<p>In <code class="highlighter-rouge">plpgsql</code>, you can do this parsing with some temp table snd SQL queries. I have asked the steps in <a href="https://dba.stackexchange.com/questions/250323/plpgsql-stored-procedure-comma-separated-values-in-parameters">DBA’s stackoverflow</a> and <a href="https://dba.stackexchange.com/questions/250323/plpgsql-stored-procedure-comma-separated-values-in-parameters"><strong>a horse with no name</strong></a> (yeah, its a weird name) answered it.</p>
+
+<p>But in Redshift it did’t work as expected.</p>
+
+<h2 id="whats-wrong-in-redshift">What’s wrong in Redshift:</h2>
+
+<p>Before checking why its not working, we’ll see how are we thinking to parsing it.</p>
+
+<ol>
+  <li>Pass the argument into a variable.</li>
+  <li>Use trim functions to remove the single quote.</li>
+  <li>Use the split function to split these values.</li>
+  <li>For each values put single quote in the beginning and the end.</li>
+</ol>
+
+<p>Or as mentioned the stackoverflow answer, we can’t use arrays for this. Thats why its not working and it’ll throw the following error.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    ERROR: varchar[] is not a supported parameter <span class="nb">type </span><span class="k">for </span>functions or procedures</code></pre></figure>
+
+<p>Then I searched many blogs and found the useful information.</p>
+
+<ol>
+  <li><a href="https://stackoverflow.com/questions/25112389/redshift-convert-comma-delimited-values-into-rows">Convert comma separated values as rows.</a></li>
+  <li><a href="https://www.holistics.io/blog/splitting-array-string-into-rows-in-amazon-redshift-or-mysql/">Convert arrays into rows</a></li>
+</ol>
+
+<p>I almost fixed the issue. But now the other problem came when I do query the <code class="highlighter-rouge">Information_schema</code> tables. My select query will look like below.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql">    <span class="k">SELECT</span> <span class="n">table_schema</span><span class="p">,</span> 
+           <span class="k">table_name</span> 
+    <span class="k">FROM</span>   <span class="n">information_schema</span><span class="p">.</span><span class="n">TABLES</span> 
+    <span class="k">WHERE</span>  <span class="n">table_type</span> <span class="o">=</span> <span class="s1">'BASE TABLE'</span> 
+           <span class="k">AND</span> <span class="n">table_schema</span> <span class="k">NOT</span> <span class="k">IN</span> <span class="p">(</span> <span class="s1">'pg_catalog'</span><span class="p">,</span> <span class="s1">'information_schema'</span> <span class="p">)</span> 
+           <span class="k">AND</span> <span class="k">table_name</span> <span class="k">IN</span> <span class="p">(</span><span class="k">SELECT</span> <span class="n">tname</span> 
+                              <span class="k">FROM</span>   <span class="n">my_parsed_variables</span><span class="p">);</span></code></pre></figure>
+
+<p>While running this, I got the below error.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql">    <span class="n">test</span><span class="o">=#</span> <span class="k">call</span> <span class="n">my_sp</span><span class="p">(</span><span class="s1">'bhuvi'</span><span class="p">);</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="k">Table</span> <span class="nv">"my_tables"</span> <span class="n">does</span> <span class="k">not</span> <span class="n">exist</span> <span class="k">and</span> <span class="n">will</span> <span class="n">be</span> <span class="n">skipped</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="k">Table</span> <span class="nv">"my_tokenized_tables"</span> <span class="n">does</span> <span class="k">not</span> <span class="n">exist</span> <span class="k">and</span> <span class="n">will</span> <span class="n">be</span> <span class="n">skipped</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="k">Function</span> <span class="nv">"has_table_privilege(oid,text)"</span> <span class="k">not</span> <span class="n">supported</span><span class="p">.</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="k">Function</span> <span class="nv">"has_table_privilege(oid,text)"</span> <span class="k">not</span> <span class="n">supported</span><span class="p">.</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="k">Function</span> <span class="nv">"has_table_privilege(oid,text)"</span> <span class="k">not</span> <span class="n">supported</span><span class="p">.</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="k">Function</span> <span class="nv">"has_table_privilege(oid,text)"</span> <span class="k">not</span> <span class="n">supported</span><span class="p">.</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="k">Function</span> <span class="nv">"has_table_privilege(oid,text)"</span> <span class="k">not</span> <span class="n">supported</span><span class="p">.</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="k">Function</span> <span class="nv">"has_table_privilege(oid,text)"</span> <span class="k">not</span> <span class="n">supported</span><span class="p">.</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="k">Function</span> <span class="nv">"has_table_privilege(oid,text)"</span> <span class="k">not</span> <span class="n">supported</span><span class="p">.</span>
+    <span class="n">ERROR</span><span class="p">:</span>  <span class="n">Specified</span> <span class="n">types</span> <span class="k">or</span> <span class="n">functions</span> <span class="p">(</span><span class="n">one</span> <span class="n">per</span> <span class="n">INFO</span> <span class="n">message</span><span class="p">)</span> <span class="k">not</span> <span class="n">supported</span> <span class="k">on</span> <span class="n">Redshift</span> <span class="n">tables</span><span class="p">.</span>
+    <span class="n">CONTEXT</span><span class="p">:</span>  <span class="k">SQL</span> <span class="k">statement</span> <span class="nv">" SELECT table_schema, table_name FROM information_schema.TABLES WHERE table_type='BASE TABLE' AND table_schema NOT IN ('pg_catalog', 'information_schema') AND table_name !='unload_history' AND TABLE_NAME in (select tname from my_tokenized_tables)"</span></code></pre></figure>
+
+<p>Its saying we don’t have enough permissions. So I need to reached out AWS support team to help on this one piece. Then they got help from RedShift product team to write the correct SQL query.</p>
+
+<h2 id="stored-procedure-with-multiple-values">Stored Procedure with multiple values:</h2>
+
+<p>With my stored procedure, I want to get the list of table names from the argument and print its name along with schema.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql">    <span class="k">DROP</span> <span class="k">PROCEDURE</span> <span class="n">multi_comma_values</span><span class="p">(</span><span class="nb">varchar</span><span class="p">);</span>
+    
+    <span class="k">CREATE</span> <span class="k">OR</span> <span class="k">REPLACE</span> <span class="k">PROCEDURE</span> <span class="n">multi_comma_values</span><span class="p">(</span><span class="n">tbl_list</span> <span class="k">IN</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">400</span><span class="p">))</span>
+    <span class="k">LANGUAGE</span> <span class="n">plpgsql</span>
+    <span class="k">AS</span> <span class="err">$$</span>
+    <span class="k">DECLARE</span>
+        <span class="n">rec</span> <span class="n">RECORD</span><span class="p">;</span>
+    <span class="k">BEGIN</span>
+        <span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">my_tables</span><span class="p">;</span>
+        <span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">my_tokenized_tables</span><span class="p">;</span>
+        <span class="k">CREATE</span> <span class="k">TEMP</span> <span class="k">TABLE</span> <span class="n">my_tables</span> <span class="p">(</span><span class="n">comma_table_names</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">400</span><span class="p">));</span>
+        <span class="k">EXECUTE</span> <span class="s1">'INSERT INTO my_tables VALUES ('</span> <span class="o">||</span> <span class="n">quote_literal</span><span class="p">(</span><span class="n">tbl_list</span><span class="p">)</span> <span class="o">||</span> <span class="s1">')'</span><span class="p">;</span>
+    
+        <span class="k">with</span> <span class="n">NS</span> <span class="k">AS</span> <span class="p">(</span>
+          <span class="k">select</span> <span class="mi">1</span> <span class="k">as</span> <span class="n">n</span> <span class="k">union</span> <span class="k">all</span>
+          <span class="k">select</span> <span class="mi">2</span> <span class="k">union</span> <span class="k">all</span>
+          <span class="k">select</span> <span class="mi">3</span> <span class="k">union</span> <span class="k">all</span>
+          <span class="k">select</span> <span class="mi">4</span> <span class="k">union</span> <span class="k">all</span>
+          <span class="k">select</span> <span class="mi">5</span> <span class="k">union</span> <span class="k">all</span>
+          <span class="k">select</span> <span class="mi">6</span> <span class="k">union</span> <span class="k">all</span>
+          <span class="k">select</span> <span class="mi">7</span> <span class="k">union</span> <span class="k">all</span>
+          <span class="k">select</span> <span class="mi">8</span> <span class="k">union</span> <span class="k">all</span>
+          <span class="k">select</span> <span class="mi">9</span> <span class="k">union</span> <span class="k">all</span>
+          <span class="k">select</span> <span class="mi">10</span>
+        <span class="p">)</span>
+        <span class="k">SELECT</span>     <span class="k">Trim</span><span class="p">(</span><span class="n">Split_part</span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="n">comma_table_names</span><span class="p">,</span> <span class="s1">','</span><span class="p">,</span> <span class="n">ns</span><span class="p">.</span><span class="n">n</span><span class="p">))</span> <span class="k">AS</span> <span class="n">tname</span> 
+        <span class="k">INTO</span>       <span class="k">temp</span> <span class="k">table</span> <span class="n">my_tokenized_tables</span> 
+        <span class="k">FROM</span>       <span class="n">ns</span> 
+        <span class="k">inner</span> <span class="k">join</span> <span class="n">my_tables</span> <span class="n">b</span> 
+        <span class="k">ON</span>         <span class="n">ns</span><span class="p">.</span><span class="n">n</span> <span class="o">&lt;=</span> <span class="n">regexp_count</span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="n">comma_table_names</span><span class="p">,</span> <span class="s1">','</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+    
+        <span class="k">FOR</span> <span class="n">rec</span> <span class="k">IN</span> 
+        <span class="k">SELECT</span> <span class="n">nspname</span> <span class="p">::</span> <span class="nb">text</span> <span class="k">AS</span> <span class="n">namespace</span><span class="p">,</span> 
+           <span class="n">relname</span> <span class="p">::</span> <span class="nb">text</span> <span class="k">AS</span> <span class="n">tablename</span> 
+        <span class="k">FROM</span>   <span class="n">pg_class</span> <span class="n">pc</span> 
+           <span class="k">join</span> <span class="n">pg_namespace</span> <span class="n">pn</span> 
+             <span class="k">ON</span> <span class="n">pc</span><span class="p">.</span><span class="n">relnamespace</span> <span class="o">=</span> <span class="n">pn</span><span class="p">.</span><span class="n">oid</span> 
+        <span class="k">WHERE</span>  <span class="k">Trim</span><span class="p">(</span><span class="n">relname</span> <span class="p">::</span> <span class="nb">text</span><span class="p">)</span> <span class="k">IN</span> <span class="p">(</span><span class="k">SELECT</span> <span class="n">tname</span> 
+                                     <span class="k">FROM</span>   <span class="n">my_tokenized_tables</span><span class="p">)</span> 
+           <span class="k">AND</span> <span class="k">Trim</span><span class="p">(</span><span class="n">nspname</span> <span class="p">::</span> <span class="nb">text</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">IN</span> <span class="p">(</span> <span class="s1">'pg_catalog'</span><span class="p">,</span> <span class="s1">'information_schema'</span> <span class="p">)</span> 
+        
+        <span class="n">LOOP</span>
+            <span class="n">raise</span> <span class="n">info</span> <span class="s1">'schema = %, table = %'</span><span class="p">,</span> <span class="n">rec</span><span class="p">.</span><span class="n">namespace</span><span class="p">,</span> <span class="n">rec</span><span class="p">.</span><span class="n">tablename</span><span class="p">;</span>
+        <span class="k">END</span> <span class="n">LOOP</span><span class="p">;</span>
+        <span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">my_tables</span><span class="p">;</span>
+        <span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">my_tokenized_tables</span><span class="p">;</span>
+    <span class="k">END</span><span class="p">;</span>
+    <span class="err">$$</span><span class="p">;</span></code></pre></figure>
+
+<h2 id="call-the-procedure">Call the procedure:</h2>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql">    <span class="n">test</span><span class="o">=#</span> <span class="k">call</span> <span class="n">multi_comma_values</span> <span class="p">(</span><span class="s1">'bhuvi,test'</span><span class="p">);</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="k">Table</span> <span class="nv">"my_tables"</span> <span class="n">does</span> <span class="k">not</span> <span class="n">exist</span> <span class="k">and</span> <span class="n">will</span> <span class="n">be</span> <span class="n">skipped</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="k">Table</span> <span class="nv">"my_tokenized_tables"</span> <span class="n">does</span> <span class="k">not</span> <span class="n">exist</span> <span class="k">and</span> <span class="n">will</span> <span class="n">be</span> <span class="n">skipped</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="k">schema</span> <span class="o">=</span> <span class="k">public</span><span class="p">,</span> <span class="k">table</span> <span class="o">=</span> <span class="n">test</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="k">schema</span> <span class="o">=</span> <span class="k">public</span><span class="p">,</span> <span class="k">table</span> <span class="o">=</span> <span class="n">bhuvi</span>
+    <span class="k">CALL</span></code></pre></figure>
+
+<h2 id="another-scanrio">Another Scanrio:</h2>
+<p>I have a test table called <code class="highlighter-rouge">bhuvi</code> and I have 3 rows in it.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">bhuvi</span> 
+  <span class="p">(</span> 
+     <span class="n">name</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> 
+  <span class="p">);</span> 
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">bhuvi</span> 
+<span class="k">VALUES</span>      <span class="p">(</span><span class="s1">'a'</span><span class="p">);</span> 
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">bhuvi</span> 
+<span class="k">VALUES</span>      <span class="p">(</span><span class="s1">'b'</span><span class="p">);</span> 
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">bhuvi</span> 
+<span class="k">VALUES</span>      <span class="p">(</span><span class="s1">'c'</span><span class="p">);</span> </code></pre></figure>
+
+<p>Now I want to run a select query where name in <code class="highlighter-rouge">b and c</code>. So in the above stored procure, I just edited the below FOR LOOP part.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">FOR</span> <span class="n">rec</span> <span class="k">IN</span> 
+         <span class="k">SELECT</span> <span class="n">name</span>
+        <span class="k">FROM</span>   <span class="n">bhuvi</span>
+        <span class="k">WHERE</span>  <span class="n">name</span> <span class="k">IN</span> <span class="p">(</span><span class="k">SELECT</span> <span class="n">tname</span> 
+                                     <span class="k">FROM</span>   <span class="n">my_tokenized_tables</span><span class="p">)</span> 
+        
+        <span class="n">LOOP</span>
+            <span class="n">raise</span> <span class="n">info</span> <span class="s1">'value is = %'</span><span class="p">,</span><span class="n">rec</span><span class="p">.</span><span class="n">name</span><span class="p">;</span>
+        <span class="k">END</span> <span class="n">LOOP</span><span class="p">;</span></code></pre></figure>
+
+<p><strong>Call the Procedure</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">test</span><span class="o">=#</span> <span class="k">call</span> <span class="n">multi_comma_values</span> <span class="p">(</span><span class="s1">'b,c'</span><span class="p">);</span>
+<span class="n">INFO</span><span class="p">:</span>  <span class="k">Table</span> <span class="nv">"my_tables"</span> <span class="n">does</span> <span class="k">not</span> <span class="n">exist</span> <span class="k">and</span> <span class="n">will</span> <span class="n">be</span> <span class="n">skipped</span>
+<span class="n">INFO</span><span class="p">:</span>  <span class="k">Table</span> <span class="nv">"my_tokenized_tables"</span> <span class="n">does</span> <span class="k">not</span> <span class="n">exist</span> <span class="k">and</span> <span class="n">will</span> <span class="n">be</span> <span class="n">skipped</span>
+<span class="n">INFO</span><span class="p">:</span>  <span class="n">value</span> <span class="k">is</span> <span class="o">=</span> <span class="n">b</span>
+<span class="n">INFO</span><span class="p">:</span>  <span class="n">value</span> <span class="k">is</span> <span class="o">=</span> <span class="k">c</span>
+<span class="k">CALL</span></code></pre></figure>
+
+<h2 id="more-customization">More Customization:</h2>
+
+<ul>
+  <li>If you would to have a permanent table, then create it in your database and remove the <code class="highlighter-rouge">With NS as</code></li>
+  <li>This will only extract upto 256 I guess, if you inputing more than 10 then refer <a href="https://www.holistics.io/blog/splitting-array-string-into-rows-in-amazon-redshift-or-mysql/">this</a>.</li>
+</ul>
+:ET

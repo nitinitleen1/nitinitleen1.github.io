@@ -1,0 +1,2 @@
+I"˜<p><strong>Database Mirroring</strong> - A replication feature which supports automatic failover and supported in standard as well. During SQL server 2016, Microsoft announced that Mirror will be removed from further releases. But still, its there and Documentations are showing itâ€™s going to deprecate soon. The Alwayson Availability Groups is the permanent High availability solution for SQL server.</p>
+:ET

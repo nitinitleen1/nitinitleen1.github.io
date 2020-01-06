@@ -1,0 +1,3 @@
+I"
+<p>I have published enough Debezium MySQL connector tutorials for taking snapshots from Read Replica. To continue my research I wanted to do something for AWS RDS Aurora as well. But aurora is not using binlog bases replication. So we can’t use the list of tutorials that I published already. In Aurora, we can get the binlog file name and its position from its snapshot of the source Cluster. So I used a snapshot for loading the historical data, and once it’s loaded we can resume the CDC from the main cluster.</p>
+:ET

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<!--
+    So Simple Jekyll Theme 3.1.1
+    Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/so-simple-theme/blob/master/LICENSE
+-->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:image" content="http://localhost:4000/assets/MongoDB Add Node To Replica Set Without Initial Sync In GCP_gcp.jpg">
+<script data-ad-client="ca-pub-9518508677792760" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<link rel="apple-touch-icon" sizes="57x57" href="/favicon.ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/favicon.ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/favicon.ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/favicon.ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/favicon.ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/favicon.ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/favicon.ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/favicon.ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon.ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico/favicon-16x16.png">
+<link rel="manifest" href="/favicon.ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">  
+  
+
+  
+    <title>MongoDB Add Node To Replica Set Without Initial Sync In GCP/AWS</title>
+    <meta name="description" content="Adding a new node to the MongoDB replica set with huge amount of data will take a lot of time to perform the initial sync. Recently I was working on a replic...">
+    <link rel="canonical" href="http://localhost:4000/mongodb-add-node-to-replica-set-without-initial-sync-in-gcp-aws/">
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  <link rel="stylesheet" href="/assets/css/applause-button.css" />
+   <script src="/assets/js/applause-button.js"></script>
+
+</head>
+
+
+  <body class="layout--post  mongodb-add-node-to-replica-set-without-initial-sync-in-gcp-aws">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/">Home</a></li><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="https://medium.com/@bhuvithedataguy">BigData Articles</a></li><li><a href="/search/">Search</a></li></ul>
+    </nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+    
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+  
+  
+  
+
+  <div class="page-image">
+    <img src="/assets/MongoDB%20Add%20Node%20To%20Replica%20Set%20Without%20Initial%20Sync%20In%20GCP_gcp.jpg" class="entry-feature-image u-photo" alt="MongoDB Add Node To Replica Set Without Initial Sync In GCP/AWS" style="margin-top: 0;">
+    
+  </div>
+
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">MongoDB Add Node To Replica Set Without Initial Sync In GCP/AWS
+</h1>
+        
+
+      </header>
+      
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><div class="author-info"><div class="author-name">
+        <span class="p-name">Nitin Kumar Singh</span>
+      </div>
+    <time class="page-date dt-published" datetime="2019-08-20T00:00:00+05:30"><a class="u-url" href="">August 20, 2019</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title">Categories</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy">GCP</li><li class="page-taxonomy">MongoDB</li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title">Tags</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy">gcp</li><li class="page-taxonomy">mongodb</li><li class="page-taxonomy">aws</li><li class="page-taxonomy">snapshot</li><li class="page-taxonomy">replication</li>
+  </ul>
+
+
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad-vertical -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9518508677792760"
+     data-ad-slot="4154399056"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <br/>
+        <br/>
+        <applause-button style="width: 58px; height: 58px; text-align:right" color="black" multiclap="true">
+
+      </div>
+
+      <div class="page-content">
+        <div class="e-content">
+
+          <p>Adding a new node to the MongoDB replica set with huge amount of data will take a lot of time to perform the initial sync. Recently I was working on a replica set where I need to replace all the nodes in the existing shard and add a new node to the shard’s replica set. The data size is 3TB on each shard. The entire infra is on GCP. I planned to do this activity with native approach, but later I realized it won’t work as I expected.</p>
+
+<h2 id="the-native-approach">The native approach:</h2>
+
+<p>In this approach, I just added the new node the replica set.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PRIMARY&gt; rs.add<span class="o">(</span><span class="s2">"new-node:27017"</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>After 24hrs, I checked the amount of data that has been synced. You know what, its just 100GB. Even my nodes are having 16 core CPU and better network bandwidth.</p>
+
+<blockquote>
+  <p>In GCP, we can get the network throughput upto 16Gbps and its depends on the CPU Core. One core supports 2Gbps. So I can get the maximum throughput with my current configuration.</p>
+</blockquote>
+
+<p>In AWS, its a different case, we have separate instance types.</p>
+
+<p>MongoDB supports file system level backup to resync the replica set. Because Journal files will help to make the data is consistent.</p>
+
+<blockquote>
+  <h3 id="from-mongodb">FROM MONGODB:</h3>
+
+  <p>Sync by Copying Data Files from Another Member</p>
+
+  <p>This approach “seeds” a new or stale member using the data files from an existing member of the replica set. The data files <strong>must</strong> be sufficiently recent to allow the new member to catch up with the <a href="https://docs.mongodb.com/manual/reference/glossary/#term-oplog">oplog</a>. Otherwise the member would need to perform an initial sync.</p>
+</blockquote>
+
+<blockquote>
+  <p>Also make sure the journal files should be located on the same data disk.</p>
+</blockquote>
+
+<p>Yes, I have journaling enabled on all the mongodb nodes.</p>
+
+<h2 id="rsync">Rsync:</h2>
+
+<p>This time, I want use rsync command to manually sync the files from any one of the secondary server to the new node. I know it’ll end up inconsistency files. But rsync knows which files got modified and we can run the rsync one more time. So it’ll sync the modified files.</p>
+
+<p>The plan was,</p>
+
+<ol>
+  <li>Run rsync from Secondary server to the new server.</li>
+  <li>Once the 1st rsync has been done, then stop the mongodb service on Secondary node.</li>
+  <li>Run the rsync again. This time it’ll sync only the modified files.</li>
+  <li>Start the mongodb service on the secondary once the rsync is done.</li>
+  <li>Start the mongodb service on the new node.</li>
+</ol>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@new-node# rsync <span class="nt">-Pavz</span> <span class="nt">-e</span> <span class="s2">"ssh -i key.pem"</span> bhuvi@10.10.10.10:/mongodb/data/ /mongodb/data/
+</code></pre></div></div>
+
+<p>This time, again the bandwidth problem. I got upto 200Mbps only. After 2.3TB it reduced to 10Mbps.</p>
+
+<h3 id="gcs">GCS:</h3>
+
+<p>This is same as the above method, but instead of sync the files between servers, this time sync to GCS using <code class="highlighter-rouge">gsutil</code> Its a command line to which supports rsync.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@new-node# gsutil <span class="nt">-m</span> rsync <span class="nt">-r</span> /mongodb/data/ gs://mongo-migration/secondary-node/
+</code></pre></div></div>
+
+<p>In this case, the data transfer is pretty fast. I got 500Mbps to 1Gbps. So the sync was done in few hours.</p>
+
+<ul>
+  <li>But few journal data files were not uploaded due to permission issue. Even I added the root user to mongod group.</li>
+  <li>Some files were not uploaded, because that time those files are in use and was doing some changes.</li>
+</ul>
+
+<p>So inconsistent files which end up with corruption on the data files.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2019-08-14T13:09:56.407+0000 E STORAGE  [initandlisten] WiredTiger error (-31803) 
+[1565788196:406419][28166:0x7feda45c4600], file:WiredTiger.wt, 
+WT_CURSOR.next: __schema_create_collapse, 
+111: metadata information for source configuration "colgroup:collection-29962-5646082836428872281" not found: 
+WT_NOTFOUND: item not found
+</code></pre></div></div>
+
+<h2 id="snapshots">Snapshots:</h2>
+
+<p>If you are familiar with public cloud platform then you already know that Snapshots are not consistent backups. I have already faced some issues with this snapshots when I used it for PostgreSQL. (<a href="https://thedataguy.in/dont-use-aws-ami-backup-ec2-database-server/">Here is a blog about that</a>)</p>
+
+<blockquote>
+  <p><strong>NOTE</strong> Once the snapshot restored, it’ll not give the complete performance, it’s need some time to restore all the blocks. But yes, you can add it as a secondary node, then later you can promote this node as Master.</p>
+</blockquote>
+
+<p>But in mongodb, its a different case, Journal files will make your data consistent. So lets give a try.</p>
+
+<ol>
+  <li>Take snapshot of the data volume from the existing secondary server.</li>
+  <li>Create a volume from the snapshot.</li>
+  <li>Attach this volume to the New node.</li>
+  <li>Mount it on the <code class="highlighter-rouge">dbpath</code> and assign the permissions.</li>
+  <li>Make sure the <code class="highlighter-rouge">mongod.conf</code> has replica set and shard details.</li>
+  <li>Start the mongodb on the new node.</li>
+  <li>Add the new node to the replica set.</li>
+</ol>
+
+<p>In my case, I used CentOS for the new node. Here are the list of commands we need to use.</p>
+
+<h4 id="on-the-new-node">On the new node:</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service mongod stop
+mount /dev/sdb /mongodb/data/  <span class="o">(</span>replace the /dev/sdb with your block device and mount point as your dbpath<span class="o">)</span>
+<span class="nb">chown</span> <span class="nt">-R</span> mongod:mongod /mongodb/data/ 
+<span class="nb">chcon </span>system_u:object_r:mongod_var_lib_t:s0 /mongodb/data 
+restorecon /mongodb/data
+</code></pre></div></div>
+
+<p>If you are using mongodb with Key file auth for replication, then assign the below permissions for the key file.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chown </span>400 mongodb-keyfile 
+<span class="nb">chown </span>mongod:mongod mongodb-keyfile 
+<span class="nb">chcon </span>system_u:object_r:mongod_var_lib_t:s0 mongodb-keyfile
+service mongod start
+</code></pre></div></div>
+
+<h4 id="on-primary">On Primary:</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PRIMARY&gt; rs.add<span class="o">(</span><span class="s2">"new-node:27017"</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>It’ll take some time to catch up the lag. Then we are ready to use the new node.</p>
+
+<p>I remember 2 years before, I have done this on AWS. <a href="https://dba.stackexchange.com/a/164391/105575">https://dba.stackexchange.com/a/164391/105575</a></p>
+
+        </div>
+        <hr>
+        <h3>Advertisement</h3>
+         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad-horizontal -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9518508677792760"
+     data-ad-slot="4874591962"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <hr>
+        <h3> Share this article </h3>
+      
+        
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/database-mirroring-is-still-a-mystery/">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> Database Mirroring is still a Mystery
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/mysql-convert-binlog-based-replication-to-gtid-replication-without-downtime/">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        MySQL Convert Binlog Based Replication To GTID Replication Without Downtime
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="copyright">
+    
+      <p>&copy; 2020 Nitin Kumar Singh | Data Architect. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
+
+
+  </body>
+
+</html>

@@ -1,0 +1,76 @@
+I"<p><img src="/assets/mysql-change-default-directories.jpg" alt="change mysql default data,binlog, error log directories" /></p>
+
+<p>MySQL Change default directories</p>
+
+<p>While reading this heading everybody things like, yeah its pretty old topic, we can get many articles by googling. But you know what sometimes well known things never work for us. This time it happened for me, my bad. I have done this many times. But most of us changed the default Data Directory only. Only a few of us thinking about change MySQL default data,binlog, error log directories.</p>
+
+<p>I can easily change the Data directory, But while enabling binlog, and error log I got an error.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">mysqld: File <span class="s1">'/mysql/binlog/mysql-bin.index'</span> not found <span class="o">(</span>Errcode: 13<span class="o">)</span></code></pre></figure>
+
+<p>So this is the reason for wrote this blog.</p>
+
+<h2 id="my-server-setup">My Server Setup:</h2>
+
+<p><strong>OS:</strong> Ubuntu 14.04LTS 64Bit</p>
+
+<p><strong>MySQL:</strong> 5.5.58</p>
+
+<h2 id="destination-directories">Destination Directories:</h2>
+
+<p><strong>Data:</strong> /mysql/data</p>
+
+<p><strong>Binlog: </strong>/mysql/data</p>
+
+<p><strong>ErrorLog:</strong> /mysql/error</p>
+
+<p><strong>SlowLog:</strong> /mysql/sowlog</p>
+
+<h3 id="create-the-directories">Create the Directories:</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">mkdir</span> <span class="nt">-p</span> /mysql/data
+<span class="nb">mkdir</span> <span class="nt">-p</span> /mysql/binlog
+<span class="nb">mkdir</span> <span class="nt">-p</span> /mysql/error
+<span class="nb">mkdir</span> <span class="nt">-p</span> /mysql/sowlog</code></pre></figure>
+
+<p>Set permission:</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">chown</span> <span class="nt">-R</span> mysql:mysql /mysql/
+<span class="nb">chmod</span> <span class="nt">-R</span> 600 /mysql</code></pre></figure>
+
+<p>Sync the data from old data directory to the new directory.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">service mysql stop
+<span class="nb">sudo </span>rsync <span class="nt">-av</span> /var/lib/mysql/<span class="k">*</span> /mysql/data/</code></pre></figure>
+
+<h3 id="edit-the-mycnf-file">Edit the my.cnf file</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="o">[</span>mysqld]
+<span class="c">#Data</span>
+datadir <span class="o">=</span> /mysql/data/
+<span class="c">#Binlog</span>
+log_bin <span class="o">=</span> /mysql/binlog/mysql_bin
+<span class="c">#Errorlog</span>
+log_error <span class="o">=</span> /mysql/error/mysql_error.log
+<span class="c">#slowlog</span>
+slow_query_log_file <span class="o">=</span> /mysql/sowlog/mysql_slow.log
+<span class="o">[</span>mysql]
+port <span class="o">=</span> 3306
+socket <span class="o">=</span> /mysql/data/mysql.sock</code></pre></figure>
+
+<p>Now its time to modify the apparmor files.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">vi /etc/apparmor.d/usr.sbin.mysqld
+
+<span class="c">#fine the below lines</span>
+/var/lib/mysql r,
+/var/lib/mysql/<span class="k">**</span> rwk,
+
+<span class="c">#replace with</span>
+/mysql r,
+/mysql/<span class="k">**</span> rwk,</code></pre></figure>
+
+<p>Thats it, now start mysql.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">service mysql start</code></pre></figure>
+:ET

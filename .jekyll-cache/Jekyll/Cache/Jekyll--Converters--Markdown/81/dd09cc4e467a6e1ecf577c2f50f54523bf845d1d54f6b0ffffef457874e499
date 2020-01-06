@@ -1,0 +1,145 @@
+I"� <p><img src="/assets/Rundeck-Series-Install-And-Configure-RunDeck-3.0-On-CentOS-7.png" alt="Install And Configure RunDeck 3.0 On CentOS 7" /></p>
+
+<blockquote>
+  <p>I have done many automations MySQL Automations with Rundeck. This blog series will explain about the DevOps In MySQL with Rundeck.</p>
+</blockquote>
+
+<p>Rundeck is one of my favourite Automation tools. Here we are going to see how can we install and configure rundek on a CentOS server with mysql as a backend. Even I like Jenkins, but as a SYSadmin, I like the Rundeck a lot.You may think like both can do automation. But as per my understanding is,</p>
+
+<ul>
+  <li>Jenkins - is for Development and CI/CD purpose.</li>
+  <li>Rundeck - Operation related automations</li>
+</ul>
+
+<p>Im using Rundeck to automate my day to day DBA jobs. The recent version of Rundeck has few major changes in adding nodes and some other places. In this blog, I have mentioned the steps to configure Rundeck with MySQL as a Backend.</p>
+
+<h2 id="pre-requirements">Pre-Requirements:</h2>
+
+<ul>
+  <li>A Server(or VM) with CentOS 7</li>
+  <li>MySQL 5.7 or 8.0 (5.6 is old)</li>
+  <li>Java 8</li>
+</ul>
+
+<h2 id="installation-steps">Installation Steps:</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c">#install Java</span>
+yum <span class="nb">install </span>java-1.8.0
+
+<span class="c">#install rundeck repo</span>
+rpm <span class="nt">-Uvh</span> https://repo.rundeck.org/latest.rpm
+
+<span class="c">#install rundeck latest version</span>
+yum <span class="nb">install </span>rundeck
+
+<span class="c">#start rundeck service</span>
+service rundeckd start</code></pre></figure>
+
+<p>To verify the rundeck status run the below command.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">service rundeckd status
+
+<span class="c"># OUTPUT</span>
+● rundeckd.service - SYSV: rundeckd, providing rundeckd
+   Loaded: loaded <span class="o">(</span>/etc/rc.d/init.d/rundeckd<span class="p">;</span> bad<span class="p">;</span> vendor preset: disabled<span class="o">)</span>
+   Active: active <span class="o">(</span>running<span class="o">)</span> since Tue 2018-10-09 09:06:55 +0530<span class="p">;</span> 3 days ago
+     Docs: man:systemd-sysv-generator<span class="o">(</span>8<span class="o">)</span>
+ Main PID: 3617 <span class="o">(</span>runuser<span class="o">)</span>
+   CGroup: /system.slice/rundeckd.service
+           ‣ 3617 runuser <span class="nt">-s</span> /bin/bash <span class="nt">-l</span> rundeck <span class="nt">-c</span> java <span class="nt">-Drundeck</span>.jaaslogin<span class="o">=</span><span class="nb">true</span>            <span class="nt">-Djava</span>.security.auth.login.config<span class="o">=</span>/etc/rundeck/jaas-loginmodule.conf            <span class="nt">-Dlogin</span>...
+
+Oct 09 09:06:55 prod-mgnt-rundeck-01 systemd[1]: Unit rundeckd.service entered failed state.
+Oct 09 09:06:55 prod-mgnt-rundeck-01 systemd[1]: rundeckd.service failed.
+Oct 09 09:06:55 prod-mgnt-rundeck-01 systemd[1]: Starting SYSV: rundeckd, providing rundeckd...
+Oct 09 09:06:55 prod-mgnt-rundeck-01 rundeckd[3607]: Starting rundeckd: <span class="o">[</span>  OK  <span class="o">]</span>
+Oct 09 09:06:55 prod-mgnt-rundeck-01 systemd[1]: Started SYSV: rundeckd, providing rundeckd.</code></pre></figure>
+
+<h2 id="accessing-rundeck">Accessing Rundeck:</h2>
+
+<p>Before accessing rundeck through browser, You need do the below changed in the config file.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">vi /etc/rundeck/framework.properties 
+
+framework.server.name <span class="o">=</span> PUBLIC_IP_OF_THE_SERVER
+framework.server.hostname <span class="o">=</span> PUBLIC_IP_OF_THE_SERVER
+framework.server.port <span class="o">=</span> 4440
+framework.server.url <span class="o">=</span> http://PUBLIC_IP_OF_THE_SERVER4440
+
+<span class="c"># Restart rundeck</span>
+service rundeckd restart</code></pre></figure>
+
+<p>If you want to access the Rundeck privately (through VPN), Use private IP to the configuration. You can also assign some CNAME URL for this. </p>
+
+<p>Open any browser and type the URL as <strong><em>IP_address:4440</em></strong></p>
+
+<h2 id="change-default-password">Change Default Password:</h2>
+
+<p>Rundeck using the default username as admin and its password as admin. To change this edit the realm.properties file and restart rundeck.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">vi /etc/rundeck/realm.properties
+
+<span class="c"># This sets the default user accounts for the Rundeck app</span>
+admin:admin,user,admin,architect,deploy,build
+
+to 
+admin:NEW_PASSWORD,user,admin,architect,deploy,build
+
+<span class="c"># Save it and restart</span>
+service rundeckd restart</code></pre></figure>
+
+<p>To learn more about authentication and adding new users, <a href="https://rundeck.org/docs/administration/security/authenticating-users.html">click here.</a></p>
+
+<h2 id="add-mysql-as-a-backend">Add MySQL as a Backend:</h2>
+
+<p>By default, rundeck is using some DB file for storing the jobs and other information. But its not a better database for a Production environment. Rundeck supports MySQL and PostgreSQL as backends.</p>
+
+<h3 id="install-mysql-repository">Install MySQL Repository</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">rpm <span class="nt">-ivh</span> https://dev.mysql.com/get/mysql80-community-release-el7-1.noarch.rpm</code></pre></figure>
+
+<h3 id="enable-mysql-57-repo">Enable MySQL 5.7 Repo</h3>
+
+<p>This repository will enable 8.0 as default installation. So we need to disable all versions and enable only on 5.7</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">vi /etc/yum.repos.d/mysql-community.repo
+
+<span class="o">[</span>mysql57-community]
+<span class="nv">name</span><span class="o">=</span>MySQL 5.7 Community Server
+<span class="nv">baseurl</span><span class="o">=</span>http://repo.mysql.com/yum/mysql-5.7-community/el/6/<span class="nv">$basearch</span>/
+<span class="nv">enabled</span><span class="o">=</span>1
+<span class="nv">gpgcheck</span><span class="o">=</span>1
+<span class="nv">gpgkey</span><span class="o">=</span>file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql
+
+<span class="c">#Disable other versions</span>
+<span class="o">[</span>mysql80-community]
+...
+...
+<span class="nv">enabled</span><span class="o">=</span>0 ...</code></pre></figure>
+
+<h3 id="install-mysql-57">Install MySQL 5.7</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    yum <span class="nb">install </span>mysql-server</code></pre></figure>
+
+<h3 id="create-a-database-and-an-user-for-rundeck">Create a Database and an User for Rundeck:</h3>
+
+<p>Login to mysql and run the below commands.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">mysql</span> <span class="o">-</span><span class="n">u</span> <span class="n">root</span> <span class="o">-</span><span class="n">p</span>
+<span class="n">Enter</span> <span class="n">Password</span><span class="p">:</span>
+
+<span class="k">create</span> <span class="k">database</span> <span class="n">rundeck</span><span class="p">;</span>
+<span class="k">grant</span> <span class="k">ALL</span> <span class="k">on</span> <span class="n">rundeck</span><span class="p">.</span><span class="o">*</span> <span class="k">to</span> <span class="s1">'rundeckuser'</span><span class="o">@</span><span class="s1">'localhost'</span> <span class="n">identified</span> <span class="k">by</span> <span class="s1">'your-password'</span><span class="p">;</span>
+<span class="n">flush</span> <span class="k">privileges</span><span class="p">;</span></code></pre></figure>
+
+<h2 id="set-rundeck-to-use-mysql">Set Rundeck to use MySQL:</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">vi /etc/rundeck/rundeck-config.properties
+
+dataSource.url <span class="o">=</span> jdbc:mysql://localhost/rundeck?autoReconnect<span class="o">=</span><span class="nb">true
+</span>dataSource.username<span class="o">=</span>rundeckuser
+dataSource.password<span class="o">=</span>your-password
+dataSource.driverClassName<span class="o">=</span>com.mysql.jdbc.Driver
+
+<span class="c"># Restart rundeck</span>
+service rundeckd restart</code></pre></figure>
+:ET

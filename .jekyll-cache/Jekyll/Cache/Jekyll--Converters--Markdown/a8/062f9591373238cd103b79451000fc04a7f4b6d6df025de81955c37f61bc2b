@@ -1,0 +1,2 @@
+I"�<p>In my <a href="https://thedataguy.in/redshift-unload-all-tables-to-s3/">previous post</a>, I explained how to unload all the tables in the RedShift database to S3 Bucket. But there was a limitation. We should export all the tables, you can’t specify some list of tables or all the tables in a specific schema. Its because of I can’t give comma separated values in RedShift stored procedure. But after spending few days I found a solution for this.</p>
+:ET

@@ -1,0 +1,55 @@
+I"
+<p><img src="/uploads/MySQL Exact Row Count For All The Tables.jpg" alt="MySQL Exact Row Count For All The Tables" title="MySQL Exact Row Count For All The Tables" /></p>
+
+<p>Getting the row count from mysql tables are not a big deal and even there is no need for a blog for this. Simply go and query the <code class="highlighter-rouge">INFORMATION</code><code class="highlighter-rouge">_SCHEMA</code> <em>and get the row count for the tables. But this is not your actual row counts. It’ll show the row count of the tables during the last statistics update. So if you want to track your tables growth then you should do</em> <code class="highlighter-rouge">select count(*) from table_name</code> for all the tables and insert the results to somewhere. There are a lot of ways available. Im just make this as a blog post. So others can benefit from it.</p>
+
+<h2 id="row-count---from-stored-procedure">Row Count - From Stored Procedure:</h2>
+
+<p>We’ll get the list of table names from the <code class="highlighter-rouge">information_schema</code> and use <code class="highlighter-rouge">cursor</code> to run <code class="highlighter-rouge">select count(*)</code> on that table and save the row count value to a table.</p>
+
+<p>In this example, Im going to collect the row count of the tables from the database called <code class="highlighter-rouge">prod_db</code>. And this procedure and tracking table will be saved on the database called <code class="highlighter-rouge">dbadmin</code>.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">use</span> <span class="n">dbadmin</span><span class="p">;</span>
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">table_growth</span> <span class="p">(</span>  
+<span class="n">id</span> <span class="nb">INT</span> <span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span>  
+<span class="p">,</span><span class="nb">timestamp</span> <span class="nb">DATETIME</span> <span class="k">DEFAULT</span> <span class="k">CURRENT_TIMESTAMP</span>  
+<span class="p">,</span><span class="k">table_name</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span>  
+<span class="p">,</span><span class="k">rows</span> <span class="nb">INT</span> <span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span>  
+<span class="p">,</span><span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span>  
+<span class="p">);</span>
+
+<span class="k">delimiter</span> <span class="o">//</span>  
+<span class="k">CREATE</span> <span class="k">PROCEDURE</span> <span class="n">rows_growth</span><span class="p">()</span>  
+<span class="k">BEGIN</span>  
+<span class="k">DECLARE</span> <span class="k">start</span> <span class="nb">INTEGER</span> <span class="k">DEFAULT</span> <span class="mi">0</span><span class="p">;</span>  
+<span class="k">DECLARE</span> <span class="n">t_name</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>  
+<span class="k">DEClARE</span> <span class="n">table_names</span> <span class="k">CURSOR</span> <span class="k">FOR</span>  
+    	<span class="k">SELECT</span> <span class="k">table_name</span> <span class="k">FROM</span> <span class="n">INFORMATION_SCHEMA</span><span class="p">.</span><span class="n">TABLES</span> <span class="k">WHERE</span> <span class="n">TABLE_SCHEMA</span><span class="o">=</span><span class="s1">'prod_db'</span><span class="p">;</span>  
+<span class="k">DECLARE</span> <span class="k">CONTINUE</span> <span class="k">HANDLER</span>  
+        <span class="k">FOR</span> <span class="k">NOT</span> <span class="k">FOUND</span> <span class="k">SET</span> <span class="k">start</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>  
+<span class="k">OPEN</span> <span class="n">table_names</span><span class="p">;</span>  
+<span class="n">get_tablename</span><span class="p">:</span> <span class="k">table_name</span>  
+<span class="k">FETCH</span> <span class="n">table_names</span> <span class="k">INTO</span> <span class="n">t_name</span><span class="p">;</span>  
+<span class="k">SET</span> <span class="o">@</span><span class="n">query</span> <span class="o">=</span><span class="n">CONCAT</span><span class="p">(</span><span class="s1">'insert into table_growth (table_name, rows)  select "'</span><span class="p">,</span><span class="n">t_name</span><span class="p">,</span><span class="s1">'" as tablename '</span><span class="p">,</span> <span class="s1">','</span><span class="p">,</span> <span class="s1">'count(*) from prod_db.'</span><span class="p">,</span> <span class="n">t_name</span><span class="p">);</span>  
+<span class="k">select</span> <span class="o">@</span><span class="n">query</span><span class="p">;</span>  
+<span class="k">PREPARE</span> <span class="n">insert_stmt</span> <span class="k">FROM</span> <span class="o">@</span><span class="n">query</span><span class="p">;</span>  
+<span class="k">EXECUTE</span> <span class="n">insert_stmt</span><span class="p">;</span>  
+<span class="n">IF</span> <span class="k">start</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">THEN</span>  
+<span class="n">LEAVE</span> <span class="n">get_tablename</span><span class="p">;</span>  
+<span class="k">END</span> <span class="n">IF</span><span class="p">;</span>  
+<span class="k">END</span> <span class="k">table_name</span> <span class="n">get_tablename</span><span class="p">;</span>  
+<span class="k">CLOSE</span> <span class="n">table_names</span><span class="p">;</span>  
+<span class="k">END</span><span class="o">//</span>  
+<span class="k">delimiter</span> <span class="p">;</span></code></pre></figure>
+
+<h2 id="row-count---from-shell-script">Row Count - From Shell Script</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">mysql  <span class="nt">-h</span> IP_ADDRESS <span class="nt">-usqladmin</span>  <span class="nt">-p</span><span class="s1">'password!'</span> Foodie  <span class="nt">-N</span> <span class="nt">-e</span> <span class="s2">"SELECT table_name FROM INFORMATION_SCHEMA.tables where table_schema='Foodie';"</span> | <span class="k">while </span><span class="nb">read</span> <span class="nt">-r</span> table_name  
+<span class="k">do  
+</span><span class="nv">count</span><span class="o">=</span><span class="si">$(</span>mysql <span class="nt">-h</span> IP_ADDRESS <span class="nt">-usqladmin</span>  <span class="nt">-p</span><span class="s1">'password'</span> Foodie <span class="nt">-N</span> <span class="nt">-e</span> <span class="s2">"SELECT COUNT(*) FROM </span><span class="nv">$table_name</span><span class="s2">;"</span><span class="si">)</span>  
+mysql  <span class="nt">-h</span> IP_ADDRESS <span class="nt">-usqladmin</span>  <span class="nt">-p</span><span class="s1">'pass!'</span>  dbadmin <span class="nt">-e</span> <span class="s2">"INSERT INTO table_growth (table_name, rows)  VALUES ('</span><span class="nv">$table_name</span><span class="s2">',</span><span class="nv">$count</span><span class="s2">);"</span>  
+<span class="k">done</span></code></pre></figure>
+
+<p>If your tables are having a huge amount of data and running with one or two read replica, then use replica’s IP address for doing the <code class="highlighter-rouge">select count(*)</code>.</p>
+:ET

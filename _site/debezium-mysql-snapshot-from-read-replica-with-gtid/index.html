@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<!--
+    So Simple Jekyll Theme 3.1.1
+    Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/so-simple-theme/blob/master/LICENSE
+-->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:image" content="http://localhost:4000/assets/Debezium MySQL Snapshot From Read Replica With GTID.jpg">
+<script data-ad-client="ca-pub-9518508677792760" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<link rel="apple-touch-icon" sizes="57x57" href="/favicon.ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/favicon.ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/favicon.ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/favicon.ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/favicon.ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/favicon.ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/favicon.ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/favicon.ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon.ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico/favicon-16x16.png">
+<link rel="manifest" href="/favicon.ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">  
+  
+
+  
+    <title>Debezium MySQL Snapshot From Read Replica With GTID</title>
+    <meta name="description" content="When you installed the Debezium MySQL connector, then it’ll start read your historical data and push all of them into the Kafka topics. This setting can we c...">
+    <link rel="canonical" href="http://localhost:4000/debezium-mysql-snapshot-from-read-replica-with-gtid/">
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  <link rel="stylesheet" href="/assets/css/applause-button.css" />
+   <script src="/assets/js/applause-button.js"></script>
+
+</head>
+
+
+  <body class="layout--post  debezium-mysql-snapshot-from-read-replica-with-gtid">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/">Home</a></li><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="https://medium.com/@bhuvithedataguy">BigData Articles</a></li><li><a href="/search/">Search</a></li></ul>
+    </nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+    
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+  
+  
+  
+
+  <div class="page-image">
+    <img src="/assets/Debezium%20MySQL%20Snapshot%20From%20Read%20Replica%20With%20GTID.jpg" class="entry-feature-image u-photo" alt="Debezium MySQL Snapshot From Read Replica With GTID" style="margin-top: 0;">
+    
+  </div>
+
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">Debezium MySQL Snapshot From Read Replica With GTID
+</h1>
+        
+
+      </header>
+      
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><div class="author-info"><div class="author-name">
+        <span class="p-name">Nitin Kumar Singh</span>
+      </div>
+    <time class="page-date dt-published" datetime="2019-12-28T16:47:00+05:30"><a class="u-url" href="">December 28, 2019</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title">Categories</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy">Kafka</li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title">Tags</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy">kafka</li><li class="page-taxonomy">debezium</li><li class="page-taxonomy">mysql</li>
+  </ul>
+
+
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad-vertical -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9518508677792760"
+     data-ad-slot="4154399056"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <br/>
+        <br/>
+        <applause-button style="width: 58px; height: 58px; text-align:right" color="black" multiclap="true">
+
+      </div>
+
+      <div class="page-content">
+        <div class="e-content">
+
+          <p>When you installed the Debezium MySQL connector, then it’ll start read your historical data and push all of them into the Kafka topics. This setting can we changed via <code class="highlighter-rouge">snapshot.mode</code> parameter in the connector. But if you are going to start a new sync, then Debezium will load the existing data its called Snapshot. Unfortunately, if you have a busy transactional MySQL database, then it may lead to some performance issues. And your DBA will never agree to read the data from Master Node.[Disclaimer: I’m a DBA :) ]. So I was thinking of figuring out to take the snapshot from the Read Replica, once the snapshot is done, then start read the realtime data from the Master. I found this useful information in a StackOverflow answer.</p>
+
+<blockquote>
+  <p>If your binlog uses GTID, you should be able to make a CDC tool like Debezium read the snapshot from the replica, then when that’s done, switch to the master to read the binlog. But if you don’t use GTID, that’s a little more tricky. The tool would have to know the binlog position on the master corresponding to the snapshot on the replica.</p>
+
+  <p><strong>Source</strong>: <a href="https://stackoverflow.com/a/58250791/6885516" title="https://stackoverflow.com/a/58250791/6885516">https://stackoverflow.com/a/58250791/6885516</a></p>
+</blockquote>
+
+<p>Then I tried to implement in a realtime scenario and verified the statement is true. Yes, we made this in our system. Here is the step by step details from our PoC.</p>
+
+<h2 id="requirements">Requirements:</h2>
+
+<ul>
+  <li>Master and Slave should be enabled with GTID.</li>
+  <li>Debezium Connector Node can talk to both master and slave.</li>
+  <li><code class="highlighter-rouge">log-slave-updates</code> must be enabled on the slave(anyhow for GTID its requires).</li>
+  <li>A user account for Debezium with respective permissions.</li>
+  <li>Install Debezium connector.</li>
+</ul>
+
+<h2 id="sample-data">Sample data:</h2>
+
+<p>Create a new database to test this sync and insert some values.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">create</span> <span class="k">database</span> <span class="n">bhuvi</span><span class="p">;</span>
+<span class="n">use</span> <span class="n">bhuvi</span><span class="p">;</span>
+<span class="k">create</span> <span class="k">table</span> <span class="n">rohi</span> <span class="p">(</span>
+<span class="n">id</span> <span class="nb">int</span><span class="p">,</span>
+<span class="n">fn</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+<span class="n">ln</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+<span class="n">phone</span> <span class="nb">int</span><span class="p">);</span>
+
+<span class="k">insert</span> <span class="k">into</span> <span class="n">rohi</span> <span class="k">values</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'rohit'</span><span class="p">,</span> <span class="s1">'last'</span><span class="p">,</span><span class="mi">87611</span><span class="p">);</span>
+<span class="k">insert</span> <span class="k">into</span> <span class="n">rohi</span> <span class="k">values</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">'rohit'</span><span class="p">,</span> <span class="s1">'last'</span><span class="p">,</span><span class="mi">87611</span><span class="p">);</span>
+<span class="k">insert</span> <span class="k">into</span> <span class="n">rohi</span> <span class="k">values</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">'rohit'</span><span class="p">,</span> <span class="s1">'last'</span><span class="p">,</span><span class="mi">87611</span><span class="p">);</span>
+<span class="k">insert</span> <span class="k">into</span> <span class="n">rohi</span> <span class="k">values</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">'rohit'</span><span class="p">,</span> <span class="s1">'last'</span><span class="p">,</span><span class="mi">87611</span><span class="p">);</span>
+<span class="k">insert</span> <span class="k">into</span> <span class="n">rohi</span> <span class="k">values</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">'rohit'</span><span class="p">,</span> <span class="s1">'last'</span><span class="p">,</span><span class="mi">87611</span><span class="p">);</span></code></pre></figure>
+
+<h3 id="create-the-mysql-connector-config">Create the MySQL Connector Config:</h3>
+
+<p>File Name: mysql.json</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mysql-connector-db01"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mysql-connector-db01"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"connector.class"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io.debezium.connector.mysql.MySqlConnector"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"database.server.id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"tasks.max"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"database.history.kafka.bootstrap.servers"</span><span class="p">:</span><span class="w"> </span><span class="s2">"YOUR-BOOTSTRAP-SERVER:9092"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"database.history.kafka.topic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"schema-changes.mysql"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"database.server.name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mysql-db01"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"database.hostname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"IP-OF-READER-NODE"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"database.port"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3306"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"database.user"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bhuvi"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"database.password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"****"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"database.whitelist"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bhuvi"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"snapshot.mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"initial"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"snapshot.locking.mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"key.converter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"org.apache.kafka.connect.json.JsonConverter"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"value.converter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"org.apache.kafka.connect.json.JsonConverter"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"key.converter.schemas.enable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"value.converter.schemas.enable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"internal.key.converter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"org.apache.kafka.connect.json.JsonConverter"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"internal.value.converter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"org.apache.kafka.connect.json.JsonConverter"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"internal.key.converter.schemas.enable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"internal.value.converter.schemas.enable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"transforms"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unwrap"</span><span class="p">,</span><span class="w">
+       	</span><span class="nl">"transforms.unwrap.add.source.fields"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ts_ms"</span><span class="p">,</span><span class="w">
+  		</span><span class="nl">"tombstones.on.delete"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
+  		</span><span class="nl">"transforms.unwrap.type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io.debezium.transforms.ExtractNewRecordState
+    }
+}</span></code></pre></figure>
+
+<h3 id="watch-the-status-of-the-connector">Watch the status of the connector:</h3>
+
+<p>Open three terminal windows and start listening to the following topics.</p>
+
+<p>NOTE: change the bootstrap-server as per your cluster’s IP.</p>
+
+<ol>
+  <li>connect-configs</li>
+  <li>connect-status</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">From Terminal-1
+kafka-console-consumer <span class="nt">--bootstrap-server</span> localhost:9092 <span class="nt">--topic</span> connect-configs <span class="nt">--from-beginning</span>
+From Terminal-2
+kafka-console-consumer <span class="nt">--bootstrap-server</span> localhost:9092 <span class="nt">--topic</span> connect-status <span class="nt">--from-beginning</span></code></pre></figure>
+
+<h3 id="install-the-connector">Install the Connector:</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">curl <span class="nt">-X</span> POST <span class="nt">-H</span> <span class="s2">"Accept: application/json"</span> <span class="nt">-H</span> <span class="s2">"Content-Type: application/json"</span> http://localhost:8083/connectors <span class="nt">-d</span> @mysql.json</code></pre></figure>
+
+<p>Once you installed, from your <code class="highlighter-rouge">connect-configs</code> topic, you will get the following output.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="o">{</span><span class="s2">"properties"</span>:<span class="o">{</span><span class="s2">"connector.class"</span>:<span class="s2">"io.debezium.connector.mysql.MySqlConnector"</span>,<span class="s2">"snapshot.locking.mode"</span>:<span class="s2">"none"</span>,<span class="s2">"database.user"</span>:<span class="s2">"bhuvi"</span>,<span class="s2">"database.server.id"</span>:<span class="s2">"1""tasks.max"</span>:<span class="s2">"1"</span>,<span class="s2">"database.history.kafka.bootstrap.servers"</span>:<span class="s2">"172.31.40.132:9092"</span>,<span class="s2">"database.history.kafka.topic"</span>:<span class="s2">"schema-changes.mysql""database.server.name"</span>:<span class="s2">"mysql-db01"</span>,<span class="s2">"internal.key.converter.schemas.enable"</span>:<span class="s2">"false"</span>,<span class="s2">"database.port"</span>:<span class="s2">"3306"</span>,<span class="s2">"key.converter.schemas.enable"</span>:<span class="s2">"false""internal.key.converter"</span>:<span class="s2">"org.apache.kafka.connect.json.JsonConverter"</span>,<span class="s2">"task.class"</span>:<span class="s2">"io.debezium.connector.mysql.MySqlConnectorTask""database.hostname"</span>:<span class="s2">"172.31.25.99"</span>,<span class="s2">"database.password"</span>:<span class="s2">"*****"</span>,<span class="s2">"internal.value.converter.schemas.enable"</span>:<span class="s2">"false"</span>,<span class="s2">"name"</span>:<span class="s2">"mysql-connector-db01""value.converter.schemas.enable"</span>:<span class="s2">"false"</span>,<span class="s2">"internal.value.converter"</span>:<span class="s2">"org.apache.kafka.connect.json.JsonConverter""value.converter"</span>:<span class="s2">"org.apache.kafka.connect.json.JsonConverter"</span>,<span class="s2">"database.whitelist"</span>:<span class="s2">"bhuvi"</span>,<span class="s2">"key.converter"</span>:<span class="s2">"org.apache.kafka.connect.json.JsonConverter""snapshot.mode"</span>:<span class="s2">"initial"</span><span class="o">}}</span>
+<span class="o">{</span><span class="s2">"tasks"</span>:1<span class="o">}</span></code></pre></figure>
+
+<p>And then from your <code class="highlighter-rouge">connect-status</code>topic, you’ll get the status of your MySQL connector.</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nl">"state"</span><span class="p">:</span><span class="s2">"RUNNING"</span><span class="p">,</span><span class="nl">"trace"</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="nl">"worker_id"</span><span class="p">:</span><span class="s2">"172.31.36.115:8083"</span><span class="p">,</span><span class="nl">"generation"</span><span class="p">:</span><span class="mi">2</span><span class="p">}</span><span class="w">
+</span><span class="p">{</span><span class="nl">"state"</span><span class="p">:</span><span class="s2">"RUNNING"</span><span class="p">,</span><span class="nl">"trace"</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="nl">"worker_id"</span><span class="p">:</span><span class="s2">"172.31.36.115:8083"</span><span class="p">,</span><span class="nl">"generation"</span><span class="p">:</span><span class="mi">3</span><span class="p">}</span></code></pre></figure>
+
+<h3 id="snapshot-status-from-the-log-file">Snapshot Status from the log file:</h3>
+
+<p>By default, the Kafka connector’s logs will go to syslog. You can customize this log location. So wherever you have the log file, you can see the snapshot progress there.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="o">[</span>2019-12-28 11:06:04,246] INFO Step 7: scanning contents of 1 tables <span class="k">while </span>still <span class="k">in </span>transaction <span class="o">(</span>io.debezium.connector.mysql.SnapshotReader<span class="o">)</span>
+<span class="o">[</span>2019-12-28 11:06:04,252] INFO Step 7: - scanning table <span class="s1">'bhuvi.rohi'</span> <span class="o">(</span>1 of 1 tables<span class="o">)</span> <span class="o">(</span>io.debezium.connector.mysql.SnapshotReader<span class="o">)</span>
+<span class="o">[</span>2019-12-28 11:06:04,252] INFO For table <span class="s1">'bhuvi.rohi'</span> using <span class="k">select </span>statement: <span class="s1">'SELECT * FROM `bhuvi`.`rohi`'</span> <span class="o">(</span>io.debezium.connector.mysql.SnapshotReader<span class="o">)</span>
+<span class="o">[</span>2019-12-28 11:06:04,264] INFO Step 7: - Completed scanning a total of 31 rows from table <span class="s1">'bhuvi.rohi'</span> after 00:00:00.012<span class="o">(</span>io.debezium.connector.mysql.SnapshotReader<span class="o">)</span>
+<span class="o">[</span>2019-12-28 11:06:04,265] INFO Step 7: scanned 5 rows <span class="k">in </span>1 tables <span class="k">in </span>00:00:00.018 <span class="o">(</span>io.debezium.connector.mysql.SnapshotReader<span class="o">)</span>
+<span class="o">[</span>2019-12-28 11:06:04,265] INFO Step 8: committing transaction <span class="o">(</span>io.debezium.connector.mysql.SnapshotReader<span class="o">)</span>
+<span class="o">[</span>2019-12-28 11:06:04,267] INFO Completed snapshot <span class="k">in </span>00:00:01.896 <span class="o">(</span>io.debezium.connector.mysql.SnapshotReader<span class="o">)</span>
+<span class="o">[</span>2019-12-28 11:06:04,348] WARN <span class="o">[</span>Producer <span class="nv">clientId</span><span class="o">=</span>connector-producer-mysql-connector-db01-0] Error <span class="k">while </span>fetching metadata with correlation <span class="nb">id </span>7 :<span class="o">{</span>mysql-db01.bhuvi.rohi<span class="o">=</span>LEADER_NOT_AVAILABLE<span class="o">}</span> <span class="o">(</span>org.apache.kafka.clients.NetworkClient<span class="o">)</span>
+<span class="o">[</span>2019-12-28 11:06:04,460] INFO Transitioning from the snapshot reader to the binlog reader <span class="o">(</span>io.debezium.connector.mysql.ChainedReader<span class="o">)</span>
+<span class="o">[</span>2019-12-28 11:06:04,492] INFO GTID <span class="nb">set </span>purged on server: 88726004-2734-11ea-ae86-0e7687279b85:1-7 <span class="o">(</span>io.debezium.connector.mysql.BinlogReader<span class="o">)</span>
+<span class="o">[</span>2019-12-28 11:06:04,492] INFO Attempting to generate a filtered GTID <span class="nb">set</span> <span class="o">(</span>io.debezium.connector.mysql.MySqlTaskContext<span class="o">)</span>
+<span class="o">[</span>2019-12-28 11:06:04,492] INFO GTID <span class="nb">set </span>from previous recorded offset: 88726004-2734-11ea-ae86-0e7687279b85:1-11<span class="o">(</span>io.debezium.connector.mysql.MySqlTaskContext<span class="o">)</span>
+<span class="o">[</span>2019-12-28 11:06:04,492] INFO GTID <span class="nb">set </span>available on server: 88726004-2734-11ea-ae86-0e7687279b85:1-11 <span class="o">(</span>io.debezium.connector.mysql.MySqlTaskContext<span class="o">)</span>
+<span class="o">[</span>2019-12-28 11:06:04,492] INFO Final merged GTID <span class="nb">set </span>to use when connecting to MySQL: 88726004-2734-11ea-ae86-0e7687279b85:1-11<span class="o">(</span>io.debezium.connector.mysql.MySqlTaskContext<span class="o">)</span>
+<span class="o">[</span>2019-12-28 11:06:04,492] INFO Registering binlog reader with GTID <span class="nb">set</span>: 88726004-2734-11ea-ae86-0e7687279b85:1-11 <span class="o">(</span>io.debezium.connector.mysql.BinlogReader<span class="o">)</span></code></pre></figure>
+
+<h2 id="snapshot-complete">Snapshot Complete:</h2>
+
+<p>Once your’ snapshot process is done, then the <code class="highlighter-rouge">connect-offsets</code> topic will have the binlog information of till where it’s consumed.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="o">{</span><span class="s2">"file"</span>:<span class="s2">"ip-172-31-25-99-bin.000001"</span>,<span class="s2">"pos"</span>:1234,<span class="s2">"gtids"</span>:<span class="s2">"88726004-2734-11ea-ae86-0e7687279b85:1-11"</span><span class="o">}</span></code></pre></figure>
+
+<p>Then it’ll start applying the ongoing replication changes as well.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="o">{</span><span class="s2">"ts_sec"</span>:1577531225,<span class="s2">"file"</span>:<span class="s2">"ip-172-31-25-99-bin.000001"</span>,<span class="s2">"pos"</span>:1299,<span class="s2">"gtids"</span>:<span class="s2">"88726004-2734-11ea-ae86-0e7687279b85:1-11"</span>,<span class="s2">"row"</span>:1,<span class="s2">"server_id"</span>:1,<span class="s2">"event"</span>:2<span class="o">}</span></code></pre></figure>
+
+<p>Now we have verified that the database’s snapshot has been done. Its time to swap the nodes. We’ll start consuming from the Master.</p>
+
+<p>If you enable the Monitoring for the Debezium connector, then you see the lag from the JMX or Premetheus metrics.</p>
+
+<p><strong>Reference</strong>: <a href="https://thedataguy.in/monitor-debezium-mysql-connector-with-prometheus-and-grafana/">Configuring monitoring for Debezium MySQL Connector</a>.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">curl localhost:7071 | <span class="nb">grep </span>debezium_metrics_SecondsBehindMaster
+debezium_metrics_SecondsBehindMaster<span class="o">{</span><span class="nv">context</span><span class="o">=</span><span class="s2">"binlog"</span>,name<span class="o">=</span><span class="s2">"mysql-db01"</span>,plugin<span class="o">=</span><span class="s2">"mysql"</span>,<span class="o">}</span> 299.577536699E9</code></pre></figure>
+
+<p>Sometimes the metrics take a few more minutes to update. So once you are able to see the last binlog information from the <code class="highlighter-rouge">connet-offsets</code> and the <code class="highlighter-rouge">lag &lt;10</code>, then the snapshot is done.</p>
+
+<h2 id="switch-to-master">Switch to Master:</h2>
+
+<p>The main important thing is to STOP the slave thread in your Read replica. This will prevent the changing the GTID in your <code class="highlighter-rouge">connect-offsets</code> topic.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"> 
+<span class="n">mysql</span><span class="o">-</span><span class="n">slave</span><span class="o">&gt;</span> <span class="n">STOP</span> <span class="n">SLAVE</span><span class="p">;</span></code></pre></figure>
+
+<p>To simulate the sync, we can add 1 new row in our MySQL table.  So this will never replicate to your slave. But once you switch the node, it should start reading from this row.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">mysql-master&gt; insert into rohi values <span class="o">(</span>6, <span class="s1">'rohit'</span>, <span class="s1">'last'</span>,<span class="s1">'87611'</span><span class="o">)</span><span class="p">;</span></code></pre></figure>
+
+<p>We need to update the existing MySQL connector’s config and just change the <code class="highlighter-rouge">"database.hostname"</code> parameter.</p>
+
+<blockquote>
+  <p><strong>Note</strong>: this JSON file format is different from the one which we used to register the connector. So make sure the syntax.</p>
+</blockquote>
+
+<p><strong><em>File Name</em></strong>: mysql-update.json</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+	</span><span class="nl">"connector.class"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io.debezium.connector.mysql.MySqlConnector"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"snapshot.locking.mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"tasks.max"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"database.history.kafka.topic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"schema-changes.mysql"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"transforms"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unwrap"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"internal.key.converter.schemas.enable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"transforms.unwrap.add.source.fields"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ts_ms"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"tombstones.on.delete"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"transforms.unwrap.type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"io.debezium.transforms.ExtractNewRecordState"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"value.converter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"org.apache.kafka.connect.json.JsonConverter"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"database.whitelist"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bhuvi"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"key.converter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"org.apache.kafka.connect.json.JsonConverter"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"database.user"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bhuvi"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"database.server.id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"database.history.kafka.bootstrap.servers"</span><span class="p">:</span><span class="w"> </span><span class="s2">"YOUR-KAFKA-BOOTSTRAP-SERVER:9092"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"database.server.name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mysql-db01"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"database.port"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3306"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"key.converter.schemas.enable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"internal.key.converter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"org.apache.kafka.connect.json.JsonConverter"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"database.hostname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MASTER-IP-ADDRESS"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"database.password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"****"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"internal.value.converter.schemas.enable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mysql-connector-db01"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"value.converter.schemas.enable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"internal.value.converter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"org.apache.kafka.connect.json.JsonConverter"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"snapshot.mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"initial"</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<p>Run the below command to update the config file.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">curl <span class="nt">-X</span> PUT <span class="nt">-H</span> <span class="s2">"Accept: application/json"</span> <span class="nt">-H</span> <span class="s2">"Content-Type: application/json"</span> http://localhost:8083/connectors/mysql-connector-db01/config <span class="nt">-d</span> @mysql-update.json</code></pre></figure>
+
+<p>Once its updated, from the <code class="highlighter-rouge">connect-offsets</code> topic, you can see that the Debezium starts reading the data from the Next GTID.</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nl">"ts_sec"</span><span class="p">:</span><span class="mi">1577531276</span><span class="p">,</span><span class="nl">"file"</span><span class="p">:</span><span class="s2">"mysql-bin.000008"</span><span class="p">,</span><span class="nl">"pos"</span><span class="p">:</span><span class="mi">1937</span><span class="p">,</span><span class="nl">"gtids"</span><span class="p">:</span><span class="s2">"88726004-2734-11ea-ae86-0e7687279b85:1-13"</span><span class="p">,</span><span class="nl">"row"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nl">"server_id"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nl">"event"</span><span class="p">:</span><span class="mi">2</span><span class="p">}</span></code></pre></figure>
+
+<p>Also from your topic, you can see the last row has been pushed.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">kafka-console-consumer <span class="nt">--bootstrap-server</span> localhost:9092 <span class="nt">--topic</span> mysql-db01.bhuvi.rohi <span class="nt">--from-beginning</span>
+    
+<span class="o">{</span><span class="s2">"id"</span>:1,<span class="s2">"fn"</span>:<span class="s2">"rohit"</span>,<span class="s2">"ln"</span>:<span class="s2">"last"</span>,<span class="s2">"phone"</span>:87611,<span class="s2">"__ts_ms"</span>:0<span class="o">}</span>
+<span class="o">{</span><span class="s2">"id"</span>:2,<span class="s2">"fn"</span>:<span class="s2">"rohit"</span>,<span class="s2">"ln"</span>:<span class="s2">"last"</span>,<span class="s2">"phone"</span>:87611,<span class="s2">"__ts_ms"</span>:0<span class="o">}</span>
+<span class="o">{</span><span class="s2">"id"</span>:3,<span class="s2">"fn"</span>:<span class="s2">"rohit"</span>,<span class="s2">"ln"</span>:<span class="s2">"last"</span>,<span class="s2">"phone"</span>:87611,<span class="s2">"__ts_ms"</span>:0<span class="o">}</span>
+<span class="o">{</span><span class="s2">"id"</span>:4,<span class="s2">"fn"</span>:<span class="s2">"rohit"</span>,<span class="s2">"ln"</span>:<span class="s2">"last"</span>,<span class="s2">"phone"</span>:87611,<span class="s2">"__ts_ms"</span>:0<span class="o">}</span>
+<span class="o">{</span><span class="s2">"id"</span>:5,<span class="s2">"fn"</span>:<span class="s2">"rohit"</span>,<span class="s2">"ln"</span>:<span class="s2">"last"</span>,<span class="s2">"phone"</span>:87611,<span class="s2">"__ts_ms"</span>:0<span class="o">}</span>
+<span class="o">{</span><span class="s2">"id"</span>:6,<span class="s2">"fn"</span>:<span class="s2">"rohit"</span>,<span class="s2">"ln"</span>:<span class="s2">"last"</span>,<span class="s2">"phone"</span>:87611,<span class="s2">"__ts_ms"</span>:1577531276000<span class="o">}</span></code></pre></figure>
+
+<p>This method helped us to sync the historical data from the Read replica to the Kafka topic without affecting the transactions on the Master node. Still, we are exploring this for more scenarios.  I’ll keep posting new articles about this.</p>
+
+<h3 id="debezium-series-blogs">Debezium Series blogs:</h3>
+
+<ol>
+  <li><a href="https://thedataguy.in/build-production-grade-debezium-with-confluent-kafka-cluster/">Build Production Grade Debezium Cluster With Confluent Kafka</a></li>
+  <li><a href="https://thedataguy.in/monitor-debezium-mysql-connector-with-prometheus-and-grafana/">Monitor Debezium MySQL Connector With Prometheus And Grafana</a></li>
+  <li><a href="https://thedataguy.in/debezium-mysql-snapshot-from-read-replica-with-gtid/">Debezium MySQL Snapshot From Read Replica With GTID</a></li>
+  <li><a href="https://thedataguy.in/debezium-mysql-snapshot-from-read-replica-and-resume-from-master/">Debezium MySQL Snapshot From Read Replica And Resume From Master</a></li>
+  <li><a href="https://thedataguy.in/debezium-mysql-snapshot-for-aws-rds-aurora-from-backup-snaphot/">Debezium MySQL Snapshot For AWS RDS Aurora From Backup Snaphot</a></li>
+  <li><a href="https://medium.com/searce/realtime-cdc-from-mysql-using-aws-msk-with-debezium-28da5a4ca873">RealTime CDC From MySQL Using AWS MSK With Debezium</a></li>
+</ol>
+
+        </div>
+        <hr>
+        <h3>Advertisement</h3>
+         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad-horizontal -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9518508677792760"
+     data-ad-slot="4874591962"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <hr>
+        <h3> Share this article </h3>
+      
+        
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/redshift-kill-all-locking-sessions-on-a-table/">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> RedShift Kill All Locking Sessions On A Table
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/debezium-mysql-snapshot-from-read-replica-and-resume-from-master/">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        Debezium MySQL Snapshot From Read Replica And Resume From Master
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="copyright">
+    
+      <p>&copy; 2020 Nitin Kumar Singh | Data Architect. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
+
+
+  </body>
+
+</html>

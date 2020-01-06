@@ -1,0 +1,46 @@
+I"�
+<p><img src="/assets/SQL-Server-All-In-One-Security-Audit-Script.jpeg" alt="All In One Security Audit Script" /></p>
+
+<p>As a DBA, Secure my SQL server is a pretty important part. Generally Security in the sense most of us point to users and their weak passwords. But apart from user accounts, there are some critical parts are also there.</p>
+
+<p>Instead of googling it and execute all the queries which are found in many blogs and combine all the reports together is not a feasible way, So I have been taken a list of security checklist and prepared a Tsql script to check all the loopholes in the SQL Server.</p>
+
+<h3 id="check-list">Check List:</h3>
+
+<ul>
+  <li><strong>SQL Server’s service account: </strong>
+All SQL server services must be running under an AD account, if it is a workgroup server then it should be an Administrator account.</li>
+  <li><strong>Default Directories</strong>:
+While installing SQL Server it could ask the default directors for Data, Log and Backup. We should not keep this in *C:*</li>
+  <li><strong>Services Startup:</strong>
+SQL services are able to start when the Windows server is started.</li>
+  <li><strong>SA Account:</strong>
+If you don’t want the SA account then go ahead and disabled it. If you need then rename and make a strong password.
+For disabling SA you can use the below stored procedure.
+<em>exec sp_SetAutoSAPasswordAndDisable</em></li>
+  <li><strong>Password: </strong>
+Don’t use username and password are same, and never leave it as blank.</li>
+  <li><strong>Sysadmin User:</strong>
+Don’t give sysadmin role to anyone other than DBAs.</li>
+  <li><strong>SQL Port:</strong>
+Its a recommend one to use non default port for SQL server.</li>
+  <li><strong>Number of databases:</strong>
+This is not that much affect the SQL servers security, but use less then 100 databases for a medium size server.</li>
+  <li><strong>Buildin\Administrator:</strong>
+In SQL server BUILDIN\Administrator login is enabled then go and immediately disable it. Because who all are have administrator privilege in windows server, those users can directly access the SQL server.</li>
+  <li><strong>Database Level Access:</strong>
+limit the <em>db_owner</em> and <em>db_writter</em> access.</li>
+</ul>
+
+<p><strong>Download the Script:</strong> <a href="https://github.com/SqlAdmin/tsqltools/blob/master/Security%20Audit/tsqltools_AllInOneSecurityAudit.sql">Get it from my Git repo</a></p>
+
+<h3 id="results">Results:</h3>
+<p>Server Level Audit</p>
+
+<p><img src="/assets/All-In-One-Security-Audit-Script1.png" alt="All In One Security Audit Script1" /></p>
+
+<p>Database level Audit</p>
+
+<p><img src="/assets/All-In-One-Security-Audit-Script2.png" alt="All In One Security Audit Script" /></p>
+
+:ET

@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<!--
+    So Simple Jekyll Theme 3.1.1
+    Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/so-simple-theme/blob/master/LICENSE
+-->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:image" content="http://localhost:4000/assets/RedShift Unload Like A Pro - Multiple Tables And Schemas.jpg">
+<script data-ad-client="ca-pub-9518508677792760" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<link rel="apple-touch-icon" sizes="57x57" href="/favicon.ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/favicon.ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/favicon.ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/favicon.ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/favicon.ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/favicon.ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/favicon.ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/favicon.ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon.ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico/favicon-16x16.png">
+<link rel="manifest" href="/favicon.ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">  
+  
+
+  
+    <title>RedShift Unload Like A Pro - Multiple Tables And Schemas</title>
+    <meta name="description" content="In my previous post, I explained how to unload all the tables in the RedShift database to S3 Bucket. But there was a limitation. We should export all the tab...">
+    <link rel="canonical" href="http://localhost:4000/redshift-unload-multiple-tables-schema-to-s3/">
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  <link rel="stylesheet" href="/assets/css/applause-button.css" />
+   <script src="/assets/js/applause-button.js"></script>
+
+</head>
+
+
+  <body class="layout--post  redshift-unload-like-a-pro-multiple-tables-and-schemas">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/">Home</a></li><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="https://medium.com/@bhuvithedataguy">BigData Articles</a></li><li><a href="/search/">Search</a></li></ul>
+    </nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+    
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+  
+  
+  
+
+  <div class="page-image">
+    <img src="/assets/RedShift%20Unload%20Like%20A%20Pro%20-%20Multiple%20Tables%20And%20Schemas.jpg" class="entry-feature-image u-photo" alt="RedShift Unload Like A Pro - Multiple Tables And Schemas" style="margin-top: 0;">
+    
+  </div>
+
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">RedShift Unload Like A Pro - Multiple Tables And Schemas
+</h1>
+        
+
+      </header>
+      
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><div class="author-info"><div class="author-name">
+        <span class="p-name">Nitin Kumar Singh</span>
+      </div>
+    <time class="page-date dt-published" datetime="2019-11-22T10:05:00+05:30"><a class="u-url" href="">November 22, 2019</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title">Categories</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy">AWS</li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title">Tags</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy">aws</li><li class="page-taxonomy">redshift</li><li class="page-taxonomy">unload</li><li class="page-taxonomy">s3</li><li class="page-taxonomy">sql</li>
+  </ul>
+
+
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad-vertical -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9518508677792760"
+     data-ad-slot="4154399056"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <br/>
+        <br/>
+        <applause-button style="width: 58px; height: 58px; text-align:right" color="black" multiclap="true">
+
+      </div>
+
+      <div class="page-content">
+        <div class="e-content">
+
+          <p>In my <a href="https://thedataguy.in/redshift-unload-all-tables-to-s3/">previous post</a>, I explained how to unload all the tables in the RedShift database to S3 Bucket. But there was a limitation. We should export all the tables, you can’t specify some list of tables or all the tables in a specific schema. Its because of I can’t give comma separated values in RedShift stored procedure. But after spending few days I found a solution for this.</p>
+
+<h2 id="what-well-achieve-here">What we’ll achieve here?</h2>
+
+<ul>
+  <li>Unload many tables to S3.</li>
+  <li>Unload all the tables in a specific schema.</li>
+  <li>Unload specific tables in any schema.</li>
+  <li>All the tables in all the schema.</li>
+</ul>
+
+<h2 id="stored-procedure">Stored Procedure:</h2>
+
+<p>You can refer my previous post to understand how it works and the meaning for the variables I used.</p>
+
+<p><strong>Arguments Used:</strong></p>
+
+<ul>
+  <li>s3_path - Location to export the data.</li>
+  <li>schema_name - Export the tables in this schema.</li>
+  <li>table_list - List of tables to export.</li>
+</ul>
+
+<p>To understand all other parameters read my <a href="https://thedataguy.in/redshift-unload-all-tables-to-s3/">previous post</a>.</p>
+
+<p><strong>Hardcoded Items:</strong></p>
+
+<p>In the stored procedure, I have hardcoded the follow parameters.</p>
+
+<ul>
+  <li>IAM ROLE - <code class="highlighter-rouge">arn:aws:iam::123123123123:role/myredshiftrole</code></li>
+  <li>Delimiter - <code class="highlighter-rouge">|</code></li>
+</ul>
+
+<p><strong>You can customize:</strong></p>
+
+<p>Also, the following Items are hardcoded in the Unload query. You can get these things as variable or hardcoded as per your convenient.</p>
+
+<ul>
+  <li>MAXFILESIZE - 100 MB</li>
+  <li>PARALLEL</li>
+  <li>ADDQUOTES</li>
+  <li>HEADER</li>
+  <li>GZIP</li>
+</ul>
+
+<p><strong>Create a table for maintain the unload history:</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">unload_history</span>
+<span class="p">(</span>
+<span class="n">pid</span>          <span class="nb">INT</span> <span class="k">IDENTITY</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+<span class="n">u_id</span>         <span class="nb">INT</span><span class="p">,</span>
+<span class="n">u_timestamp</span>  <span class="nb">DATETIME</span><span class="p">,</span>
+<span class="n">start_time</span>   <span class="nb">DATETIME</span><span class="p">,</span>
+<span class="n">end_time</span>     <span class="nb">DATETIME</span><span class="p">,</span>
+<span class="n">db_name</span>      <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span>
+<span class="n">table_schema</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span>
+<span class="k">table_name</span>   <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span>
+<span class="n">export_query</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">65000</span><span class="p">),</span>
+<span class="n">import_query</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">65000</span><span class="p">)</span>
+<span class="p">);</span></code></pre></figure>
+
+<p><strong>Stored Procedure:</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql">    <span class="k">CREATE</span> <span class="k">OR</span> <span class="k">replace</span> <span class="k">PROCEDURE</span> <span class="n">unload_pro</span><span class="p">(</span><span class="n">s3_location</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">10000</span><span class="p">),</span> 
+                                                   <span class="n">schema_list</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> 
+                                                   <span class="n">table_list</span>  <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span> 
+    <span class="k">LANGUAGE</span> <span class="n">plpgsql</span> 
+    <span class="k">AS</span> 
+      <span class="err">$$</span> 
+      <span class="k">DECLARE</span> 
+        <span class="n">list</span> <span class="n">RECORD</span><span class="p">;</span> 
+        <span class="n">db</span>          <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span> 
+        <span class="n">tablename</span>   <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span> 
+        <span class="n">tableschema</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span> 
+        <span class="n">starttime</span>   <span class="nb">datetime</span><span class="p">;</span> 
+        <span class="n">endtime</span>     <span class="nb">datetime</span><span class="p">;</span> 
+        <span class="k">SQL</span> <span class="nb">text</span><span class="p">;</span> 
+        <span class="n">s3_path</span>      <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span> 
+        <span class="n">iamrole</span>      <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span> 
+        <span class="k">delimiter</span>    <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span> 
+        <span class="n">max_filesize</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span> 
+        <span class="n">un_year</span>      <span class="nb">INT</span><span class="p">;</span> 
+        <span class="n">un_month</span>     <span class="nb">INT</span><span class="p">;</span> 
+        <span class="n">un_day</span>       <span class="nb">INT</span><span class="p">;</span> 
+        <span class="n">unload_query</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">65000</span><span class="p">);</span> 
+        <span class="n">copy_query</span>   <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">65000</span><span class="p">);</span> 
+        <span class="n">unload_id</span>    <span class="nb">INT</span><span class="p">;</span> 
+        <span class="n">unload_time</span> <span class="nb">timestamp</span><span class="p">;</span> 
+        <span class="n">sc_name</span>  <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span> 
+        <span class="n">tbl_list</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span> 
+      <span class="k">BEGIN</span> 
+        <span class="c1">-- Pass values for the variables </span>
+        <span class="k">SELECT</span> <span class="k">extract</span><span class="p">(</span><span class="nb">year</span> <span class="k">FROM</span> <span class="n">getdate</span><span class="p">())</span> 
+        <span class="k">INTO</span>   <span class="n">un_year</span><span class="p">;</span> 
+         
+        <span class="k">SELECT</span> <span class="k">extract</span><span class="p">(</span><span class="k">month</span> <span class="k">FROM</span> <span class="n">getdate</span><span class="p">())</span> 
+        <span class="k">INTO</span>   <span class="n">un_month</span><span class="p">;</span> 
+         
+        <span class="k">SELECT</span> <span class="k">extract</span><span class="p">(</span><span class="k">day</span> <span class="k">FROM</span> <span class="n">getdate</span><span class="p">())</span> 
+        <span class="k">INTO</span>   <span class="n">un_day</span><span class="p">;</span> 
+         
+        <span class="k">SELECT</span> <span class="k">DISTINCT</span><span class="p">(</span><span class="n">table_catalog</span><span class="p">)</span> 
+        <span class="k">FROM</span>            <span class="n">information_schema</span><span class="p">.</span><span class="n">TABLES</span> 
+        <span class="k">INTO</span>            <span class="n">db</span><span class="p">;</span> 
+         
+        <span class="k">SELECT</span> <span class="n">coalesce</span><span class="p">(</span><span class="k">max</span><span class="p">(</span><span class="n">u_id</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span> 
+        <span class="k">FROM</span>   <span class="n">unload_history</span> 
+        <span class="k">INTO</span>   <span class="n">unload_id</span><span class="p">;</span> 
+         
+        <span class="k">SELECT</span> <span class="n">getdate</span><span class="p">()</span> 
+        <span class="k">INTO</span>   <span class="n">unload_time</span><span class="p">;</span> 
+         
+        <span class="n">s3_path</span><span class="p">:</span><span class="o">=</span><span class="n">s3_location</span><span class="p">;</span> 
+        
+        <span class="c1">-- IAM ROLE and the Delimiter is hardcoded here </span>
+        <span class="n">iamrole</span><span class="p">:</span><span class="o">=</span><span class="s1">'arn:aws:iam::123123123123:role/myredshiftrole'</span><span class="p">;</span> 
+        
+        <span class="k">delimiter</span><span class="p">:</span><span class="o">=</span><span class="s1">'|'</span><span class="p">;</span> 
+        
+        <span class="n">IF</span> <span class="n">schema_list</span> <span class="k">IS</span> <span class="k">NULL</span> <span class="k">THEN</span> 
+          <span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">sp_tmp_schemalist</span><span class="p">;</span> 
+           
+          <span class="k">CREATE</span> <span class="k">temp</span> <span class="k">TABLE</span> <span class="n">sp_tmp_schemalist</span> <span class="p">(</span><span class="n">sc_list</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">));</span> 
+          <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">sp_tmp_schemalist</span> 
+          <span class="k">SELECT</span>   <span class="n">nspname</span> 
+          <span class="k">FROM</span>     <span class="n">pg_class</span> <span class="n">pc</span> 
+          <span class="k">join</span>     <span class="n">pg_namespace</span> <span class="n">pn</span> 
+          <span class="k">ON</span>       <span class="n">pc</span><span class="p">.</span><span class="n">relnamespace</span> <span class="o">=</span> <span class="n">pn</span><span class="p">.</span><span class="n">oid</span> 
+          <span class="k">WHERE</span>    <span class="n">nspname</span> <span class="k">NOT</span> <span class="k">IN</span> <span class="p">(</span> <span class="s1">'pg_catalog'</span><span class="p">,</span> 
+                                   <span class="s1">'information_schema'</span><span class="p">,</span> 
+                                   <span class="s1">'pg_toast'</span><span class="p">)</span> 
+          <span class="k">AND</span>      <span class="n">nspname</span> <span class="k">NOT</span> <span class="k">LIKE</span> <span class="s1">'pg_%'</span> 
+          <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">nspname</span><span class="p">;</span> 
+           
+          <span class="k">SELECT</span>   <span class="n">listagg</span><span class="p">(</span><span class="n">sc_list</span><span class="p">,</span> <span class="s1">','</span><span class="p">)</span> <span class="n">within</span> <span class="k">GROUP</span> <span class="p">(</span><span class="k">ORDER</span> <span class="k">BY</span> <span class="n">sc_list</span><span class="p">)</span> 
+          <span class="k">FROM</span>     <span class="n">sp_tmp_schemalist</span> 
+          <span class="k">INTO</span>     <span class="n">sc_name</span><span class="p">;</span> 
+         
+        <span class="k">ELSE</span> 
+          <span class="n">sc_name</span><span class="p">:</span><span class="o">=</span><span class="n">schema_list</span><span class="p">;</span> 
+        <span class="k">END</span> <span class="n">IF</span><span class="p">;</span> 
+        
+        <span class="n">IF</span> <span class="n">table_list</span> <span class="k">IS</span> <span class="k">NULL</span> <span class="k">THEN</span> 
+          <span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">sp_tmp_tablelist</span><span class="p">;</span> 
+           
+          <span class="k">CREATE</span> <span class="k">temp</span> <span class="k">TABLE</span> <span class="n">sp_tmp_tablelist</span> <span class="p">(</span><span class="n">tbl_name</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">));</span> 
+          <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">sp_tmp_tablelist</span> 
+          <span class="k">SELECT</span> <span class="n">relname</span> 
+          <span class="k">FROM</span>   <span class="n">pg_class</span> <span class="n">pc</span> 
+          <span class="k">join</span>   <span class="n">pg_namespace</span> <span class="n">pn</span> 
+          <span class="k">ON</span>     <span class="n">pc</span><span class="p">.</span><span class="n">relnamespace</span> <span class="o">=</span> <span class="n">pn</span><span class="p">.</span><span class="n">oid</span> 
+          <span class="k">WHERE</span>  <span class="n">nspname</span> <span class="k">NOT</span> <span class="k">IN</span> <span class="p">(</span> <span class="s1">'pg_catalog'</span><span class="p">,</span> 
+                                 <span class="s1">'information_schema'</span><span class="p">,</span> 
+                                 <span class="s1">'pg_toast'</span> <span class="p">)</span> 
+          <span class="k">AND</span>    <span class="n">relname</span> <span class="k">NOT</span> <span class="k">LIKE</span> <span class="s1">'sp_tmp_%'</span><span class="p">;</span> 
+           
+          <span class="k">SELECT</span>   <span class="n">listagg</span><span class="p">(</span><span class="n">tbl_name</span><span class="p">,</span> <span class="s1">','</span><span class="p">)</span> <span class="n">within</span> <span class="k">GROUP</span> <span class="p">(</span><span class="k">ORDER</span> <span class="k">BY</span> <span class="n">tbl_name</span><span class="p">)</span> 
+          <span class="k">FROM</span>     <span class="n">sp_tmp_tablelist</span> 
+          <span class="k">INTO</span>     <span class="n">tbl_list</span><span class="p">;</span> 
+         
+        <span class="k">ELSE</span> 
+          <span class="n">tbl_list</span><span class="p">:</span><span class="o">=</span><span class="n">table_list</span><span class="p">;</span> 
+        <span class="k">END</span> <span class="n">IF</span><span class="p">;</span> 
+        
+        <span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">sp_tmp_quote_schema</span><span class="p">;</span> 
+        <span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">sp_tmp_quote_table</span><span class="p">;</span> 
+        <span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">sp_tmp_token_schema</span><span class="p">;</span> 
+        <span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">sp_tmp_token_table</span><span class="p">;</span> 
+         
+        <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">sp_tmp_quote_schema</span> 
+                     <span class="p">(</span> 
+                                  <span class="n">comma_quote_schema</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span> 
+                     <span class="p">);</span> 
+         
+        <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">sp_tmp_quote_table</span> 
+                     <span class="p">(</span> 
+                                  <span class="n">comma_quote_table</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span> 
+                     <span class="p">);</span> 
+         
+        
+        <span class="k">EXECUTE</span> <span class="s1">'INSERT INTO sp_tmp_quote_schema VALUES ('</span><span class="o">||</span> <span class="n">quote_literal</span><span class="p">(</span><span class="n">sc_name</span><span class="p">)</span><span class="o">||</span> <span class="s1">')'</span><span class="p">;</span> 
+        <span class="k">EXECUTE</span> <span class="s1">'INSERT INTO sp_tmp_quote_table VALUES ('</span><span class="o">||</span> <span class="n">quote_literal</span><span class="p">(</span><span class="n">tbl_list</span><span class="p">)</span><span class="o">||</span> <span class="s1">')'</span><span class="p">;</span> 
+        
+        <span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">sp_tmp_ns</span><span class="p">;</span> 
+        <span class="k">CREATE</span> <span class="k">temp</span> <span class="k">TABLE</span> <span class="n">sp_tmp_ns</span> <span class="p">(</span><span class="n">n</span> <span class="nb">INT</span><span class="p">);</span> 
+        
+        <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">sp_tmp_ns</span> 
+        <span class="k">SELECT</span> 
+          <span class="n">ROW_NUMBER</span><span class="p">()</span> <span class="n">OVER</span> <span class="p">()</span> <span class="k">as</span> <span class="n">n</span>
+        <span class="k">FROM</span> 
+             <span class="p">(</span><span class="k">SELECT</span> <span class="mi">0</span> <span class="k">as</span> <span class="n">n</span> <span class="k">UNION</span> <span class="k">SELECT</span> <span class="mi">1</span><span class="p">)</span> <span class="n">p0</span><span class="p">,</span>
+             <span class="p">(</span><span class="k">SELECT</span> <span class="mi">0</span> <span class="k">as</span> <span class="n">n</span> <span class="k">UNION</span> <span class="k">SELECT</span> <span class="mi">1</span><span class="p">)</span> <span class="n">p1</span><span class="p">,</span>
+             <span class="p">(</span><span class="k">SELECT</span> <span class="mi">0</span> <span class="k">as</span> <span class="n">n</span> <span class="k">UNION</span> <span class="k">SELECT</span> <span class="mi">1</span><span class="p">)</span> <span class="n">p2</span><span class="p">,</span>
+             <span class="p">(</span><span class="k">SELECT</span> <span class="mi">0</span> <span class="k">as</span> <span class="n">n</span> <span class="k">UNION</span> <span class="k">SELECT</span> <span class="mi">1</span><span class="p">)</span> <span class="n">p3</span><span class="p">,</span>
+             <span class="p">(</span><span class="k">SELECT</span> <span class="mi">0</span> <span class="k">as</span> <span class="n">n</span> <span class="k">UNION</span> <span class="k">SELECT</span> <span class="mi">1</span><span class="p">)</span> <span class="n">p4</span><span class="p">,</span>
+             <span class="p">(</span><span class="k">SELECT</span> <span class="mi">0</span> <span class="k">as</span> <span class="n">n</span> <span class="k">UNION</span> <span class="k">SELECT</span> <span class="mi">1</span><span class="p">)</span> <span class="n">p5</span><span class="p">,</span>
+             <span class="p">(</span><span class="k">SELECT</span> <span class="mi">0</span> <span class="k">as</span> <span class="n">n</span> <span class="k">UNION</span> <span class="k">SELECT</span> <span class="mi">1</span><span class="p">)</span> <span class="n">p6</span><span class="p">,</span>
+             <span class="p">(</span><span class="k">SELECT</span> <span class="mi">0</span> <span class="k">as</span> <span class="n">n</span> <span class="k">UNION</span> <span class="k">SELECT</span> <span class="mi">1</span><span class="p">)</span> <span class="n">p7</span><span class="p">,</span>
+             <span class="p">(</span><span class="k">SELECT</span> <span class="mi">0</span> <span class="k">as</span> <span class="n">n</span> <span class="k">UNION</span> <span class="k">SELECT</span> <span class="mi">1</span><span class="p">)</span> <span class="n">p8</span><span class="p">,</span>
+             <span class="p">(</span><span class="k">SELECT</span> <span class="mi">0</span> <span class="k">as</span> <span class="n">n</span> <span class="k">UNION</span> <span class="k">SELECT</span> <span class="mi">1</span><span class="p">)</span> <span class="n">p9</span><span class="p">,</span>
+             <span class="p">(</span><span class="k">SELECT</span> <span class="mi">0</span> <span class="k">as</span> <span class="n">n</span> <span class="k">UNION</span> <span class="k">SELECT</span> <span class="mi">1</span><span class="p">)</span> <span class="n">p10</span><span class="p">;</span>
+         
+        <span class="k">SELECT</span>     <span class="k">trim</span><span class="p">(</span><span class="n">split_part</span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="n">comma_quote_schema</span><span class="p">,</span> <span class="s1">','</span><span class="p">,</span> <span class="n">ns</span><span class="p">.</span><span class="n">n</span><span class="p">))</span> <span class="k">AS</span> <span class="n">sname</span> 
+        <span class="k">INTO</span>       <span class="k">TABLE</span> <span class="n">sp_tmp_token_schema</span> 
+        <span class="k">FROM</span>       <span class="n">sp_tmp_ns</span> <span class="n">ns</span> 
+        <span class="k">inner</span> <span class="k">join</span> <span class="n">sp_tmp_quote_schema</span> <span class="n">b</span> 
+        <span class="k">ON</span>         <span class="n">ns</span><span class="p">.</span><span class="n">n</span> <span class="o">&lt;=</span> <span class="n">regexp_count</span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="n">comma_quote_schema</span><span class="p">,</span> <span class="s1">','</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> 
+         
+        <span class="k">SELECT</span>     <span class="k">trim</span><span class="p">(</span><span class="n">split_part</span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="n">comma_quote_table</span><span class="p">,</span> <span class="s1">','</span><span class="p">,</span> <span class="n">ns</span><span class="p">.</span><span class="n">n</span><span class="p">))</span> <span class="k">AS</span> <span class="n">tname</span> 
+        <span class="k">INTO</span>       <span class="k">TABLE</span> <span class="n">sp_tmp_token_table</span> 
+        <span class="k">FROM</span>       <span class="n">sp_tmp_ns</span> <span class="n">ns</span> 
+        <span class="k">inner</span> <span class="k">join</span> <span class="n">sp_tmp_quote_table</span> <span class="n">b</span> 
+        <span class="k">ON</span>         <span class="n">ns</span><span class="p">.</span><span class="n">n</span> <span class="o">&lt;=</span> <span class="n">regexp_count</span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="n">comma_quote_table</span><span class="p">,</span> <span class="s1">','</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> 
+         
+        <span class="k">FOR</span> <span class="n">list</span> <span class="k">IN</span> 
+        <span class="k">SELECT</span> <span class="n">nspname</span> <span class="p">::</span> <span class="nb">text</span> <span class="k">AS</span> <span class="n">table_schema</span><span class="p">,</span> 
+               <span class="n">relname</span> <span class="p">::</span> <span class="nb">text</span> <span class="k">AS</span> <span class="k">table_name</span> 
+        <span class="k">FROM</span>   <span class="n">pg_class</span> <span class="n">pc</span> 
+        <span class="k">join</span>   <span class="n">pg_namespace</span> <span class="n">pn</span> 
+        <span class="k">ON</span>     <span class="n">pc</span><span class="p">.</span><span class="n">relnamespace</span> <span class="o">=</span> <span class="n">pn</span><span class="p">.</span><span class="n">oid</span> 
+        <span class="k">WHERE</span>  <span class="k">trim</span><span class="p">(</span><span class="n">relname</span> <span class="p">::</span> <span class="nb">text</span><span class="p">)</span> <span class="k">IN</span> 
+               <span class="p">(</span> 
+                      <span class="k">SELECT</span> <span class="n">tname</span> 
+                      <span class="k">FROM</span>   <span class="n">sp_tmp_token_table</span><span class="p">)</span> 
+        <span class="k">AND</span>    <span class="n">relname</span> <span class="o">!=</span><span class="s1">'unload_history'</span> 
+        <span class="k">AND</span>    <span class="k">trim</span><span class="p">(</span><span class="n">nspname</span> <span class="p">::</span> <span class="nb">text</span><span class="p">)</span> <span class="k">IN</span> 
+               <span class="p">(</span> 
+                      <span class="k">SELECT</span> <span class="n">sname</span> 
+                      <span class="k">FROM</span>   <span class="n">sp_tmp_token_schema</span><span class="p">)</span> <span class="n">LOOP</span> 
+        <span class="k">SELECT</span> <span class="n">getdate</span><span class="p">()</span> 
+        <span class="k">INTO</span>   <span class="n">starttime</span><span class="p">;</span> 
+         
+        <span class="k">SQL</span><span class="p">:</span><span class="o">=</span><span class="s1">'select * from '</span> 
+        <span class="o">||</span><span class="n">list</span><span class="p">.</span><span class="n">table_schema</span> 
+        <span class="o">||</span><span class="s1">'.'</span> 
+        <span class="o">||</span><span class="n">list</span><span class="p">.</span><span class="k">table_name</span> 
+        <span class="o">||</span><span class="s1">''</span> <span class="p">;</span> 
+        <span class="n">RAISE</span> <span class="n">info</span> <span class="s1">'[%] Unloading... schema = % and table = %'</span><span class="p">,</span><span class="n">starttime</span><span class="p">,</span> <span class="n">list</span><span class="p">.</span><span class="n">table_schema</span><span class="p">,</span> <span class="n">list</span><span class="p">.</span><span class="k">table_name</span><span class="p">;</span>
+        <span class="c1">-- Start unloading the data </span>
+        <span class="n">unload_query</span> <span class="p">:</span><span class="o">=</span> <span class="s1">'unload (</span><span class="se">''</span><span class="s1">'</span> 
+        <span class="o">||</span><span class="k">SQL</span> 
+        <span class="o">||</span><span class="s1">'</span><span class="se">''</span><span class="s1">) to </span><span class="se">''</span><span class="s1">'</span> 
+        <span class="o">||</span><span class="n">s3_path</span> 
+        <span class="o">||</span><span class="n">un_year</span> 
+        <span class="o">||</span><span class="s1">'/'</span> 
+        <span class="o">||</span><span class="n">un_month</span> 
+        <span class="o">||</span><span class="s1">'/'</span> 
+        <span class="o">||</span><span class="n">un_day</span> 
+        <span class="o">||</span><span class="s1">'/'</span> 
+        <span class="o">||</span><span class="n">db</span> 
+        <span class="o">||</span><span class="s1">'/'</span> 
+        <span class="o">||</span><span class="n">list</span><span class="p">.</span><span class="n">table_schema</span> 
+        <span class="o">||</span><span class="s1">'/'</span> 
+        <span class="o">||</span><span class="n">list</span><span class="p">.</span><span class="k">table_name</span> 
+        <span class="o">||</span><span class="s1">'/'</span> 
+        <span class="o">||</span><span class="n">list</span><span class="p">.</span><span class="n">table_schema</span> 
+        <span class="o">||</span><span class="s1">'-'</span> 
+        <span class="o">||</span><span class="n">list</span><span class="p">.</span><span class="k">table_name</span> 
+        <span class="o">||</span><span class="s1">'_</span><span class="se">''</span><span class="s1"> iam_role </span><span class="se">''</span><span class="s1">'</span> 
+        <span class="o">||</span><span class="n">iamrole</span> 
+        <span class="o">||</span><span class="s1">'</span><span class="se">''</span><span class="s1"> delimiter </span><span class="se">''</span><span class="s1">'</span> 
+        <span class="o">||</span><span class="k">delimiter</span> 
+        <span class="o">||</span><span class="s1">'</span><span class="se">''</span><span class="s1"> MAXFILESIZE 300 MB PARALLEL ADDQUOTES HEADER GZIP'</span><span class="p">;</span> 
+        
+        <span class="k">EXECUTE</span> <span class="n">unload_query</span><span class="p">;</span> 
+        
+        <span class="n">copy_query</span> <span class="p">:</span><span class="o">=</span> <span class="s1">'copy '</span> 
+        <span class="o">||</span><span class="n">list</span><span class="p">.</span><span class="n">table_schema</span> 
+        <span class="o">||</span><span class="s1">'.'</span> 
+        <span class="o">||</span><span class="n">list</span><span class="p">.</span><span class="k">table_name</span> 
+        <span class="o">||</span><span class="s1">' from </span><span class="se">''</span><span class="s1">'</span> 
+        <span class="o">||</span><span class="n">s3_path</span> 
+        <span class="o">||</span><span class="n">un_year</span> 
+        <span class="o">||</span><span class="s1">'/'</span> 
+        <span class="o">||</span><span class="n">un_month</span> 
+        <span class="o">||</span><span class="s1">'/'</span> 
+        <span class="o">||</span><span class="n">un_day</span> 
+        <span class="o">||</span><span class="s1">'/'</span> 
+        <span class="o">||</span><span class="n">db</span> 
+        <span class="o">||</span><span class="s1">'/'</span> 
+        <span class="o">||</span><span class="n">list</span><span class="p">.</span><span class="n">table_schema</span> 
+        <span class="o">||</span><span class="s1">'/'</span> 
+        <span class="o">||</span><span class="n">list</span><span class="p">.</span><span class="k">table_name</span> 
+        <span class="o">||</span><span class="s1">'/</span><span class="se">''</span><span class="s1"> iam_role </span><span class="se">''</span><span class="s1">'</span> 
+        <span class="o">||</span><span class="n">iamrole</span> 
+        <span class="o">||</span><span class="s1">'</span><span class="se">''</span><span class="s1"> delimiter </span><span class="se">''</span><span class="s1">'</span> 
+        <span class="o">||</span><span class="k">delimiter</span> 
+        <span class="o">||</span><span class="s1">'</span><span class="se">''</span><span class="s1"> IGNOREHEADER 1 REMOVEQUOTES gzip'</span><span class="p">;</span> 
+        
+        <span class="k">SELECT</span> <span class="n">getdate</span><span class="p">()</span> 
+        <span class="k">INTO</span>   <span class="n">endtime</span><span class="p">;</span> 
+         
+        <span class="k">SELECT</span> <span class="n">list</span><span class="p">.</span><span class="n">table_schema</span> 
+        <span class="k">INTO</span>   <span class="n">tableschema</span><span class="p">;</span> 
+         
+        <span class="k">SELECT</span> <span class="n">list</span><span class="p">.</span><span class="k">table_name</span> 
+        <span class="k">INTO</span>   <span class="n">tablename</span><span class="p">;</span> 
+         
+        <span class="c1">-- Insert into the history table </span>
+        <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">unload_history</span> 
+                    <span class="p">(</span> 
+                                <span class="n">u_id</span><span class="p">,</span> 
+                                <span class="n">u_timestamp</span><span class="p">,</span> 
+                                <span class="n">start_time</span><span class="p">,</span> 
+                                <span class="n">end_time</span><span class="p">,</span> 
+                                <span class="n">db_name</span><span class="p">,</span> 
+                                <span class="n">table_schema</span><span class="p">,</span> 
+                                <span class="k">table_name</span><span class="p">,</span> 
+                                <span class="n">export_query</span><span class="p">,</span> 
+                                <span class="n">import_query</span> 
+                    <span class="p">)</span> 
+                    <span class="k">VALUES</span> 
+                    <span class="p">(</span> 
+                                <span class="n">unload_id</span><span class="p">,</span> 
+                                <span class="n">unload_time</span><span class="p">,</span> 
+                                <span class="n">starttime</span><span class="p">,</span> 
+                                <span class="n">endtime</span><span class="p">,</span> 
+                                <span class="n">db</span><span class="p">,</span> 
+                                <span class="n">tableschema</span><span class="p">,</span> 
+                                <span class="n">tablename</span><span class="p">,</span> 
+                                <span class="n">unload_query</span><span class="p">,</span> 
+                                <span class="n">copy_query</span> 
+                    <span class="p">);</span> 
+       
+      <span class="k">END</span> <span class="n">LOOP</span><span class="p">;</span> 
+      <span class="n">RAISE</span> <span class="n">info</span> <span class="s1">' Unloading of the DB [%] is success !!!'</span> <span class="p">,</span><span class="n">db</span><span class="p">;</span> 
+    <span class="k">END</span><span class="p">;</span> 
+    <span class="err">$$</span><span class="p">;</span></code></pre></figure>
+
+<p>I have less than 2048 tables, if you have more than that, just add few more <code class="highlighter-rouge">select unions</code> in the below portion.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql">    <span class="k">SELECT</span> 
+          <span class="n">ROW_NUMBER</span><span class="p">()</span> <span class="n">OVER</span> <span class="p">()</span> <span class="k">as</span> <span class="n">n</span>
+        <span class="k">FROM</span> 
+             <span class="p">(</span><span class="k">SELECT</span> <span class="mi">0</span> <span class="k">as</span> <span class="n">n</span> <span class="k">UNION</span> <span class="k">SELECT</span> <span class="mi">1</span><span class="p">)</span> <span class="n">p0</span><span class="p">,</span>
+             <span class="p">(</span><span class="k">SELECT</span> <span class="mi">0</span> <span class="k">as</span> <span class="n">n</span> <span class="k">UNION</span> <span class="k">SELECT</span> <span class="mi">1</span><span class="p">)</span> <span class="n">p1</span><span class="p">,</span>
+             <span class="p">.....</span>
+             <span class="p">(</span><span class="k">SELECT</span> <span class="mi">0</span> <span class="k">as</span> <span class="n">n</span> <span class="k">UNION</span> <span class="k">SELECT</span> <span class="mi">1</span><span class="p">)</span> <span class="n">p15</span><span class="p">,</span>
+             <span class="p">......</span>
+             <span class="p">(</span><span class="k">SELECT</span> <span class="mi">0</span> <span class="k">as</span> <span class="n">n</span> <span class="k">UNION</span> <span class="k">SELECT</span> <span class="mi">1</span><span class="p">)</span> <span class="n">p20</span><span class="p">,</span></code></pre></figure>
+
+<h2 id="tables-in-my-redshift-database">Tables in my Redshift database:</h2>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql">     <span class="n">table_schema</span> <span class="o">|</span>     <span class="k">table_name</span>
+    <span class="c1">--------------+---------------------</span>
+     <span class="n">sc1</span>          <span class="o">|</span> <span class="n">tbl1</span>
+     <span class="n">sc1</span>          <span class="o">|</span> <span class="n">tbl2</span>
+     <span class="n">sc1</span>          <span class="o">|</span> <span class="n">tbl3</span>
+     <span class="n">sc2</span>          <span class="o">|</span> <span class="n">tbl4</span>
+     <span class="n">sc2</span>          <span class="o">|</span> <span class="n">tbl5</span>
+     <span class="n">sc2</span>          <span class="o">|</span> <span class="n">tbl6</span>
+     <span class="n">sc3</span>          <span class="o">|</span> <span class="n">tbl7</span>
+     <span class="n">sc3</span>          <span class="o">|</span> <span class="n">tbl8</span>
+     <span class="n">sc3</span>          <span class="o">|</span> <span class="n">tbl9</span>
+     <span class="k">public</span>       <span class="o">|</span> <span class="n">new1</span>
+     <span class="k">public</span>       <span class="o">|</span> <span class="n">new2</span>
+     <span class="k">public</span>       <span class="o">|</span> <span class="n">new3</span>
+     <span class="k">public</span>       <span class="o">|</span> <span class="n">my_tokenized_tables</span>
+     <span class="k">public</span>       <span class="o">|</span> <span class="n">ns</span>
+     <span class="k">public</span>       <span class="o">|</span> <span class="n">nsa</span></code></pre></figure>
+
+<h2 id="example-commands">Example Commands:</h2>
+
+<p><strong>Export all the tables in the schema sc1:</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql">    <span class="n">stg</span><span class="o">=#</span> <span class="k">call</span> <span class="n">unload_pro</span><span class="p">(</span><span class="s1">'s3://datalake/test/'</span><span class="p">,</span><span class="s1">'sc1'</span><span class="p">,</span><span class="k">NULL</span><span class="p">);</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="p">[</span><span class="mi">2019</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">22</span> <span class="mi">04</span><span class="p">:</span><span class="mi">02</span><span class="p">:</span><span class="mi">49</span><span class="p">]</span> <span class="n">Unloading</span><span class="p">...</span> <span class="k">schema</span> <span class="o">=</span> <span class="n">sc1</span> <span class="k">and</span> <span class="k">table</span> <span class="o">=</span> <span class="n">tbl2</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="n">UNLOAD</span> <span class="n">completed</span><span class="p">,</span> <span class="mi">3</span> <span class="n">record</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">unloaded</span> <span class="n">successfully</span><span class="p">.</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="p">[</span><span class="mi">2019</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">22</span> <span class="mi">04</span><span class="p">:</span><span class="mi">02</span><span class="p">:</span><span class="mi">52</span><span class="p">]</span> <span class="n">Unloading</span><span class="p">...</span> <span class="k">schema</span> <span class="o">=</span> <span class="n">sc1</span> <span class="k">and</span> <span class="k">table</span> <span class="o">=</span> <span class="n">tbl1</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="n">UNLOAD</span> <span class="n">completed</span><span class="p">,</span> <span class="mi">3</span> <span class="n">record</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">unloaded</span> <span class="n">successfully</span><span class="p">.</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="p">[</span><span class="mi">2019</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">22</span> <span class="mi">04</span><span class="p">:</span><span class="mi">02</span><span class="p">:</span><span class="mi">52</span><span class="p">]</span> <span class="n">Unloading</span><span class="p">...</span> <span class="k">schema</span> <span class="o">=</span> <span class="n">sc1</span> <span class="k">and</span> <span class="k">table</span> <span class="o">=</span> <span class="n">tbl3</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="n">UNLOAD</span> <span class="n">completed</span><span class="p">,</span> <span class="mi">3</span> <span class="n">record</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">unloaded</span> <span class="n">successfully</span><span class="p">.</span>
+    <span class="n">INFO</span><span class="p">:</span>   <span class="n">Unloading</span> <span class="k">of</span> <span class="n">the</span> <span class="n">DB</span> <span class="p">[</span><span class="n">stg</span><span class="p">]</span> <span class="k">is</span> <span class="n">success</span> <span class="o">!!!</span>
+    <span class="k">CALL</span></code></pre></figure>
+
+<p><strong>Export all the tables in the schema sc3,public:</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql">    <span class="n">stg</span><span class="o">=#</span> <span class="k">call</span> <span class="n">unload_pro</span><span class="p">(</span><span class="s1">'s3://datalake/test/'</span><span class="p">,</span><span class="s1">'sc3,public'</span><span class="p">,</span><span class="k">NULL</span><span class="p">);</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="p">[</span><span class="mi">2019</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">22</span> <span class="mi">04</span><span class="p">:</span><span class="mi">03</span><span class="p">:</span><span class="mi">23</span><span class="p">]</span> <span class="n">Unloading</span><span class="p">...</span> <span class="k">schema</span> <span class="o">=</span> <span class="n">sc3</span> <span class="k">and</span> <span class="k">table</span> <span class="o">=</span> <span class="n">tbl7</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="n">UNLOAD</span> <span class="n">completed</span><span class="p">,</span> <span class="mi">3</span> <span class="n">record</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">unloaded</span> <span class="n">successfully</span><span class="p">.</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="p">[</span><span class="mi">2019</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">22</span> <span class="mi">04</span><span class="p">:</span><span class="mi">03</span><span class="p">:</span><span class="mi">23</span><span class="p">]</span> <span class="n">Unloading</span><span class="p">...</span> <span class="k">schema</span> <span class="o">=</span> <span class="n">sc3</span> <span class="k">and</span> <span class="k">table</span> <span class="o">=</span> <span class="n">tbl9</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="n">UNLOAD</span> <span class="n">completed</span><span class="p">,</span> <span class="mi">3</span> <span class="n">record</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">unloaded</span> <span class="n">successfully</span><span class="p">.</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="p">[</span><span class="mi">2019</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">22</span> <span class="mi">04</span><span class="p">:</span><span class="mi">03</span><span class="p">:</span><span class="mi">23</span><span class="p">]</span> <span class="n">Unloading</span><span class="p">...</span> <span class="k">schema</span> <span class="o">=</span> <span class="k">public</span> <span class="k">and</span> <span class="k">table</span> <span class="o">=</span> <span class="n">new2</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="n">UNLOAD</span> <span class="n">completed</span><span class="p">,</span> <span class="mi">0</span> <span class="n">record</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">unloaded</span> <span class="n">successfully</span><span class="p">.</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="p">[</span><span class="mi">2019</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">22</span> <span class="mi">04</span><span class="p">:</span><span class="mi">03</span><span class="p">:</span><span class="mi">24</span><span class="p">]</span> <span class="n">Unloading</span><span class="p">...</span> <span class="k">schema</span> <span class="o">=</span> <span class="k">public</span> <span class="k">and</span> <span class="k">table</span> <span class="o">=</span> <span class="n">my_tokenized_tables</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="n">UNLOAD</span> <span class="n">completed</span><span class="p">,</span> <span class="mi">2</span> <span class="n">record</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">unloaded</span> <span class="n">successfully</span><span class="p">.</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="p">[</span><span class="mi">2019</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">22</span> <span class="mi">04</span><span class="p">:</span><span class="mi">03</span><span class="p">:</span><span class="mi">24</span><span class="p">]</span> <span class="n">Unloading</span><span class="p">...</span> <span class="k">schema</span> <span class="o">=</span> <span class="k">public</span> <span class="k">and</span> <span class="k">table</span> <span class="o">=</span> <span class="n">nsa</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="n">UNLOAD</span> <span class="n">completed</span><span class="p">,</span> <span class="mi">0</span> <span class="n">record</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">unloaded</span> <span class="n">successfully</span><span class="p">.</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="p">[</span><span class="mi">2019</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">22</span> <span class="mi">04</span><span class="p">:</span><span class="mi">03</span><span class="p">:</span><span class="mi">24</span><span class="p">]</span> <span class="n">Unloading</span><span class="p">...</span> <span class="k">schema</span> <span class="o">=</span> <span class="n">sc3</span> <span class="k">and</span> <span class="k">table</span> <span class="o">=</span> <span class="n">tbl8</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="n">UNLOAD</span> <span class="n">completed</span><span class="p">,</span> <span class="mi">3</span> <span class="n">record</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">unloaded</span> <span class="n">successfully</span><span class="p">.</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="p">[</span><span class="mi">2019</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">22</span> <span class="mi">04</span><span class="p">:</span><span class="mi">03</span><span class="p">:</span><span class="mi">25</span><span class="p">]</span> <span class="n">Unloading</span><span class="p">...</span> <span class="k">schema</span> <span class="o">=</span> <span class="k">public</span> <span class="k">and</span> <span class="k">table</span> <span class="o">=</span> <span class="n">new1</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="n">UNLOAD</span> <span class="n">completed</span><span class="p">,</span> <span class="mi">0</span> <span class="n">record</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">unloaded</span> <span class="n">successfully</span><span class="p">.</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="p">[</span><span class="mi">2019</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">22</span> <span class="mi">04</span><span class="p">:</span><span class="mi">03</span><span class="p">:</span><span class="mi">25</span><span class="p">]</span> <span class="n">Unloading</span><span class="p">...</span> <span class="k">schema</span> <span class="o">=</span> <span class="k">public</span> <span class="k">and</span> <span class="k">table</span> <span class="o">=</span> <span class="n">new3</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="n">UNLOAD</span> <span class="n">completed</span><span class="p">,</span> <span class="mi">0</span> <span class="n">record</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">unloaded</span> <span class="n">successfully</span><span class="p">.</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="p">[</span><span class="mi">2019</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">22</span> <span class="mi">04</span><span class="p">:</span><span class="mi">03</span><span class="p">:</span><span class="mi">25</span><span class="p">]</span> <span class="n">Unloading</span><span class="p">...</span> <span class="k">schema</span> <span class="o">=</span> <span class="k">public</span> <span class="k">and</span> <span class="k">table</span> <span class="o">=</span> <span class="n">ns</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="n">UNLOAD</span> <span class="n">completed</span><span class="p">,</span> <span class="mi">0</span> <span class="n">record</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">unloaded</span> <span class="n">successfully</span><span class="p">.</span>
+    <span class="n">INFO</span><span class="p">:</span>   <span class="n">Unloading</span> <span class="k">of</span> <span class="n">the</span> <span class="n">DB</span> <span class="p">[</span><span class="n">stg</span><span class="p">]</span> <span class="k">is</span> <span class="n">success</span> <span class="o">!!!</span>
+    <span class="k">CALL</span></code></pre></figure>
+
+<p><strong>Export the tables tbl1, tbl2 in the schema sc1:</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql">    <span class="n">stg</span><span class="o">=#</span> <span class="k">call</span> <span class="n">unload_pro</span><span class="p">(</span><span class="s1">'s3://datalake/test/'</span><span class="p">,</span><span class="s1">'sc1'</span><span class="p">,</span><span class="s1">'tbl1,tbl2'</span><span class="p">);</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="p">[</span><span class="mi">2019</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">22</span> <span class="mi">04</span><span class="p">:</span><span class="mi">04</span><span class="p">:</span><span class="mi">05</span><span class="p">]</span> <span class="n">Unloading</span><span class="p">...</span> <span class="k">schema</span> <span class="o">=</span> <span class="n">sc1</span> <span class="k">and</span> <span class="k">table</span> <span class="o">=</span> <span class="n">tbl1</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="n">UNLOAD</span> <span class="n">completed</span><span class="p">,</span> <span class="mi">3</span> <span class="n">record</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">unloaded</span> <span class="n">successfully</span><span class="p">.</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="p">[</span><span class="mi">2019</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">22</span> <span class="mi">04</span><span class="p">:</span><span class="mi">04</span><span class="p">:</span><span class="mi">06</span><span class="p">]</span> <span class="n">Unloading</span><span class="p">...</span> <span class="k">schema</span> <span class="o">=</span> <span class="n">sc1</span> <span class="k">and</span> <span class="k">table</span> <span class="o">=</span> <span class="n">tbl2</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="n">UNLOAD</span> <span class="n">completed</span><span class="p">,</span> <span class="mi">3</span> <span class="n">record</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">unloaded</span> <span class="n">successfully</span><span class="p">.</span>
+    <span class="n">INFO</span><span class="p">:</span>   <span class="n">Unloading</span> <span class="k">of</span> <span class="n">the</span> <span class="n">DB</span> <span class="p">[</span><span class="n">stg</span><span class="p">]</span> <span class="k">is</span> <span class="n">success</span> <span class="o">!!!</span>
+    <span class="k">CALL</span></code></pre></figure>
+
+<p><strong>Export the tbl4, tbl5 without specifying any schema name: (but if you have multiple tables in the same name, all tables will be exported )</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql">    <span class="n">stg</span><span class="o">=#</span> <span class="k">call</span> <span class="n">unload_pro</span><span class="p">(</span><span class="s1">'s3://datalake/test/'</span><span class="p">,</span><span class="k">NULL</span><span class="p">,</span><span class="s1">'tbl4,tbl5'</span><span class="p">);</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="p">[</span><span class="mi">2019</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">22</span> <span class="mi">04</span><span class="p">:</span><span class="mi">04</span><span class="p">:</span><span class="mi">42</span><span class="p">]</span> <span class="n">Unloading</span><span class="p">...</span> <span class="k">schema</span> <span class="o">=</span> <span class="n">sc2</span> <span class="k">and</span> <span class="k">table</span> <span class="o">=</span> <span class="n">tbl4</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="n">UNLOAD</span> <span class="n">completed</span><span class="p">,</span> <span class="mi">3</span> <span class="n">record</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">unloaded</span> <span class="n">successfully</span><span class="p">.</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="p">[</span><span class="mi">2019</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">22</span> <span class="mi">04</span><span class="p">:</span><span class="mi">04</span><span class="p">:</span><span class="mi">42</span><span class="p">]</span> <span class="n">Unloading</span><span class="p">...</span> <span class="k">schema</span> <span class="o">=</span> <span class="n">sc2</span> <span class="k">and</span> <span class="k">table</span> <span class="o">=</span> <span class="n">tbl5</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="n">UNLOAD</span> <span class="n">completed</span><span class="p">,</span> <span class="mi">3</span> <span class="n">record</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">unloaded</span> <span class="n">successfully</span><span class="p">.</span>
+    <span class="n">INFO</span><span class="p">:</span>   <span class="n">Unloading</span> <span class="k">of</span> <span class="n">the</span> <span class="n">DB</span> <span class="p">[</span><span class="n">stg</span><span class="p">]</span> <span class="k">is</span> <span class="n">success</span> <span class="o">!!!</span>
+    <span class="k">CALL</span></code></pre></figure>
+
+<p><strong>Export all the tables in all the schemas:</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql">    <span class="n">stg</span><span class="o">=#</span> <span class="k">call</span> <span class="n">unload_pro</span><span class="p">(</span><span class="s1">'s3://datalake/test/'</span><span class="p">,</span><span class="k">NULL</span><span class="p">,</span><span class="k">NULL</span><span class="p">);</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="p">[</span><span class="mi">2019</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">22</span> <span class="mi">04</span><span class="p">:</span><span class="mi">05</span><span class="p">:</span><span class="mi">23</span><span class="p">]</span> <span class="n">Unloading</span><span class="p">...</span> <span class="k">schema</span> <span class="o">=</span> <span class="n">sc1</span> <span class="k">and</span> <span class="k">table</span> <span class="o">=</span> <span class="n">tbl2</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="n">UNLOAD</span> <span class="n">completed</span><span class="p">,</span> <span class="mi">3</span> <span class="n">record</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">unloaded</span> <span class="n">successfully</span><span class="p">.</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="p">[</span><span class="mi">2019</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">22</span> <span class="mi">04</span><span class="p">:</span><span class="mi">05</span><span class="p">:</span><span class="mi">23</span><span class="p">]</span> <span class="n">Unloading</span><span class="p">...</span> <span class="k">schema</span> <span class="o">=</span> <span class="n">sc2</span> <span class="k">and</span> <span class="k">table</span> <span class="o">=</span> <span class="n">tbl4</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="n">UNLOAD</span> <span class="n">completed</span><span class="p">,</span> <span class="mi">3</span> <span class="n">record</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">unloaded</span> <span class="n">successfully</span><span class="p">.</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="p">[</span><span class="mi">2019</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">22</span> <span class="mi">04</span><span class="p">:</span><span class="mi">05</span><span class="p">:</span><span class="mi">24</span><span class="p">]</span> <span class="n">Unloading</span><span class="p">...</span> <span class="k">schema</span> <span class="o">=</span> <span class="n">sc2</span> <span class="k">and</span> <span class="k">table</span> <span class="o">=</span> <span class="n">tbl6</span>
+    <span class="p">...................</span>
+    <span class="p">...................</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="p">[</span><span class="mi">2019</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">22</span> <span class="mi">04</span><span class="p">:</span><span class="mi">05</span><span class="p">:</span><span class="mi">28</span><span class="p">]</span> <span class="n">Unloading</span><span class="p">...</span> <span class="k">schema</span> <span class="o">=</span> <span class="k">public</span> <span class="k">and</span> <span class="k">table</span> <span class="o">=</span> <span class="n">nsa</span>
+    <span class="n">INFO</span><span class="p">:</span>  <span class="n">UNLOAD</span> <span class="n">completed</span><span class="p">,</span> <span class="mi">0</span> <span class="n">record</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">unloaded</span> <span class="n">successfully</span><span class="p">.</span>
+    <span class="n">INFO</span><span class="p">:</span>   <span class="n">Unloading</span> <span class="k">of</span> <span class="n">the</span> <span class="n">DB</span> <span class="p">[</span><span class="n">stg</span><span class="p">]</span> <span class="k">is</span> <span class="n">success</span> <span class="o">!!!</span>
+    <span class="k">CALL</span></code></pre></figure>
+
+<ul>
+  <li>From the <code class="highlighter-rouge">unload_history</code> table you can get the COPY query to load into any other RedShift cluster.</li>
+  <li>Caution: You need to install this procedure on all the databases to work seamlessly.</li>
+</ul>
+
+<h2 id="reference-links">Reference Links:</h2>
+
+<ol>
+  <li><a href="">Why are we unload with partitions (yyyy/mm/dd) in S3</a></li>
+  <li><a href="https://thedataguy.in/redshift-unload-all-tables-to-s3/">Unload all the tables to S3.</a></li>
+  <li><a href="https://thedataguy.in/redshift-stored-procedure-comma-separated-string-in-argument/">Use comma separated string in RedShift stored procedure argument.</a></li>
+</ol>
+
+        </div>
+        <hr>
+        <h3>Advertisement</h3>
+         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad-horizontal -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9518508677792760"
+     data-ad-slot="4874591962"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <hr>
+        <h3> Share this article </h3>
+      
+        
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/redshift-stored-procedure-comma-separated-string-in-argument/">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> Redshift Stored Procedure Comma separated string in Argument
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/build-production-grade-debezium-with-confluent-kafka-cluster/">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        Build Production Grade Debezium Cluster With Confluent Kafka
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="copyright">
+    
+      <p>&copy; 2020 Nitin Kumar Singh | Data Architect. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
+
+
+  </body>
+
+</html>

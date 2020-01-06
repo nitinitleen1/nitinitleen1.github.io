@@ -1,0 +1,59 @@
+I"G<p><img src="/assets/How-To-Convert-MySQL-Two-Digit-Year-To-Four-Digit-Year.png" alt="How To Convert MySQL Two Digit Year To Four Digit Year" /></p>
+
+<p>Today I was working with a small MySQL data set. The data provided by a CSV file and needed to load it into AWS RDS MySQL. Since the RDS does not support the Load data inline. So I have manually convert the CSV file to .sql file. But the problem statement is, in CSV the date time column had two digit year format and while converting into sql it considered the day part as year and automatically added 20  in the beginning. MySQL has makedate function , but it didn’t work for me. My entire data for the year 2018.</p>
+
+<h2 id="the-two-digit-format-in-csv">The two digit format in CSV</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">1.  <span class="nb">dd</span>/mm/yy hh:mm:ss
+2.  30-05-18  14:57:19
+3.  30-05-18  14:55:15
+4.  19-05-18  04:15:15
+5.  18-05-18  02:11:53
+6.  17-05-18  22:14:24</code></pre></figure>
+
+<h2 id="converted-sql-file">Converted sql file</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">1.  yyyy/mm/dd hh:mm:ss
+2.  2030-05-18  14:57:19
+3.  2030-05-18  14:55:15
+4.  2019-05-18  04:15:15
+5.  2018-05-18  02:11:53
+6.  2017-05-18  22:14:24</code></pre></figure>
+
+<h2 id="create-the-table-and-load-the-test-data">Create the table and load the test data</h2>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">create</span> <span class="k">table</span> <span class="n">csv_date</span>  <span class="p">(</span><span class="nb">date</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">));</span>
+<span class="k">insert</span> <span class="k">into</span> <span class="n">csv_date</span> <span class="k">values</span>  <span class="p">(</span><span class="s1">'2030-05-18 14:57:19'</span><span class="p">);</span>
+<span class="k">insert</span> <span class="k">into</span> <span class="n">csv_date</span> <span class="k">values</span>  <span class="p">(</span><span class="s1">'2030-05-18 14:55:15'</span><span class="p">);</span>
+<span class="k">insert</span> <span class="k">into</span> <span class="n">csv_date</span> <span class="k">values</span>  <span class="p">(</span><span class="s1">'2019-05-18 04:15:15'</span><span class="p">);</span>
+<span class="k">insert</span> <span class="k">into</span> <span class="n">csv_date</span> <span class="k">values</span>  <span class="p">(</span><span class="s1">'2018-05-18 02:11:53'</span><span class="p">);</span>
+<span class="k">insert</span> <span class="k">into</span> <span class="n">csv_date</span> <span class="k">values</span>  <span class="p">(</span><span class="s1">'2017-05-18 22:14:24'</span><span class="p">);</span></code></pre></figure>
+
+<h2 id="convert-two-digit-to-four-digit-in-mysql">Convert two digit to four digit in MySQL:</h2>
+
+<ul>
+  <li>Create a temporary table same as the original table but make the column datatype as datetime data type. </li>
+  <li>Select the original table and trim the first two characters from the yyyy.</li>
+  <li>Add 20 in the year (dd-mm-[20] yy).</li>
+  <li>Do str_to_date to mention this as a datetime column.</li>
+  <li>Drop the old table and rename the temporary table.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- Create the temp table</span>
+<span class="k">create</span> <span class="k">table</span> <span class="n">fix_date</span> <span class="p">(</span><span class="nb">date</span> <span class="nb">datetime</span><span class="p">);</span>
+
+<span class="c1">-- insert the value (trim the 20)</span>
+<span class="k">insert</span> <span class="k">into</span> <span class="k">new</span> <span class="k">select</span> <span class="n">str_to_date</span><span class="p">(</span><span class="n">concat</span><span class="p">((</span><span class="n">substr</span><span class="p">(</span><span class="n">substr</span><span class="p">(</span><span class="nb">date</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="k">length</span><span class="p">(</span><span class="nb">date</span><span class="p">)),</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">)),</span><span class="s1">'20'</span><span class="p">,</span><span class="n">substr</span><span class="p">(</span><span class="n">substr</span><span class="p">(</span><span class="nb">date</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="k">length</span><span class="p">(</span><span class="nb">date</span><span class="p">)),</span><span class="mi">7</span><span class="p">)),</span> <span class="nv">"%d-%m-%Y %H:%i:%s"</span><span class="p">)</span> <span class="k">from</span> <span class="n">csv_date</span><span class="p">;</span>
+
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">fix_date</span><span class="p">;</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">30</span> <span class="mi">14</span><span class="p">:</span><span class="mi">57</span><span class="p">:</span><span class="mi">19</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">30</span> <span class="mi">14</span><span class="p">:</span><span class="mi">55</span><span class="p">:</span><span class="mi">15</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">19</span> <span class="mi">04</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">15</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">18</span> <span class="mi">02</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">53</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">17</span> <span class="mi">22</span><span class="p">:</span><span class="mi">14</span><span class="p">:</span><span class="mi">24</span>
+
+<span class="c1">-- Replace the table</span>
+<span class="k">drop</span> <span class="k">table</span> <span class="n">csv_date</span><span class="p">;</span>
+<span class="k">alter</span> <span class="k">table</span> <span class="n">fix_date</span> <span class="k">rename</span> <span class="k">to</span> <span class="n">csv_date</span><span class="p">;</span></code></pre></figure>
+
+:ET

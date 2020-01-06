@@ -1,0 +1,2 @@
+I"�<p>Add nodes to the Rundeck Server is very next step after installation. Here we are going to see adding Linux nodes to Rundeck. After Rudeck 3.0+ the resources.xml file will not create automatically. In previous versions, this file was automatically created while creating a project. We’ll node nodes details in this file. But in latest versions, it’s not creating automatically.</p>
+:ET

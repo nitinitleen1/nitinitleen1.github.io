@@ -1,0 +1,48 @@
+I"e	<p><img src="/assets/Compare-Two-SQL-Server-Databases-using-Tsql.jpeg" alt="Compare Two SQL Server Databases using Tsql" /></p>
+
+<p>I’m glad to inform that today I’m going to release my next phase of TsqlTools is <a href="https://github.com/SqlAdmin/tsqltools/blob/master/SQLCompare/">SQLCOMPARE</a>. I was in a point to compare two databases which are on two different servers, I have checked many websites and blogs, but unfortunately, I didn’t find any useful T-SQL query for that. But there is so many good software available to compare the databases. Red-Gate is one of my favorite tool for comparison.</p>
+
+<p>So I have prepared 3 Tsql scripts to compare all databases objects between two SQL servers.</p>
+
+<h3 id="1-tables-andobjects">1. Tables and Objects</h3>
+
+<ol>
+  <li>CHECK_CONSTRAINT</li>
+  <li>DEFAULT_CONSTRAINT</li>
+  <li>FOREIGN_KEY_CONSTRAINT</li>
+  <li>PRIMARY_KEY_CONSTRAINT</li>
+  <li>SECURITY_POLICY</li>
+  <li>SEQUENCE_OBJECT</li>
+  <li>SQL_INLINE_TABLE_VALUED_FUNCTION</li>
+  <li>SQL_SCALAR_FUNCTION</li>
+  <li>SQL_STORED_PROCEDURE</li>
+  <li>SQL_TABLE_VALUED_FUNCTION</li>
+  <li>SQL_TRIGGER</li>
+  <li>TYPE_TABLE</li>
+  <li>UNIQUE_CONSTRAINT</li>
+  <li>USER_TABLE</li>
+  <li>VIEW</li>
+</ol>
+
+<p><img src="/assets/Compare-Two-SQL-Server-Databases-using-Tsql1.png" alt="Compare Two SQL Server Databases using Tsql" /></p>
+
+<h3 id="2-indexcompare">2. Index Compare</h3>
+
+<p>This will compare Indices from both servers and list out missing indices on each server.</p>
+
+<p> <img src="/assets/Compare-Two-SQL-Server-Databases-using-Tsql2.png" alt="Compare Two SQL Server Databases using Tsql" /></p>
+
+<h3 id="3-rowcount">3. Row Count</h3>
+
+<p>This is very straightforward, Just get the row count of all database’s tables from both server and show the difference.</p>
+
+<p> <img src="/assets/Compare-Two-SQL-Server-Databases-using-Tsql3.png" alt="Compare Two SQL Server Databases using Tsql" /></p>
+
+<h3 id="how-to-run-thisquery">How to Run this query?</h3>
+
+<p>You can use a centralized Server and create LinkedServers for Source and Target DB servers,
+or
+Create a LinkedServer for Target server on SourceDB server, then run the query on Source DB server.</p>
+
+<h2 id="please-click-the-below-link-to-download-the-scriptsdownload">Please click the below link to download the scripts.<a href="https://github.com/SqlAdmin/tsqltools/tree/master/SQLCompare">DOWNLOAD</a></h2>
+:ET

@@ -1,0 +1,157 @@
+I"V1<p><img src="/assets/How-To-Restore-Corrupted-System-Databases.jpg" alt="How To Restore Corrupted System Databases" /></p>
+
+<p>Today Dec 31, Sunday. Everybody waiting for the New Year. I’m also waiting for that and enjoying the last holiday of this year. But my SQL server doesn’t like the 2018 I guess  We have migrated our SQL Datawarehouse from Datacenter to AWS. We followed block level copying method which means sent entire Disks data to AWS then create volumes from that data. We kept data and logs on different disks.</p>
+
+<p>During the migration, we have migrated the data volume first and then migrated log disk after 10hrs. In between the 10hrs, the log file has grown a bit and the LSN chain get changed. In the MDF file its showing different LSN. Once everything has been migrated the SQL server was unable to start. Then we found the data corruption on the Master, Model and msdb databases. And yes, you are right the holiday went to DR day. Here is the story I restore corrupted system databases.</p>
+
+<p>Initially, I taught master DB has corrupted.</p>
+
+<blockquote>
+  <p>ERROR message
+The log scan number (17:128:7) passed to log scan in database ‘master’ is not valid. This error may indicate data corruption or that the log file (.ldf) does not match the data file (.mdf). If this error occurred during replication, re-create the publication. Otherwise, restore from backup if the problem results in a failure during startup.</p>
+</blockquote>
+
+<p>I can’t able to start the SQL server without master DB, Even I can’t restore the master DB with starting the SQL Server. So here are the steps I followed to restore the master DB.</p>
+
+<ol>
+  <li>Rebuild the Master DB from the scratch.</li>
+  <li>But unable to start SQL, because msdb and model databases are corrupted.</li>
+  <li>Again rebuild the master DB.</li>
+  <li>Moved the MSDB and model database’s Data files to the previous Location.</li>
+  <li>Restored the msdb and Model DB from the Backup.</li>
+  <li>Restored the Master Database</li>
+</ol>
+
+<h2 id="rebuild-the-master-database">Rebuild the Master Database:</h2>
+
+<ul>
+  <li>Im using SQL Server 2012.</li>
+  <li>Go to this location.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-powershell" data-lang="powershell"><span class="nf">C:\Program</span><span class="w"> </span><span class="nx">Files\Microsoft</span><span class="w"> </span><span class="nx">SQL</span><span class="w"> </span><span class="nx">Server\110\Setup</span><span class="w"> </span><span class="nx">Bootstrap\SQLServer2012</span></code></pre></figure>
+
+<ul>
+  <li>Open the command prompt in this location.</li>
+  <li>Run this command to rebuild the master DB.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-powershell" data-lang="powershell"><span class="o">.</span><span class="nf">\Setup.exe</span><span class="w"> </span><span class="nx">/QUIET</span><span class="w"> </span><span class="nx">/ACTION</span><span class="o">=</span><span class="nf">REBUILDDATABASE</span><span class="w"> </span><span class="nx">/INSTANCENAME</span><span class="o">=</span><span class="nf">MSSQLSERVER</span><span class="w"> </span><span class="nx">/SAPWD</span><span class="o">=</span><span class="w"> </span><span class="nf">Sql</span><span class="err">@</span><span class="nx">123</span></code></pre></figure>
+
+<p>Done. Now it’s a fresh database and the model and msdb are rebuild as new databases.</p>
+
+<h2 id="move-the-master-database-files-to-the-previous-location">Move the master database files to the previous location:</h2>
+
+<p>My previous data files located like below,</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>master</td>
+      <td>Z:\DATA\SystemDB\master.mdf</td>
+    </tr>
+    <tr>
+      <td>masterlog</td>
+      <td>F:\Logs\SystemLog\mastlog.ldf</td>
+    </tr>
+  </tbody>
+</table>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">USE</span> <span class="n">master</span><span class="p">;</span>
+<span class="k">GO</span>
+<span class="k">ALTER</span>  <span class="k">DATABASE</span> <span class="n">master</span>
+<span class="k">MODIFY</span> <span class="n">FILE</span> <span class="p">(</span><span class="n">NAME</span> <span class="o">=</span> <span class="n">master</span><span class="p">,</span> <span class="n">FILENAME</span> <span class="o">=</span> <span class="s1">'Z:</span><span class="se">\D</span><span class="s1">ATA</span><span class="se">\S</span><span class="s1">ystemDB</span><span class="se">\m</span><span class="s1">aster.mdf'</span><span class="p">);</span>
+<span class="k">GO</span>
+<span class="k">ALTER</span>  <span class="k">DATABASE</span> <span class="n">msdb</span>
+<span class="k">MODIFY</span> <span class="n">FILE</span> <span class="p">(</span><span class="n">NAME</span> <span class="o">=</span> <span class="n">masterlog</span><span class="p">,</span> <span class="n">FILENAME</span> <span class="o">=</span> <span class="s1">'F:</span><span class="se">\l</span><span class="s1">OGS</span><span class="se">\S</span><span class="s1">YSTEMLOG</span><span class="se">\m</span><span class="s1">asterlog.ldf'</span><span class="p">);</span>
+<span class="k">GO</span></code></pre></figure>
+
+<ul>
+  <li>Stop SQL server.</li>
+  <li>Move the MDF and LDF files to the respective locations.</li>
+  <li>Start SQL Server.</li>
+</ul>
+
+<h2 id="restore-the-old-master-database-from-backup">Restore the Old master Database from Backup:</h2>
+
+<ul>
+  <li>Stop SQL Server.</li>
+  <li>Start SQL server with Singler user mode.</li>
+  <li>Open Powershell and went to the below Directory.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-powershell" data-lang="powershell"><span class="nf">C:\Program</span><span class="w"> </span><span class="nx">Files\Microsoft</span><span class="w"> </span><span class="nx">SQL</span><span class="w"> </span><span class="nx">Server\MSSQL11.MSSQLSERVER\MSSQL\Binn</span></code></pre></figure>
+
+<ul>
+  <li>Run this command in Powershell</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-powershell" data-lang="powershell"><span class="o">.</span><span class="nf">\sqlservr.exe</span><span class="w"> </span><span class="nt">-m</span></code></pre></figure>
+
+<ul>
+  <li>Open a command prompt window.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-powershell" data-lang="powershell"><span class="nf">sqlcmd</span><span class="w"> </span><span class="nt">-U</span><span class="w"> </span><span class="nx">sa</span><span class="w"> </span><span class="nt">-p</span><span class="w">
+</span><span class="nf">Restore</span><span class="err"> </span><span class="nx">database</span><span class="err"> </span><span class="nx">master</span><span class="err"> </span><span class="nx">from</span><span class="err"> </span><span class="nx">disk</span><span class="err"> </span><span class="o">=</span><span class="s1">'O:\master_full.bak'</span><span class="err"> </span><span class="nf">with</span><span class="err"> </span><span class="nx">replace</span><span class="p">;</span><span class="w">
+</span><span class="nf">GO</span></code></pre></figure>
+
+<ul>
+  <li>Once it’s restored the SQL server will be automatically stopped.</li>
+  <li>Started SQL Server and the master database was completely recovered.</li>
+</ul>
+
+<h3 id="shocking-sql-server-wont-start-again-another-issue-with-model-andmsdbdatabases">Shocking!! SQL server won’t start again. Another issue with Model and <strong>msdb</strong> databases.</h3>
+
+<blockquote>
+  <p>ERROR message
+The log scan number (17:132:14) passed to log scan in database ‘msdb’ is not valid. This error may indicate data corruption or that the log file (.ldf) does not match the data file (.mdf). If this error occurred during replication, re-create the publication. Otherwise, restore from backup if the problem results in a failure during startup.</p>
+</blockquote>
+
+<p>Again the same issue. Ok, then I decided to recover the MSDB and Model databases first.</p>
+
+<h2 id="recover-msdb-and-model-databases">Recover MSDB and MODEL Databases:</h2>
+
+<ul>
+  <li>Again I rebuild the Master database (followed the above steps)</li>
+  <li>Execute the below query to move the files to the different drive.</li>
+  <li>Stop SQL server and move the datafiles to the respective folders, then start the SQL Server.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">USE</span> <span class="n">master</span><span class="p">;</span>
+<span class="k">GO</span>
+<span class="k">ALTER</span> <span class="k">DATABASE</span> <span class="n">model</span><span class="p">;</span>
+<span class="k">MODIFY</span> <span class="n">FILE</span> <span class="p">(</span><span class="n">NAME</span> <span class="o">=</span> <span class="n">model</span><span class="p">,</span> <span class="n">FILENAME</span> <span class="o">=</span> <span class="s1">'Z:</span><span class="se">\D</span><span class="s1">ATA</span><span class="se">\S</span><span class="s1">ystemDB</span><span class="se">\m</span><span class="s1">odel.mdf'</span><span class="p">);</span>
+<span class="k">GO</span>
+<span class="k">ALTER</span> <span class="k">DATABASE</span> <span class="n">msdb</span>
+<span class="k">MODIFY</span> <span class="n">FILE</span> <span class="p">(</span><span class="n">NAME</span> <span class="o">=</span> <span class="n">modellog</span><span class="p">,</span> <span class="n">FILENAME</span> <span class="o">=</span> <span class="s1">'F:</span><span class="se">\l</span><span class="s1">OGS</span><span class="se">\S</span><span class="s1">YSTEMLOG</span><span class="se">\m</span><span class="s1">odellog.ldf'</span><span class="p">);</span>
+<span class="k">GO</span>
+
+<span class="k">ALTER</span> <span class="k">DATABASE</span> <span class="n">msdb</span><span class="p">;</span>
+<span class="k">MODIFY</span> <span class="n">FILE</span> <span class="p">(</span><span class="n">NAME</span> <span class="o">=</span> <span class="n">MSDBData</span><span class="p">,</span> <span class="n">FILENAME</span> <span class="o">=</span> <span class="s1">'Z:</span><span class="se">\D</span><span class="s1">ATA</span><span class="se">\S</span><span class="s1">ystemDB</span><span class="se">\M</span><span class="s1">SDBData.mdf'</span><span class="p">);</span>
+<span class="k">GO</span>
+<span class="k">ALTER</span> <span class="k">DATABASE</span> <span class="n">msdb</span>
+<span class="k">MODIFY</span> <span class="n">FILE</span> <span class="p">(</span><span class="n">NAME</span> <span class="o">=</span> <span class="n">MSDBlog</span><span class="p">,</span> <span class="n">FILENAME</span> <span class="o">=</span> <span class="s1">'F:</span><span class="se">\l</span><span class="s1">OGS</span><span class="se">\S</span><span class="s1">YSTEMLOG</span><span class="se">\M</span><span class="s1">SDBData.ldf'</span><span class="p">);</span>
+<span class="k">GO</span></code></pre></figure>
+
+<p>In SSMS,</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">Restore</span> <span class="k">database</span> <span class="n">model</span> <span class="k">from</span> <span class="n">disk</span> <span class="o">=</span><span class="s1">'O:</span><span class="se">\m</span><span class="s1">odel_full.bak'</span> <span class="k">with</span> <span class="k">replace</span><span class="p">;</span>
+<span class="n">Restore</span> <span class="k">database</span> <span class="n">msdb</span> <span class="k">from</span> <span class="n">disk</span> <span class="o">=</span><span class="s1">'O:</span><span class="se">\m</span><span class="s1">sdb_full.bak'</span> <span class="k">with</span> <span class="k">replace</span><span class="p">;</span></code></pre></figure>
+
+<p>Done!!</p>
+
+<h2 id="restore-the-master-database">Restore the Master Database:</h2>
+
+<p>Now restore the Master database from the backup file.</p>
+
+<ul>
+  <li>Stop SQL Server.</li>
+  <li>Start with single User mode.</li>
+  <li>Restore the database using SQLCMD.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">Restore</span> <span class="k">database</span> <span class="n">master</span> <span class="k">from</span> <span class="n">disk</span> <span class="o">=</span><span class="s1">'O:</span><span class="se">\m</span><span class="s1">aster_full.bak'</span> <span class="k">with</span> <span class="k">replace</span><span class="p">;</span></code></pre></figure>
+
+<p>Finally, I have recovered all the system databases. But few of the databases went to suspect mode, but its not biggest deal to fix them.</p>
+:ET

@@ -1,0 +1,34 @@
+I"%	<p><img src="/assets/How-to-map-Linux-users-to-PostgreSQL-user.jpeg" alt="linux users to postgres" title="linux user to postgres" /></p>
+
+<p>Map root user to Postgres user</p>
+
+<p>I had a chance to map Linux users to Postgres. Recently I have started to understand the PostgreSQL’s internal processing. One of the topics explained about the pg_ident.conf file. Till that time I never used that file, even I didn’t hear about that. Basically, this file will help you to connect with PostgreSQL from any System users. I have configured everything to connect PostgreSQL from root user, but still, couldn’t able to connect. Because I used psql command to connect.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">root@sqladmin#psql psql
+FATAL: role <span class="s2">"root"</span> does not exist</code></pre></figure>
+
+<p>I have wasted 2 days for this. Then I found one solution in StackOverflow that I should mention the PostgreSQL username in the command. Here is the configurations to map any Linux users to PostgreSQL.</p>
+
+<p>In this blog, I have mapped my root user.
+Edit the <strong><em>pg_ident.conf</em></strong> file and add the below line.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c"># MAPNAME SYSTEM-USERNAME PG-USERNAME</span>
+mapping_root root postgres</code></pre></figure>
+
+<p><strong> MAPNAME</strong>: A friendly name for your mapping.
+<strong>SYSTEM-USERNAME:</strong> Name of the system user that wants to map.
+<strong>PG-USERNAME:</strong> Name of the PostgreSQL user that the Linux user should connect.
+Edit the <em>pg_hba.conf</em> file to enable this mapping</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c"># TYPE DATABASE USER ADDRESS METHOD</span>
+<span class="nb">local </span>all postgres peer
+<span class="c"># -- add mapping configs.</span>
+<span class="nb">local </span>all postgres peer <span class="nv">map</span><span class="o">=</span>mapping_root</code></pre></figure>
+
+<p>Restart your PostgreSQL or Reload it.
+Now you should enter the below command to connect PostgreSQL via root user</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">root@sqladmin#psql</code></pre></figure>
+
+<p>I have tested this on PostgreSQL 9.6.</p>
+:ET

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<!--
+    So Simple Jekyll Theme 3.1.1
+    Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/so-simple-theme/blob/master/LICENSE
+-->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:image" content="http://localhost:4000">
+<script data-ad-client="ca-pub-9518508677792760" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<link rel="apple-touch-icon" sizes="57x57" href="/favicon.ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/favicon.ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/favicon.ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/favicon.ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/favicon.ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/favicon.ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/favicon.ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/favicon.ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon.ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico/favicon-16x16.png">
+<link rel="manifest" href="/favicon.ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">  
+  
+
+  
+    <title>SQLServer Backup with dbatools vs Olahallengren</title>
+    <meta name="description" content="">
+    <link rel="canonical" href="http://localhost:4000/backup-with-dbatools-ola-hallengren/">
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  <link rel="stylesheet" href="/assets/css/applause-button.css" />
+   <script src="/assets/js/applause-button.js"></script>
+
+</head>
+
+
+  <body class="layout--post  sqlserver-backup-with-dbatools-vs-olahallengren">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/">Home</a></li><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="https://medium.com/@bhuvithedataguy">BigData Articles</a></li><li><a href="/search/">Search</a></li></ul>
+    </nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+    
+    
+      
+        <div class="site-title animated fadeIn"><a href="/">Nitin Kumar Singh | Data Architect</a></div>
+      
+      <p class="site-description animated fadeIn" itemprop="description">Mi occupo di web disign, grafica, web writing e sviluppo web.</p>
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">SQLServer Backup with dbatools vs Olahallengren
+</h1>
+        
+
+      </header>
+      
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><div class="author-info"><div class="author-name">
+        <span class="p-name">Nitin Kumar Singh</span>
+      </div>
+    <time class="page-date dt-published" datetime="2017-10-19T20:38:27+05:30"><a class="u-url" href="">October 19, 2017</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title">Categories</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy">SQLserver</li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title">Tags</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy">backup</li><li class="page-taxonomy">dbatools</li><li class="page-taxonomy">olahallengren</li><li class="page-taxonomy">powershell</li><li class="page-taxonomy">sqlserver</li>
+  </ul>
+
+
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad-vertical -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9518508677792760"
+     data-ad-slot="4154399056"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <br/>
+        <br/>
+        <applause-button style="width: 58px; height: 58px; text-align:right" color="black" multiclap="true">
+
+      </div>
+
+      <div class="page-content">
+        <div class="e-content">
+
+          <p><img src="/assets/SQLServer-Backup-with-dbatools-vs-Olahallengren.jpeg" alt="SQLServer Backup with dbatools vs Olahallengren" /></p>
+
+<blockquote>
+  <p><strong>Short Story:</strong> The <a href="https://dbatools.io/">dbatools </a>is growing too fast, so many Powershell modules are there. I just compared the backup module with Ola Hallengren’s backup script.</p>
+</blockquote>
+
+<p>Who all are working as a SQL Server DBA, we must be scheduled the backup job in SQL Agent with our own TSQL scripts. But most of the DBAs are recommended to use Ola hallengren’s backup script. Because it gives us a reliable backup and easy to locate the backup files. I’m also a fan of Ola’s script. Im using this in my all production servers.</p>
+
+<p>I had a situation to create a backup maintenance job without SQL agent. Oh god, this is not fair. There are so many ways available to configure this, but without SQL agent….. there is a question mark. OK fine, I had an Option, PowerShell in Task Scheduler. Instead of using SQL PowerShell module to take the backup, I have executed the ola’s backup commands inside the PowerShell. Yes, this is good, its working as I expected. But the problem is sometimes it didn’t work and I don’t have any logs for that. So I decided to use dbatools. I have compared many options with ola’s scripts. Lets see the results.</p>
+
+<p>I have AdventureWorks and WideWorldImporters database on my computer and I have SSD Storage.</p>
+
+<p><strong>Backup Folder:</strong></p>
+
+<p>In Ola’s scripts creates the backup folders as more predictable. Its pretty good to find a backup file. dbatools are has this option but it doesn’t create a folder based on backup type.</p>
+
+<p> <img src="/assets/SQLServer-Backup-with-dbatools-vs-Olahallengren1.jpeg" alt="SQLServer Backup with dbatools vs Olahallengren" /></p>
+
+<p><strong>Backup Time:</strong></p>
+
+<p>Ola’s backup took 5 sec to take the backup, dbatools took <em>10sec</em>. Oh its pretty slow.</p>
+
+<p><strong>Backup File Names:</strong></p>
+
+<p>In Ola’s scripts, the backup file contains a keyword for backup types, like Full, Diff. dbatools doesn’t have this one. It just creates the file like <em>Datababsename_yyyymmddhhmmss.bak</em></p>
+
+<p> <img src="/assets/SQLServer-Backup-with-dbatools-vs-Olahallengren2.jpeg" alt="SQLServer Backup with dbatools vs Olahallengren2" /></p>
+
+<p><strong>Copy Only:</strong></p>
+
+<p>dbatools is taking all the backups with Copy Only, but in Ola’s script you need to add <em>@Copyonly=’Y’</em>.</p>
+
+<p><strong>Stats Message:</strong></p>
+
+<p>Ola’s scripts are giving a more detailed message for backups, like Is standby, Recovery Model, Encrypted, Differential LSN, but dbatools gives limited details only.</p>
+
+<p> <img src="/assets/SQLServer-Backup-with-dbatools-vs-Olahallengren3.png" alt="SQLServer Backup with dbatools vs Olahallengren2" /></p>
+
+<p><strong>Cleanup:</strong></p>
+
+<p>Ola’s scripts have the cleanup option in the same module, dbatools you need to execute Backup-Remove module to clean up.</p>
+
+<p><strong>Verify, Checksum, Compress:</strong></p>
+
+<p>These options are same on both sides.</p>
+
+<p><strong>Who is the Winner?</strong></p>
+
+<p>dbatools are not only for backups, its taking care a dba’s work, so we can’t say this is not good for backups, they are doing as much as they can. But ola’s scripts too good for Backups. Why?</p>
+
+<ul>
+  <li>Encrypted backups</li>
+  <li>Backup to multiple locations</li>
+  <li>Backup to Azure Blob</li>
+  <li>Cleanup</li>
+  <li>Integrate with third party backup tools.</li>
+  <li>and more options.</li>
+</ul>
+
+        </div>
+        <hr>
+        <h3>Advertisement</h3>
+         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad-horizontal -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9518508677792760"
+     data-ad-slot="4874591962"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <hr>
+        <h3> Share this article </h3>
+      
+        
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+
+  
+    <a class="page-next" href="/map-linux-users-to-postgres-user/">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        How To Map Linux Users To Postgres User
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="copyright">
+    
+      <p>&copy; 2020 Nitin Kumar Singh | Data Architect. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
+
+
+  </body>
+
+</html>

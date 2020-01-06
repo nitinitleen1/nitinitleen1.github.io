@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<!--
+    So Simple Jekyll Theme 3.1.1
+    Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/so-simple-theme/blob/master/LICENSE
+-->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:image" content="http://localhost:4000">
+<script data-ad-client="ca-pub-9518508677792760" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<link rel="apple-touch-icon" sizes="57x57" href="/favicon.ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/favicon.ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/favicon.ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/favicon.ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/favicon.ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/favicon.ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/favicon.ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/favicon.ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon.ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico/favicon-16x16.png">
+<link rel="manifest" href="/favicon.ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">  
+  
+
+  
+    <title>Archive MySQL Data In Chunks Using Stored Procedure</title>
+    <meta name="description" content="In a DBA’s day to day activities, we are doing Archive operation on our transnational database servers to improve your queries and control the Disk space. Th...">
+    <link rel="canonical" href="http://localhost:4000/archive-mysql-data-in-chunks/">
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  <link rel="stylesheet" href="/assets/css/applause-button.css" />
+   <script src="/assets/js/applause-button.js"></script>
+
+</head>
+
+
+  <body class="layout--post  archive-mysql-data-in-chunks-using-stored-procedure">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/">Home</a></li><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="https://medium.com/@bhuvithedataguy">BigData Articles</a></li><li><a href="/search/">Search</a></li></ul>
+    </nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+    
+    
+      
+        <div class="site-title animated fadeIn"><a href="/">Nitin Kumar Singh | Data Architect</a></div>
+      
+      <p class="site-description animated fadeIn" itemprop="description">Mi occupo di web disign, grafica, web writing e sviluppo web.</p>
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">Archive MySQL Data In Chunks Using Stored Procedure
+</h1>
+        
+
+      </header>
+      
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><div class="author-info"><div class="author-name">
+        <span class="p-name">Nitin Kumar Singh</span>
+      </div>
+    <time class="page-date dt-published" datetime="2018-09-26T18:42:25+05:30"><a class="u-url" href="">September 26, 2018</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title">Categories</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy">MySQL</li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title">Tags</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy">archive</li><li class="page-taxonomy">automation</li><li class="page-taxonomy">mysql</li><li class="page-taxonomy">shell</li>
+  </ul>
+
+
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad-vertical -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9518508677792760"
+     data-ad-slot="4154399056"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <br/>
+        <br/>
+        <applause-button style="width: 58px; height: 58px; text-align:right" color="black" multiclap="true">
+
+      </div>
+
+      <div class="page-content">
+        <div class="e-content">
+
+          <p>In a DBA’s day to day activities, we are doing Archive operation on our transnational database servers to improve your queries and control the Disk space. The archive is a most expensive operation since its involved a huge number of Read and Write will be performed. So its mandatory to run the archive queries in chunks. The archive is depended on business use. Many of us need a copy of the data on an archive database to refer later. To perform the archive we can just simply run the delete query with the limit. But we need to run the query again and again until the matched rows count is 0. We can create a procedure to do this in a while loop. I have created one such procedure to archive many tables. </p>
+
+<p><img src="/assets/MySQL-Stored-Procedure-To-Archive-In-Chunks.jpg" alt="MySQL Stored Procedure To Archive In Chunks" /></p>
+
+<p>Image Source: Brent Ozar Unlimited</p>
+
+<h2 id="why-archive-is-an-expensive-operation">Why Archive is an expensive operation? </h2>
+
+<p>Generally how we are arching the data is <em>delete from table_name where column_name &lt;= some_value;</em> If you are running on a table which needs to be deleted around 15million records, then you need the undo log file to hold all of these records. There will be a heavy IO happening in the Disk. And lt’ll lock the rows and some other locks will be held until the Archive complete. Replication may delay because of this. </p>
+
+<h2 id="when-archive-is-going-to-mess-up-the-production">When Archive is going to mess up the production?</h2>
+
+<ul>
+  <li>Running archive commands on a heavy traffic time.</li>
+  <li>Archive without a proper where clause.</li>
+  <li>Delete data without limit.</li>
+  <li>Performing archive contrition on a not indexed column. </li>
+  <li>Continuously run the delete query in chunks on a replication environment. {without sleep(1 or few seconds}.</li>
+</ul>
+
+<h2 id="how-to-perform-the-archive-properly">How to perform the archive properly? </h2>
+
+<ul>
+  <li>To do this, the first condition is use limit in the delete.</li>
+  <li>Create an index on the where clause.</li>
+  <li>At least do sleep 1sec for each chuck which will be good for a replication infra.</li>
+  <li>Set autocommit=1</li>
+  <li>Optional: Set transaction isolation to Read Committed.</li>
+  <li>Do not mention the number of loops without knowing the actual loop counts to process the complete delete.</li>
+</ul>
+
+<h2 id="my-approach-to-this">My approach to this:</h2>
+
+<p>Inspired by Rick James’s <a href="http://mysql.rjweb.org/doc.php/deletebig">Blog</a>, I have prepared a single stored procedure to perform archive on multiple tables. We just need to pass the table name, date column and then date to archive. I have tested with datetime and Primary key column. </p>
+
+<h2 id="archive-a-single-table">Archive a single table:</h2>
+
+<p>The below procedure will perform delete on table test and remove older than 10 days records. </p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">use</span> <span class="n">sqladmin</span><span class="p">;</span>
+
+<span class="k">DROP</span> <span class="k">PROCEDURE</span>
+<span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">archive</span><span class="p">;</span>
+<span class="k">delimiter</span> <span class="o">//</span>
+  <span class="k">CREATE</span> <span class="k">PROCEDURE</span>
+    <span class="n">archive</span><span class="p">()</span>
+  <span class="k">begin</span>
+    <span class="k">DECLARE</span> <span class="k">rows</span> <span class="nb">INT</span><span class="p">;</span>
+    <span class="k">DECLARE</span> <span class="n">rows_deleted</span> <span class="nb">INT</span><span class="p">;</span>
+    <span class="k">SET</span> <span class="k">SESSION</span> <span class="n">TRANSACTION</span> <span class="k">ISOLATION</span> <span class="k">LEVEL</span> <span class="k">READ</span> <span class="k">COMMITTED</span><span class="p">;</span>
+    <span class="k">SET</span> <span class="k">rows</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">SET</span> <span class="n">rows_deleted</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">;</span>
+    <span class="n">WHILE</span> <span class="k">rows</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="k">do</span>
+    <span class="k">SET</span> <span class="n">autocommit</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+    <span class="k">DELETE</span>
+    <span class="k">FROM</span>   <span class="n">test</span>
+    <span class="k">WHERE</span>  <span class="n">dop</span> <span class="o">&lt;</span> <span class="nb">DATE</span><span class="p">(</span><span class="n">Date_sub</span><span class="p">(</span><span class="n">Now</span><span class="p">(),</span> <span class="n">INTERVAL</span> <span class="mi">10</span> <span class="k">day</span><span class="p">))</span>
+    <span class="k">LIMIT</span>  <span class="mi">10000</span><span class="p">;</span>
+    <span class="k">SET</span> <span class="k">rows</span> <span class="o">=</span> <span class="k">row_count</span><span class="p">();</span>
+    <span class="k">select</span> <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="k">commit</span><span class="p">;</span>
+    <span class="k">END</span> <span class="n">WHILE</span><span class="p">;</span>
+    <span class="k">END</span> <span class="o">//</span>
+<span class="k">delimiter</span> <span class="p">;</span></code></pre></figure>
+
+<h2 id="archive-multiple-tables">Archive multiple tables:</h2>
+
+<p>This procedure will help you to archive multiple tables, you just need to pass the table name, column name and the date for the archive. I love to use this.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">use</span> <span class="n">sqladmin</span><span class="p">;</span>
+
+<span class="k">DROP</span> <span class="k">PROCEDURE</span>
+<span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">sqladmin_archive</span><span class="p">;</span>
+<span class="k">delimiter</span> <span class="o">//</span>
+  <span class="k">CREATE</span> <span class="k">PROCEDURE</span>
+    <span class="n">sqladmin_archive</span><span class="p">(</span><span class="k">IN</span> <span class="n">archive_dbname</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="k">IN</span> <span class="n">archive_table</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="k">IN</span> <span class="n">archive_column</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="k">IN</span> <span class="n">archive_date</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+
+  <span class="k">begin</span>
+    <span class="k">DECLARE</span> <span class="k">rows</span> <span class="nb">INT</span><span class="p">;</span>
+    <span class="k">DECLARE</span> <span class="n">rows_deleted</span> <span class="nb">INT</span><span class="p">;</span>
+    <span class="k">SET</span> <span class="k">SESSION</span> <span class="n">TRANSACTION</span> <span class="k">ISOLATION</span> <span class="k">LEVEL</span> <span class="k">READ</span> <span class="k">COMMITTED</span><span class="p">;</span>
+    <span class="k">SET</span> <span class="k">rows</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">SET</span> <span class="n">rows_deleted</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">;</span>
+    <span class="n">WHILE</span> <span class="k">rows</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="k">do</span>
+        <span class="k">SET</span> <span class="n">autocommit</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">SET</span> <span class="o">@</span><span class="n">query</span> <span class="o">=</span><span class="n">CONCAT</span><span class="p">(</span><span class="s1">'DELETE FROM   '</span><span class="p">,</span><span class="n">archive_dbname</span><span class="p">,</span><span class="s1">'.'</span><span class="p">,</span><span class="n">archive_table</span><span class="p">,</span><span class="s1">' WHERE  '</span><span class="p">,</span><span class="n">archive_column</span><span class="p">,</span><span class="s1">' &lt;= "'</span><span class="p">,</span><span class="n">archive_date</span> <span class="p">,</span><span class="s1">'" LIMIT  10000;'</span><span class="p">);</span>
+        <span class="k">PREPARE</span> <span class="n">arcive_stmt</span> <span class="k">FROM</span> <span class="o">@</span><span class="n">query</span><span class="p">;</span>
+        <span class="k">EXECUTE</span> <span class="n">arcive_stmt</span><span class="p">;</span>
+        <span class="k">SET</span> <span class="k">rows</span> <span class="o">=</span> <span class="k">row_count</span><span class="p">();</span>
+        <span class="k">SET</span> <span class="k">rows</span> <span class="o">=</span> <span class="k">row_count</span><span class="p">();</span>
+    <span class="k">select</span> <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+   <span class="k">commit</span><span class="p">;</span>
+   <span class="k">DEALLOCATE</span> <span class="k">PREPARE</span> <span class="n">arcive_stmt</span><span class="p">;</span>
+  <span class="k">END</span> <span class="n">WHILE</span><span class="p">;</span>
+ <span class="k">END</span> <span class="o">//</span>
+<span class="k">delimiter</span> <span class="p">;</span>
+
+<span class="c1">-- Execute this procedure</span>
+<span class="k">CALL</span> <span class="n">sqladmin_archive</span> <span class="p">(</span><span class="s1">'mydb'</span><span class="p">,</span><span class="s1">'test_table'</span><span class="p">,</span><span class="s1">'created_at'</span><span class="p">,</span><span class="s1">'2018-09-12'</span><span class="p">);</span></code></pre></figure>
+
+<h2 id="take-dump-before-archive-with-where-clause">Take dump before archive with where clause:</h2>
+
+<p>This script is my favorite one, but this depends on the above stored procedure. This shell script will take the dump of the table with where clause of the date that we want to archive. You can customize this as per your requirement.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c">#!/bin/bash</span>
+
+<span class="c"># pass variables</span>
+<span class="nv">archive_dbname</span><span class="o">=</span><span class="nv">$1</span>
+<span class="nv">archive_table</span><span class="o">=</span><span class="nv">$2</span>
+<span class="nv">archive_column</span><span class="o">=</span><span class="nv">$3</span>
+<span class="nv">days_to_archive</span><span class="o">=</span><span class="nv">$4</span>
+<span class="nv">archive_date</span><span class="o">=</span><span class="s2">"'"</span><span class="sb">`</span><span class="nb">date</span> +<span class="s1">'%Y-%m-%d'</span> <span class="nt">--date</span><span class="o">=</span><span class="s2">"-</span><span class="nv">$days_to_archive</span><span class="s2"> day"</span><span class="sb">`</span><span class="s2">"'"</span>
+<span class="nv">where_clause</span><span class="o">=</span><span class="nv">$archive_column</span><span class="s1">'&lt;='</span><span class="nv">$archive_date</span>
+<span class="nv">dump_file</span><span class="o">=</span><span class="nv">$archive_table_</span><span class="sb">`</span><span class="nb">date</span> +<span class="s1">'%Y-%m-%d'</span> <span class="nt">--date</span><span class="o">=</span><span class="s2">"-</span><span class="nv">$days_to_archive</span><span class="s2"> day"</span><span class="sb">`</span><span class="s2">".sql"</span>
+
+<span class="c"># Dump the table</span>
+<span class="nb">echo</span> <span class="s2">"DUMP Starting for the table </span><span class="nv">$archive_table</span><span class="s2"> ....."</span>
+mysqldump <span class="nt">-u</span> root <span class="nv">$archive_dbname</span> <span class="nv">$archive_table</span> <span class="nt">--where</span><span class="o">=</span><span class="nv">$where_clause</span> <span class="o">&gt;</span> <span class="nv">$dump_file</span>
+<span class="nb">echo</span> <span class="s2">"DUMP Done......"</span>
+
+<span class="c"># Archive the data</span>
+<span class="nb">echo</span> <span class="s2">"Deleting the data on the table </span><span class="nv">$archive_table</span><span class="s2"> ....."</span>
+mysql <span class="nt">-u</span> root sqladmin <span class="nt">-e</span><span class="s2">"CALL sqladmin_archive('</span><span class="nv">$archive_dbname</span><span class="s2">','</span><span class="nv">$archive_table</span><span class="s2">','</span><span class="nv">$archive_column</span><span class="s2">',</span><span class="nv">$archive_date</span><span class="s2">);"</span>
+<span class="nb">echo</span> <span class="s2">"Deleting is Done ....."</span></code></pre></figure>
+
+<h2 id="example-archive">Example Archive:</h2>
+
+<p>This example, Im going to archive a table called test. The column started_at contains the timestamp value. I want to remove older than 15 days data in the table. This table is located in the database name called sqladmin.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">./archive_script.sh sqladmin <span class="nb">test </span>started_at 15</code></pre></figure>
+
+
+        </div>
+        <hr>
+        <h3>Advertisement</h3>
+         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad-horizontal -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9518508677792760"
+     data-ad-slot="4874591962"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <hr>
+        <h3> Share this article </h3>
+      
+        
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/internals-of-google-datastore-and-technical-overview/">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> Internals Of Google DataStore And Technical Overview
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/rundeck-install-configure-centos-with-mysql/">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        RunDeck Series 1 - Install And Configure RunDeck 3.0 On CentOS 7
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="copyright">
+    
+      <p>&copy; 2020 Nitin Kumar Singh | Data Architect. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
+
+
+  </body>
+
+</html>

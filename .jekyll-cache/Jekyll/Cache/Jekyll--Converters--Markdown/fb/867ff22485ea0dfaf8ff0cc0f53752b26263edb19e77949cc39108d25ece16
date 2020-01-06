@@ -1,0 +1,206 @@
+I"�)<p>Google Cloud Platform provides many varieties of solutions. In Data world particularly in NoSQL technology Google provides Datastore a highly scalable and availability solution with ACID capabilities. I have read a lot about the Google Datastore and its Internals. Here Im going to merge everything as a single blog post.</p>
+
+<p><img src="/assets/Internals-Of-Google-DataStore-And-Technical-Overview.jpg" alt="Internals Of Google DataStore And Technical Overview" /></p>
+
+<h2 id="what--why-datastore">What / Why Datastore? </h2>
+
+<p>Google datastore is a NoSQL database service. It can scale to multi regions. We should use Datastore as a Transactional Database. We shouldn’t use this for an Analytical purpose instead use BigTable is for OLAP. </p>
+
+<ul>
+  <li>No need to provision and manage the Infra.</li>
+  <li>No need for a DBA (performance, backup and restore, HA, Import and export).</li>
+  <li>Fully Managed Service. </li>
+  <li>ACID support.</li>
+  <li>Highly scalable to multiple regions with very less latency. </li>
+  <li>Highly Available.</li>
+</ul>
+
+<h2 id="relational-vs-datastore">Relational vs Datastore</h2>
+
+<p><img src="/assets/Internals-Of-Google-DataStore-And-Technical-Overview_2.jpg" alt="Internals Of Google DataStore And Technical Overview" /></p>
+
+<h2 id="internals-of-datastore">Internals of Datastore:</h2>
+
+<p>The Datastore is build on top the Google BigTable. So before understanding the Datastore lets understand the concept of the BigTable.</p>
+
+<h3 id="google-bigtable">Google BigTable:</h3>
+
+<p>Google Bigtable is a not a complete database, its a Storage for the data. </p>
+
+<ul>
+  <li>BigTable is Used by Google internally since 2005.</li>
+  <li>It’s a structured key-value storge.</li>
+  <li>Distributed Storage.</li>
+  <li>Highly available and scalable system.</li>
+  <li>It supports CRUD (Create, Read, Update and Delete).</li>
+  <li>BigTable only supports Range Scan.</li>
+  <li>A Row contains a Key and Column.</li>
+  <li>Data is sorted by Key (lexical order)</li>
+</ul>
+
+<p><img src="/assets/Internals-Of-Google-DataStore-And-Technical-Overview_3.jpg" alt="Internals Of Google DataStore And Technical Overview" /></p>
+
+<p>Auto sharding (Credits: google Next)</p>
+
+<h3 id="datastore">Datastore:</h3>
+
+<p>All the BigTable capabilities are suitable for Datastore as well. Because Datastore is built on top of it. Google came up with a solution as Datastore to make the BigTable as a NoSQL Transactional Database. See the below image, all of these things are managed by Google. </p>
+
+<p><img src="/assets/Internals-Of-Google-DataStore-And-Technical-Overview_1.jpg" alt="Internals Of Google DataStore And Technical Overview" /></p>
+
+<p>Credit: Google Next</p>
+
+<ol>
+  <li>Bigtable provides auto sharding during the heavy transactions and takes care of the data storage.</li>
+  <li>MegaStore Provides High availability and High consistency transactions with ACID.</li>
+  <li>And finally, Datastore bring the traditional NoSQL things.</li>
+  <li>Low Lock granularity improves the performance. </li>
+</ol>
+
+<p><img src="/assets/Internals-Of-Google-DataStore-And-Technical-Overview_4.jpg" alt="Internals Of Google DataStore And Technical Overview" /></p>
+
+<p>Credit: Google Developers</p>
+
+<h3 id="replication">Replication:</h3>
+
+<p>Google Datastore supports Region and MultiRegional replication. Multi Region replication only supports in few regions based on the region you are selecting while create your first Datastore kind. Region replication will automatically copy the data to multiple nodes which are in the multiple datacenters. </p>
+
+<p>Europe and North America regions are supporting Multi Region Replication. Rest of the regions are support single region replication.</p>
+
+<p><img src="/assets/Internals-Of-Google-DataStore-And-Technical-Overview_5.jpg" alt="Internals Of Google DataStore And Technical Overview" /></p>
+
+<p>The above diagram explains the multi replication replication. Each Regions are interconnected with three independent fiber optics network. Two regions have the complete replica of the data in two different data centers. And the remaining one is having the data in one region called as a witness will tie-break during any one of the region went fail. </p>
+
+<h3 id="consistancy"> Consistancy:</h3>
+
+<p>Datastore supports two consistency levels.</p>
+
+<ul>
+  <li>Strong consistency</li>
+  <li>Eventual consistency</li>
+</ul>
+
+<h3 id="strong-consistency">Strong Consistency: </h3>
+
+<p>In strong consistency, Parallel threads will work together to on all data centers and regions. Strong consistency will occur while accessing,</p>
+
+<ul>
+  <li>Key-Value Operation</li>
+  <li>Entity Group (Ancestor query)</li>
+</ul>
+
+<p><strong>Example:</strong>
+Lets say you have user and orders table. In orders table, you are referring user_id column is common for both tables, means its a parent-child relationship (in Relational user_id id Primary key on the User table and in orders table its a foreign key).
+The table will look like below.</p>
+
+<p><img src="/assets/Internals-Of-Google-DataStore-And-Technical-Overview_8.jpg" alt="Internals Of Google DataStore And Technical Overview" /></p>
+
+<ul>
+  <li>Now we are going to Update the orders for the user_id X to 3.</li>
+  <li>
+    <p>Then multiple parallel threads will start to update this value on all the regions.</p>
+  </li>
+  <li>If someone trying to access the Order for the user_id X during this update, their sessions will be locked until the update complete on all the regions. </li>
+  <li>Refer the below Diagram for this process.</li>
+</ul>
+
+<p><img src="/assets/Internals-Of-Google-DataStore-And-Technical-Overview_6.jpg" alt="Internals Of Google DataStore And Technical Overview" /></p>
+
+<p>Credit: Google Next</p>
+
+<h3 id="eventual-consistency">Eventual Consistency: </h3>
+
+<p>Eventual consistencies are compared to Dirty Reads in a Relational database. This types of consistencies will occur when you are dealing with Non-Ancestor queries. </p>
+
+<p><strong>Example:</strong>
+Consider you have a kind which has only one property and it has only one value called X. Now you are going to delete the value X and insert two new values Y, Z.</p>
+
+<ul>
+  <li>
+    <p>In this process, the queries are not touching any Ancestor.</p>
+  </li>
+  <li>So parallel thread will delete the data X on the Region 1.</li>
+  <li>Meantime, someone reads the data in the kind on Region 2.</li>
+  <li>Due to eventual consistency, the data will take a bit time to replicate to Another region, but other users can able to read the old data. </li>
+  <li>Refer the below Diagram.</li>
+</ul>
+
+<p><img src="/assets/Internals-Of-Google-DataStore-And-Technical-Overview_7.jpg" alt="Internals Of Google DataStore And Technical Overview" /></p>
+
+<p>Credit: Google Next</p>
+
+<h3 id="index">Index:</h3>
+
+<p>Index is the another huge topic in Datastore. We already read that BigTable will do Range scans only. But Google Datastore can work same as the other NoSQL databases. So it should support exact values search. Here the indices are coming to the picture. </p>
+
+<blockquote>
+  <p>In Datastore, Queries are executed on the Index scan.</p>
+</blockquote>
+
+<p>So, if you check statistics of your Datastore, the index size will be larger than the entities. In relational databases, we need index for improving the performance. But in Datastore indices are need to scan your data. If you are scanning the data on an unindexed property, the query will fail.</p>
+
+<p>Datastore has two types of index.</p>
+
+<ul>
+  <li>Single properly index – Index on one particular property. </li>
+  <li>Composite index – Index on multiple properties.</li>
+</ul>
+
+<p>Bigtable will also create another table for index. Lets explain this with an example. Remember, Bigtable will do Range scan. In the index table, its also having the key-Value things but values of the property as Keys. So the actual data is in the key. A range scan is fine to get your data.</p>
+
+<h3 id="single-property-index">Single property index:</h3>
+
+<blockquote>
+  <p>Single Property index is created automatically by Datastore.</p>
+</blockquote>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">Select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">Person</span>
+<span class="k">where</span> <span class="n">height</span> <span class="o">&lt;</span> <span class="mi">72</span>
+<span class="k">Order</span> <span class="k">by</span> <span class="n">height</span> <span class="k">DESC</span><span class="p">;</span></code></pre></figure>
+
+<p>In Bigtable, the property as Key and data is Value.  So the Bigtable’s table will look like below and it’ll do a range scan on the KEY which is equal to the string height. </p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">KEY   : VALUE
+____________
+name  : X
+name  : Y
+height: 71
+height: 72
+height: 73
+height: 75
+height: 80</code></pre></figure>
+
+<p>The BigTable scan will return all the values. But we need &lt; 72. Here index table will work. In the index table, the Bigtable’s values are Key means <em>71,72,73,75,80</em> are the Keys for Index table. So while performing the range scan on the index table, we can get the data </p>
+
+<p><strong>Another Visual Example of Index Scan:</strong></p>
+
+<p><img src="/assets/Internals-Of-Google-DataStore-And-Technical-Overview_9.jpg" alt="Internals Of Google DataStore And Technical Overview" /></p>
+
+<p>Credi: Google Developers</p>
+
+<h3 id="composite-index">Composite Index: </h3>
+
+<p>Composite index will work in the same way as Single property Index. It’ll help on filtering on multiple properties and Order by on multiple columns.</p>
+
+<p><strong>Create composite Index:</strong></p>
+
+<p>You can create composite index in a yaml file and use gcloud util to create it on the Datastore. The below yaml file will create the composite index on order_date and user_id properties.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">indexes:
+  kind: orders
+  properties
+  - name: order_date
+  - name: user_id</code></pre></figure>
+
+<p><strong>Visual Example:</strong></p>
+
+<p><img src="/assets/Internals-Of-Google-DataStore-And-Technical-Overview_10.jpg" alt="Internals Of Google DataStore And Technical Overview" /></p>
+
+<p>Credit: Google Devloper</p>
+
+<h2 id="to-learn-more-about-the-query-execution-and-query-restrictions">To learn more about the Query Execution and Query Restrictions:</h2>
+<!-- 16:9 aspect ratio -->
+<div class="responsive-embed responsive-embed-16by9">
+  <iframe class="responsive-embed-item" src="https://www.youtube.com/embed/d4CiMWy0J70"></iframe>
+</div>
+:ET

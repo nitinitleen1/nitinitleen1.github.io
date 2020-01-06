@@ -1,0 +1,52 @@
+I"�<p>In any relational database, if you didn’t close the session properly, then it’ll lock your DDL queries. It’s applicable to RedShift as well. A few days back I got a scenario that we have to run some DROP TABLE commands to create some lookup tables. But every time while triggering this DDL it got stuck. Then we realize there were some sessions that are still open and those sessions are causing this locking. There we 30+ sessions. I know we can fix this by properly closing the session from the application side. But in some emergency cases, we need to kill all open sessions or locking session in Redshift.</p>
+
+<p>Then my DBA brain was telling me to create a stored procedure to get all the locking sessions and kill them in one shot. I never recommend running this all the time. But if you are a DBA or RedShift Admin, then you need to have these kinds of handy toolkits.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">OR</span> <span class="k">replace</span> <span class="k">PROCEDURE</span> <span class="n">sp_superkill</span><span class="p">(</span><span class="k">table_name</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span> 
+<span class="k">LANGUAGE</span> <span class="n">plpgsql</span> 
+<span class="k">AS</span> 
+  <span class="err">$$</span> 
+  <span class="k">DECLARE</span> 
+    <span class="n">list</span> <span class="n">RECORD</span><span class="p">;</span> 
+    <span class="n">terminate_query</span>      <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50000</span><span class="p">);</span> 
+    <span class="n">drop_query</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50000</span><span class="p">);</span> 
+  <span class="k">BEGIN</span> 
+    <span class="k">FOR</span> <span class="n">list</span> <span class="k">IN</span> 
+    <span class="k">SELECT</span> <span class="n">a</span><span class="p">.</span><span class="n">datname</span><span class="p">,</span> 
+           <span class="k">c</span><span class="p">.</span><span class="n">relname</span><span class="p">,</span> 
+           <span class="n">a</span><span class="p">.</span><span class="n">procpid</span> 
+    <span class="k">FROM</span>   <span class="n">pg_stat_activity</span> <span class="n">a</span> 
+    <span class="k">join</span>   <span class="n">pg_locks</span> <span class="n">l</span> 
+    <span class="k">ON</span>     <span class="n">l</span><span class="p">.</span><span class="n">pid</span> <span class="o">=</span> <span class="n">a</span><span class="p">.</span><span class="n">procpid</span> 
+    <span class="k">join</span>   <span class="n">pg_class</span> <span class="k">c</span> 
+    <span class="k">ON</span>     <span class="k">c</span><span class="p">.</span><span class="n">oid</span> <span class="o">=</span> <span class="n">l</span><span class="p">.</span><span class="n">relation</span> 
+    <span class="k">WHERE</span>  <span class="k">c</span><span class="p">.</span><span class="n">relname</span><span class="o">=</span><span class="k">table_name</span> 
+
+    <span class="n">LOOP</span> 
+    <span class="n">terminate_query</span><span class="p">:</span><span class="o">=</span> <span class="s1">'select pg_terminate_backend('</span><span class="o">||</span><span class="n">list</span><span class="p">.</span><span class="n">procpid</span><span class="o">||</span><span class="s1">')'</span><span class="p">;</span> 
+    <span class="n">RAISE</span> <span class="n">info</span> <span class="s1">'Killing pid [%]'</span><span class="p">,</span> <span class="n">list</span><span class="p">.</span><span class="n">procpid</span><span class="p">;</span> 
+    <span class="k">EXECUTE</span> <span class="n">terminate_query</span><span class="p">;</span> 
+  <span class="k">END</span> <span class="n">LOOP</span><span class="p">;</span> 
+  
+  <span class="c1">--drop_query:='drop table '||table_name; --Add DDL If you want</span>
+  <span class="c1">--EXECUTE drop_query; --Add DDL If you want</span>
+<span class="k">END</span><span class="p">;</span> 
+<span class="err">$$</span><span class="p">;</span></code></pre></figure>
+
+<h2 id="testing-the-procedure">Testing the Procedure:</h2>
+
+<p>Open multiple sessions for a table and don’t close them.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">START TRANSACTIONS<span class="p">;</span>
+Select col1 from my_table limit 1<span class="p">;</span></code></pre></figure>
+
+<p>Do open a few more sessions. Then run the stored procedure.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">call sp_superkill<span class="o">(</span><span class="s1">'my_table'</span><span class="o">)</span><span class="p">;</span>
+
+INFO:  Killing pid <span class="o">[</span>11734]
+INFO:  Killing pid <span class="o">[</span>11735]
+INFO:  Killing pid <span class="o">[</span>11738]
+INFO:  Killing pid <span class="o">[</span>11739]
+CALL</code></pre></figure>
+:ET

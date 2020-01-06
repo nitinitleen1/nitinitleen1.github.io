@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<!--
+    So Simple Jekyll Theme 3.1.1
+    Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/so-simple-theme/blob/master/LICENSE
+-->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:image" content="http://localhost:4000">
+<script data-ad-client="ca-pub-9518508677792760" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<link rel="apple-touch-icon" sizes="57x57" href="/favicon.ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/favicon.ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/favicon.ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/favicon.ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/favicon.ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/favicon.ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/favicon.ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/favicon.ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon.ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico/favicon-16x16.png">
+<link rel="manifest" href="/favicon.ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">  
+  
+
+  
+    <title>Compare Two SQL Server Databases using Tsql</title>
+    <meta name="description" content="">
+    <link rel="canonical" href="http://localhost:4000/compare-two-sql-server-databases-using-tsql/">
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  <link rel="stylesheet" href="/assets/css/applause-button.css" />
+   <script src="/assets/js/applause-button.js"></script>
+
+</head>
+
+
+  <body class="layout--post  compare-two-sql-server-databases-using-tsql">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/">Home</a></li><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="https://medium.com/@bhuvithedataguy">BigData Articles</a></li><li><a href="/search/">Search</a></li></ul>
+    </nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+    
+    
+      
+        <div class="site-title animated fadeIn"><a href="/">Nitin Kumar Singh | Data Architect</a></div>
+      
+      <p class="site-description animated fadeIn" itemprop="description">Mi occupo di web disign, grafica, web writing e sviluppo web.</p>
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">Compare Two SQL Server Databases using Tsql
+</h1>
+        
+
+      </header>
+      
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><div class="author-info"><div class="author-name">
+        <span class="p-name">Nitin Kumar Singh</span>
+      </div>
+    <time class="page-date dt-published" datetime="2017-10-19T23:01:30+05:30"><a class="u-url" href="">October 19, 2017</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title">Categories</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy">SQLserver</li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title">Tags</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy">sqlserver</li><li class="page-taxonomy">tsql</li>
+  </ul>
+
+
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad-vertical -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9518508677792760"
+     data-ad-slot="4154399056"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <br/>
+        <br/>
+        <applause-button style="width: 58px; height: 58px; text-align:right" color="black" multiclap="true">
+
+      </div>
+
+      <div class="page-content">
+        <div class="e-content">
+
+          <p><img src="/assets/Compare-Two-SQL-Server-Databases-using-Tsql.jpeg" alt="Compare Two SQL Server Databases using Tsql" /></p>
+
+<p>I’m glad to inform that today I’m going to release my next phase of TsqlTools is <a href="https://github.com/SqlAdmin/tsqltools/blob/master/SQLCompare/">SQLCOMPARE</a>. I was in a point to compare two databases which are on two different servers, I have checked many websites and blogs, but unfortunately, I didn’t find any useful T-SQL query for that. But there is so many good software available to compare the databases. Red-Gate is one of my favorite tool for comparison.</p>
+
+<p>So I have prepared 3 Tsql scripts to compare all databases objects between two SQL servers.</p>
+
+<h3 id="1-tables-andobjects">1. Tables and Objects</h3>
+
+<ol>
+  <li>CHECK_CONSTRAINT</li>
+  <li>DEFAULT_CONSTRAINT</li>
+  <li>FOREIGN_KEY_CONSTRAINT</li>
+  <li>PRIMARY_KEY_CONSTRAINT</li>
+  <li>SECURITY_POLICY</li>
+  <li>SEQUENCE_OBJECT</li>
+  <li>SQL_INLINE_TABLE_VALUED_FUNCTION</li>
+  <li>SQL_SCALAR_FUNCTION</li>
+  <li>SQL_STORED_PROCEDURE</li>
+  <li>SQL_TABLE_VALUED_FUNCTION</li>
+  <li>SQL_TRIGGER</li>
+  <li>TYPE_TABLE</li>
+  <li>UNIQUE_CONSTRAINT</li>
+  <li>USER_TABLE</li>
+  <li>VIEW</li>
+</ol>
+
+<p><img src="/assets/Compare-Two-SQL-Server-Databases-using-Tsql1.png" alt="Compare Two SQL Server Databases using Tsql" /></p>
+
+<h3 id="2-indexcompare">2. Index Compare</h3>
+
+<p>This will compare Indices from both servers and list out missing indices on each server.</p>
+
+<p> <img src="/assets/Compare-Two-SQL-Server-Databases-using-Tsql2.png" alt="Compare Two SQL Server Databases using Tsql" /></p>
+
+<h3 id="3-rowcount">3. Row Count</h3>
+
+<p>This is very straightforward, Just get the row count of all database’s tables from both server and show the difference.</p>
+
+<p> <img src="/assets/Compare-Two-SQL-Server-Databases-using-Tsql3.png" alt="Compare Two SQL Server Databases using Tsql" /></p>
+
+<h3 id="how-to-run-thisquery">How to Run this query?</h3>
+
+<p>You can use a centralized Server and create LinkedServers for Source and Target DB servers,
+or
+Create a LinkedServer for Target server on SourceDB server, then run the query on Source DB server.</p>
+
+<h2 id="please-click-the-below-link-to-download-the-scriptsdownload">Please click the below link to download the scripts.<a href="https://github.com/SqlAdmin/tsqltools/tree/master/SQLCompare">DOWNLOAD</a></h2>
+
+        </div>
+        <hr>
+        <h3>Advertisement</h3>
+         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad-horizontal -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9518508677792760"
+     data-ad-slot="4874591962"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <hr>
+        <h3> Share this article </h3>
+      
+        
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/install-oracle-12c-amazon-linux-silent-mode/">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> How To Install Oracle 12C on Amazon Linux In Silent Mode
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/change-mysql-default-directories/">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        How To Change MySQL Default Data,Binlog,Error Log Directories
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="copyright">
+    
+      <p>&copy; 2020 Nitin Kumar Singh | Data Architect. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
+
+
+  </body>
+
+</html>

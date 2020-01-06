@@ -1,0 +1,59 @@
+I"*<p><img src="/assets/SQLServer-Backup-with-dbatools-vs-Olahallengren.jpeg" alt="SQLServer Backup with dbatools vs Olahallengren" /></p>
+
+<blockquote>
+  <p><strong>Short Story:</strong> The <a href="https://dbatools.io/">dbatools </a>is growing too fast, so many Powershell modules are there. I just compared the backup module with Ola Hallengren’s backup script.</p>
+</blockquote>
+
+<p>Who all are working as a SQL Server DBA, we must be scheduled the backup job in SQL Agent with our own TSQL scripts. But most of the DBAs are recommended to use Ola hallengren’s backup script. Because it gives us a reliable backup and easy to locate the backup files. I’m also a fan of Ola’s script. Im using this in my all production servers.</p>
+
+<p>I had a situation to create a backup maintenance job without SQL agent. Oh god, this is not fair. There are so many ways available to configure this, but without SQL agent….. there is a question mark. OK fine, I had an Option, PowerShell in Task Scheduler. Instead of using SQL PowerShell module to take the backup, I have executed the ola’s backup commands inside the PowerShell. Yes, this is good, its working as I expected. But the problem is sometimes it didn’t work and I don’t have any logs for that. So I decided to use dbatools. I have compared many options with ola’s scripts. Lets see the results.</p>
+
+<p>I have AdventureWorks and WideWorldImporters database on my computer and I have SSD Storage.</p>
+
+<p><strong>Backup Folder:</strong></p>
+
+<p>In Ola’s scripts creates the backup folders as more predictable. Its pretty good to find a backup file. dbatools are has this option but it doesn’t create a folder based on backup type.</p>
+
+<p> <img src="/assets/SQLServer-Backup-with-dbatools-vs-Olahallengren1.jpeg" alt="SQLServer Backup with dbatools vs Olahallengren" /></p>
+
+<p><strong>Backup Time:</strong></p>
+
+<p>Ola’s backup took 5 sec to take the backup, dbatools took <em>10sec</em>. Oh its pretty slow.</p>
+
+<p><strong>Backup File Names:</strong></p>
+
+<p>In Ola’s scripts, the backup file contains a keyword for backup types, like Full, Diff. dbatools doesn’t have this one. It just creates the file like <em>Datababsename_yyyymmddhhmmss.bak</em></p>
+
+<p> <img src="/assets/SQLServer-Backup-with-dbatools-vs-Olahallengren2.jpeg" alt="SQLServer Backup with dbatools vs Olahallengren2" /></p>
+
+<p><strong>Copy Only:</strong></p>
+
+<p>dbatools is taking all the backups with Copy Only, but in Ola’s script you need to add <em>@Copyonly=’Y’</em>.</p>
+
+<p><strong>Stats Message:</strong></p>
+
+<p>Ola’s scripts are giving a more detailed message for backups, like Is standby, Recovery Model, Encrypted, Differential LSN, but dbatools gives limited details only.</p>
+
+<p> <img src="/assets/SQLServer-Backup-with-dbatools-vs-Olahallengren3.png" alt="SQLServer Backup with dbatools vs Olahallengren2" /></p>
+
+<p><strong>Cleanup:</strong></p>
+
+<p>Ola’s scripts have the cleanup option in the same module, dbatools you need to execute Backup-Remove module to clean up.</p>
+
+<p><strong>Verify, Checksum, Compress:</strong></p>
+
+<p>These options are same on both sides.</p>
+
+<p><strong>Who is the Winner?</strong></p>
+
+<p>dbatools are not only for backups, its taking care a dba’s work, so we can’t say this is not good for backups, they are doing as much as they can. But ola’s scripts too good for Backups. Why?</p>
+
+<ul>
+  <li>Encrypted backups</li>
+  <li>Backup to multiple locations</li>
+  <li>Backup to Azure Blob</li>
+  <li>Cleanup</li>
+  <li>Integrate with third party backup tools.</li>
+  <li>and more options.</li>
+</ul>
+:ET

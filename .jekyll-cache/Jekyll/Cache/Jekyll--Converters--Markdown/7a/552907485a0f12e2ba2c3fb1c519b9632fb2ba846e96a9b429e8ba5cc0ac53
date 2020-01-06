@@ -1,0 +1,75 @@
+I"0<p><img src="/assets/Configure-RunDeck-SMTP-With-AWS-SES-1024x285.jpg" alt="Configure RunDeck SMTP With AWS SES" /></p>
+
+<p>For any automations notification system is very important. Rundeck provides multiple integrations for job notifications. But SMTP is main for many users. In this blog, we are going to configure RunDeck SMTP with AWS SES.</p>
+
+<p><strong>Tip:</strong><a href="https://www.sqlgossip.com/configure-nginx-proxypass-for-rundeck/">Configure Nginx ProxyPass For RunDeck</a></p>
+
+<h2 id="aws-ses">AWS SES:</h2>
+
+<p>AWS SES is a managed SMTP service.</p>
+
+<p>Go to your AWS Console –&gt; SES.
+SES available on three regions.</p>
+
+<ul>
+  <li>US East (N. Virginia)</li>
+  <li>US West (Oregon)</li>
+  <li>EU (Ireland)</li>
+</ul>
+
+<p>You can select which is nearest to you or low cost.</p>
+
+<h2 id="add-sender-email-in-ses">Add Sender Email in SES:</h2>
+
+<p>In the SES console, Go to Email address and verify your sender email address. SES uses this email for sending emails.</p>
+
+<p><img src="/assets/Configure-RunDeck-SMTP-With-AWS-SES1.jpg" alt="Configure RunDeck SMTP With AWS SES" /></p>
+
+<h2 id="create-smtp-credentials">Create SMTP Credentials:</h2>
+
+<p>Go to SMTP Settings –&gt; Create My SMTP Credentials.
+Provide an user name for SES, then click create. I’ll generate an AccessKey and SecretKey.</p>
+
+<ul>
+  <li>Access Key – Username</li>
+  <li>Secret Key – Password</li>
+</ul>
+
+<p><img src="/assets/Configure-RunDeck-SMTP-With-AWS-SES2.jpg" alt="Configure RunDeck SMTP With AWS SES" /></p>
+
+<p><img src="/assets/Configure-RunDeck-SMTP-With-AWS-SES3.jpg" alt="Configure RunDeck SMTP With AWS SES2" /></p>
+
+<h2 id="smtp-server-details">SMTP Server Details:</h2>
+
+<p>In SMTP Settings you can get your SMTP server details.</p>
+
+<p><img src="/assets/Configure-RunDeck-SMTP-With-AWS-SES6-1024x202.jpg" alt="Configure RunDeck SMTP With AWS SES" /></p>
+
+<p>NOTE: Im using Virginia, so please make sure your SMTP endpoint with your region {: .notice}</p>
+
+<p><img src="/assets/Configure-RunDeck-SMTP-With-AWS-SES5-1024x186.jpg" alt="Configure RunDeck SMTP With AWS SES5" /></p>
+
+<h2 id="add-smtp-details-to-rundeck">Add SMTP Details to RunDeck:</h2>
+
+<p>Add the below lines to <strong>rundeck-config.properties</strong> file.</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="code"><pre> vi /etc/rundeck/rundeck-config.properties
+#SMTP Details
+grails.mail.host=email-smtp.us-east-1.amazonaws.com 
+grails.mail.port=587 
+grails.mail.username=XXXXXXXXXXXXXXX #your access key 
+grails.mail.password=XXXXXXXXXXXXXXX #your secret key 
+grails.mail.default.from=bhuvi@thedataguy.in #your ses verified sender email
+
+service rundeckd restart 
+</pre></td></tr></tbody></table></code></pre></figure>
+:ET

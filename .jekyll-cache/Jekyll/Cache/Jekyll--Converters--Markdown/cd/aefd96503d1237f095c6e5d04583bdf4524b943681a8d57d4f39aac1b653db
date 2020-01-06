@@ -1,0 +1,111 @@
+I"�<p>Add nodes to the Rundeck Server is very next step after installation. Here we are going to see adding Linux nodes to Rundeck. After Rudeck 3.0+ the resources.xml file will not create automatically. In previous versions, this file was automatically created while creating a project. We’ll node nodes details in this file. But in latest versions, it’s not creating automatically.</p>
+
+<h2 id="option1-creating-resourcesxml-manually">Option#1 Creating resources.xml manually</h2>
+
+<p>In this approach, we’ll add all the nodes in a file called resources.xml. Once you created a project follow the below steps.<br />
+<strong>Job Name: Test-Job</strong><br />
+Add the below lines in <code class="highlighter-rouge">project.properties</code> file.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c">#Replace Test-Job with your job name</span>
+
+resources.source.1.config.file<span class="o">=</span>/var/rundeck/projects/Test-Job/etc/resources.xml
+resources.source.1.config.generateFileAutomatically<span class="o">=</span><span class="nb">true
+</span>resources.source.1.config.includeServerNode<span class="o">=</span><span class="nb">true
+</span>resources.source.1.type<span class="o">=</span>file</code></pre></figure>
+
+<h3 id="create-the-resourcesxml-file">Create the resources.xml file</h3>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="code"><pre> cd /var/rundeck/projects/Test-Job/etc/
+    touch resouces.xml
+    vi resources.xml
+
+    <span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+    <span class="nt">&lt;project&gt;</span>
+    <span class="nt">&lt;node</span> <span class="na">name=</span><span class="s">"mysql-master"</span>  <span class="na">tags=</span><span class="s">"mysql"</span> <span class="na">hostname=</span><span class="s">"10.0.0.1"</span> <span class="na">osArch=</span><span class="s">"amd64"</span> <span class="na">osFamily=</span><span class="s">"unix"</span> <span class="na">osName=</span><span class="s">"Linux"</span> <span class="na">osVersion=</span><span class="s">"4.9.0-2-amd64"</span> <span class="na">username=</span><span class="s">"rundeck"</span><span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;node</span> <span class="na">name=</span><span class="s">"replica-01"</span>  <span class="na">tags=</span><span class="s">"mysql"</span> <span class="na">hostname=</span><span class="s">"10.0.0.2"</span> <span class="na">osArch=</span><span class="s">"amd64"</span> <span class="na">osFamily=</span><span class="s">"unix"</span> <span class="na">osName=</span><span class="s">"Linux"</span> <span class="na">osVersion=</span><span class="s">"4.9.0-2-amd64"</span> <span class="na">username=</span><span class="s">"rundeck"</span><span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;/project&gt;</span>
+ 
+</pre></td></tr></tbody></table></code></pre></figure>
+
+<p>Save this file and restart Rundeck service.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">service rundeckd restart</code></pre></figure>
+
+<h2 id="option2-import-from-other-projects">Option#2 Import from other projects</h2>
+
+<p>We need to add nodes whenever we create a new project. From the above example, we added nodes to Test-Job project. If we create one more project again we need to follow the same steps. Instead, we can export the nodes from any existing projects.<br />
+<strong>Project Name:</strong> <strong>sqladmin-jobs</strong><br />
+Go to Projects –&gt; sqladmin-jobs.<br />
+Project Settings –&gt; Edit Nodes –&gt; Configure Nodes.<br />
+Add Sources –&gt; File.</p>
+
+<p><img src="/assets/Add-Nodes-to-the-Rundeck-1024x546.jpg" alt="Add Nodes to the Rundeck" />
+<img src="/assets/Add-Nodes-to-the-Rundeck1.jpg" alt="Add Nodes to the Rundeck" />
+<img src="/assets/Add-Nodes-to-the-Rundeck2-1024x313.jpg" alt="Add Nodes to the Rundeck" /></p>
+
+<ul>
+  <li>Format: resourcesxml</li>
+  <li>File Path: /var/rundeck/projects/Test-Job/etc/resources.xml</li>
+  <li>Generate: Yes</li>
+</ul>
+
+<p><img src="/assets/Add-Nodes-to-the-Rundeck3-1024x336.jpg" alt="Add Nodes to the Rundeck" /></p>
+
+<p>Save it.<br />
+Go to nodes and you can see the nodes.</p>
+
+<p><img src="/assets/Add-Nodes-to-the-Rundeck4.jpg" alt="Add Nodes to the Rundeck" /></p>
+
+<h2 id="option3-import-from-directory">Option#3 Import from Directory</h2>
+
+<p>This is similar to the previous step. But here we’ll give the existing project’s resources.xml file’s directory. It’ll automatically scan and the directory and import the nodes.<br />
+Go to Project Settings –&gt; Edit Nodes –&gt; Configure nodes –&gt; Add Source.<br />
+Select Directory.</p>
+
+<p><img src="/assets/Add-Nodes-to-the-Rundeck5.jpg" alt="Add Nodes to the Rundeck" /></p>
+
+<h2 id="create-login-for-rundeck-on-nodes">Create Login for Rundeck on Nodes</h2>
+
+<p>Now your nodes are added, But still, Rundeck will not control anything on these nodes. Because we need to create a user for Rundeck to login via SSH. By defaultrundeck user has SSH key (both public and private) in its home directory <code class="highlighter-rouge">(/var/lib/rundeck/.ssh/id_rsa)</code>. So copy the id_rsa.pub contents to other nodes.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">cat</span> /var/lib/rundeck/.ssh/id_rsa.pub  
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABxxxxxxxxxxxWZVfPZ53GtpnlSact83ZTX7+FL7KkgPvJzUhkiGIwxxthOZMXrO3pBaON7OCbhwv4QxkrfphBtJe2jHPbJbc1TLw803</code></pre></figure>
+
+<p>Login to your nodes and run the following commands. This will create an user called rundeck and copy the id_rsa.pub as SSH key. Also make this user as a sudo user.</p>
+
+<p><strong>For CentOS:</strong></p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">adduser rundeck    
+<span class="nb">mkdir</span> <span class="nt">-p</span> /home/rundeck/.ssh  
+
+<span class="c"># Replace the "ssh-rsa ...." with your id_rsa.pub  </span>
+<span class="nb">echo</span> <span class="s2">"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABxxxxxxxxxxxxxWZVfPZ53GtpnlSact83ZTX7+FL7KkgPvJzUhkiGIwxxthOZMXrO3pBaON7OCbhwv4QxkrfphBtJe2jHPbJbc1TLw803"</span> <span class="o">&gt;&gt;</span>  /home/rundeck/.ssh/authorized_keys  
+<span class="nb">chown </span>rundeck:rundeck /home/rundeck/  
+<span class="nb">echo</span> <span class="s2">"rundeck ALL=(ALL)  NOPASSWD: ALL"</span> <span class="o">&gt;&gt;</span> /etc/sudoers</code></pre></figure>
+
+<p><strong>For Ubuntu:</strong></p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">adduser rundeck  <span class="nt">--disabled-password</span>  
+<span class="nb">mkdir</span> <span class="nt">-p</span> /home/rundeck/.ssh  
+
+<span class="c"># Replace the "ssh-rsa ...." with your id_rsa.pub  </span>
+<span class="nb">echo</span> <span class="s2">"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABxxxxxxxxxxWZVfPZ53GtpnlSact83ZTX7+FL7KkgPvJzUhkiGIwxxthOZMXrO3pBaON7OCbhwv4QxkrfphBtJe2jHPbJbc1TLw803"</span> <span class="o">&gt;&gt;</span>  /home/rundeck/.ssh/authorized_keys  
+<span class="nb">chown </span>rundeck:rundeck /home/rundeck/  
+<span class="nb">echo</span> <span class="s2">"rundeck ALL=(ALL)  NOPASSWD: ALL"</span> <span class="o">&gt;&gt;</span> /etc/sudoers</code></pre></figure>
+
+:ET

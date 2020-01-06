@@ -1,0 +1,10 @@
+#Author Profile
+Bhuvi:
+  name: Bhuvanesh
+  picture: /assets/bhuvi-photo.jpg
+  twitter: "@BhuviTheDataGuy"
+  links:
+    - title: Twitter
+      url: https://twitter.com/BhuviTheDataGuy
+      icon: fab fa-twitter-square
+

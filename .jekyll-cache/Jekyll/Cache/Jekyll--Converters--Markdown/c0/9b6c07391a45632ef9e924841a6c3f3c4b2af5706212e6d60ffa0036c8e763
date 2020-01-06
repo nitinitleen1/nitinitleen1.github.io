@@ -1,0 +1,134 @@
+I"6<p>In a DBA’s day to day activities, we are doing Archive operation on our transnational database servers to improve your queries and control the Disk space. The archive is a most expensive operation since its involved a huge number of Read and Write will be performed. So its mandatory to run the archive queries in chunks. The archive is depended on business use. Many of us need a copy of the data on an archive database to refer later. To perform the archive we can just simply run the delete query with the limit. But we need to run the query again and again until the matched rows count is 0. We can create a procedure to do this in a while loop. I have created one such procedure to archive many tables. </p>
+
+<p><img src="/assets/MySQL-Stored-Procedure-To-Archive-In-Chunks.jpg" alt="MySQL Stored Procedure To Archive In Chunks" /></p>
+
+<p>Image Source: Brent Ozar Unlimited</p>
+
+<h2 id="why-archive-is-an-expensive-operation">Why Archive is an expensive operation? </h2>
+
+<p>Generally how we are arching the data is <em>delete from table_name where column_name &lt;= some_value;</em> If you are running on a table which needs to be deleted around 15million records, then you need the undo log file to hold all of these records. There will be a heavy IO happening in the Disk. And lt’ll lock the rows and some other locks will be held until the Archive complete. Replication may delay because of this. </p>
+
+<h2 id="when-archive-is-going-to-mess-up-the-production">When Archive is going to mess up the production?</h2>
+
+<ul>
+  <li>Running archive commands on a heavy traffic time.</li>
+  <li>Archive without a proper where clause.</li>
+  <li>Delete data without limit.</li>
+  <li>Performing archive contrition on a not indexed column. </li>
+  <li>Continuously run the delete query in chunks on a replication environment. {without sleep(1 or few seconds}.</li>
+</ul>
+
+<h2 id="how-to-perform-the-archive-properly">How to perform the archive properly? </h2>
+
+<ul>
+  <li>To do this, the first condition is use limit in the delete.</li>
+  <li>Create an index on the where clause.</li>
+  <li>At least do sleep 1sec for each chuck which will be good for a replication infra.</li>
+  <li>Set autocommit=1</li>
+  <li>Optional: Set transaction isolation to Read Committed.</li>
+  <li>Do not mention the number of loops without knowing the actual loop counts to process the complete delete.</li>
+</ul>
+
+<h2 id="my-approach-to-this">My approach to this:</h2>
+
+<p>Inspired by Rick James’s <a href="http://mysql.rjweb.org/doc.php/deletebig">Blog</a>, I have prepared a single stored procedure to perform archive on multiple tables. We just need to pass the table name, date column and then date to archive. I have tested with datetime and Primary key column. </p>
+
+<h2 id="archive-a-single-table">Archive a single table:</h2>
+
+<p>The below procedure will perform delete on table test and remove older than 10 days records. </p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">use</span> <span class="n">sqladmin</span><span class="p">;</span>
+
+<span class="k">DROP</span> <span class="k">PROCEDURE</span>
+<span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">archive</span><span class="p">;</span>
+<span class="k">delimiter</span> <span class="o">//</span>
+  <span class="k">CREATE</span> <span class="k">PROCEDURE</span>
+    <span class="n">archive</span><span class="p">()</span>
+  <span class="k">begin</span>
+    <span class="k">DECLARE</span> <span class="k">rows</span> <span class="nb">INT</span><span class="p">;</span>
+    <span class="k">DECLARE</span> <span class="n">rows_deleted</span> <span class="nb">INT</span><span class="p">;</span>
+    <span class="k">SET</span> <span class="k">SESSION</span> <span class="n">TRANSACTION</span> <span class="k">ISOLATION</span> <span class="k">LEVEL</span> <span class="k">READ</span> <span class="k">COMMITTED</span><span class="p">;</span>
+    <span class="k">SET</span> <span class="k">rows</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">SET</span> <span class="n">rows_deleted</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">;</span>
+    <span class="n">WHILE</span> <span class="k">rows</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="k">do</span>
+    <span class="k">SET</span> <span class="n">autocommit</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+    <span class="k">DELETE</span>
+    <span class="k">FROM</span>   <span class="n">test</span>
+    <span class="k">WHERE</span>  <span class="n">dop</span> <span class="o">&lt;</span> <span class="nb">DATE</span><span class="p">(</span><span class="n">Date_sub</span><span class="p">(</span><span class="n">Now</span><span class="p">(),</span> <span class="n">INTERVAL</span> <span class="mi">10</span> <span class="k">day</span><span class="p">))</span>
+    <span class="k">LIMIT</span>  <span class="mi">10000</span><span class="p">;</span>
+    <span class="k">SET</span> <span class="k">rows</span> <span class="o">=</span> <span class="k">row_count</span><span class="p">();</span>
+    <span class="k">select</span> <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="k">commit</span><span class="p">;</span>
+    <span class="k">END</span> <span class="n">WHILE</span><span class="p">;</span>
+    <span class="k">END</span> <span class="o">//</span>
+<span class="k">delimiter</span> <span class="p">;</span></code></pre></figure>
+
+<h2 id="archive-multiple-tables">Archive multiple tables:</h2>
+
+<p>This procedure will help you to archive multiple tables, you just need to pass the table name, column name and the date for the archive. I love to use this.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">use</span> <span class="n">sqladmin</span><span class="p">;</span>
+
+<span class="k">DROP</span> <span class="k">PROCEDURE</span>
+<span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">sqladmin_archive</span><span class="p">;</span>
+<span class="k">delimiter</span> <span class="o">//</span>
+  <span class="k">CREATE</span> <span class="k">PROCEDURE</span>
+    <span class="n">sqladmin_archive</span><span class="p">(</span><span class="k">IN</span> <span class="n">archive_dbname</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="k">IN</span> <span class="n">archive_table</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="k">IN</span> <span class="n">archive_column</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="k">IN</span> <span class="n">archive_date</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+
+  <span class="k">begin</span>
+    <span class="k">DECLARE</span> <span class="k">rows</span> <span class="nb">INT</span><span class="p">;</span>
+    <span class="k">DECLARE</span> <span class="n">rows_deleted</span> <span class="nb">INT</span><span class="p">;</span>
+    <span class="k">SET</span> <span class="k">SESSION</span> <span class="n">TRANSACTION</span> <span class="k">ISOLATION</span> <span class="k">LEVEL</span> <span class="k">READ</span> <span class="k">COMMITTED</span><span class="p">;</span>
+    <span class="k">SET</span> <span class="k">rows</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">SET</span> <span class="n">rows_deleted</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">;</span>
+    <span class="n">WHILE</span> <span class="k">rows</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="k">do</span>
+        <span class="k">SET</span> <span class="n">autocommit</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">SET</span> <span class="o">@</span><span class="n">query</span> <span class="o">=</span><span class="n">CONCAT</span><span class="p">(</span><span class="s1">'DELETE FROM   '</span><span class="p">,</span><span class="n">archive_dbname</span><span class="p">,</span><span class="s1">'.'</span><span class="p">,</span><span class="n">archive_table</span><span class="p">,</span><span class="s1">' WHERE  '</span><span class="p">,</span><span class="n">archive_column</span><span class="p">,</span><span class="s1">' &lt;= "'</span><span class="p">,</span><span class="n">archive_date</span> <span class="p">,</span><span class="s1">'" LIMIT  10000;'</span><span class="p">);</span>
+        <span class="k">PREPARE</span> <span class="n">arcive_stmt</span> <span class="k">FROM</span> <span class="o">@</span><span class="n">query</span><span class="p">;</span>
+        <span class="k">EXECUTE</span> <span class="n">arcive_stmt</span><span class="p">;</span>
+        <span class="k">SET</span> <span class="k">rows</span> <span class="o">=</span> <span class="k">row_count</span><span class="p">();</span>
+        <span class="k">SET</span> <span class="k">rows</span> <span class="o">=</span> <span class="k">row_count</span><span class="p">();</span>
+    <span class="k">select</span> <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+   <span class="k">commit</span><span class="p">;</span>
+   <span class="k">DEALLOCATE</span> <span class="k">PREPARE</span> <span class="n">arcive_stmt</span><span class="p">;</span>
+  <span class="k">END</span> <span class="n">WHILE</span><span class="p">;</span>
+ <span class="k">END</span> <span class="o">//</span>
+<span class="k">delimiter</span> <span class="p">;</span>
+
+<span class="c1">-- Execute this procedure</span>
+<span class="k">CALL</span> <span class="n">sqladmin_archive</span> <span class="p">(</span><span class="s1">'mydb'</span><span class="p">,</span><span class="s1">'test_table'</span><span class="p">,</span><span class="s1">'created_at'</span><span class="p">,</span><span class="s1">'2018-09-12'</span><span class="p">);</span></code></pre></figure>
+
+<h2 id="take-dump-before-archive-with-where-clause">Take dump before archive with where clause:</h2>
+
+<p>This script is my favorite one, but this depends on the above stored procedure. This shell script will take the dump of the table with where clause of the date that we want to archive. You can customize this as per your requirement.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c">#!/bin/bash</span>
+
+<span class="c"># pass variables</span>
+<span class="nv">archive_dbname</span><span class="o">=</span><span class="nv">$1</span>
+<span class="nv">archive_table</span><span class="o">=</span><span class="nv">$2</span>
+<span class="nv">archive_column</span><span class="o">=</span><span class="nv">$3</span>
+<span class="nv">days_to_archive</span><span class="o">=</span><span class="nv">$4</span>
+<span class="nv">archive_date</span><span class="o">=</span><span class="s2">"'"</span><span class="sb">`</span><span class="nb">date</span> +<span class="s1">'%Y-%m-%d'</span> <span class="nt">--date</span><span class="o">=</span><span class="s2">"-</span><span class="nv">$days_to_archive</span><span class="s2"> day"</span><span class="sb">`</span><span class="s2">"'"</span>
+<span class="nv">where_clause</span><span class="o">=</span><span class="nv">$archive_column</span><span class="s1">'&lt;='</span><span class="nv">$archive_date</span>
+<span class="nv">dump_file</span><span class="o">=</span><span class="nv">$archive_table_</span><span class="sb">`</span><span class="nb">date</span> +<span class="s1">'%Y-%m-%d'</span> <span class="nt">--date</span><span class="o">=</span><span class="s2">"-</span><span class="nv">$days_to_archive</span><span class="s2"> day"</span><span class="sb">`</span><span class="s2">".sql"</span>
+
+<span class="c"># Dump the table</span>
+<span class="nb">echo</span> <span class="s2">"DUMP Starting for the table </span><span class="nv">$archive_table</span><span class="s2"> ....."</span>
+mysqldump <span class="nt">-u</span> root <span class="nv">$archive_dbname</span> <span class="nv">$archive_table</span> <span class="nt">--where</span><span class="o">=</span><span class="nv">$where_clause</span> <span class="o">&gt;</span> <span class="nv">$dump_file</span>
+<span class="nb">echo</span> <span class="s2">"DUMP Done......"</span>
+
+<span class="c"># Archive the data</span>
+<span class="nb">echo</span> <span class="s2">"Deleting the data on the table </span><span class="nv">$archive_table</span><span class="s2"> ....."</span>
+mysql <span class="nt">-u</span> root sqladmin <span class="nt">-e</span><span class="s2">"CALL sqladmin_archive('</span><span class="nv">$archive_dbname</span><span class="s2">','</span><span class="nv">$archive_table</span><span class="s2">','</span><span class="nv">$archive_column</span><span class="s2">',</span><span class="nv">$archive_date</span><span class="s2">);"</span>
+<span class="nb">echo</span> <span class="s2">"Deleting is Done ....."</span></code></pre></figure>
+
+<h2 id="example-archive">Example Archive:</h2>
+
+<p>This example, Im going to archive a table called test. The column started_at contains the timestamp value. I want to remove older than 15 days data in the table. This table is located in the database name called sqladmin.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">./archive_script.sh sqladmin <span class="nb">test </span>started_at 15</code></pre></figure>
+
+:ET

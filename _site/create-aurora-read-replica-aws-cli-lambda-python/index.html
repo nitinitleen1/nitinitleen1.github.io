@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<!--
+    So Simple Jekyll Theme 3.1.1
+    Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/so-simple-theme/blob/master/LICENSE
+-->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:image" content="http://localhost:4000">
+<script data-ad-client="ca-pub-9518508677792760" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<link rel="apple-touch-icon" sizes="57x57" href="/favicon.ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/favicon.ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/favicon.ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/favicon.ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/favicon.ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/favicon.ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/favicon.ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/favicon.ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon.ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico/favicon-16x16.png">
+<link rel="manifest" href="/favicon.ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">  
+  
+
+  
+    <title>Create Aurora Read Replica With AWS CLI/Lambda Python</title>
+    <meta name="description" content="">
+    <link rel="canonical" href="http://localhost:4000/create-aurora-read-replica-aws-cli-lambda-python/">
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  <link rel="stylesheet" href="/assets/css/applause-button.css" />
+   <script src="/assets/js/applause-button.js"></script>
+
+</head>
+
+
+  <body class="layout--post  create-aurora-read-replica-with-aws-cli-lambda-python">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/">Home</a></li><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="https://medium.com/@bhuvithedataguy">BigData Articles</a></li><li><a href="/search/">Search</a></li></ul>
+    </nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+    
+    
+      
+        <div class="site-title animated fadeIn"><a href="/">Nitin Kumar Singh | Data Architect</a></div>
+      
+      <p class="site-description animated fadeIn" itemprop="description">Mi occupo di web disign, grafica, web writing e sviluppo web.</p>
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">Create Aurora Read Replica With AWS CLI/Lambda Python
+</h1>
+        
+
+      </header>
+      
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><div class="author-info"><div class="author-name">
+        <span class="p-name">Nitin Kumar Singh</span>
+      </div>
+    <time class="page-date dt-published" datetime="2019-01-26T00:39:11+05:30"><a class="u-url" href="">January 26, 2019</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title">Categories</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy">AWS</li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title">Tags</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy">aurora</li><li class="page-taxonomy">aws</li><li class="page-taxonomy">cli</li><li class="page-taxonomy">lamba</li><li class="page-taxonomy">mysql</li><li class="page-taxonomy">python</li><li class="page-taxonomy">rds</li>
+  </ul>
+
+
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad-vertical -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9518508677792760"
+     data-ad-slot="4154399056"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <br/>
+        <br/>
+        <applause-button style="width: 58px; height: 58px; text-align:right" color="black" multiclap="true">
+
+      </div>
+
+      <div class="page-content">
+        <div class="e-content">
+
+          <p><img src="https://thedataguy.in/assets/Create-Aurora-Read-Replica-With-AWS-CLI-Lambda-Python.jpg" alt="Create Aurora Read Replica With AWS CLI-Lambda Python" title="Create Aurora Read Replica With AWS CLI-Lambda Python" /></p>
+
+<p>Today I was working for a scaleable solution in Aurora. Im going to publish that blog post soon in <a href="https://medium.com/searce">Searce</a> Blog. As a part of this solution, I want to create Aurora read replicas programmatically. So we have done the create aurora read replica with AWS CLI and Lambda with Python. If you refer the AWS Doc, they mentioned there is no separate module for creating Aurora Read replica in boto3 or cli. Instead we can use <a href="https://docs.aws.amazon.com/cli/latest/reference/rds/create-db-instance.html"><em>create-db-instance</em></a>. Many people may confused with this term. This blog will help them to create aurora read replicas using AWS CLI and Lambda.</p>
+
+<h2 id="required-permission">Required Permission:</h2>
+
+<p>If you are running this code via lambda then you can use the below policy.</p>
+
+<ul>
+  <li>Lambda - Create a new role for lambda and attach inline policy</li>
+  <li>EC2 Role - Create a new EC2 role and attach this policy and attach this Role to EC2.</li>
+  <li>IAM User - If you are manually use IAM credentials for AWS CLI, attach the below policy to the IAM user.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="w">    
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"Version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2012-10-17"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"Statement"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"Sid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"VisualEditor0"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"Effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Allow"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"Action"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                    </span><span class="s2">"rds:CreateDBCluster"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"rds:CreateDBInstance"</span><span class="w">
+                </span><span class="p">],</span><span class="w">
+                </span><span class="nl">"Resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span></code></pre></figure>
+
+<h2 id="create-your-aurora-cluster">Create Your Aurora Cluster:</h2>
+
+<p>First we need to create an Aurora cluster with 1 node. There are so many references for this. :) I leave this part to you.</p>
+
+<h3 id="aurora-details">Aurora Details:</h3>
+
+<ul>
+  <li>Cluster Name: bhuvi-aurora-replica-cluster</li>
+  <li>Engine: aurora-mysql</li>
+  <li>Engine Version: 5.7.12</li>
+  <li>DB Parameter Group: default.aurora-mysql5.7</li>
+  <li>Publicly accessible: Yes</li>
+  <li>Storage Encrypt: No</li>
+</ul>
+
+<h2 id="aws-cli-command">AWS CLI Command:</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    aws rds create-db-instance <span class="nt">--db-instance-identifier</span> bhuvi-aurora-cli <span class="se">\</span>
+     <span class="nt">--db-instance-class</span> db.t2.small <span class="se">\</span>
+      <span class="nt">--engine</span> aurora-mysql <span class="se">\</span>
+      <span class="nt">--availability-zone</span> us-east-1b <span class="se">\</span>
+      <span class="nt">--db-parameter-group-name</span> default.aurora-mysql5.7 <span class="se">\</span>
+      <span class="nt">--publicly-accessible</span> <span class="se">\</span>
+      <span class="nt">--no-storage-encrypted</span> <span class="se">\</span>
+      <span class="nt">--db-cluster-identifier</span> bhuvi-aurora-replica-cluster  <span class="se">\</span>
+      <span class="nt">--promotion-tier</span> 15</code></pre></figure>
+
+<h2 id="lambda-code-in-python">Lambda Code in Python:</h2>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="kn">import</span> <span class="nn">time</span>
+    <span class="kn">import</span> <span class="nn">boto3</span>
+    <span class="kn">import</span> <span class="nn">botocore</span>
+
+    <span class="k">def</span> <span class="nf">lambda_handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+         <span class="n">rds</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s">'rds'</span><span class="p">)</span>
+
+         <span class="n">rds</span><span class="o">.</span><span class="n">create_db_instance</span><span class="p">(</span>
+            <span class="n">DBParameterGroupName</span><span class="o">=</span><span class="s">'default.aurora-mysql5.7'</span><span class="p">,</span>
+          <span class="n">Engine</span><span class="o">=</span><span class="s">'aurora-mysql'</span><span class="p">,</span>
+          <span class="n">EngineVersion</span><span class="o">=</span><span class="s">'5.7.12'</span><span class="p">,</span>
+          <span class="n">DBClusterIdentifier</span><span class="o">=</span><span class="s">'bhuvi-aurora-replica-cluster'</span><span class="p">,</span>
+          <span class="n">AvailabilityZone</span><span class="o">=</span><span class="s">'us-east-1b'</span><span class="p">,</span>
+          <span class="n">DBInstanceClass</span><span class="o">=</span><span class="s">'db.t2.small'</span><span class="p">,</span>
+          <span class="n">DBInstanceIdentifier</span><span class="o">=</span><span class="s">'bhuvi-aurora-lambda1'</span><span class="p">,</span>
+          <span class="n">PubliclyAccessible</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+          <span class="n">StorageEncrypted</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+          <span class="n">PromotionTier</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span></code></pre></figure>
+
+
+        </div>
+        <hr>
+        <h3>Advertisement</h3>
+         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad-horizontal -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9518508677792760"
+     data-ad-slot="4874591962"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <hr>
+        <h3> Share this article </h3>
+      
+        
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/aws-documentdb-a-nosql-equivalent-for-aurora/">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> AWS DocumentDB - A NoSQL Equivalent For Aurora
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/mysql-devops-automate-database-archive/">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        MySQL With DevOps 1 - Automate Database Archive
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="copyright">
+    
+      <p>&copy; 2020 Nitin Kumar Singh | Data Architect. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
+
+
+  </body>
+
+</html>

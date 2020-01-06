@@ -1,0 +1,162 @@
+I"z:<p>Windows Servers are in AWS will show some glitches in sometimes.<a href="http://www.sqlgossip.com/windows-server-2016-in-aws-unable-to-resolve-public-and-local-dns/"> My previous article</a>explains how Windows Server 2016 had some issues with DNS Suffix and Forwarders. This time I got a chance to play around with PowerShell automations. The requirement is automatically add EC2 instances to Active directory domain during the instance launch. It might be an On Demand purpose ec2 or launched by an Auto scaling group.</p>
+
+<p>Wait, you may think like there are many blog posts available in AWS, then what else I wrote. The reason for this blog post is all of the AWS Blogs were using Cloudformation templates and SSM Agents to Automate this. In one post AWS Directory Service is also used. But here we aren’t gonna use any additional AWS Services except S3.</p>
+
+<p><img src="/assets/Automatically-Add-EC2-Instances-to-Active-Directory-Domain-Arc.jpg" alt="Automatically Add EC2 Instances to Active Directory Domain" /></p>
+
+<blockquote>
+  <p>Before starting the process, The same steps are already well written by <a href="http://thesysadminswatercooler.blogspot.in/2015/09/aws-autoscale-windows-server-and-join.html">Ryan Lawyer</a> who is an AWS sysadmin. But he didn’t mention that to add a DNS IP for the Windows Servers. Without DNS the instance will not communicate to the Domain.</p>
+</blockquote>
+
+<h2 id="the-challenge-while-adding-the-dns">The challenge while adding the DNS:</h2>
+
+<p>By using the below Powershell command we can add the Primary and Secondary DNS IP for windows servers.</p>
+
+<figure class="highlight"><pre><code class="language-powershell" data-lang="powershell"><span class="nf">Set-DNSClientServerAddress</span><span class="w"> </span><span class="nt">-interfaceAlias</span><span class="w"> </span><span class="nx">Ethernet</span><span class="w"> </span><span class="nt">-ServerAddresses</span><span class="w">  </span><span class="p">(</span><span class="s2">"X.X.X.X"</span><span class="p">)</span><span class="w">
+</span><span class="nf">or</span><span class="w">
+</span><span class="nf">Set-DNSClientServerAddress</span><span class="w"> </span><span class="nt">-interfaceIndex</span><span class="w"> </span><span class="nx">12</span><span class="w"> </span><span class="nt">-ServerAddresses</span><span class="w">  </span><span class="p">(</span><span class="s2">"X.X.X.X"</span><span class="p">)</span></code></pre></figure>
+
+<p>Here the interfaceAlias is Ethernet and interfaceIndex 12, but its not same for all the instances. interfaceIndex will be varying for each instance even if those all are same instance type. But interfaceAlias will be varying based on the instance type.</p>
+
+<h3 id="for-eg">For eg:</h3>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Instance Type</td>
+      <td>Interface Alias Name</td>
+    </tr>
+    <tr>
+      <td>t2.medium</td>
+      <td>Ehternet 2</td>
+    </tr>
+    <tr>
+      <td>t2.large</td>
+      <td>Ehternet</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>So its not possible to hardcode the InterfaceIndex or InterfaceAlias in the powerhsell script to add the DNS IP.</p>
+
+<h2 id="solution">Solution:</h2>
+
+<p>To mitigate this, I have extracted the actual Alias name from the NetAdapter cmdlet function,</p>
+
+<figure class="highlight"><pre><code class="language-powershell" data-lang="powershell"><span class="nf">Get-NetAdapter</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nf">where</span><span class="w"> </span><span class="p">{</span><span class="bp">$_</span><span class="o">.</span><span class="nf">ifDesc</span><span class="w"> </span><span class="o">-notlike</span><span class="w"> </span><span class="s2">"TAP*"</span><span class="p">}</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kr">foreach</span><span class="w"> </span><span class="nf">InterfaceAlias</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nf">select</span><span class="w"> </span><span class="nt">-First</span><span class="w"> </span><span class="nx">1</span></code></pre></figure>
+
+<p>This will give us the exact alias name. If we have more than one ENI, then it’ll pick the first one.</p>
+
+<p>Lets start implementing the solution.</p>
+
+<h2 id="pre-requirements">Pre-Requirements:</h2>
+
+<ul>
+  <li>Launch an EC2 instance and configure Active Directory Domain Services.</li>
+  <li>Create an EC2 IAM role that will pick the add-domain.exe file from S3 bucket.</li>
+  <li><a href="https://gallery.technet.microsoft.com/scriptcenter/PS2EXE-Convert-PowerShell-9e4e07f1">PS2EXE</a> converter. (Powershell version must be &lt;= 4.0)</li>
+</ul>
+
+<h3 id="ad-server-details">AD Server Details:</h3>
+
+<ul>
+  <li>Domain Name: sqladmin.bhuvi</li>
+  <li>Domain Admin: Administrator</li>
+  <li>Domain Admin Password: mypassword</li>
+  <li>IP Address: 10.10.10.11</li>
+</ul>
+
+<h2 id="create-the-powerhsell-script">Create the Powerhsell script:</h2>
+
+<p>Create a new powershell script and save it as add-ad.pd1</p>
+
+<p>I have saved this file on C:\add-ad.ps1</p>
+
+<figure class="highlight"><pre><code class="language-powershell" data-lang="powershell"><span class="c">#Retrieve the AWS instance ID, keep trying until the metadata is available</span><span class="w">
+</span><span class="nv">$instanceID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"null"</span><span class="w">
+</span><span class="kr">while</span><span class="w">  </span><span class="p">(</span><span class="nv">$instanceID</span><span class="w"> </span><span class="o">-NotLike</span><span class="w"> </span><span class="s2">"i-*"</span><span class="p">)</span><span class="w">  </span><span class="p">{</span><span class="w">
+</span><span class="nf">Start-Sleep</span><span class="w"> </span><span class="nt">-s</span><span class="w"> </span><span class="nx">3</span><span class="w">
+</span><span class="nv">$instanceID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">invoke-restmethod</span><span class="w"> </span><span class="nt">-uri</span><span class="w"> </span><span class="nx">http://169.254.169.254/latest/meta-data/instance-id</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="c">#Pass Domain Creds</span><span class="w">
+</span><span class="nv">$username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"sqladmin\Administrator"</span><span class="w">
+</span><span class="nv">$password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"mypassword"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nf">ConvertTo-SecureString</span><span class="w"> </span><span class="nt">-AsPlainText</span><span class="w"> </span><span class="nt">-Force</span><span class="w">
+</span><span class="nv">$cred</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">New-Object</span><span class="w"> </span><span class="nt">-typename</span><span class="w"> </span><span class="nx">System.Management.Automation.PSCredential</span><span class="p">(</span><span class="nv">$username</span><span class="p">,</span><span class="w"> </span><span class="nv">$password</span><span class="p">)</span><span class="w">
+
+</span><span class="c">#Adding to domain</span><span class="w">
+</span><span class="kr">Try</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="nf">Add-Computer</span><span class="w"> </span><span class="nt">-DomainName</span><span class="w"> </span><span class="nx">sqladmin.bhuvi</span><span class="w"> </span><span class="nt">-Credential</span><span class="w"> </span><span class="nv">$cred</span><span class="w"> </span><span class="nt">-Force</span><span class="w"> </span><span class="nt">-Restart</span><span class="w"> </span><span class="nt">-erroraction</span><span class="w"> </span><span class="s1">'stop'</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="c">#Get Error messages in a file</span><span class="w">
+</span><span class="kr">Catch</span><span class="p">{</span><span class="w">
+</span><span class="nf">echo</span><span class="w"> </span><span class="bp">$_</span><span class="o">.</span><span class="nf">Exception</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Out-File</span><span class="w"> </span><span class="nx">c:\temp\error-joindomain.txt</span><span class="w"> </span><span class="nt">-Append</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<h2 id="convert-ps-file-to-exe">Convert PS file to EXE:</h2>
+
+<p>Now Extract the PS2EXE software. I have extracted it on C:\PS2EXE-v0.5.0.0.</p>
+
+<p>Open PowerhShell windows and switch to C:\PS2EXE-v0.5.0.0 and execute the below command.</p>
+
+<figure class="highlight"><pre><code class="language-powershell" data-lang="powershell"><span class="nf">cd</span><span class="w"> </span><span class="nx">C:\PS2EXE-v0.5.0.0</span><span class="w">
+</span><span class="o">.</span><span class="nf">\ps2exe.ps1</span><span class="w"> </span><span class="nt">-InputFile</span><span class="w"> </span><span class="nx">C:\add-ps1</span><span class="w"> </span><span class="nx">C:\add-ad.exe</span></code></pre></figure>
+
+<h2 id="upload-the-exe-file-to-s3">Upload the EXE file to S3:</h2>
+
+<p>Now we need to upload this exe file to a S3 Bucket. You can do this by Console or API or CLI.</p>
+
+<p>I have uploaded this to <strong><code class="highlighter-rouge">S3://mybucket/adfile/add-ad.exe</code></strong></p>
+
+<h2 id="create-ec2-iam-role">Create EC2 IAM Role:</h2>
+
+<p>The new instances needs to download this file using powershell, so we need to assign an IAM role while launching the instance.</p>
+
+<ol>
+  <li>Go to IAM -&gt; Roles -&gt; Cretae Role -&gt; Ec2</li>
+  <li>RoleName: AD-Adder</li>
+</ol>
+
+<p>Once it is created assign this in line policy.</p>
+
+<figure class="highlight"><pre><code class="language-powershell" data-lang="powershell"><span class="p">{</span><span class="w">
+</span><span class="s2">"Version"</span><span class="p">:</span><span class="w">  </span><span class="s2">"2012-10-17"</span><span class="p">,</span><span class="w">
+</span><span class="s2">"Statement"</span><span class="p">:</span><span class="w">  </span><span class="p">[{</span><span class="w">
+</span><span class="s2">"Effect"</span><span class="p">:</span><span class="w">  </span><span class="s2">"Allow"</span><span class="p">,</span><span class="w">
+</span><span class="s2">"Action"</span><span class="p">:</span><span class="w">  </span><span class="p">[</span><span class="w">
+</span><span class="s2">"s3:GetObject"</span><span class="p">,</span><span class="w">
+</span><span class="s2">"s3:ListBucket"</span><span class="w">
+</span><span class="p">],</span><span class="w">
+</span><span class="s2">"Resource"</span><span class="p">:</span><span class="w">  </span><span class="p">[</span><span class="s2">"arn:aws:s3:::mybucket/adfiles/*"</span><span class="p">]</span><span class="w">
+</span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<h2 id="launch-an-ec2">Launch an EC2:</h2>
+
+<p>Its time for testing.
+Launch an EC2 instance.
+Attach the Ad-Adder role to the instance.</p>
+
+<p>In UserData section, copy the below code and paste it.</p>
+
+<figure class="highlight"><pre><code class="language-powershell" data-lang="powershell"><span class="err">&lt;</span><span class="nf">powershell</span><span class="err">&gt;</span><span class="w">
+</span><span class="nf">Set-ExecutionPolicy</span><span class="w"> </span><span class="nx">unrestricted</span><span class="w"> </span><span class="nt">-Force</span><span class="w">
+</span><span class="nf">New-Item</span><span class="w"> </span><span class="nx">c:/temp</span><span class="w"> </span><span class="nt">-ItemType</span><span class="w"> </span><span class="nx">Directory</span><span class="w"> </span><span class="nt">-Force</span><span class="w">
+</span><span class="nf">set-location</span><span class="w"> </span><span class="nx">c:/temp</span><span class="w">
+</span><span class="nv">$Eth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">Get-NetAdapter</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nf">where</span><span class="w"> </span><span class="p">{</span><span class="bp">$_</span><span class="o">.</span><span class="nf">ifDesc</span><span class="w"> </span><span class="o">-notlike</span><span class="w"> </span><span class="s2">"TAP*"</span><span class="p">}</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kr">foreach</span><span class="w"> </span><span class="nf">InterfaceAlias</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nf">select</span><span class="w"> </span><span class="nt">-First</span><span class="w"> </span><span class="nx">1</span><span class="w">
+</span><span class="nf">Set-DNSClientServerAddress</span><span class="w"> </span><span class="nt">-interfaceAlias</span><span class="w"> </span><span class="nv">$Eth</span><span class="w"> </span><span class="nt">-ServerAddresses</span><span class="w">  </span><span class="p">(</span><span class="s2">"10.10.10.11"</span><span class="p">)</span><span class="w">
+</span><span class="nf">Start-Sleep</span><span class="w"> </span><span class="nt">-s</span><span class="w"> </span><span class="nx">5</span><span class="w">
+</span><span class="nf">read-s3object</span><span class="w"> </span><span class="nt">-bucketname</span><span class="w"> </span><span class="nx">mybucket</span><span class="w"> </span><span class="nt">-key</span><span class="w"> </span><span class="nx">adfiles/add.exe</span><span class="w"> </span><span class="nt">-file</span><span class="w"> </span><span class="nx">add-ad.exe</span><span class="w">
+</span><span class="nf">Start-Sleep</span><span class="w"> </span><span class="nt">-s</span><span class="w"> </span><span class="nx">5</span><span class="w">
+</span><span class="nf">Invoke-Item</span><span class="w"> </span><span class="nx">C:/temp/add-ad.exe</span><span class="w">
+</span><span class="err">&lt;</span><span class="nf">/powershell</span><span class="err">&gt;</span></code></pre></figure>
+
+<p>Then select the Storage size, Security group bla bla bla. Then click launch.</p>
+
+<p>Wait for few mins and check the Computer Properties. You’ll see the server is added to the domain.</p>
+
+<p><img src="/assets/Automatically-Add-EC2-Instances-to-Active-Directory-Domain.jpg" alt="Automatically Add EC2 Instances to Active Directory Domain" /></p>
+
+<p>Instead of S3 you can try FTP, SFTP, Shared folders.</p>
+:ET

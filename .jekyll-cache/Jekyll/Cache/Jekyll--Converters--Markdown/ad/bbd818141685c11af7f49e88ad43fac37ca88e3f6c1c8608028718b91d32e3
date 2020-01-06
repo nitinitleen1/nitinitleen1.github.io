@@ -1,0 +1,39 @@
+I"�<p>How To Migrate PostgreSQL Users To AWS RDS PostgreSQL](/assets/How-To-Migrate-PostgreSQL-Users-To-AWS-RDS-PostgreSQL.jpg)</p>
+
+<p>According to PostgreSQL migration, we can migrate the databases and tables. I was migrating a Postgresql environment from EC2 to RDS Postgresql. I have completed the data migration. In many blogs, they have mentioned the steps to migrate PostgreSQL users to another server. But in RDS I couldn’t able to do that. I got the below error.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="k">**</span>ERROR<span class="k">**</span>: must be superuser to alter superusers</code></pre></figure>
+
+<p>It seems we can’t directly import the users because few users had superuser role. So we need to do some sanitization to migrate the users.</p>
+
+<h3 id="the-roles-that-are-not-supported-in-rds">The roles that are not supported in RDS:</h3>
+
+<ul>
+  <li>SuperUser</li>
+  <li>Replication</li>
+</ul>
+
+<p>So we need to remove these roles in the import file. Here are the complete steps for migrating PostgreSQL user to RDS.</p>
+
+<h3 id="dump-out-the-users">Dump out the users:</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">pg_dumpall <span class="nt">-g</span> <span class="o">&gt;</span> users.sql</code></pre></figure>
+
+<h3 id="directly-import-to-another-postgresql-serversec2on-prem">Directly Import to another PostgreSQL servers(Ec2/On-Prem):</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">awk</span> <span class="s1">'/CREATE/'</span> users.sql <span class="o">&gt;</span> migrate.sql
+psql <span class="nt">-h</span> another-server <span class="nt">-d</span> postgres <span class="nt">-U</span> adminuser &lt; migrate.sql</code></pre></figure>
+
+<h3 id="importing-to-aws-rds-postgresql">Importing to AWS RDS PostgreSQL:</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">awk</span> <span class="s1">'/CREATE/'</span> users.sql <span class="o">&gt;</span> migrate.sql
+<span class="nt">--</span> Sanitize superuser, replication roles
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="nt">-e</span><span class="s1">'s/NOSUPERUSER//g; s/SUPERUSER//g; s/NOREPLICATION//g; s/REPLICATION//g'</span> migrate.sql
+
+<span class="nt">--</span> Import superusers from current servers and grant rds_superuser privilege.
+psql <span class="nt">-h</span> localserver <span class="nt">-d</span> postgres <span class="nt">-t</span> <span class="nt">-c</span><span class="s2">"select 'grant rds_superuser to '||rolname ||';' from pg_roles where rolsuper='t';"</span> <span class="nt">-P</span> <span class="s2">"footer=off"</span> <span class="o">&gt;&gt;</span> migrate.sql</code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">psql <span class="nt">-h</span> rds-endpoint <span class="nt">-U</span> adminuser <span class="nt">-d</span> postgres &lt; migrate.sql</code></pre></figure>
+
+<p><img src="/assets/How-To-Migrate-PostgreSQL-Users-To-AWS-RDS-PostgreSQL_result.png" alt="How To Migrate PostgreSQL Users To AWS RDS PostgreSQL_result.png" /></p>
+:ET

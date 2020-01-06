@@ -1,0 +1,149 @@
+I"�"<p>While reading this title you may think about what this guy is going to do? Its all about <a href="https://github.com/prometheus/jmx_exporter">JMX exporter</a> from prometheus and Grafana. Yes, its already implemented by many companies and Grafana has some cool dashboards. But as a DBA, in <a href="https://medium.com/Searce">Searce</a> we are managing many customers and all of them are using many types of databases. So from a DBA’s perspective to monitor  all databases in one place is always a great thing right. If you are a MySQL DBA, then you must have heard about <a href="https://www.percona.com/software/database-tools/percona-monitoring-and-management">PMM</a>. Its an awesome monitoring tool and its open source. Also it has Dashboards for Linux metrics, MongoDB and PostgreSQL.</p>
+
+<p>I remember, 2 years back(2017) I was trying to setup monitoring for a huge Cassandra cluster with MX4J. It was very hard that time to understand the metrics. But now, when I stated using PMM, I became a big fan of it. So I want to integrate the Cassandra monitoring dashboard with PMM.</p>
+
+<p>Before starting this, I was searching about how JMX exporter is behaving and will make any trouble for my cluster and etc. Unfortunately it does in few cases. Then I found this amazing custom JMX exporter which is developed by <a href="https://github.com/criteo/cassandra_exporter/">Criteo</a>.  Its has better control over the metrics. So I decided to use this.</p>
+
+<h2 id="stage-1-install-cassandra_exporter">Stage 1: Install cassandra_exporter</h2>
+
+<p>You don’t need to change anything from your Cassandra’s setting or cassandra-env.sh</p>
+
+<h3 id="download-the-exporter">Download the exporter:</h3>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="code"><pre> mkdir /opt/cassandra_exporter
+cd  /opt/cassandra_exporter
+wget https://github.com/criteo/cassandra_exporter/releases/download/2.2.1/cassandra_exporter-2.2.1-all.jar
+mv cassandra_exporter-2.2.1-all.jar  cassandra_exporter.jar 
+</pre></td></tr></tbody></table></code></pre></figure>
+
+<h3 id="create-config-file">Create config file</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">vi config.yml
+host: localhost:7199
+ssl: False
+user:
+password:
+listenAddress: 0.0.0.0
+listenPort: 8080
+blacklist:
+   - java:lang:memorypool:.<span class="k">*</span>usagethreshold.<span class="k">*</span>
+   - .<span class="k">*</span>:999thpercentile
+   - .<span class="k">*</span>:95thpercentile
+   - .<span class="k">*</span>:fifteenminuterate
+   - .<span class="k">*</span>:fiveminuterate
+   - .<span class="k">*</span>:durationunit
+   - .<span class="k">*</span>:rateunit
+   - .<span class="k">*</span>:stddev
+   - .<span class="k">*</span>:meanrate
+   - .<span class="k">*</span>:mean
+   - .<span class="k">*</span>:min
+   - com:criteo:nosql:cassandra:exporter:.<span class="k">*</span>
+
+maxScrapFrequencyInSec:
+  10:
+    - .<span class="k">*</span>
+  300:
+    - .<span class="k">*</span>:snapshotssize:.<span class="k">*</span>
+    - .<span class="k">*</span>:estimated.<span class="k">*</span>
+    - .<span class="k">*</span>:totaldiskspaceused:.<span class="k">*</span></code></pre></figure>
+
+<ul>
+  <li>blacklist - These metrics are never been collected.</li>
+  <li>maxScrapFrequencyInSec - Metrics collection frequency.
+    <ul>
+      <li>Here all the metrics are collected every 10sec and metrics are under 300 are collected every 300 sec.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="start-the-exporter">Start the Exporter:</h3>
+
+<p>I have executed this using nohup but you can create a service for this.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">nohup </span>java <span class="nt">-jar</span> /opt/cassandra_exporter/cassandra_exporter.jar config.yml &amp;</code></pre></figure>
+
+<h2 id="stage-2">Stage 2:</h2>
+
+<h3 id="install-and-configure-pmm-server">Install and Configure PMM Server:</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">docker pull percona/pmm-server:1
+
+docker create <span class="se">\</span>
+   <span class="nt">-v</span> /opt/prometheus/data <span class="se">\</span>
+   <span class="nt">-v</span> /opt/consul-data <span class="se">\</span>
+   <span class="nt">-v</span> /var/lib/mysql <span class="se">\</span>
+   <span class="nt">-v</span> /var/lib/grafana <span class="se">\</span>
+   <span class="nt">--name</span> pmm-data <span class="se">\</span>
+   percona/pmm-server:1 /bin/true
+
+docker run <span class="nt">-d</span> <span class="se">\</span>
+   <span class="nt">-p</span> 80:80 <span class="se">\</span>
+   <span class="nt">--volumes-from</span> pmm-data <span class="se">\</span>
+   <span class="nt">--name</span> pmm-server <span class="se">\</span>
+   <span class="nt">--restart</span> always <span class="se">\</span>
+   percona/pmm-server:1</code></pre></figure>
+
+<blockquote>
+  <p>More customized installation: <a href="https://github.com/criteo/cassandra_exporter/releases/download/2.2.1/cassandra_exporter-2.2.1-all.jar" title="https://github.com/criteo/cassandra_exporter/releases/download/2.2.1/cassandra_exporter-2.2.1-all.jar">https://www.percona.com/doc/percona-monitoring-and-management/deploy/server/docker.setting-up.html</a></p>
+</blockquote>
+
+<h3 id="install-pmm-client-on-all-cassandra-nodes">Install PMM Client on all Cassandra Nodes:</h3>
+
+<p><strong>DEB Package:</strong></p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">wget https://repo.percona.com/apt/percona-release_latest.generic_all.deb
+dpkg <span class="nt">-i</span> percona-release_latest.generic_all.deb
+apt-get update
+apt-get <span class="nb">install </span>pmm-client</code></pre></figure>
+
+<p><strong>RPM Package:</strong></p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">sudo </span>yum <span class="nb">install </span>https://repo.percona.com/yum/percona-release-latest.noarch.rpm
+yum <span class="nb">install </span>pmm-client</code></pre></figure>
+
+<h3 id="add-cassandra-node-to-pmm-server"><strong>Add Cassandra Node to PMM Server:</strong></h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">pmm-admin config <span class="nt">--server</span> PMM-Server-IP</code></pre></figure>
+
+<p><strong>Enable Linux Metrics:</strong></p>
+
+<p>It contains common linux monitoring metrics. So 42000 port should be opened to the PMM server.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">pmm-admin add linux:metrics</code></pre></figure>
+
+<h2 id="stage-3-add-cassandra-to-pmm">Stage 3: Add Cassandra to PMM</h2>
+
+<p>PMM is having a feature called External services, So the PMM will capture the metrics from your own external services. Enable the Cassandra metrics as an external service.</p>
+
+<p>In <code class="highlighter-rouge">config.yml</code> file, we have added the listen port as 8080, so our external service will use this port to get the metrics. And this 8080 port should be opened to the PMM server.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">pmm-admin add external:service cassandra <span class="nt">--service-port</span><span class="o">=</span>8080</code></pre></figure>
+
+<p>Now, metrics are collecting by PMM, but we can’t visualize this without the proper Dashboard. So the critro team has already build a dashboard and published it in Grafana repo. So we can import it from there.</p>
+
+<ul>
+  <li>Go to Grafana -&gt; Click on Plus(+) button -&gt; Import.</li>
+  <li><a href="https://grafana.com/dashboards/6400">Paste this dashboard id </a>here: <code class="highlighter-rouge">6400</code></li>
+  <li>Click Prometheus as datasource.</li>
+</ul>
+
+<p><img src="/assets/Monitor Cassandra Cluster with Grafana Prometheus Using Percona PMM-1.png" alt="" /></p>
+
+<p><img src="/assets/Monitor Cassandra Cluster with Grafana Prometheus Using Percona PMM-2.png" alt="" /></p>
+
+<p><strong>Wait to 5 to 10mins. Then you’ll see the data.</strong></p>
+
+<p><img src="/assets/Monitor Cassandra Cluster with Grafana Prometheus Using Percona PMM-3.png" alt="" /></p>
+
+<p><img src="/assets/Monitor Cassandra Cluster with Grafana Prometheus Using Percona PMM-4.png" alt="" /></p>
+
+<p><img src="/assets/Monitor Cassandra Cluster with Grafana Prometheus Using Percona PMM-5.png" alt="" /></p>
+
+<h2 id="authors-comment">Author’s Comment:</h2>
+
+<p>Generally its not a good practice to scan the metrics very frequently, For my workload 10sec is fine, But do a complete test in your infra before going to prod setup. Also learn more about this custom exporter from here: <a href="https://github.com/criteo/cassandra_exporter/" title="https://github.com/criteo/cassandra_exporter/">https://github.com/criteo/cassandra_exporter/</a></p>
+:ET

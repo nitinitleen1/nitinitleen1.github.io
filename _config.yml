@@ -1,46 +1,96 @@
-# Site settings
-title: Nitin Kumar Singh | Data Architect
-description: "Mi occupo di web disign, grafica, web writing e sviluppo web."
-url: "http://nkstech.live"
-author:
-  name: "Nitin Kumar Singh"
-  email: "nitin.iiitv@gmail.com"
-  url: "https://nkstech.live"
+# Config file:
+remote_theme: "mmistakes/so-simple-theme@3.2.0"
+locale: en-US
+title: "The Data Guy"
+description: "Adventures of a DBA in Cloud, Data and DevOps"
+baseurl: 
+url: "https://thedataguy.in"
+logo: # path of site logo, e.g. "/images/logo.png"
+date_format: "%Y-%m-%d"
+read_time: true
+words_per_minute: 200
+mathjax: true
+google_fonts:
+  - name: "Source Sans Pro"
+    weights: "400,400i,700,700i"
+  - name: "Lora"
+    weights: "400,400i,700,700i"
+google_analytics: "UA-134677199-1"
+disqus:
+  shortname: "bhuvithedataguy"
+twitter:
+  username: "BhuviTheDataGuy"
+gems:
+    - jekyll-seo-tag
+    - jekyll-lunr-js-search
+    - jekyll-feed
+# Liquid
+liquid:
+  error_mode: strict
 
 # Build settings
-baseurl: ""
-markdown: kramdown
-
-source: .
-destination: ./_site
 permalink: /:title/
-paginate: 8
+markdown: kramdown
+feed:
+  path: atom.xml
+
+# Pagination 
+paginate: 10
 paginate_path: /page:num/
-exclude: [node_modules, gulpfile.js, package.json]
 
-# Default values
-defaults:
-  -
-    scope:
-      path: ""
-      type: "posts"
-    values:
-      layout: "post"
-  -
-    scope:
-      path: ""
-      type: "drafts"
-    values:
-      layout: "post"
+# Search
+search_full_content: true
 
-# Custom variables
-version: "1.1.0"
+# Taxonomy pages
+category_archive_path: "/categories/#"
+tag_archive_path: "/tags/#"
 
-# Options
-custom_header: true
-custom_nav_footer: true
-reverse: false
+# SiteMap
+url: "https://thedataguy.in" # the base hostname & protocol for your site
 
-# Plugins
 plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-feed
   - jekyll-paginate
+  - jekyll-lunr-js-search
+
+# Front Matter Defaults
+defaults:
+  # Posts defaults
+  - scope:
+      path: "_posts"
+      type: posts
+    values:
+      layout: post
+      share: true
+
+# Site Author
+author: 
+  name: Bhuvanesh
+  picture: /assets/bhuvi-photo-dp.jpg
+  email:
+  twitter: https://twitter.com/BhuviTheDataGuy
+  links:
+    - title: LinkedIn
+      url: https://linkedin.com/in/rbhuvanesh
+      icon:
+
+social:
+  name: Bhuvanesh
+  links:
+    - https://twitter.com/BhuviTheDataGuy
+    - https://www.linkedin.com/in/rbhuvanesh/
+
+# Footer Links
+footer_links:
+  - title: Twitter
+    url: https://twitter.com/BhuviTheDataGuy
+    icon: fab fa-twitter-square
+  - title: GitHub
+    url: https://github.com/BhuviTheDataGuy
+    icon: fab fa-github-square
+  - title: Feed
+    url: atom.xml
+    icon: fas fa-rss-square
+copyright: "©2017 - 2019 All Right Reserved. "

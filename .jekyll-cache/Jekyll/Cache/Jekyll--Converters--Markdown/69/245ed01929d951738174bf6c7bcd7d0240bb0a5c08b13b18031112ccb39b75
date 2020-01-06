@@ -1,0 +1,128 @@
+I"C<p>AWS Glue is the serverless version of EMR clusters. Many organizations now adopted to use Glue for their day to day BigData workloads. I have written a blog in Searce’s Medium publication for Converting the CSV/JSON files to parquet using AWS Glue. Till now its many people are reading that and implementing on their infra. But many people are commenting about the Glue is producing a huge number for output files(converted Parquet files) in S3, even for converting 100MB of CSV file will produce 500+ Parquet files. we need to customize this output file size and number of files.</p>
+
+<h2 id="why-glue-is-producing-more-small-files">Why Glue is producing more small files?</h2>
+
+<p>If you are processing small chunks of files in Glue, it will read then and convert them into DynamicFrames. Glue is running on top of the Spark. So the dynamic frames will be moved to Partitions in the EMR cluster. And the Glue partition the data evenly among all of the nodes for better performance. Once its processed, all the partitions will be  pushing to your target. Each partition will and one file. That’s why we are getting more files.</p>
+
+<h2 id="customize-the-output-files">Customize the output files:</h2>
+
+<p>We can customize it in two ways.</p>
+
+<ol>
+  <li>While reading the data from the source.</li>
+  <li>While writing the data to the target.</li>
+</ol>
+
+<p>If you have so many small numbers of files in your source, them Glue process them in many partitions. So we can force the Glue to read multiple file in one shot. Like we are grouping multiple file and the Glue virtually consider this as a single file.</p>
+
+<p>Else, once you processed the data, you can repartition the data. So you can mention how many partitions you want. Let’s say if you repartition the data with 5, then it’ll write 5 files in your target.</p>
+
+<h2 id="testing-infra-setup">Testing Infra setup:</h2>
+
+<ul>
+  <li>I have 1GB of test data set.</li>
+  <li>Format CSV</li>
+  <li>Split into 20 files.</li>
+  <li>Each file is 52MB.</li>
+  <li>Created a Glue crawler on top of this data and its created the table in Glue catalog.</li>
+  <li>Im using glue to convert this CSV to Parquet. Follow the instructions here: <a href="https://medium.com/searce/convert-csv-json-files-to-apache-parquet-using-aws-glue-a760d177b45f" title="https://medium.com/searce/convert-csv-json-files-to-apache-parquet-using-aws-glue-a760d177b45f">https://medium.com/searce/convert-csv-json-files-to-apache-parquet-using-aws-glue-a760d177b45f</a></li>
+</ul>
+
+<p><img src="/assets/AWS Glue Custom Output File Size And Fixed Number Of Files2 .jpg" alt="" /></p>
+
+<h2 id="option-1-groupfiles">Option 1: groupFiles</h2>
+
+<p><strong>From AWS Doc,</strong></p>
+
+<blockquote>
+  <p>You can set properties of your tables to enable an AWS Glue ETL job to group files when they are read from an Amazon S3 data store. These properties enable each ETL task to read a group of input files into a single in-memory partition, this is especially useful when there is a large number of small files in your Amazon S3 data store.</p>
+</blockquote>
+
+<p><strong>groupFiles:</strong></p>
+
+<p>Set <strong>groupFiles</strong> to <code class="highlighter-rouge">inPartition</code> to enable the grouping of files within an Amazon S3 data partition. AWS Glue automatically enables grouping if there are more than 50,000 input files.</p>
+
+<p><strong>groupSize:</strong></p>
+
+<p>Set <strong>groupSize</strong> to the target size of groups in bytes. The <strong>groupSize</strong> property is optional, if not provided, AWS Glue calculates a size to use all the CPU cores in the cluster while still reducing the overall number of ETL tasks and in-memory partitions.</p>
+
+<p>Go to Glue –&gt; Tables –&gt; select your table –&gt; Edit Table.</p>
+
+<p>Unde the table properties, add the following parameters.</p>
+
+<ul>
+  <li><code class="highlighter-rouge">groupFiles</code> - <code class="highlighter-rouge">inPartition</code></li>
+  <li><code class="highlighter-rouge">groupSize</code> - <code class="highlighter-rouge">209715200</code></li>
+</ul>
+
+<p>This will read 200MB data in one partition. Lets run the job and see the output.</p>
+
+<ul>
+  <li>Total Number of files: 5</li>
+  <li>Each file size: 393kb</li>
+</ul>
+
+<p><img src="/assets/AWS Glue Custom Output File Size And Fixed Number Of Files3.jpg" alt="" /></p>
+
+<h2 id="option-2-groupfiles-while-reading-from-s3">Option 2: groupFiles while reading from S3</h2>
+
+<p>It’s the same as the previous one, but if you take a look at the datasource, its creating the dynamic frame from the catalog table.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datasource0 = glueContext.create_dynamic_frame.from_catalog(database = "bhuvi"
+</code></pre></div></div>
+
+<p>But if you are directly reading it from S3, you can change the source like below.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>datasource0 = glueContext.create_dynamic_frame_from_options("s3", {'paths': ["s3://s3path/"], 'recurse':True, 'groupFiles': 'inPartition', 'groupSize': '104857600'}, format="csv")
+</code></pre></div></div>
+
+<h2 id="option-3-repartition">Option 3: Repartition</h2>
+
+<p>Once the ETL process is completed, before writing it to S3, we need to repartition it. The partition size is equal to the number of files you want in s3.</p>
+
+<p>My current code as below.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="n">datasource0</span> <span class="o">=</span> <span class="n">glueContext</span><span class="o">.</span><span class="n">create_dynamic_frame</span><span class="o">.</span><span class="n">from_catalog</span><span class="p">(</span><span class="n">database</span> <span class="o">=</span> <span class="s">"bhuvi"</span><span class="p">,</span> <span class="n">table_name</span> <span class="o">=</span> <span class="s">"glue_csv"</span><span class="p">,</span> <span class="n">transformation_ctx</span> <span class="o">=</span> <span class="s">"datasource0"</span><span class="p">)</span>
+    <span class="n">applymapping1</span> <span class="o">=</span> <span class="n">ApplyMapping</span><span class="o">.</span><span class="nb">apply</span><span class="p">(</span><span class="n">frame</span> <span class="o">=</span> <span class="n">datasource0</span><span class="p">,</span> <span class="n">mappings</span> <span class="o">=</span> <span class="p">[(</span><span class="s">"ln"</span><span class="p">,</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"ln"</span><span class="p">,</span> <span class="s">"string"</span><span class="p">),</span> <span class="p">(</span><span class="s">"gender"</span><span class="p">,</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"gender"</span><span class="p">,</span> <span class="s">"string"</span><span class="p">),</span> <span class="p">(</span><span class="s">"ip"</span><span class="p">,</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"ip"</span><span class="p">,</span> <span class="s">"string"</span><span class="p">),</span> <span class="p">(</span><span class="s">"fn"</span><span class="p">,</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"fn"</span><span class="p">,</span> <span class="s">"string"</span><span class="p">),</span> <span class="p">(</span><span class="s">"id"</span><span class="p">,</span> <span class="s">"long"</span><span class="p">,</span> <span class="s">"id"</span><span class="p">,</span> <span class="s">"long"</span><span class="p">),</span> <span class="p">(</span><span class="s">"email"</span><span class="p">,</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"email"</span><span class="p">,</span> <span class="s">"string"</span><span class="p">)],</span> <span class="n">transformation_ctx</span> <span class="o">=</span> <span class="s">"applymapping1"</span><span class="p">)</span>
+    <span class="n">resolvechoice2</span> <span class="o">=</span> <span class="n">ResolveChoice</span><span class="o">.</span><span class="nb">apply</span><span class="p">(</span><span class="n">frame</span> <span class="o">=</span> <span class="n">applymapping1</span><span class="p">,</span> <span class="n">choice</span> <span class="o">=</span> <span class="s">"make_struct"</span><span class="p">,</span> <span class="n">transformation_ctx</span> <span class="o">=</span> <span class="s">"resolvechoice2"</span><span class="p">)</span>
+    <span class="n">dropnullfields3</span> <span class="o">=</span> <span class="n">DropNullFields</span><span class="o">.</span><span class="nb">apply</span><span class="p">(</span><span class="n">frame</span> <span class="o">=</span> <span class="n">resolvechoice2</span><span class="p">,</span> <span class="n">transformation_ctx</span> <span class="o">=</span> <span class="s">"dropnullfields3"</span><span class="p">)</span>
+    <span class="n">datasink4</span> <span class="o">=</span> <span class="n">glueContext</span><span class="o">.</span><span class="n">write_dynamic_frame</span><span class="o">.</span><span class="n">from_options</span><span class="p">(</span><span class="n">frame</span> <span class="o">=</span> <span class="n">dropnullfields3</span><span class="p">,</span> <span class="n">connection_type</span> <span class="o">=</span> <span class="s">"s3"</span><span class="p">,</span> <span class="n">connection_options</span> <span class="o">=</span> <span class="p">{</span><span class="s">"path"</span><span class="p">:</span> <span class="s">"s3://bhuvi-datalake/parquet-new"</span><span class="p">},</span> <span class="nb">format</span> <span class="o">=</span> <span class="s">"parquet"</span><span class="p">,</span> <span class="n">transformation_ctx</span> <span class="o">=</span> <span class="s">"datasink4"</span><span class="p">)</span>
+    <span class="n">job</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span></code></pre></figure>
+
+<p>Just add the repartition command above the write data frame line.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="n">datasource0</span> <span class="o">=</span> <span class="n">glueContext</span><span class="o">.</span><span class="n">create_dynamic_frame</span><span class="o">.</span><span class="n">from_catalog</span><span class="p">(</span><span class="n">database</span> <span class="o">=</span> <span class="s">"bhuvi"</span><span class="p">,</span> <span class="n">table_name</span> <span class="o">=</span> <span class="s">"glue_csv"</span><span class="p">,</span> <span class="n">transformation_ctx</span> <span class="o">=</span> <span class="s">"datasource0"</span><span class="p">)</span>
+    <span class="n">applymapping1</span> <span class="o">=</span> <span class="n">ApplyMapping</span><span class="o">.</span><span class="nb">apply</span><span class="p">(</span><span class="n">frame</span> <span class="o">=</span> <span class="n">datasource0</span><span class="p">,</span> <span class="n">mappings</span> <span class="o">=</span> <span class="p">[(</span><span class="s">"ln"</span><span class="p">,</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"ln"</span><span class="p">,</span> <span class="s">"string"</span><span class="p">),</span> <span class="p">(</span><span class="s">"gender"</span><span class="p">,</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"gender"</span><span class="p">,</span> <span class="s">"string"</span><span class="p">),</span> <span class="p">(</span><span class="s">"ip"</span><span class="p">,</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"ip"</span><span class="p">,</span> <span class="s">"string"</span><span class="p">),</span> <span class="p">(</span><span class="s">"fn"</span><span class="p">,</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"fn"</span><span class="p">,</span> <span class="s">"string"</span><span class="p">),</span> <span class="p">(</span><span class="s">"id"</span><span class="p">,</span> <span class="s">"long"</span><span class="p">,</span> <span class="s">"id"</span><span class="p">,</span> <span class="s">"long"</span><span class="p">),</span> <span class="p">(</span><span class="s">"email"</span><span class="p">,</span> <span class="s">"string"</span><span class="p">,</span> <span class="s">"email"</span><span class="p">,</span> <span class="s">"string"</span><span class="p">)],</span> <span class="n">transformation_ctx</span> <span class="o">=</span> <span class="s">"applymapping1"</span><span class="p">)</span>
+    <span class="n">resolvechoice2</span> <span class="o">=</span> <span class="n">ResolveChoice</span><span class="o">.</span><span class="nb">apply</span><span class="p">(</span><span class="n">frame</span> <span class="o">=</span> <span class="n">applymapping1</span><span class="p">,</span> <span class="n">choice</span> <span class="o">=</span> <span class="s">"make_struct"</span><span class="p">,</span> <span class="n">transformation_ctx</span> <span class="o">=</span> <span class="s">"resolvechoice2"</span><span class="p">)</span>
+    <span class="n">dropnullfields3</span> <span class="o">=</span> <span class="n">DropNullFields</span><span class="o">.</span><span class="nb">apply</span><span class="p">(</span><span class="n">frame</span> <span class="o">=</span> <span class="n">resolvechoice2</span><span class="p">,</span> <span class="n">transformation_ctx</span> <span class="o">=</span> <span class="s">"dropnullfields3"</span><span class="p">)</span>
+    <span class="n">datasource_df</span> <span class="o">=</span> <span class="n">dropnullfields3</span><span class="o">.</span><span class="n">repartition</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">datasink4</span> <span class="o">=</span> <span class="n">glueContext</span><span class="o">.</span><span class="n">write_dynamic_frame</span><span class="o">.</span><span class="n">from_options</span><span class="p">(</span><span class="n">frame</span> <span class="o">=</span> <span class="n">datasource_df</span><span class="p">,</span> <span class="n">connection_type</span> <span class="o">=</span> <span class="s">"s3"</span><span class="p">,</span> <span class="n">connection_options</span> <span class="o">=</span> <span class="p">{</span><span class="s">"path"</span><span class="p">:</span> <span class="s">"s3://bhuvi-datalake/parquet-new"</span><span class="p">},</span> <span class="nb">format</span> <span class="o">=</span> <span class="s">"parquet"</span><span class="p">,</span> <span class="n">transformation_ctx</span> <span class="o">=</span> <span class="s">"datasink4"</span><span class="p">)</span>
+    <span class="n">job</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span></code></pre></figure>
+
+<p><code class="highlighter-rouge">repartition(2)</code> - This will create 2 files in S3.</p>
+
+<ul>
+  <li>Total files: 2</li>
+  <li>Each file size: 1.7MB</li>
+</ul>
+
+<p><img src="/assets/AWS Glue Custom Output File Size And Fixed Number Of Files1.jpg" alt="" /></p>
+
+<h2 id="final-words">Final words:</h2>
+
+<p>From the above experiments, we can control the number of files for output and reducing the small files as output. But we can set the exact file size for output. Because Spark’s <a href="https://hackernoon.com/managing-spark-partitions-with-coalesce-and-repartition-4050c57ad5c4">coalesce and repartition</a> features are not yet implemented in Glue’s Python API, but its supports in Scala. I personally recommend using option 1.</p>
+
+<h2 id="further-reading">Further Reading:</h2>
+
+<p>I have found some useful information while doing this experiment. Im giving those links below.</p>
+
+<ol>
+  <li><a href="https://docs.aws.amazon.com/glue/latest/dg/grouping-input-files.html">Reading Input Files in Larger Groups</a></li>
+  <li><a href="https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-connect.html#aws-glue-programming-etl-connect-s3">Connection Types and Options for ETL in AWS Glue</a></li>
+  <li><a href="https://stackoverflow.com/questions/48693943/how-to-use-aws-glue-spark-to-convert-csvs-partitioned-and-split-in-s3-to-parti">How to use AWS Glue / Spark to convert CSVs partitioned and split in S3 to partitioned and split Parquet</a></li>
+  <li><a href="https://stackoverflow.com/questions/47147159/combine-multiple-raw-files-into-single-parquet-file">Combine multiple raw files into single parquet file</a></li>
+  <li><a href="https://github.com/aws-samples/aws-glue-samples/blob/master/FAQ_and_How_to.md#aws-glue-faq-or-how-to-get-things-done">AWS Glue FAQ, or How to Get Things Done</a></li>
+  <li><a href="https://stackoverflow.com/questions/52822526/dynamicframe-vs-dataframe">DynamicFrame vs DataFrame</a></li>
+  <li><a href="https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-crawler-pyspark-extensions-dynamic-frame.html">DynamicFrame Class</a></li>
+</ol>
+:ET

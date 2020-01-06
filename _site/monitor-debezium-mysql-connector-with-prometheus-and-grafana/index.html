@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<!--
+    So Simple Jekyll Theme 3.1.1
+    Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/so-simple-theme/blob/master/LICENSE
+-->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:image" content="http://localhost:4000/assets/Monitor Debezium MySQL Connector With Prometheus And Grafana.jpg">
+<script data-ad-client="ca-pub-9518508677792760" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<link rel="apple-touch-icon" sizes="57x57" href="/favicon.ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/favicon.ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/favicon.ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/favicon.ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/favicon.ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/favicon.ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/favicon.ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/favicon.ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon.ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico/favicon-16x16.png">
+<link rel="manifest" href="/favicon.ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">  
+  
+
+  
+    <title>Monitor Debezium MySQL Connector With Prometheus And Grafana</title>
+    <meta name="description" content="Debezium is providing out of the box CDC solution from various databases. In my last blog post, I have published how to configure the Debezium MySQL connecto...">
+    <link rel="canonical" href="http://localhost:4000/monitor-debezium-mysql-connector-with-prometheus-and-grafana/">
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  <link rel="stylesheet" href="/assets/css/applause-button.css" />
+   <script src="/assets/js/applause-button.js"></script>
+
+</head>
+
+
+  <body class="layout--post  monitor-debezium-mysql-connector-with-prometheus-and-grafana">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/">Home</a></li><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="https://medium.com/@bhuvithedataguy">BigData Articles</a></li><li><a href="/search/">Search</a></li></ul>
+    </nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+    
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+  
+  
+  
+
+  <div class="page-image">
+    <img src="/assets/Monitor%20Debezium%20MySQL%20Connector%20With%20Prometheus%20And%20Grafana.jpg" class="entry-feature-image u-photo" alt="Monitor Debezium MySQL Connector With Prometheus And Grafana" style="margin-top: 0;">
+    
+  </div>
+
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">Monitor Debezium MySQL Connector With Prometheus And Grafana
+</h1>
+        
+
+      </header>
+      
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><div class="author-info"><div class="author-name">
+        <span class="p-name">Nitin Kumar Singh</span>
+      </div>
+    <time class="page-date dt-published" datetime="2019-12-24T11:50:00+05:30"><a class="u-url" href="">December 24, 2019</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title">Categories</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy">Kafka</li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title">Tags</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy">Kafka</li><li class="page-taxonomy">grafana</li><li class="page-taxonomy">prometheus</li><li class="page-taxonomy">debezium</li><li class="page-taxonomy">mysql</li><li class="page-taxonomy">jmx</li><li class="page-taxonomy">monitoring</li>
+  </ul>
+
+
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad-vertical -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9518508677792760"
+     data-ad-slot="4154399056"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <br/>
+        <br/>
+        <applause-button style="width: 58px; height: 58px; text-align:right" color="black" multiclap="true">
+
+      </div>
+
+      <div class="page-content">
+        <div class="e-content">
+
+          <p>Debezium is providing out of the box CDC solution from various databases. In my last blog post, I have published how to configure the Debezium MySQL connector. This is the next part of that post. Once we deployed the debezium, to we need some kind of monitoring to keep track of whats happening in the debezium connector. Luckily Debezium has its own metrics that are already integrated with the connectors. We just need to capture them using the JMX exporter agent. Here I have written how to monitor Debezium MySQL connector with Prometheus and Grafana. But the dashboard is having the basic metrics only. You can build your own dashboard for more detailed monitoring.</p>
+
+<p><strong>Reference</strong>: <a href="https://debezium.io/documentation/reference/1.0/assemblies/cdc-mysql-connector/as_deploy-the-mysql-connector.html#mysql-connector-monitoring-metrics_debezium">List of Debezium monitoring metrics</a></p>
+
+<h2 id="install-jmx-exporter-in-kafka-distributed-connector">Install JMX exporter in Kafka Distributed connector:</h2>
+
+<p>All the connectors are managed by the Kafka connect(Distributed or standalone). In our previous blog, we used Distributed Kafka connect service. So we are going to modify the distributed service binary file.<br />
+Download the JMX exporter.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    <span class="nb">mkdir</span>/opt/jmx/
+    <span class="nb">cd</span> /opt/jmx/
+    wget https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.12.0/jmx_prometheus_javaagent-0.12.0.jar
+    <span class="nb">mv </span>jmx_prometheus_javaagent-0.12.0.jar jmx-exporter.jar
+    </code></pre></figure>
+
+<p>Create config file.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">vi /opt/jmx/config.yml
+    
+startDelaySeconds: 0
+ssl: <span class="nb">false
+</span>lowercaseOutputName: <span class="nb">false
+</span>lowercaseOutputLabelNames: <span class="nb">false
+</span>rules:
+- pattern : <span class="s2">"kafka.connect&lt;type=connect-worker-metrics&gt;([^:]+):"</span>
+  name: <span class="s2">"kafka_connect_connect_worker_metrics_</span><span class="nv">$1</span><span class="s2">"</span>
+- pattern : <span class="s2">"kafka.connect&lt;type=connect-metrics, client-id=([^:]+)&gt;&lt;&gt;([^:]+)"</span>
+  name: <span class="s2">"kafka_connect_connect_metrics_</span><span class="nv">$2</span><span class="s2">"</span>
+  labels:
+    client: <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+- pattern: <span class="s2">"debezium.([^:]+)&lt;type=connector-metrics, context=([^,]+), server=([^,]+), key=([^&gt;]+)&gt;&lt;&gt;RowsScanned"</span>
+  name: <span class="s2">"debezium_metrics_RowsScanned"</span>
+  labels:
+    plugin: <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+    name: <span class="s2">"</span><span class="nv">$3</span><span class="s2">"</span>
+    context: <span class="s2">"</span><span class="nv">$2</span><span class="s2">"</span>
+    table: <span class="s2">"</span><span class="nv">$4</span><span class="s2">"</span>
+- pattern: <span class="s2">"debezium.([^:]+)&lt;type=connector-metrics, context=([^,]+), server=([^&gt;]+)&gt;([^:]+)"</span>
+  name: <span class="s2">"debezium_metrics_</span><span class="nv">$4</span><span class="s2">"</span>
+  labels:
+    plugin: <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+    name: <span class="s2">"</span><span class="nv">$3</span><span class="s2">"</span>
+    context: <span class="s2">"</span><span class="nv">$2</span><span class="s2">"</span></code></pre></figure>
+
+<p>Add the JMX export to the Kafka connect binary File.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    vi /usr/bin/connect-distributed
+    
+    <span class="nt">--</span> Find this line below <span class="nb">export </span>CLASSPATH
+    <span class="nb">exec</span> <span class="si">$(</span><span class="nb">dirname</span> <span class="nv">$0</span><span class="si">)</span>/kafka-run-class <span class="nv">$EXTRA_ARGS</span> org.apache.kafka.connect.cli.ConnectDistributed <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span>
+    
+    <span class="nt">--Replace</span> with
+    <span class="nb">exec</span> <span class="si">$(</span><span class="nb">dirname</span> <span class="nv">$0</span><span class="si">)</span>/kafka-run-class <span class="nv">$EXTRA_ARGS</span> <span class="nt">-javaagent</span>:/opt/jmx/jmx-exporter.jar<span class="o">=</span>7071:/opt/jmx/config.yml org.apache.kafka.connect.cli.ConnectDistributed <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span>
+    </code></pre></figure>
+
+<p>Restart the Distributed Connect Service.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    systemctl restart confluent-connect-distributed
+    </code></pre></figure>
+
+<p>Verify the JMX Agent installation.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    netstat <span class="nt">-tulpn</span> | <span class="nb">grep </span>7071
+    tcp6       0      0 :::7071                 :::<span class="k">*</span>                    LISTEN      2885/java
+    </code></pre></figure>
+
+<p>Get the debezium metrics.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    curl localhost:7071 | <span class="nb">grep </span>debezium
+    :-debezium_metrics_NumberOfDisconnects<span class="o">{</span><span class="nv">context</span><span class="o">=</span><span class="s2">"binlog"</span>,name<span class="o">=</span><span class="s2">"mysql-db01"</span>,plugin<span class="o">=</span><span class="s2">"mysql"</span>,<span class="o">}</span> 0.
+    </code></pre></figure>
+
+<p>You can these metrics in your browser as well.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    http://ip-of-the-connector-vm:7071/metrics
+    </code></pre></figure>
+
+<h2 id="install-prometheus">Install Prometheus</h2>
+
+<p>Im using a separate server for Prometheus and Grafana.</p>
+
+<p>Create a user for Prometheus:</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    <span class="nb">sudo </span>useradd <span class="nt">--no-create-home</span> <span class="nt">--shell</span> /bin/false prometheus
+    </code></pre></figure>
+
+<p>Create Directories for Prometheus:</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    <span class="nb">sudo mkdir</span> /etc/prometheus
+    <span class="nb">sudo mkdir</span> /var/lib/prometheus
+    <span class="nb">sudo chown </span>prometheus:prometheus /etc/prometheus
+    <span class="nb">sudo chown </span>prometheus:prometheus /var/lib/prometheus
+    </code></pre></figure>
+
+<p>Download the Prometheus binary files:</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    <span class="nb">cd</span> /tmp
+    wget https://github.com/prometheus/prometheus/releases/download/v2.15.0/prometheus-2.15.0.linux-amd64.tar.gz
+    <span class="nb">tar</span> <span class="nt">-zxvf</span> prometheus-2.15.0.linux-amd64.tar.gz
+    </code></pre></figure>
+
+<p>Copy the binary files to respective locations:</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    <span class="nb">cd </span>prometheus-2.15.0.linux-amd64
+    <span class="nb">cp </span>prometheus /usr/local/bin/
+    <span class="nb">cp </span>promtool /usr/local/bin/
+    <span class="nb">sudo chown </span>prometheus:prometheus /usr/local/bin/prometheus
+    <span class="nb">sudo chown </span>prometheus:prometheus /usr/local/bin/promtool
+    <span class="nb">cp</span> <span class="nt">-r</span> consoles /etc/prometheus
+    <span class="nb">cp</span> <span class="nt">-r</span> console_libraries /etc/prometheus
+    <span class="nb">sudo chown</span> <span class="nt">-R</span> prometheus:prometheus /etc/prometheus/consoles
+    <span class="nb">sudo chown</span> <span class="nt">-R</span> prometheus:prometheus /etc/prometheus/console_libraries
+    </code></pre></figure>
+
+<p>Create a Prometheus config file:</p>
+
+<figure class="highlight"><pre><code class="language-yml" data-lang="yml"><span class="s">vi  /etc/prometheus/prometheus.yml</span>
+    
+<span class="na">global</span><span class="pi">:</span>
+  <span class="na">scrape_interval</span><span class="pi">:</span> <span class="s">15s</span>
+
+<span class="na">scrape_configs</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">job_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">prometheus'</span>
+    <span class="na">scrape_interval</span><span class="pi">:</span> <span class="s">5s</span>
+    <span class="na">static_configs</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">targets</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">localhost:9090'</span><span class="pi">]</span></code></pre></figure>
+
+<p>Set permission for config file:</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    <span class="nb">sudo chown </span>prometheus:prometheus /etc/prometheus/prometheus.yml
+    </code></pre></figure>
+
+<p>Create a Prometheus systemctl file:</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    vi /etc/systemd/system/prometheus.service
+    
+    <span class="o">[</span>Unit]
+    <span class="nv">Description</span><span class="o">=</span>Prometheus
+    <span class="nv">Wants</span><span class="o">=</span>network-online.target
+    <span class="nv">After</span><span class="o">=</span>network-online.target
+    
+    <span class="o">[</span>Service]
+    <span class="nv">User</span><span class="o">=</span>prometheus
+    <span class="nv">Group</span><span class="o">=</span>prometheus
+    <span class="nv">Type</span><span class="o">=</span>simple
+    <span class="nv">ExecStart</span><span class="o">=</span>/usr/local/bin/prometheus <span class="se">\</span>
+        <span class="nt">--config</span>.file /etc/prometheus/prometheus.yml <span class="se">\</span>
+        <span class="nt">--storage</span>.tsdb.path /var/lib/prometheus/ <span class="se">\</span>
+        <span class="nt">--web</span>.console.templates<span class="o">=</span>/etc/prometheus/consoles <span class="se">\</span>
+        <span class="nt">--web</span>.console.libraries<span class="o">=</span>/etc/prometheus/console_libraries
+    
+    <span class="o">[</span>Install]
+    <span class="nv">WantedBy</span><span class="o">=</span>multi-user.target
+    </code></pre></figure>
+
+<p>Start the Prometheus Service:</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    <span class="nb">sudo </span>systemctl daemon-reload
+    <span class="nb">sudo </span>systemctl start prometheus
+    <span class="nb">sudo </span>systemctl <span class="nb">enable </span>prometheus
+    </code></pre></figure>
+
+<p>Add Debezium MySQL connector metrics to Prometheus:</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">vi  /etc/prometheus/prometheus.yml
+
+
+  - job_name: debezium
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+          - debezium-node-ip:7071</code></pre></figure>
+
+<p>Restart the Prometheus service:</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    <span class="nb">sudo </span>systemctl restart prometheus
+    </code></pre></figure>
+
+<p>Check the status:</p>
+
+<p>In your browser Open the below URL.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    http://IP_of-prometheus-ec2:9090/graph
+    </code></pre></figure>
+
+<p><img src="/assets/Monitor Debezium MySQL Connector With Prometheus And Grafana-2.jpg" alt="" /></p>
+
+<h2 id="install-grafana">Install Grafana:</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    wget https://dl.grafana.com/oss/release/grafana_6.5.2_amd64.deb
+    <span class="nb">sudo </span>dpkg <span class="nt">-i</span> grafana_6.5.2_amd64.deb
+    <span class="nb">sudo </span>systemctl daemon-reload
+    <span class="nb">sudo </span>systemctl start grafana-server
+    </code></pre></figure>
+
+<p>It’ll start listening to the port 3000. The default username and password <code class="highlighter-rouge">admin/admin</code>. You can change once you logged in.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    http://grafana-server-ip:3000
+    </code></pre></figure>
+
+<p>Add the Debezium MySQL Dashboard:</p>
+
+<p>This dashboard is taken from the official Debezium’s example repo. But they gave this for MSSQL Server. With some changes and fixes, we can use the same for MySQL and other databases. I made it as a template.<br />
+In grafana add the Prometheus datasource.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    http://grafana-ip:3000/datasources
+    </code></pre></figure>
+
+<p>Click on Add Data source, select Prometheus.</p>
+
+<ul>
+  <li><strong>Name</strong>: Prometheus</li>
+  <li><strong>URL</strong>: localhost:9090 (I have installed grafana and Prometheus on the same server, If you have different server for Prometheus, use that IP instead of localhost).</li>
+</ul>
+
+<p>Click on Save &amp; Test.</p>
+
+<p>You’ll get a pop-up message that its is connected.</p>
+
+<p>Now go to the dashboards page and import the Template JSON.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    http://grafan-ip:3000/dashboards
+    </code></pre></figure>
+
+<p>Click on Import button.</p>
+
+<p>Copy the Template JSON file from <a href="https://github.com/BhuviTheDataGuy/Debezium-monitor/blob/master/grafana-templates/debezium-monitor-template.json"><strong>here</strong></a>. Paste it or download the JSON file and choose the upload button. Now the dashboard is ready. You can see a few basic metrics.</p>
+
+<p><img src="/assets/Monitor Debezium MySQL Connector With Prometheus And Grafana-1.jpg" alt="" /></p>
+
+<h2 id="contribution">Contribution:</h2>
+
+<p>Debezium is a great platform for who wants to do real-time analytics. But in terms of monitoring, still, I feel it should get more contribution. This template is just a kickstart. We can build a more detailed monitoring dashboard for the debezium connectors. Please feel free to contribute to <a href="https://github.com/BhuviTheDataGuy/Debezium-monitor/"><strong>repo</strong></a>. Pull requests are welcome. Lets make the debezium more powerful.</p>
+
+<h3 id="debezium-series-blogs">Debezium Series blogs:</h3>
+
+<ol>
+  <li><a href="https://thedataguy.in/build-production-grade-debezium-with-confluent-kafka-cluster/">Build Production Grade Debezium Cluster With Confluent Kafka</a></li>
+  <li><a href="https://thedataguy.in/monitor-debezium-mysql-connector-with-prometheus-and-grafana/">Monitor Debezium MySQL Connector With Prometheus And Grafana</a></li>
+  <li><a href="https://thedataguy.in/debezium-mysql-snapshot-from-read-replica-with-gtid/">Debezium MySQL Snapshot From Read Replica With GTID</a></li>
+  <li><a href="https://thedataguy.in/debezium-mysql-snapshot-from-read-replica-and-resume-from-master/">Debezium MySQL Snapshot From Read Replica And Resume From Master</a></li>
+  <li><a href="https://thedataguy.in/debezium-mysql-snapshot-for-aws-rds-aurora-from-backup-snaphot/">Debezium MySQL Snapshot For AWS RDS Aurora From Backup Snaphot</a></li>
+  <li><a href="https://medium.com/searce/realtime-cdc-from-mysql-using-aws-msk-with-debezium-28da5a4ca873">RealTime CDC From MySQL Using AWS MSK With Debezium</a></li>
+</ol>
+
+        </div>
+        <hr>
+        <h3>Advertisement</h3>
+         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad-horizontal -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9518508677792760"
+     data-ad-slot="4874591962"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <hr>
+        <h3> Share this article </h3>
+      
+        
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/build-production-grade-debezium-with-confluent-kafka-cluster/">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> Build Production Grade Debezium Cluster With Confluent Kafka
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/redshift-kill-all-locking-sessions-on-a-table/">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        RedShift Kill All Locking Sessions On A Table
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="copyright">
+    
+      <p>&copy; 2020 Nitin Kumar Singh | Data Architect. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
+
+
+  </body>
+
+</html>

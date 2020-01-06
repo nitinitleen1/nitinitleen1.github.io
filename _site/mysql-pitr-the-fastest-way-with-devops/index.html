@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<!--
+    So Simple Jekyll Theme 3.1.1
+    Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/so-simple-theme/blob/master/LICENSE
+-->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:image" content="http://localhost:4000/assets/MySQL With DevOps 2 - Simplified MySQl PITR In One Click.png">
+<script data-ad-client="ca-pub-9518508677792760" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<link rel="apple-touch-icon" sizes="57x57" href="/favicon.ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/favicon.ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/favicon.ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/favicon.ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/favicon.ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/favicon.ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/favicon.ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/favicon.ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon.ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico/favicon-16x16.png">
+<link rel="manifest" href="/favicon.ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">  
+  
+
+  
+    <title>MySQL PITR The Fastest Way With DevOps</title>
+    <meta name="description" content="Point In Time Recovery - is a nightmare for DBAs if the MySQL clusters are self managed. It was 10PM, after had my dinner I was simply watching some shows in...">
+    <link rel="canonical" href="http://localhost:4000/mysql-pitr-the-fastest-way-with-devops/">
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  <link rel="stylesheet" href="/assets/css/applause-button.css" />
+   <script src="/assets/js/applause-button.js"></script>
+
+</head>
+
+
+  <body class="layout--post  mysql-pitr-the-fastest-way-with-devops">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/">Home</a></li><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="https://medium.com/@bhuvithedataguy">BigData Articles</a></li><li><a href="/search/">Search</a></li></ul>
+    </nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+    
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+  
+  
+  
+
+  <div class="page-image">
+    <img src="/assets/MySQL%20With%20DevOps%202%20-%20Simplified%20MySQl%20PITR%20In%20One%20Click.png" class="entry-feature-image u-photo" alt="MySQL PITR The Fastest Way With DevOps" style="margin-top: 0;">
+    
+  </div>
+
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">MySQL PITR The Fastest Way With DevOps
+</h1>
+        
+
+      </header>
+      
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><div class="author-info">
+    <time class="page-date dt-published" datetime="2019-03-04T00:00:00+05:30"><a class="u-url" href="">March 4, 2019</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title">Categories</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy">MySQL</li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title">Tags</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy">mysql</li><li class="page-taxonomy">automation</li><li class="page-taxonomy">rundeck</li><li class="page-taxonomy">backup and recovery</li><li class="page-taxonomy">pitr</li><li class="page-taxonomy">shellscript</li><li class="page-taxonomy">GCP</li>
+  </ul>
+
+
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad-vertical -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9518508677792760"
+     data-ad-slot="4154399056"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <br/>
+        <br/>
+        <applause-button style="width: 58px; height: 58px; text-align:right" color="black" multiclap="true">
+
+      </div>
+
+      <div class="page-content">
+        <div class="e-content">
+
+          <p>Point In Time Recovery - is a nightmare for DBAs if the MySQL clusters are self managed. It was 10PM, after had my dinner I was simply watching some shows in YouTube. And my phone was ringing, the customer on other side. Due to some bad queries, one of the main table get updated without where clause. Then suddenly everyone joined the call and asking me to bring the data back. That day it took 6 to 8 Hours to bring the data. Yes, every DBAs will do one or two biggest mistakes. In my carrier I would say this was that day. So here is my MySQL PITR the fastest way with DevOps.</p>
+
+<h2 id="where-i-failed-in-this-dr-setup">Where I failed in this DR setup?</h2>
+
+<ul>
+  <li>PITR starts with last full backup + binlogs</li>
+  <li>I missed in my backup script to add <code class="highlighter-rouge">--master-data</code>, So I don’t know how to start applying binlogs.</li>
+  <li>No Delay replica. I got the call within 10mins when the data has been messed up. But all of my replicas are real time sync. Its affected all of them.</li>
+  <li>And the effort, launching new server, Install MySQL and configure MySQL  parameters. It took 15-20mins.</li>
+  <li>Restoring the logical backup of a pretty huge database. Its few hours.</li>
+  <li>Then copy binlogs(or read binlog from remote server), get the start position and find the stop position and execute them on DR server. Again the effort matters here.</li>
+</ul>
+
+<p>After that incident, I compared my scenario with AWS RDS. How simple is that? Just few clicks it’ll provision an instance and apply the binlogs. But this is also fail in one case. What happen if need to restore till a position. Its not possible. You have option for select the time not binlog position. But anyhow I like this option RDS(in CloudSQL it sucks). Then I build this Simplified PITR in one click with the help of RunDeck.</p>
+
+<h2 id="dr-setup">DR setup:</h2>
+
+<p>I done modification in my DR site. My entire Infra in GCP and backup files are sync with GCS bucket.</p>
+
+<ul>
+  <li>Setup a delay replica for 15mins.</li>
+  <li>Replaced logical backup with Percona XtraBackup.</li>
+  <li>Image(in AWS terms its AMI) is ready with MySQL and Optimized MySQL parameters.</li>
+  <li>Finally a RunDeck Job which will do this magic.</li>
+</ul>
+
+<p>Before you start implementing this solution, you need to setup the below things.</p>
+
+<ol>
+  <li>Setup a backup job with <a href="https://thedataguy.in/automation-script-for-percona-xtrabackup-full-incremental/">Percona Xtrabackup along with incremental backups</a>. (Naming conversion must be same as I mentioned in that blog).</li>
+  <li>Setup Rundeck and add your DR server in RunDeck.(Read my rundeck kickstart series)</li>
+  <li>Make your DR server to pull the binlog files from Master. (You can use read binlog from remote server, SCP or something like that).</li>
+</ol>
+
+<h2 id="percona-xtrabackup">Percona XtraBackup:</h2>
+
+<p>My PITR depends on my xtrabackup. I have configured my backup job with</p>
+
+<ul>
+  <li>12.00AM full backup (runtime 15mins)</li>
+  <li>Every 1Hr incremental Backup(run time 10mins)</li>
+</ul>
+
+<p>The backup process will take 10-15mins to complete. If I want to restore till 1.04AM, then I should restore the FULL Backup(12AM), but this 1AM incremental backup is still going on. I should not use this backup to perform PITR. Then what should we do?</p>
+
+<ol>
+  <li>Restore 12AM full backup</li>
+  <li>Apply binlogs after 12AM to 1.04AM</li>
+</ol>
+
+<p>Then we don’t need to bother about the on going incremental backup.</p>
+
+<p><strong>Read Here</strong> :<a href="https://thedataguy.in/automation-script-for-percona-xtrabackup-full-incremental/">Automation Script For Percona Xtrabackup FULL/Incremental</a></p>
+
+<h2 id="what-backup-files-needs-to-restore">What Backup files needs to Restore?</h2>
+
+<p>Now in my scripting, based on the above scenario, I have added a condition for which backup files are needs to be restored. For safer side I considered 15mins as my backup complete time.</p>
+
+<p>1. If hour !=00(not equal to 12AM),  then check if minutes &gt;15. Now I can use FULL backup + last Incremental backups.</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="code"><pre>   ex: 2019-03-04 02:20:30  
+hour =02 (!=00)  
+minutes =20 (&gt;15)  
+Restore: FULL Backup + 01 Inc + 02 Inc   
+</pre></td></tr></tbody></table></code></pre></figure>
+
+<p>2. If hour !=00(not equal to 12AM),  then check if minutes &lt;15. Then the incremental backup is going on this time. So we should avoid this current Inc backup and use FULL Backup alone + Current Hour -1 Inc backup</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="code"><pre>   ex: 2019-03-04 05:10:30  
+hour=01 (!=0)  
+minutes=10 (<span class="nt">&lt;15</span><span class="err">)</span>  
+<span class="na">Restore:</span> <span class="na">FULL</span> <span class="na">backup</span> <span class="err">+</span> <span class="na">Inc1</span> <span class="na">to</span> <span class="na">Inc4</span>   
+</pre></td></tr></tbody></table></code></pre></figure>
+
+<p>3. If hour=00 and minute&lt;15, then this time FULL Backup process is going on, so we should not use this backup. In this case we should sync yesterday’s FULL backup + Yesterday’s Inc 1 to Inc 23.</p>
+
+<p>So this is my IF condition to select which file needs to sync.</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+</pre></td><td class="code"><pre> d='2019-03-04 20:42:53"
+s_d=`echo $d | awk -F ' ' '{print $1}'`
+s_h=`echo $d | awk -F ' ' '{print $2}'| awk -F ':' '{print $1}'`
+s_m=`echo $d | awk -F ' ' '{print $2}' | awk -F ':' '{print $2}'`
+
+if [ $s_h -ne 00 ]
+then if [ $s_m -gt 15 ]
+then 
+echo "sync FULL + actual hour"
+else if [ $s_h -eq 01 ]
+then 
+echo "sync actual full only"
+else
+echo "sync FULL + hour -1"
+fi
+fi
+else if [ $s_m -gt 15 ]
+then 
+echo "sync actual full only"
+else 
+echo "last day full + 23inc" 
+fi
+fi 
+</pre></td></tr></tbody></table></code></pre></figure>
+
+<h2 id="transfersh">Transfer.sh:</h2>
+
+<p>For my database infra, I have configured transfer.sh file sharing. because if your MySQL is down, then we should not use <code class="highlighter-rouge">read-from-remote-server</code>. SCP also needs shell based access and we configured SSH session recording with 2FA, so SCP will not work. Its not a big deal you can read how I configured Transfer.sh for my internal network from the below link.</p>
+
+<p><strong><a href="https://medium.com/searce/how-we-manage-and-automated-cloud-infra-ssh-with-bastion-and-transfer-sh-a80c0dc3a5ef">CloudOps At Scale: Secure access patterns using Bastion Host and Transfer.Sh</a></strong></p>
+
+<p>Again its your choice that how to bring Binlog files to DR Server.</p>
+
+<h2 id="get-the-binlogs">Get the Binlogs:</h2>
+
+<p>Now its another question, What/How many binlog files do I need to copy from Master?</p>
+
+<p>Its actually from your last backup type(Full or Inc) to next backup hour.</p>
+
+<p>XtraBackup will have the info about the binlog file name and position. For this PITR, we should restore FULL Backup + Inc1 to Inc5. Once we executed the xtrabackup prepare command(restore), the xtrabackup-binlog_info will contains the exact binlog file and position during that backup. So we need to copy from that backup to what are all other files created within our PITR time.</p>
+
+<h3 id="step-involved">Step Involved:</h3>
+
+<ol>
+  <li>Once we decided the time, Download the backup files from GCS bucket.</li>
+  <li>Restore the XtraBackup.</li>
+  <li>Point MySQL DataDir to Restored Xtrabackup directory.</li>
+  <li>Get the necessary binlog files from Master Server.</li>
+  <li>Decode the Binlog files using <code class="highlighter-rouge">mysqlbinlog utility</code>.</li>
+  <li>Restore the decoded binlog file.</li>
+</ol>
+
+<h3 id="on-dr-server">On DR Server:</h3>
+
+<p>Before run this job, please make sure the below things:</p>
+
+<ol>
+  <li>Master/DR server are added to RunDeck Server.</li>
+  <li>RunDeck user on DR and Master server should have root access</li>
+  <li>Install <code class="highlighter-rouge">wget</code> on DR server.</li>
+  <li>RunDeck user’s Private Key must be located on DR Servers RunDeck users home directory (<code class="highlighter-rouge">/home/rundeck/.ssh/id_rsa</code>) This is for login to Master sever without password and export the Binlog files.</li>
+  <li>I used Transfer.sh, so I have created an alias to run curl upload command  by calling <code class="highlighter-rouge">transfer filename</code>. So you can use transfer.sh or bring your own copy mechanism.</li>
+</ol>
+
+<p>If you are not using transfer.sh then ignore this step.</p>
+
+<h3 id="on-master">On Master:</h3>
+
+<p>Replace <code class="highlighter-rouge">10.10.10.10</code> with your transfer.sh server IP.</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre>   
+vi /home/rundeck/.bashrc  
+transfer() {  
+ curl --progress-bar --upload-file "$1" http://10.10.10.10/$(basename $1) |  
+tee /dev/null;  
+}  
+alias transfer=transfer  
+ 
+</pre></td></tr></tbody></table></code></pre></figure>
+
+<p>Save and close.</p>
+
+<p>Add rundeck user to mysql group.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">  
+usermod <span class="nt">-aG</span> mysql rundeck  </code></pre></figure>
+
+<h2 id="lets-create-the-rundeck-job">Lets create the RunDeck Job:</h2>
+
+<ol>
+  <li>Go to RunDeck –&gt; Jobs –&gt; New Job</li>
+  <li>JobName –&gt; Point In Time Recovery</li>
+  <li>In the Options section add as Option.</li>
+  <li>Option Name/Option Label –&gt; <code class="highlighter-rouge">datetime</code></li>
+  <li>Under the input type, select <code class="highlighter-rouge">DATE</code></li>
+  <li>Date Format: <code class="highlighter-rouge">YYYY-MM-DD HH:mm:ss</code></li>
+  <li>Required: Yes</li>
+</ol>
+
+<p>Under the Workflow –&gt; Node steps, click on script. Copy and Paste the below shell script.</p>
+
+<h3 id="step-1-download-backup-files-from-gcs">Step 1: Download Backup files from GCS</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">d</span><span class="o">=</span><span class="s1">'@option.datetime@'</span>
+<span class="nb">echo</span> <span class="nv">$d</span>
+<span class="nv">s_d</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$d</span> | <span class="nb">awk</span> <span class="nt">-F</span> <span class="s1">' '</span> <span class="s1">'{print $1}'</span><span class="sb">`</span>
+<span class="nv">s_h</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$d</span> | <span class="nb">awk</span> <span class="nt">-F</span> <span class="s1">' '</span> <span class="s1">'{print $2}'</span>| <span class="nb">awk</span> <span class="nt">-F</span> <span class="s1">':'</span> <span class="s1">'{print $1}'</span><span class="sb">`</span>
+<span class="nv">s_m</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$d</span> | <span class="nb">awk</span> <span class="nt">-F</span> <span class="s1">' '</span> <span class="s1">'{print $2}'</span> | <span class="nb">awk</span> <span class="nt">-F</span> <span class="s1">':'</span> <span class="s1">'{print $2}'</span><span class="sb">`</span>
+
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$s_h</span> <span class="nt">-ne</span> 00 <span class="o">]</span>
+<span class="k">then if</span> <span class="o">[</span> <span class="nv">$s_m</span> <span class="nt">-gt</span> 15 <span class="o">]</span>
+<span class="k">then 
+</span><span class="nb">echo</span> <span class="s2">"sync FULL + actual hour"</span>
+<span class="nb">mkdir</span> <span class="nt">-p</span> /mysqldata/FULL
+gsutil <span class="nt">-m</span> rsync <span class="nt">-r</span> gs://xtrabackup/<span class="nv">$s_d</span>/FULL/ /mysqldata/FULL/
+<span class="k">for </span>i <span class="k">in</span> <span class="si">$(</span><span class="nb">seq  </span>1 <span class="nv">$s_h</span><span class="si">)</span><span class="p">;</span> 
+<span class="k">do   
+</span><span class="nb">echo</span> <span class="s2">"inc"</span><span class="nv">$i</span>
+<span class="nb">mkdir</span> <span class="nt">-p</span> /mysqldata/inc<span class="nv">$i</span>
+gsutil <span class="nt">-m</span> rsync <span class="nt">-r</span> gs://xtrabackup/<span class="nv">$s_d</span>/inc<span class="nv">$i</span>/ /mysqldata/inc<span class="nv">$i</span>/
+<span class="k">done
+else if</span> <span class="o">[</span> <span class="nv">$s_h</span> <span class="nt">-eq</span> 01 <span class="o">]</span>
+<span class="k">then 
+</span><span class="nb">echo</span> <span class="s2">"sync actual full only"</span>
+<span class="nb">mkdir</span> <span class="nt">-p</span> /mysqldata/FULL
+gsutil <span class="nt">-m</span> rsync <span class="nt">-r</span> gs://xtrabackup/<span class="nv">$s_d</span>/FULL/ /mysqldata/FULL/
+<span class="k">else </span><span class="nb">echo</span> <span class="s2">"sunc FULL + hour -1"</span>
+<span class="nv">inc</span><span class="o">=</span><span class="si">$(</span><span class="nb">expr</span> <span class="nv">$s_h</span> - 1<span class="si">)</span>
+<span class="nb">mkdir</span> <span class="nt">-p</span> /mysqldata/FULL
+gsutil <span class="nt">-m</span> rsync <span class="nt">-r</span> gs://xtrabackup/<span class="nv">$s_d</span>/FULL/ /mysqldata/FULL/
+<span class="k">for </span>i <span class="k">in</span> <span class="si">$(</span><span class="nb">seq  </span>1 <span class="nv">$inc</span><span class="si">)</span><span class="p">;</span> 
+<span class="k">do   
+</span><span class="nb">mkdir</span> <span class="nt">-p</span> /mysqldata/inc<span class="nv">$i</span>
+<span class="nb">echo</span> <span class="s2">"inc"</span><span class="nv">$i</span>
+gsutil <span class="nt">-m</span> rsync <span class="nt">-r</span> gs://xtrabackup/<span class="nv">$s_d</span>/inc<span class="nv">$i</span>/ /mysqldata/inc<span class="nv">$i</span>/
+<span class="k">done
+fi
+fi
+else if</span> <span class="o">[</span> <span class="nv">$s_m</span> <span class="nt">-gt</span> 15 <span class="o">]</span>
+<span class="k">then 
+</span><span class="nb">echo</span> <span class="s2">"sync actual full only"</span>
+<span class="nb">mkdir</span> <span class="nt">-p</span> /mysqldata/FULL
+gsutil <span class="nt">-m</span> rsync <span class="nt">-r</span> gs://xtrabackup/<span class="nv">$s_d</span>/FULL/ /mysqldata/FULL/
+<span class="k">else 
+</span><span class="nb">echo</span> <span class="s2">"last day full + 23inc"</span> 
+<span class="nv">yesterday</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="nt">-d</span> <span class="s2">"</span><span class="nv">$s_d</span><span class="s2"> -1 days"</span> +%Y-%m-%d<span class="sb">`</span>
+<span class="nb">mkdir</span> <span class="nt">-p</span> /mysqldata/FULL
+gsutil <span class="nt">-m</span> rsync <span class="nt">-r</span> gs://xtrabackup/<span class="nv">$yesterday</span>/FULL/ /mysqldata/FULL/
+<span class="k">for </span>i <span class="k">in</span> <span class="si">$(</span><span class="nb">seq  </span>1 23<span class="si">)</span><span class="p">;</span> 
+<span class="k">do   
+</span><span class="nb">mkdir</span> <span class="nt">-p</span> /mysqldata/inc<span class="nv">$i</span>
+<span class="nb">echo</span> <span class="s2">"inc"</span><span class="nv">$i</span>
+gsutil <span class="nt">-m</span> rsync <span class="nt">-r</span> gs://xtrabackup/<span class="nv">$yesterday</span>/inc<span class="nv">$i</span>/ /mysqldata/inc<span class="nv">$i</span>/
+<span class="k">done
+fi
+fi</span></code></pre></figure>
+
+<p>If you are using AWS, Azure or FTP, then replace this <code class="highlighter-rouge">gsutil -m rsync -r gs://xtrabackup/$s_d/FULL/ /mysqldata/FULL/</code> line with your commands.</p>
+
+<p>Also replace <code class="highlighter-rouge">/mysqldata</code> for where you need to download Backup files.</p>
+
+<h3 id="step-2-restore-the-xtrabackup">Step 2: Restore the Xtrabackup</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">BACKUP_DIR</span><span class="o">=</span><span class="s1">'/mysqldata'</span>
+
+<span class="nb">echo</span> <span class="sb">`</span><span class="nb">date</span> <span class="s1">'+%Y-%m-%d %H:%M:%S:%s'</span><span class="sb">`</span><span class="s2">": Decompressing the FULL backup"</span> <span class="o">&gt;&gt;</span> <span class="nv">$BACKUP_DIR</span>/xtrabackup-restore.log
+xtrabackup <span class="nt">--decompress</span> <span class="nt">--remove-original</span> <span class="nt">--parallel</span><span class="o">=</span>30 <span class="nt">--target-dir</span><span class="o">=</span><span class="nv">$BACKUP_DIR</span>/FULL 
+<span class="nb">echo</span> <span class="sb">`</span><span class="nb">date</span> <span class="s1">'+%Y-%m-%d %H:%M:%S:%s'</span><span class="sb">`</span><span class="s2">": Decompressing Done !!!"</span> <span class="o">&gt;&gt;</span> <span class="nv">$BACKUP_DIR</span>/xtrabackup-restore.log
+ 
+<span class="nb">echo</span> <span class="sb">`</span><span class="nb">date</span> <span class="s1">'+%Y-%m-%d %H:%M:%S:%s'</span><span class="sb">`</span><span class="s2">": Prepareing FULL Backup ..."</span> <span class="o">&gt;&gt;</span> <span class="nv">$BACKUP_DIR</span>/xtrabackup-restore.log
+xtrabackup <span class="nt">--prepare</span>  <span class="nt">--apply-log-only</span> <span class="nt">--target-dir</span><span class="o">=</span><span class="nv">$BACKUP_DIR</span>/FULL 
+<span class="nb">echo</span> <span class="sb">`</span><span class="nb">date</span> <span class="s1">'+%Y-%m-%d %H:%M:%S:%s'</span><span class="sb">`</span><span class="s2">": FULL Backup Preparation Done!!!"</span> <span class="o">&gt;&gt;</span> <span class="nv">$BACKUP_DIR</span>/xtrabackup-restore.log
+         
+ <span class="nv">P</span><span class="o">=</span>1
+ <span class="k">while</span> <span class="o">[</span> <span class="nt">-d</span> <span class="nv">$BACKUP_DIR</span>/inc<span class="nv">$P</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="o">[</span> <span class="nt">-d</span> <span class="nv">$BACKUP_DIR</span>/inc<span class="k">$((</span><span class="nv">$P</span><span class="o">+</span><span class="m">1</span><span class="k">))</span> <span class="o">]</span>
+ <span class="k">do
+       </span><span class="nb">echo</span> <span class="sb">`</span><span class="nb">date</span> <span class="s1">'+%Y-%m-%d %H:%M:%S:%s'</span><span class="sb">`</span><span class="s2">": Decompressing incremental:</span><span class="nv">$P</span><span class="s2">"</span> <span class="o">&gt;&gt;</span> <span class="nv">$BACKUP_DIR</span>/xtrabackup-restore.log
+       xtrabackup <span class="nt">--decompress</span> <span class="nt">--remove-original</span> <span class="nt">--parallel</span><span class="o">=</span>30 <span class="nt">--target-dir</span><span class="o">=</span><span class="nv">$BACKUP_DIR</span>/inc<span class="nv">$P</span> 
+       <span class="nb">echo</span> <span class="sb">`</span><span class="nb">date</span> <span class="s1">'+%Y-%m-%d %H:%M:%S:%s'</span><span class="sb">`</span><span class="s2">": Decompressing incremental:</span><span class="nv">$P</span><span class="s2"> Done !!!"</span> <span class="o">&gt;&gt;</span> <span class="nv">$BACKUP_DIR</span>/xtrabackup-restore.log
+       
+       <span class="nb">echo</span> <span class="sb">`</span><span class="nb">date</span> <span class="s1">'+%Y-%m-%d %H:%M:%S:%s'</span><span class="sb">`</span><span class="s2">": Prepareing incremental:</span><span class="nv">$P</span><span class="s2">"</span>  <span class="o">&gt;&gt;</span> <span class="nv">$BACKUP_DIR</span>/xtrabackup-restore.log
+       xtrabackup <span class="nt">--prepare</span> <span class="nt">--apply-log-only</span> <span class="nt">--target-dir</span><span class="o">=</span><span class="nv">$BACKUP_DIR</span>/FULL <span class="nt">--incremental-dir</span><span class="o">=</span><span class="nv">$BACKUP_DIR</span>/inc<span class="nv">$P</span> 
+       <span class="nb">echo</span> <span class="sb">`</span><span class="nb">date</span> <span class="s1">'+%Y-%m-%d %H:%M:%S:%s'</span><span class="sb">`</span><span class="s2">": incremental:</span><span class="nv">$P</span><span class="s2"> Preparation Done!!!"</span> <span class="o">&gt;&gt;</span> <span class="nv">$BACKUP_DIR</span>/xtrabackup-restore.log
+       <span class="nv">P</span><span class="o">=</span><span class="k">$((</span><span class="nv">$P</span><span class="o">+</span><span class="m">1</span><span class="k">))</span>
+ <span class="k">done
+
+ if</span> <span class="o">[</span> <span class="nt">-d</span> <span class="nv">$BACKUP_DIR</span>/inc<span class="nv">$P</span> <span class="o">]</span>
+ <span class="k">then
+     </span><span class="nb">echo</span> <span class="sb">`</span><span class="nb">date</span> <span class="s1">'+%Y-%m-%d %H:%M:%S:%s'</span><span class="sb">`</span><span class="s2">": Decompressing the last incremental:</span><span class="nv">$P</span><span class="s2">"</span> <span class="o">&gt;&gt;</span> <span class="nv">$BACKUP_DIR</span>/xtrabackup-restore.log
+     xtrabackup <span class="nt">--decompress</span> <span class="nt">--remove-original</span> <span class="nt">--parallel</span><span class="o">=</span>30 <span class="nt">--target-dir</span><span class="o">=</span><span class="nv">$BACKUP_DIR</span>/inc<span class="nv">$P</span> 
+     <span class="nb">echo</span> <span class="sb">`</span><span class="nb">date</span> <span class="s1">'+%Y-%m-%d %H:%M:%S:%s'</span><span class="sb">`</span><span class="s2">": Decompressing the last incremental:</span><span class="nv">$P</span><span class="s2"> Done !!!"</span> <span class="o">&gt;&gt;</span> <span class="nv">$BACKUP_DIR</span>/xtrabackup-restore.log
+     
+     <span class="nb">echo</span> <span class="sb">`</span><span class="nb">date</span> <span class="s1">'+%Y-%m-%d %H:%M:%S:%s'</span><span class="sb">`</span><span class="s2">": Prepareing the last incremental:</span><span class="nv">$P</span><span class="s2">"</span>  <span class="o">&gt;&gt;</span> <span class="nv">$BACKUP_DIR</span>/xtrabackup-restore.log
+     xtrabackup <span class="nt">--prepare</span> <span class="nt">--target-dir</span><span class="o">=</span><span class="nv">$BACKUP_DIR</span>/FULL <span class="nt">--incremental-dir</span><span class="o">=</span><span class="nv">$BACKUP_DIR</span>/inc<span class="nv">$P</span> 
+     <span class="nb">echo</span> <span class="sb">`</span><span class="nb">date</span> <span class="s1">'+%Y-%m-%d %H:%M:%S:%s'</span><span class="sb">`</span><span class="s2">": Last incremental:</span><span class="nv">$P</span><span class="s2"> Preparation Done!!!"</span> <span class="o">&gt;&gt;</span> <span class="nv">$BACKUP_DIR</span>/xtrabackup-restore.log
+ <span class="k">fi</span></code></pre></figure>
+
+<p><code class="highlighter-rouge">BACKUP_DIR='/mysqldata'</code> - Replace <code class="highlighter-rouge">/mysqldata</code> with your location on DR server where is you backups are downloaded from the step 1.
+I have 40 core CPU, so I used 30 parallel threads. You can modify based on you DR server’s CPU in <code class="highlighter-rouge">--parallel=30</code></p>
+
+<h3 id="step-3-start-mysql-with-restored-data">Step 3: Start MySQL with Restored Data</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">BACKUP_DIR</span><span class="o">=</span><span class="s1">'/mysqldata'</span>  
+<span class="nv">DATADIR</span><span class="o">=</span><span class="s1">'/mysqldata/data'</span>  
+<span class="nb">sudo </span>service mysql stop  
+<span class="nb">sudo mv</span> <span class="nv">$BACKUP_DIR</span>/FULL <span class="nv">$BACKUP_DIR</span>/data  
+<span class="nb">sudo sed</span> <span class="nt">-i</span>.bak <span class="s2">"s|.*datadir.*|datadir=</span><span class="nv">$DATADIR</span><span class="s2">|"</span> /etc/my.cnf  
+<span class="nb">sudo </span>semanage fcontext <span class="nt">-a</span> <span class="nt">-t</span> mysqld_db_t <span class="s2">"/mysqldata/data(/.*)?"</span>  
+<span class="nb">sudo </span>restorecon <span class="nt">-R</span> <span class="nt">-v</span> /mysqldata/data  
+<span class="nb">sudo chown</span> <span class="nt">-R</span> mysql:mysql /mysqldata/data  
+<span class="nb">sudo chmod </span>750 /mysqldata/data  
+<span class="nb">sudo </span>service mysql start</code></pre></figure>
+
+<p>Again <code class="highlighter-rouge">/mysqldata</code> replace this with your backup file location.  And the Restored backup will be in the directory called FULL. Im renaming it to <code class="highlighter-rouge">data</code>.</p>
+
+<h3 id="step-4-download-binlog-files-from-master">Step 4: Download binlog files from Master:</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">  
+<span class="nv">d</span><span class="o">=</span><span class="s1">'@option.datetime@'</span>
+<span class="nv">DATADIR</span><span class="o">=</span><span class="s1">'/mysqldata/data'</span>
+<span class="o">[</span> <span class="nt">-e</span> /tmp/out  <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">rm</span> /tmp/out 
+<span class="nv">start_binlog</span><span class="o">=</span><span class="sb">`</span><span class="nb">head</span> <span class="nt">-n</span> 1 <span class="nv">$DATADIR</span>/xtrabackup_binlog_info  | <span class="nb">awk</span> <span class="nt">-F</span> <span class="s1">' '</span> <span class="s1">'{print $1}'</span><span class="sb">`</span>
+<span class="nv">stop_binlog</span><span class="o">=</span><span class="sb">`</span>ssh 10.10.10.40 <span class="s2">"find /mysql-binlog/ -type f  -newermt </span><span class="se">\"</span><span class="nv">$d</span><span class="se">\"</span><span class="s2">  -exec basename {} </span><span class="se">\;</span><span class="s2">  | sort | head -1"</span><span class="sb">`</span>
+<span class="nv">files</span><span class="o">=</span><span class="si">$(</span>ssh 10.10.10.40 <span class="s2">"seq -w </span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$start_binlog</span> | <span class="nb">awk</span> <span class="nt">-F</span><span class="s1">'.'</span> <span class="s1">'{print $2}'</span><span class="sb">`</span><span class="s2"> </span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$stop_binlog</span> | <span class="nb">awk</span> <span class="nt">-F</span><span class="s1">'.'</span> <span class="s1">'{print $2}'</span><span class="sb">`</span><span class="s2">"</span><span class="si">)</span>
+<span class="k">for </span>x <span class="k">in</span> <span class="sb">`</span><span class="nb">echo</span> <span class="nv">$files</span><span class="sb">`</span><span class="p">;</span> <span class="k">do  </span>ssh 10.10.10.40 <span class="s2">"transfer /mysql-binlog/mysql-bin.</span><span class="nv">$x</span><span class="s2">"</span> <span class="p">;</span> <span class="k">done</span> <span class="o">&gt;&gt;</span> /tmp/out
+<span class="nv">binlogfiles</span><span class="o">=</span><span class="sb">`</span>perl <span class="nt">-pe</span> <span class="s1">'s#(?&lt;=.)(?=http://)#\n#g'</span> /tmp/out<span class="sb">`</span>
+<span class="k">for </span>x <span class="k">in</span> <span class="sb">`</span><span class="nb">echo</span> <span class="nv">$binlogfiles</span><span class="sb">`</span><span class="p">;</span> <span class="k">do </span>wget <span class="nt">-P</span> /mysqldata/binlogdump <span class="nv">$x</span> <span class="p">;</span> <span class="k">done</span></code></pre></figure>
+
+<ul>
+  <li>Replace <code class="highlighter-rouge">/mysqldata/data</code> with your data directory of mysql.</li>
+  <li>Replace <code class="highlighter-rouge">10.10.10.40</code> with your master server IP.</li>
+  <li>Replace <code class="highlighter-rouge">/mysql-binlog/</code> your master server’s binlog location.</li>
+  <li><code class="highlighter-rouge">transfer /mysql-binlog/mysql-bin.$x</code> this command will run the transfer.sh alias and upload the binlog file to transfer.sh serve. If you want to use your own copy process then replace <code class="highlighter-rouge">transfer</code> and <code class="highlighter-rouge">/mysql-binlog/</code> location of binlog location. And <code class="highlighter-rouge">$x</code> is the files. So don’t replace that.</li>
+  <li><code class="highlighter-rouge">/mysqldata/binlogdump</code> location on the DR server to download binlog files</li>
+</ul>
+
+<h3 id="step-5-decode-the-binlog-files">Step 5: Decode the Binlog files:</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">d</span><span class="o">=</span><span class="s1">'@option.datetime@'</span>
+<span class="nv">DATADIR</span><span class="o">=</span><span class="s1">'/mysqldata/data'</span>
+<span class="nb">mkdir</span> <span class="nt">-p</span> /mysqldata/binlogdump
+<span class="nv">binlogfilename</span><span class="o">=</span><span class="sb">`</span><span class="nb">head</span> <span class="nt">-n</span> 1 <span class="nv">$DATADIR</span>/xtrabackup_binlog_info  | <span class="nb">awk</span> <span class="nt">-F</span> <span class="s1">' '</span> <span class="s1">'{print $1}'</span><span class="sb">`</span>
+<span class="nv">binlogposition</span><span class="o">=</span><span class="sb">`</span><span class="nb">head</span> <span class="nt">-n</span> 1 <span class="nv">$DATADIR</span>/xtrabackup_binlog_info  | <span class="nb">awk</span> <span class="nt">-F</span> <span class="s1">' '</span> <span class="s1">'{print $2}'</span><span class="sb">`</span>
+<span class="nv">files</span><span class="o">=</span><span class="sb">`</span><span class="nb">ls</span> /mysqldata/binlogdump/<span class="sb">`</span>
+<span class="nb">cd</span> /mysqldata/binlogdump
+mysqlbinlog <span class="nt">-d</span> Eztaxi <span class="nt">--start-position</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">binlogposition</span><span class="k">}</span><span class="s2">"</span> <span class="nt">--stop-datetime</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">d</span><span class="k">}</span><span class="s2">"</span> <span class="k">${</span><span class="nv">files</span><span class="k">}</span> <span class="nt">--disable-log-bin</span> <span class="o">&gt;</span> mysqldata-delta.sql</code></pre></figure>
+
+<ul>
+  <li><code class="highlighter-rouge">/mysqldata/data</code> replace with your data directory of MySQL.</li>
+  <li><code class="highlighter-rouge">/mysqldata/binlogdump</code> Downloaded binlog file location.</li>
+</ul>
+
+<h3 id="step-6-restore-the-binlog-file-to-mysql">Step 6: Restore the Binlog file to MySQL:</h3>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql">  
+<span class="n">mysql</span> <span class="o">-</span><span class="n">u</span> <span class="n">root</span> <span class="o">-</span><span class="n">p</span><span class="s1">'password'</span> <span class="o">&lt;</span> <span class="o">/</span><span class="n">mysqldata</span><span class="o">/</span><span class="n">binlogdump</span><span class="o">/</span><span class="n">mysqldata</span><span class="o">-</span><span class="n">delta</span><span class="p">.</span><span class="k">sql</span>  </code></pre></figure>
+
+<ul>
+  <li><code class="highlighter-rouge">p'password'</code> Replace with your MySQL root password. You can use Parameterized password in Rundeck. <a href="https://thedataguy.in/encrypt-key-files-and-passwords-in-rundeck/" title="See here">See here</a>.</li>
+  <li><code class="highlighter-rouge">'/mysqldata/binlogdump/</code> location of the decoded binlog file.</li>
+</ul>
+
+<p>Steps are done.</p>
+
+<p>Now on Matched Nodes select the DR server and click on Create button.</p>
+
+<h2 id="trigger-the-pitr">Trigger the PITR:</h2>
+
+<p>Click on the Date Picker Icon and select the date and time for your PITR.</p>
+
+<p><img src="/assets/MySQL With DevOps 2 - Simplified MySQl PITR In One Click_date.png" alt="" /></p>
+
+<p>Now click on <strong>Run Job Now</strong> button and go for a Cup of Coffee.</p>
+
+<p>Here is my job execution has been done in 18mins.</p>
+
+<p><img src="/assets/MySQL With DevOps 2 - Simplified MySQl PITR In One Click_output.png" alt="" /></p>
+
+<h2 id="further-improvements-and-development">Further improvements and development:</h2>
+
+<ul>
+  <li>In my case, I have my DR server ready with MySQL installed. (as an Image). Before trigger this job, I’ll launch a VM with this image and validate the connectivity between Rundeck and GCS bucket. Im planning to use Terraform template which is also a part of this RunDeck job.</li>
+  <li>My complete setup is in GCP, you can perform the same on AWS, Azure or even On-Prem and comment below how it goes.</li>
+  <li>I have hardcoded all of mysql data directory, binlog location and everything. If you have enough time, use Options in Rundeck to get these things from an Input during the job execution.</li>
+  <li>finally, this is also same as RDS PITR, I never gave option for restore binlog till this position. But we can achieve this on <strong>Step 5</strong>, just add a variable called position and give your position number. You can use Options to get this value as an Input. and replace <code class="highlighter-rouge">--stop-datetime="${d}"</code> with <code class="highlighter-rouge">--stop-position="${pos}"</code>.</li>
+</ul>
+
+<p>If you have any difficulties in understanding the steps and scripts, please comment below.</p>
+
+<p>Want to learn more basics of RunDeck Setup? <a href="https://thedataguy.in/tags/#rundeck-series">here you go</a>.</p>
+
+<p>Happy Disaster Recovery and PITR :)</p>
+
+        </div>
+        <hr>
+        <h3>Advertisement</h3>
+         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad-horizontal -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9518508677792760"
+     data-ad-slot="4874591962"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <hr>
+        <h3> Share this article </h3>
+      
+        
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/mysql-exact-row-count-for-all-the-tables/">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> MySQL Exact Row Count For All The Tables
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/monitor-cassandra-clusters-with-percona-pmm-jmx-grafana-and-prometheus/">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        Monitor Cassandra Clusters with Percona PMM - JMX Grafana and Prometheus
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="copyright">
+    
+      <p>&copy; 2020 Nitin Kumar Singh | Data Architect. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
+
+
+  </body>
+
+</html>

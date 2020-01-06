@@ -1,17 +1,71 @@
 <head>
-	<!-- Meta -->
-	<meta charset="UTF-8"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-	<meta name="generator" content="Jekyll">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:image" content="{{ site.url }}{{ page.image }}">
+<script data-ad-client="ca-pub-9518508677792760" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<link rel="apple-touch-icon" sizes="57x57" href="/favicon.ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/favicon.ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/favicon.ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/favicon.ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/favicon.ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/favicon.ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/favicon.ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/favicon.ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon.ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico/favicon-16x16.png">
+<link rel="manifest" href="/favicon.ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">  {% if site.owner.google.verify %}<meta name="google-site-verification" content="{{ site.owner.google.verify }}">{% endif %}
+  {% if site.owner.bing-verify %}<meta name="msvalidate.01" content="{{ site.owner.bing-verify }}">{% endif %}
 
-	<title>{%if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+  {% if site.plugins contains 'jekyll-seo-tag' or site.gems contains 'jekyll-seo-tag' %}
+    {% comment %}
+      Add metadata for search engines and social networks if jekyll-seo-tag plugin is enabled
+    {% endcomment %}
+    {% include head-seo.html %}
+  {% else %}
+    <title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
+    <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
+    <link rel="canonical" href="{{ page.url | replace:'index.html', '' | absolute_url }}">
+  {% endif %}
 
-	<!-- CSS & fonts -->
-	<link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
-	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700,800" rel="stylesheet">
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
 
-	<!-- RSS -->
-	<link href="/atom.xml" type="application/atom+xml" rel="alternate" title="ATOM Feed" />
-<script type="text/javascript"> window.$crisp=[];window.CRISP_WEBSITE_ID="af5a7516-d932-4078-af4a-4d58fdebb1fa";(function(){ d=document;s=d.createElement("script"); s.src="https://client.crisp.chat/l.js"; s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})(); </script>
-<script type="text/javascript" charset="utf-8" src="https://connect.getliner.com/sdk/sdk-in-site.js"></script>
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+  {% if site.google_fonts %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family={%- for font in site.google_fonts -%}{{ font.name | replace: ' ', '+' }}{% if font.weights %}:{% endif %}{{ font.weights | remove: ' ' }}{% if forloop.last != true %}|{% endif %}{%- endfor -%}">
+  {% endif %}
+
+  {%- if site.plugins contains 'jekyll-feed' or site.gems contains 'jekyll-feed' -%}
+    {%- comment -%}
+      Add Atom feed link if jekyll-feed plugin is enabled
+    {%- endcomment -%}
+    {% include head-feed.html %}
+  {%- endif -%}
+
+  {%- if site.head_scripts -%}
+    {%- for script in site.head_scripts -%}
+      {%- if script contains "://" -%}
+        {%- capture script_path %}{{ script }}{% endcapture -%}
+      {%- else -%}
+        {%- capture script_path %}{{ script | absolute_url }}{% endcapture -%}
+      {%- endif -%}
+      <script src="{{ script_path }}"></script>
+    {%- endfor -%}
+  {%- endif -%}
+
+  {% include head-custom.html %}
+  <link rel="stylesheet" href="/assets/css/applause-button.css" />
+   <script src="/assets/js/applause-button.js"></script>
+
 </head>

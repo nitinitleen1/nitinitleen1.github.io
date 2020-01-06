@@ -1,0 +1,58 @@
+I"�<p><img src="/assets/Configure-ProxyPass-For-Rundeck-1024x316.jpg" alt="Configure ProxyPass For Rundeck" /></p>
+
+<p>RunDeck’s web GUI always run on port 4440. If we want to make it run on 80 then we need to do a custom installation. Since that’ll be a long process and its not applicable for existing RunDeck servers. In this blog, we are configuring nginx proxypass for Rundeck to make RunDeck web access on port 80.</p>
+
+<h2 id="install-nginx">Install Nginx:</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">yum <span class="nb">install </span>nginx</code></pre></figure>
+
+<h2 id="configure-proxypass">Configure ProxyPass:</h2>
+
+<p>Create a new config file on <em><code class="highlighter-rouge">/etc/nginx/conf.d/</code></em></p>
+
+<h1 id="replace-rundecksqlgossipcom-to-your-domain-name-or-ip-address">Replace rundeck.sqlgossip.com to your domain name or IP address</h1>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="code"><pre> vi /etc/nginx/conf.d/rundeck.conf
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name rundeck.sqlgossip.com;
+    access_log  /var/log/nginx/rundeck.sqlgossip.com.access.log;
+     location / {
+    proxy_pass http://localhost:4440;
+    proxy_set_header X-Forwarded-Host $host:$server_port;
+    proxy_set_header X-Forwarded-Server $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  }
+} 
+</pre></td></tr></tbody></table></code></pre></figure>
+
+<h2 id="change-the-server-url-in-runeck-config-file">Change the Server URL in runeck config file:</h2>
+
+<p>Edit the rundeck-config.properties file.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">vi /etc/rundeck/rundeck-config.properties
+
+grails.serverURL<span class="o">=</span>http://rundeck.thedataguy.in:80</code></pre></figure>
+
+<h2 id="restart-rundeck--nginx">Restart RunDeck &amp; Nginx</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">service nginx restart
+service rundeckd restart</code></pre></figure>
+
+:ET

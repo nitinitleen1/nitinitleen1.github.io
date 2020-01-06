@@ -1,0 +1,2 @@
+I"<p>Redshift unload is the fastest way to export the data from Redshift cluster. In BigData world, generally people use the data in S3 for DataLake. So its important that we need to make sure the data in S3 should be partitioned. So we can use Athena, RedShift Spectrum or EMR External tables to access that data in an optimized way. If you are dealing with multiple tables, then you can loop the table names in a shell script or Python code. But as a SQL guy, I choose stored procedures to do this. It made export process simple.</p>
+:ET

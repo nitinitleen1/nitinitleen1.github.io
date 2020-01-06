@@ -1,0 +1,110 @@
+I"P<p><strong>Database Mirroring</strong> - A replication feature which supports automatic failover and supported in standard as well. During SQL server 2016, Microsoft announced that Mirror will be removed from further releases. But still, its there and Documentations are showing it’s going to deprecate soon. The Alwayson Availability Groups is the permanent High availability solution for SQL server.</p>
+
+<p>Then why am I writing this blog?</p>
+
+<p>Im doing a lot of database migrations to the Cloud. We can do this migration in many ways.</p>
+
+<ol>
+  <li>Backup and restore - More downtime.</li>
+  <li>Log Shipping - Lot of jobs needs to be created if you have more databases.</li>
+  <li>Log backup restore script - DBAtools or you can automate your script to restore log backups instead of going with native log shipping.</li>
+  <li>Mirroring - Need same version and edition for both Primary and Mirror.</li>
+  <li>Alwayson - Enterprise feature, Need active directory, cluster and etc.</li>
+</ol>
+
+<p>Every method has its own prod and cons. So for migrations, mostly I use Alwayson. But if the database infra is a small one, then I prefer Mirroring. Im sharing my horror story of migrating the SQL server 2014 standard to SQL server 2017 Enterprise.</p>
+
+<h2 id="background-of-the-db-server">Background of the DB server:</h2>
+
+<ul>
+  <li>SQL server 2014 RTM Standard.</li>
+  <li>60+ databases.</li>
+  <li>Mirroring has been configured with Witness.</li>
+  <li>Overall size 1TB.</li>
+  <li>NO active directory setup.</li>
+</ul>
+
+<h2 id="initial-migration-plan">Initial Migration Plan:</h2>
+
+<ol>
+  <li>Im going to migrate this database server from On-Prem to GCP.</li>
+  <li>Target Database version SQL Server 2017 Enterprise.</li>
+  <li>On Primary server, stop mirroring and convert the existing Mirroring setup to log shipping. <a href="https://www.sqlservercentral.com/articles/convert-mirroring-to-log-shipping">Here is an awesome blog for this</a>.</li>
+  <li>Recreate Mirroring Endpoint with Certificate based authentication.</li>
+  <li>Setup Mirroring between SQL Server 2014 to 2017.</li>
+</ol>
+
+<p>I broke the existing Mirroring and created both endpoints with certificate based authentication. I took a small database’s full and log backup then restored it on Mirrored server.</p>
+
+<h3 id="adventure-1">Adventure 1:</h3>
+
+<p>My wrong estimation that SQL Server Mirroring supports higher versions, but failback is not possible. It was wrong, we must use the same edition.</p>
+
+<h3 id="adventure-2">Adventure 2:</h3>
+
+<p>We can’t setup this using SSMS, but no one will stop me to setup mirroring using T-SQL. Yes, I did it. But wait, again the database state changed from Mirror/Synchronized to Restoring. My bad!!!</p>
+
+<p>I tried to setup the mirroring again, but no luck within 5 to 10 seconds it was breaking.
+And here is the error from both servers.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">Database mirroring connection error 4 <span class="s1">'An error occurred while receiving data: 
+'</span>10054<span class="o">(</span>An existing connection was forcibly closed by the remote host.<span class="o">)</span><span class="s1">'.'</span> 
+<span class="k">for</span> <span class="s1">'TCP://10.10.10.14:5022'</span><span class="nb">.</span>
+
+Database mirroring has been terminated <span class="k">for </span>database <span class="s1">'db_name'</span><span class="nb">.</span> 
+This is an informational message only. No user action is required.</code></pre></figure>
+
+<p>After some research, we found this useful information from <a href="https://dba.stackexchange.com/a/161710/105575">DBA StackOverflow</a> and its answered by  Ola Hallengren.  Its a known bug and reported already.</p>
+
+<h3 id="adventure-3">Adventure 3:</h3>
+
+<p>So now we figured it out its a bug. But the strange thing is, we found that this bug is in <code class="highlighter-rouge">SQL Server 2014, 2016 and SQL server 2017 RTM</code>. We need to Patch our Primary and Mirror Server as well.</p>
+
+<h3 id="adventure-4">Adventure 4:</h3>
+
+<p>I already broke the replication. So no HA for now. If I do the Patch, its downtime. But its a very busy online booking system for travel, hotel and etc. So we got RED signal from the business team. So not even one minute of downtime for patch.</p>
+
+<h3 id="adventure-5">Adventure 5:</h3>
+
+<p>Here I was trying to mirror between two different versions of SQL Server and its not recommended. OK, let try with the exact version of SQL server version. I launched the SQL Server 2014 Standard from the GCP’s application images. It has the latest SP and CU. Shocking !!!</p>
+
+<p>It’s working fine.</p>
+
+<h3 id="the-miracle">The Miracle:</h3>
+
+<p>From the above statement, the SQL Server version and Editions are the same. But the only change is, it has the latest CU and SP.  Then let’s try SQL server 2017 Enterprise, do Patch there and then Mirror it. Woohoo!!!</p>
+
+<p>Its fixed.  But don’t sit back and relax, it worked only for 50% of the databases. Rest of the databases are still throwing the same error.</p>
+
+<h3 id="adventure-6">Adventure 6:</h3>
+
+<p>In Mirroring setup, to take Log backups, I used <a href="https://ola.hallengren.com/sql-server-backup.html">Ola Hallengren backup script</a>. But the FULL backup I restored is taken from the SQL server Maintenance wizard. They configured this for Full backup and Compression is the Only Option is enabled.</p>
+
+<p><img src="/assets/Database Mirroring is still a Mystery1.png" alt="" /></p>
+
+<h3 id="one-more-miracle">One more Miracle:</h3>
+
+<p>Then I wanted to try the Mirroring once on the failed databases. I took a fresh copy of FULL and LOG backup using Ola Hallengren script. Then I setup the mirroring. And finally, It worked.</p>
+
+<h3 id="last-but-not-least">Last but not least:</h3>
+
+<p>Mirroring is running fine. But unfortunately, we can’t see the replication lag. Unsent / Unrestored log size. Even in Mirroring Monitor, its showing Secondary is not connected. So no other way to check the lag. But one option is there. sp_dbmmonitorresults will return the status of the mirroring.</p>
+
+<h3 id="lessons-learned">Lessons learned:</h3>
+
+<p>Every migration has a lot of fun and adventures. Every time we are learning new.</p>
+
+<ol>
+  <li>I know SQL server always on can be established from lower version to higher version only for the version upgrade or migration. But mirroring will not officially recommend this practice.</li>
+  <li>Before testing/Poc, don’t break the existing HA setup for any reason.</li>
+  <li>Keep your SQL server in RTM is very Bad even the database is performing well.  Make sure you have at least the latest SP.</li>
+  <li>I don’t know why people still using SQL server maintenance wizard to setup backups. But whatever backup job you are using make sure Verify and checksum options are enabled.</li>
+  <li>But in my case, still its not clear how the mirroring worked after I took backups from the custom script.</li>
+  <li>
+    <p>Setting up mirroring between two different versions, will never show the lag, but sp_dbmmonitorresults will tell you the status of mirroring.</p>
+
+    <p><img src="/assets/Database Mirroring is still a Mystery2.png" alt="" /></p>
+  </li>
+  <li>The best practice, before doing the cutover, just promote one of the Mirrored databases and check you have the latest data.  A simple trick, before doing the failover, create a test table and see its replication or not after the failover.</li>
+</ol>
+:ET

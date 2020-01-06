@@ -1,0 +1,53 @@
+I"i<p><img src="/assets/Postgresql-Unable-To-Start-Insecure-directory-in-ENV-PATH.jpg" alt="Postgrsql Insecure directory in env path" /></p>
+
+<blockquote>
+  <p>Insecure directory in $ENV{PATH}</p>
+</blockquote>
+
+<p>I was discussing with one of my friend who is a Developer, as he was working with PostgreSQL 9.5 in Ubuntu 16.04LTS from past few months. But suddenly he couldn’t able to start PostgreSQL service. He tried to reinstall PostgreSQL many times, but no luck. So he gave his laptop to me and asked to fix this issue.(Because of Im a DBA). The very first thing I started to look at the Postgresql logs. Unfortunately, nothing was there. So I checked the syslog file and found something wrong. It was showing the error in <strong>Postgrsql Insecure directory in env path</strong>.</p>
+
+<h2 id="here-is-the-complete-error-log">Here is the complete error log:</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">Dec 5  17:21:17 k7-ThinkPad systemd[1]: Starting PostgreSQL Cluster 9.5-main...
+Dec 5  17:21:17 k7-ThinkPad postgresql@9.5-main[5682]: Insecure directory <span class="k">in</span> <span class="nv">$ENV</span><span class="o">{</span>PATH<span class="o">}</span> <span class="k">while </span>running with <span class="nt">-T</span> switch at /usr/bin/pg_ctlcluster line 469.
+Dec 5  17:21:17 k7-ThinkPad systemd[1]: postgresql@9.5-main.service: Control process exited, <span class="nv">code</span><span class="o">=</span>exited <span class="nv">status</span><span class="o">=</span>2
+Dec 5  17:21:17 k7-ThinkPad systemd[1]: Failed to start PostgreSQL Cluster 9.5-main.
+Dec 5  17:21:17 k7-ThinkPad systemd[1]: postgresql@9.5-main.service: Unit entered failed state.
+Dec 5  17:21:17 k7-ThinkPad systemd[1]: postgresql@9.5-main.service: Failed with result <span class="s1">'exit-code'</span><span class="nb">.</span>
+Dec 5  17:21:17 k7-ThinkPad systemd[1]: Started PostgreSQL RDBMS.</code></pre></figure>
+
+<p>From these errors, we can guess something wrong with the /usr/bin/pg_ctlcluster file and the line 469.</p>
+
+<h2 id="here-is-the-line">Here is the line:</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">466  <span class="c"># recreate stats_temp_directory</span>
+467  <span class="k">if</span>  <span class="o">(</span><span class="nv">$action</span> ne <span class="s1">'stop'</span> <span class="o">&amp;&amp;</span> <span class="nv">$info</span><span class="o">{</span>config<span class="o">}</span>-&gt;<span class="o">{</span>stats_temp_directory<span class="o">}</span> <span class="o">&amp;&amp;</span> <span class="o">!</span> <span class="nt">-d</span> <span class="nv">$info</span><span class="o">{</span>config<span class="o">}</span>-&gt;<span class="o">{</span>stats_temp_directory<span class="o">})</span>  <span class="o">{</span>
+468 system <span class="s1">'install'</span>, <span class="s1">'-d'</span>, <span class="s1">'-m'</span>, 750,
+469  <span class="s1">'-o'</span>, <span class="nv">$info</span><span class="o">{</span><span class="s1">'owneruid'</span><span class="o">}</span>, <span class="s1">'-g'</span>, <span class="nv">$info</span><span class="o">{</span><span class="s1">'ownergid'</span><span class="o">}</span>, <span class="nv">$info</span><span class="o">{</span>config<span class="o">}</span>-&gt;<span class="o">{</span>stats_temp_directory<span class="o">}</span><span class="p">;</span>
+470  <span class="o">}</span></code></pre></figure>
+
+<p>Seems its fine. Then what caused this issue?<br />
+Look at the line number 468.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">system <span class="s1">'install'</span>, <span class="s1">'-d'</span>, <span class="s1">'-m'</span>, 750,</code></pre></figure>
+
+<p>The 750 is nothing its the permission for the ENV PATH.</p>
+
+<h2 id="here-is-the-env-path-in-this-file">Here is the ENV PATH in this file.</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="c"># untaint environment</span>
+<span class="nv">$ENV</span><span class="o">{</span><span class="s1">'PATH'</span><span class="o">}</span> <span class="o">=</span> <span class="s1">'/sbin:/bin:/usr/sbin:/usr/bin'</span><span class="p">;</span>
+delete @ENV<span class="o">{</span><span class="s1">'IFS'</span>, <span class="s1">'CDPATH'</span>, <span class="s1">'ENV'</span>, <span class="s1">'BASH_ENV'</span><span class="o">}</span><span class="p">;</span>
+chdir <span class="s1">'/'</span><span class="p">;</span></code></pre></figure>
+
+<h2 id="solution">Solution:</h2>
+
+<p>Change the permission for the <strong>/bin</strong> directory.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">chmod </span>750 /bin
+service postgresql start
+su postgres
+psql</code></pre></figure>
+
+<p><img src="/assets/Postgrsql-Insecure-directory-in-env-path-Result.png" alt="Postgrsql Insecure directory in env path - Result" /></p>
+:ET

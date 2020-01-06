@@ -1,0 +1,247 @@
+I"Rc<p>RedShift <code class="highlighter-rouge">unload</code> function will help us to export/unload the data from the tables to S3 directly. It actually runs a select query to get the results and them store them into S3. But unfortunately, it supports only one table at a time. You need to create a script to get the all the tables then store it in a variable, and loop the unload query with the list of tables. Here I have done with PL/SQL way to handle this. You can Export/Unload all the tables to S3 with partitions.</p>
+
+<p>If you didn’t take a look at how to export a table with Partition and why? Please <a href="https://thedataguy.in/redshift-unload-to-s3-with-partitions-stored-procedure-way/">hit here</a> and read about the importance of it.</p>
+
+<h2 id="why-this-procedure-actually-doing">Why this procedure actually doing?</h2>
+
+<ol>
+  <li>It will get the list of schema and table in your database from the <code class="highlighter-rouge">information_schema</code>.</li>
+  <li>Store this information in a variable.</li>
+  <li>IAM role, Partitions are hardcoded, you can customize it or pass them in a variable.</li>
+  <li>A <code class="highlighter-rouge">FOR LOOP</code> will run the unload query for all the tables.</li>
+</ol>
+
+<h2 id="variables">Variables:</h2>
+
+<ul>
+  <li>list - list of schema and table names in the database.</li>
+  <li>db - Current connected database name.</li>
+  <li>tablename - table name (used for history table only).</li>
+  <li>tableschema - table schema (used for history table only).</li>
+  <li>starttime - When the unload the process stated.</li>
+  <li>endtime - When the unload process end.</li>
+  <li>SQL - its a <code class="highlighter-rouge">select * from</code>, but if you want to change like <code class="highlighter-rouge">where timestamp &gt;= something</code> you can customize this variable.</li>
+  <li>s3_path - Location of S3, you need to pass this variable while executing the procedure.</li>
+  <li>iamrole - IAM role to write into the S3 bucket.</li>
+  <li>delimiter - Delimiter for the file.</li>
+  <li>max_filesize - Redshift will split your files in S3 in random sizes, you can mention a size for the files.</li>
+  <li>un_year, un_month, un_day - Current Year, month, day</li>
+  <li>unload_query - Dynamically generate the unload query.</li>
+  <li>unload_id - This is for maintaining the history purpose, In one shot you can export all the tables, from this ID, you can get the list of tables uploaded from a particular export operation.</li>
+  <li>unload_time - Timestamp of when you started executing the procedure.</li>
+</ul>
+
+<blockquote>
+  <p><strong>NOTE</strong>: This stored procedure and the history table needs to installed on all the databases. Because from information schema it’ll only return the list of tables in the current schema. Its Redshift’s limitation.</p>
+</blockquote>
+
+<h3 id="update-2019-10-08">Update 2019-10-08</h3>
+<p>I have made a small change here, the stored procedure will generate the COPY command as well. You can query the <code class="highlighter-rouge">unload_history</code> table to get the COPY command for a particular table. So you can easily import the data into any RedShift clusters.</p>
+
+<h3 id="update-2019-11-22">Update 2019-11-22</h3>
+<p>I have published a new blog. You can now export based on your requirements like export only few tables, all tables in a schema, all tables in multiple schema and etc. Click on the below link.
+<a href="https://thedataguy.in/redshift-unload-multiple-tables-schema-to-s3/">https://thedataguy.in/redshift-unload-multiple-tables-schema-to-s3/</a></p>
+
+<h2 id="table-for-maintaining-the-history-of-unload">Table for maintaining the History of Unload:</h2>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">unload_history</span>
+<span class="p">(</span>
+<span class="n">pid</span>          <span class="nb">INT</span> <span class="k">IDENTITY</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+<span class="n">u_id</span>         <span class="nb">INT</span><span class="p">,</span>
+<span class="n">u_timestamp</span>  <span class="nb">DATETIME</span><span class="p">,</span>
+<span class="n">start_time</span>   <span class="nb">DATETIME</span><span class="p">,</span>
+<span class="n">end_time</span>     <span class="nb">DATETIME</span><span class="p">,</span>
+<span class="n">db_name</span>      <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span>
+<span class="n">table_schema</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span>
+<span class="k">table_name</span>   <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span>
+<span class="n">export_query</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">65000</span><span class="p">),</span>
+<span class="n">import_query</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">65000</span><span class="p">)</span>
+<span class="p">);</span></code></pre></figure>
+
+<h2 id="stored-procedure">Stored Procedure:</h2>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">OR</span> <span class="k">replace</span> <span class="k">PROCEDURE</span> <span class="n">unload_all</span><span class="p">(</span><span class="n">s3_location</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">10000</span><span class="p">))</span> <span class="k">LANGUAGE</span> <span class="n">plpgsql</span>
+<span class="k">AS</span>
+<span class="err">$$</span>
+<span class="k">DECLARE</span>
+<span class="n">list</span> <span class="n">RECORD</span><span class="p">;</span>
+<span class="n">db</span>        <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="n">tablename</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="n">tableschema</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="n">starttime</span> <span class="nb">datetime</span><span class="p">;</span>
+<span class="n">endtime</span>   <span class="nb">datetime</span><span class="p">;</span>
+<span class="k">SQL</span> <span class="nb">text</span><span class="p">;</span>
+<span class="n">s3_path</span>      <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+<span class="n">iamrole</span>      <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="k">delimiter</span>    <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="n">max_filesize</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="n">un_year</span>      <span class="nb">INT</span><span class="p">;</span>
+<span class="n">un_month</span>     <span class="nb">INT</span><span class="p">;</span>
+<span class="n">un_day</span>       <span class="nb">INT</span><span class="p">;</span>
+<span class="n">unload_query</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">65000</span><span class="p">);</span>
+<span class="n">copy_query</span>   <span class="nb">varchar</span><span class="p">(</span><span class="mi">65000</span><span class="p">);</span>
+<span class="n">unload_id</span> <span class="nb">INT</span><span class="p">;</span>
+<span class="n">unload_time</span> <span class="nb">timestamp</span><span class="p">;</span>
+
+      <span class="k">BEGIN</span> 
+      
+        <span class="c1">-- Pass values for the variables </span>
+        <span class="k">SELECT</span> <span class="k">extract</span><span class="p">(</span><span class="nb">year</span> <span class="k">FROM</span> <span class="n">getdate</span><span class="p">())</span> 
+        <span class="k">INTO</span>   <span class="n">un_year</span><span class="p">;</span> 
+         
+        <span class="k">SELECT</span> <span class="k">extract</span><span class="p">(</span><span class="k">month</span> <span class="k">FROM</span> <span class="n">getdate</span><span class="p">())</span> 
+        <span class="k">INTO</span>   <span class="n">un_month</span><span class="p">;</span> 
+         
+        <span class="k">SELECT</span> <span class="k">extract</span><span class="p">(</span><span class="k">day</span> <span class="k">FROM</span> <span class="n">getdate</span><span class="p">())</span> 
+        <span class="k">INTO</span>   <span class="n">un_day</span><span class="p">;</span> 
+         
+        <span class="k">SELECT</span> <span class="k">DISTINCT</span><span class="p">(</span><span class="n">table_catalog</span><span class="p">)</span> 
+        <span class="k">FROM</span>            <span class="n">information_schema</span><span class="p">.</span><span class="n">TABLES</span> 
+        <span class="k">INTO</span>            <span class="n">db</span><span class="p">;</span> 
+         
+        <span class="k">SELECT</span> <span class="n">coalesce</span><span class="p">(</span><span class="k">max</span><span class="p">(</span><span class="n">u_id</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span> 
+        <span class="k">FROM</span>   <span class="n">unload_history</span> 
+        <span class="k">INTO</span>   <span class="n">unload_id</span><span class="p">;</span> 
+         
+        <span class="k">SELECT</span> <span class="n">getdate</span><span class="p">()</span> 
+        <span class="k">INTO</span>   <span class="n">unload_time</span><span class="p">;</span> 
+         
+        <span class="n">s3_path</span><span class="p">:</span><span class="o">=</span><span class="n">s3_location</span><span class="p">;</span> 
+        
+        <span class="c1">-- IAM ROLE and the Delimiter is hardcoded here</span>
+        <span class="n">iamrole</span><span class="p">:</span><span class="o">=</span><span class="s1">'arn:aws:iam::123123123:role/myredshiftrole'</span><span class="p">;</span> 
+        <span class="k">delimiter</span><span class="p">:</span><span class="o">=</span><span class="s1">'|'</span><span class="p">;</span> 
+        
+        <span class="c1">-- Get the list of tables except the unload history table</span>
+        <span class="k">FOR</span> <span class="n">list</span> <span class="k">IN</span> 
+        <span class="k">SELECT</span> <span class="n">table_schema</span><span class="p">,</span> 
+               <span class="k">table_name</span> 
+        <span class="k">FROM</span>   <span class="n">information_schema</span><span class="p">.</span><span class="n">TABLES</span> 
+        <span class="k">WHERE</span>  <span class="n">table_type</span><span class="o">=</span><span class="s1">'BASE TABLE'</span> 
+        <span class="k">AND</span>    <span class="n">table_schema</span> <span class="k">NOT</span> <span class="k">IN</span> <span class="p">(</span><span class="s1">'pg_catalog'</span><span class="p">,</span> 
+                                    <span class="s1">'information_schema'</span><span class="p">)</span> 
+        <span class="k">AND</span>    <span class="k">table_name</span> <span class="o">!=</span><span class="s1">'unload_history'</span> <span class="n">LOOP</span> 
+        
+        <span class="k">SELECT</span> <span class="n">getdate</span><span class="p">()</span> 
+        <span class="k">INTO</span>   <span class="n">starttime</span><span class="p">;</span> 
+         
+        <span class="k">sql</span><span class="p">:</span><span class="o">=</span><span class="s1">'select * from '</span><span class="o">||</span><span class="n">list</span><span class="p">.</span><span class="n">table_schema</span><span class="o">||</span><span class="s1">'.'</span><span class="o">||</span><span class="n">list</span><span class="p">.</span><span class="k">table_name</span><span class="o">||</span><span class="s1">''</span> <span class="p">;</span>
+    
+        <span class="n">RAISE</span> <span class="n">info</span> <span class="s1">'[%] Unloading... schema = % and table = %'</span><span class="p">,</span><span class="n">starttime</span><span class="p">,</span> <span class="n">list</span><span class="p">.</span><span class="n">table_schema</span><span class="p">,</span> <span class="n">list</span><span class="p">.</span><span class="k">table_name</span><span class="p">;</span>
+        
+        <span class="c1">-- Start unloading the data </span>
+        <span class="n">unload_query</span> <span class="p">:</span><span class="o">=</span> <span class="s1">'unload (</span><span class="se">''</span><span class="s1">'</span><span class="o">||</span><span class="k">sql</span><span class="o">||</span><span class="s1">'</span><span class="se">''</span><span class="s1">) to </span><span class="se">''</span><span class="s1">'</span><span class="o">||</span><span class="n">s3_path</span><span class="o">||</span><span class="n">un_year</span><span class="o">||</span><span class="s1">'/'</span><span class="o">||</span><span class="n">un_month</span><span class="o">||</span><span class="s1">'/'</span><span class="o">||</span><span class="n">un_day</span><span class="o">||</span><span class="s1">'/'</span><span class="o">||</span><span class="n">db</span><span class="o">||</span><span class="s1">'/'</span><span class="o">||</span><span class="n">list</span><span class="p">.</span><span class="n">table_schema</span><span class="o">||</span><span class="s1">'/'</span><span class="o">||</span><span class="n">list</span><span class="p">.</span><span class="k">table_name</span><span class="o">||</span><span class="s1">'/'</span><span class="o">||</span><span class="n">list</span><span class="p">.</span><span class="n">table_schema</span><span class="o">||</span><span class="s1">'-'</span><span class="o">||</span><span class="n">list</span><span class="p">.</span><span class="k">table_name</span><span class="o">||</span><span class="s1">'_</span><span class="se">''</span><span class="s1"> iam_role </span><span class="se">''</span><span class="s1">'</span><span class="o">||</span><span class="n">iamrole</span><span class="o">||</span><span class="s1">'</span><span class="se">''</span><span class="s1"> delimiter </span><span class="se">''</span><span class="s1">'</span><span class="o">||</span><span class="k">delimiter</span><span class="o">||</span><span class="s1">'</span><span class="se">''</span><span class="s1"> MAXFILESIZE 300 MB PARALLEL ADDQUOTES HEADER GZIP'</span><span class="p">;</span>
+        <span class="k">EXECUTE</span> <span class="n">unload_query</span><span class="p">;</span> 
+        
+        <span class="n">copy_query</span> <span class="p">:</span><span class="o">=</span> <span class="s1">'copy '</span><span class="o">||</span><span class="n">list</span><span class="p">.</span><span class="n">table_schema</span><span class="o">||</span><span class="s1">'.'</span><span class="o">||</span><span class="n">list</span><span class="p">.</span><span class="k">table_name</span><span class="o">||</span><span class="s1">' from </span><span class="se">''</span><span class="s1">'</span><span class="o">||</span><span class="n">s3_path</span><span class="o">||</span><span class="n">un_year</span><span class="o">||</span><span class="s1">'/'</span><span class="o">||</span><span class="n">un_month</span><span class="o">||</span><span class="s1">'/'</span><span class="o">||</span><span class="n">un_day</span><span class="o">||</span><span class="s1">'/'</span><span class="o">||</span><span class="n">db</span><span class="o">||</span><span class="s1">'/'</span><span class="o">||</span><span class="n">list</span><span class="p">.</span><span class="n">table_schema</span><span class="o">||</span><span class="s1">'/'</span><span class="o">||</span><span class="n">list</span><span class="p">.</span><span class="k">table_name</span><span class="o">||</span><span class="s1">'/</span><span class="se">''</span><span class="s1"> iam_role </span><span class="se">''</span><span class="s1">'</span><span class="o">||</span><span class="n">iamrole</span><span class="o">||</span><span class="s1">'</span><span class="se">''</span><span class="s1"> delimiter </span><span class="se">''</span><span class="s1">'</span><span class="o">||</span><span class="k">delimiter</span><span class="o">||</span><span class="s1">'</span><span class="se">''</span><span class="s1"> IGNOREHEADER 1 REMOVEQUOTES gzip'</span><span class="p">;</span>
+        
+        <span class="k">SELECT</span> <span class="n">getdate</span><span class="p">()</span> 
+        <span class="k">INTO</span>   <span class="n">endtime</span><span class="p">;</span> 
+    
+        <span class="k">SELECT</span> <span class="n">list</span><span class="p">.</span><span class="n">table_schema</span> 
+        <span class="k">INTO</span> <span class="n">tableschema</span><span class="p">;</span>
+    
+        <span class="k">SELECT</span> <span class="n">list</span><span class="p">.</span><span class="k">table_name</span> 
+        <span class="k">INTO</span> <span class="n">tablename</span><span class="p">;</span>
+         
+        <span class="c1">-- Insert into the history table</span>
+        <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">unload_history</span> 
+                    <span class="p">(</span> 
+                                <span class="n">u_id</span><span class="p">,</span> 
+                                <span class="n">u_timestamp</span><span class="p">,</span> 
+                                <span class="n">start_time</span><span class="p">,</span> 
+                                <span class="n">end_time</span><span class="p">,</span> 
+                                <span class="n">db_name</span><span class="p">,</span> 
+                                <span class="n">table_schema</span><span class="p">,</span>
+                                <span class="k">table_name</span><span class="p">,</span>
+                                <span class="n">export_query</span><span class="p">,</span>
+                                <span class="n">import_query</span> 
+                    <span class="p">)</span> 
+                    <span class="k">VALUES</span> 
+                    <span class="p">(</span> 
+                                <span class="n">unload_id</span><span class="p">,</span> 
+                                <span class="n">unload_time</span><span class="p">,</span> 
+                                <span class="n">starttime</span><span class="p">,</span> 
+                                <span class="n">endtime</span><span class="p">,</span> 
+                                <span class="n">db</span><span class="p">,</span> 
+                                <span class="n">tableschema</span><span class="p">,</span>
+                                <span class="n">tablename</span><span class="p">,</span>
+                                <span class="n">unload_query</span><span class="p">,</span>
+                                <span class="n">copy_query</span>
+
+                    <span class="p">);</span> 
+       
+      <span class="k">END</span> <span class="n">LOOP</span><span class="p">;</span> 
+      <span class="n">RAISE</span> <span class="n">info</span> <span class="s1">' Unloading of the DB [%] is success !!!'</span> <span class="p">,</span><span class="n">db</span><span class="p">;</span>
+    <span class="k">END</span><span class="p">;</span> 
+    <span class="err">$$</span><span class="p">;</span></code></pre></figure>
+
+<h2 id="hardcoded-items">Hardcoded Items:</h2>
+
+<p>In the stored procedure, I have hardcoded the follow parameters.</p>
+
+<ul>
+  <li>IAM ROLE - <code class="highlighter-rouge">arn:aws:iam::123123123123:role/myredshiftrole</code></li>
+  <li>Delimiter - <code class="highlighter-rouge">|</code></li>
+</ul>
+
+<p>Also, the following Items are hardcoded in the Unload query. You can get these things as variable or hardcoded as per your convenient.</p>
+
+<ul>
+  <li>MAXFILESIZE  - 100 MB</li>
+  <li>PARALLEL</li>
+  <li>ADDQUOTES</li>
+  <li>HEADER</li>
+  <li>GZIP</li>
+</ul>
+
+<h2 id="execute-the-procedure">Execute the procedure:</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>call unload_all('s3://bhuvi-datalake/test/');
+</code></pre></div></div>
+
+<p>You can see the status in the terminal</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>INFO:  [2019-10-06 19:20:04] Unloading... schema = etl and table = tbl1
+INFO:  UNLOAD completed, 2 record(s) unloaded successfully.
+INFO:  [2019-10-06 19:20:10] Unloading... schema = etl and table = tbl2
+INFO:  UNLOAD completed, 2 record(s) unloaded successfully.
+INFO:  [2019-10-06 19:20:12] Unloading... schema = stage and table = tbl3
+INFO:  UNLOAD completed, 2 record(s) unloaded successfully.
+INFO:  [2019-10-06 19:20:12] Unloading... schema = stage and table = tbl4
+INFO:  UNLOAD completed, 2 record(s) unloaded successfully.
+INFO:  [2019-10-06 19:20:14] Unloading... schema = stage and table = tbl5
+INFO:  UNLOAD completed, 2 record(s) unloaded successfully.
+INFO:  [2019-10-06 19:20:15] Unloading... schema = prod and table = tbl6
+INFO:  UNLOAD completed, 2 record(s) unloaded successfully.
+INFO:  [2019-10-06 19:20:15] Unloading... schema = prod and table = tbl7
+INFO:  UNLOAD completed, 2 record(s) unloaded successfully.
+INFO:  [2019-10-06 19:20:15] Unloading... schema = public and table = debug
+INFO:  UNLOAD completed, 0 record(s) unloaded successfully.
+INFO:  [2019-10-06 19:20:16] Unloading... schema = public and table = test
+INFO:  UNLOAD completed, 1 record(s) unloaded successfully.
+INFO:   Unloading of the DB [preprod] is success !!!
+CALL
+</code></pre></div></div>
+
+<h2 id="files-on-s3">Files on S3:</h2>
+
+<p><img src="/assets/RedShift Unload All Tables To S3_1.jpg" alt="" /></p>
+
+<p><img src="/assets/RedShift Unload All Tables To S3_2.jpg" alt="" /></p>
+
+<h2 id="retrieve-the-history">Retrieve the History:</h2>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">preprod</span><span class="o">=#</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">unload_history</span> <span class="k">limit</span> <span class="mi">1</span><span class="p">;</span>
+    
+<span class="n">pid</span>          <span class="o">|</span> <span class="mi">28</span>
+<span class="n">u_id</span>         <span class="o">|</span> <span class="mi">1</span>
+<span class="n">u_timestamp</span>  <span class="o">|</span> <span class="mi">2019</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">08</span> <span class="mi">10</span><span class="p">:</span><span class="mi">33</span><span class="p">:</span><span class="mi">23</span>
+<span class="n">start_time</span>   <span class="o">|</span> <span class="mi">2019</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">08</span> <span class="mi">10</span><span class="p">:</span><span class="mi">33</span><span class="p">:</span><span class="mi">23</span>
+<span class="n">end_time</span>     <span class="o">|</span> <span class="mi">2019</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">08</span> <span class="mi">10</span><span class="p">:</span><span class="mi">33</span><span class="p">:</span><span class="mi">23</span>
+<span class="n">db_name</span>      <span class="o">|</span> <span class="n">preprod</span>
+<span class="n">table_schema</span> <span class="o">|</span> <span class="n">etl</span>
+<span class="k">table_name</span>   <span class="o">|</span> <span class="n">tbl2</span>
+<span class="n">export_query</span> <span class="o">|</span> <span class="n">unload</span> <span class="p">(</span><span class="s1">'select * from etl.tbl2'</span><span class="p">)</span> <span class="k">to</span> <span class="s1">'s3://bhuvi-datalake/test/2019/10/8/preprod/etl/tbl2/etl-tbl2_'</span> <span class="n">iam_role</span> <span class="s1">'arn:aws:iam::123123123:role/myredshiftrole'</span> <span class="k">delimiter</span> <span class="s1">'|'</span> <span class="n">MAXFILESIZE</span> <span class="mi">300</span> <span class="n">MB</span> <span class="n">PARALLEL</span> <span class="n">ADDQUOTES</span> <span class="n">HEADER</span> <span class="n">GZIP</span>
+<span class="n">import_query</span> <span class="o">|</span> <span class="k">copy</span> <span class="n">etl</span><span class="p">.</span><span class="n">tbl2</span> <span class="k">from</span> <span class="s1">'s3://bhuvi-datalake/test/2019/10/8/preprod/etl/tbl2/'</span> <span class="n">iam_role</span> <span class="s1">'arn:aws:iam::123123123:role/myredshiftrole'</span> <span class="k">delimiter</span> <span class="s1">'|'</span> <span class="n">IGNOREHEADER</span> <span class="mi">1</span> <span class="n">REMOVEQUOTES</span> <span class="n">gzip</span></code></pre></figure>
+:ET

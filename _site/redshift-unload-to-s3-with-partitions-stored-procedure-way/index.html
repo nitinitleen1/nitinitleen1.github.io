@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<!--
+    So Simple Jekyll Theme 3.1.1
+    Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/so-simple-theme/blob/master/LICENSE
+-->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:image" content="http://localhost:4000/assets/RedShift Unload to S3 With Partitions - Stored Procedure Way.jpg">
+<script data-ad-client="ca-pub-9518508677792760" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<link rel="apple-touch-icon" sizes="57x57" href="/favicon.ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/favicon.ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/favicon.ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/favicon.ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/favicon.ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/favicon.ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/favicon.ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/favicon.ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon.ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico/favicon-16x16.png">
+<link rel="manifest" href="/favicon.ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">  
+  
+
+  
+    <title>RedShift Unload to S3 With Partitions - Stored Procedure Way</title>
+    <meta name="description" content="Redshift unload is the fastest way to export the data from Redshift cluster. In BigData world, generally people use the data in S3 for DataLake. So its impor...">
+    <link rel="canonical" href="http://localhost:4000/redshift-unload-to-s3-with-partitions-stored-procedure-way/">
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  <link rel="stylesheet" href="/assets/css/applause-button.css" />
+   <script src="/assets/js/applause-button.js"></script>
+
+</head>
+
+
+  <body class="layout--post  redshift-unload-to-s3-with-partitions-stored-procedure-way">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/">Home</a></li><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="https://medium.com/@bhuvithedataguy">BigData Articles</a></li><li><a href="/search/">Search</a></li></ul>
+    </nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+    
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+  
+  
+  
+
+  <div class="page-image">
+    <img src="/assets/RedShift%20Unload%20to%20S3%20With%20Partitions%20-%20Stored%20Procedure%20Way.jpg" class="entry-feature-image u-photo" alt="RedShift Unload to S3 With Partitions - Stored Procedure Way" style="margin-top: 0;">
+    
+  </div>
+
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">RedShift Unload to S3 With Partitions - Stored Procedure Way
+</h1>
+        
+
+      </header>
+      
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><div class="author-info"><div class="author-name">
+        <span class="p-name">Nitin Kumar Singh</span>
+      </div>
+    <time class="page-date dt-published" datetime="2019-08-27T09:47:00+05:30"><a class="u-url" href="">August 27, 2019</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title">Categories</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy">AWS</li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title">Tags</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy">aws</li><li class="page-taxonomy">redshift</li><li class="page-taxonomy">s3</li><li class="page-taxonomy">sql</li>
+  </ul>
+
+
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad-vertical -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9518508677792760"
+     data-ad-slot="4154399056"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <br/>
+        <br/>
+        <applause-button style="width: 58px; height: 58px; text-align:right" color="black" multiclap="true">
+
+      </div>
+
+      <div class="page-content">
+        <div class="e-content">
+
+          <p>Redshift unload is the fastest way to export the data from Redshift cluster. In BigData world, generally people use the data in S3 for DataLake. So its important that we need to make sure the data in S3 should be partitioned. So we can use Athena, RedShift Spectrum or EMR External tables to access that data in an optimized way. If you are dealing with multiple tables, then you can loop the table names in a shell script or Python code. But as a SQL guy, I choose stored procedures to do this. It made export process simple.</p>
+
+<p>In this procedure I just used the options which are suitable for me, but you can use the same procedure and do whatever customization you want. Also you can track the activity of this unload in a metadata table.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql">    <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">unload_meta</span> <span class="p">(</span>
+    	<span class="n">id</span> <span class="nb">INT</span> <span class="k">IDENTITY</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    	<span class="p">,</span><span class="n">tablename</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+    	<span class="p">,</span><span class="n">start_time</span> <span class="nb">DATETIME</span>
+    	<span class="p">,</span><span class="n">end_time</span> <span class="nb">DATETIME</span>
+    	<span class="p">,</span><span class="n">export_query</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">65500</span><span class="p">)</span>
+    	<span class="p">);</span></code></pre></figure>
+
+<p>Define the parameters:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">starttime</code> - timestamp when the process started</li>
+  <li><code class="highlighter-rouge">endtime</code> - timestamp when the process end</li>
+  <li><code class="highlighter-rouge">sql</code> - SQL Query that you want to export its results to S3.</li>
+  <li><code class="highlighter-rouge">s3_path</code> - location of S3 with prefix. Make sure you have end this string with <code class="highlighter-rouge">/</code>.</li>
+  <li><code class="highlighter-rouge">iamrole</code> - IAM role ARN which has s3 write access.</li>
+  <li><code class="highlighter-rouge">delimiter</code> - If you are exporting as CSV, you can define your delimiter.</li>
+  <li><code class="highlighter-rouge">un_year</code> - Partition YEAR</li>
+  <li><code class="highlighter-rouge">un_month</code> - Partition MONTH</li>
+  <li><code class="highlighter-rouge">un_day</code> - Partition DAY</li>
+</ul>
+
+<p>In this procedure, I used <code class="highlighter-rouge">GETDATE()</code> function to pass current day, month, year into partition variables. If you want custom one, you can get these variables from input in stored procedure.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql">    <span class="k">CREATE</span> <span class="k">OR</span> <span class="k">REPLACE</span> <span class="k">PROCEDURE</span> <span class="n">sp_unload</span><span class="p">(</span><span class="n">v_tablename</span> <span class="nb">varchar</span><span class="p">)</span>
+    <span class="k">LANGUAGE</span> <span class="n">plpgsql</span> <span class="k">AS</span>
+    <span class="err">$$</span>
+    <span class="k">DECLARE</span>
+       <span class="n">starttime</span> <span class="nb">datetime</span><span class="p">;</span>
+       <span class="n">endtime</span> <span class="nb">datetime</span><span class="p">;</span>
+       <span class="k">sql</span> <span class="nb">text</span><span class="p">;</span>
+       <span class="n">s3_path</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+       <span class="n">iamrole</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+       <span class="k">delimiter</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+       <span class="n">unload_query</span> <span class="nb">text</span><span class="p">;</span>
+       <span class="n">max_filesize</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+       <span class="n">un_year</span> <span class="nb">int</span><span class="p">;</span>
+       <span class="n">un_month</span> <span class="nb">int</span><span class="p">;</span>
+       <span class="n">un_day</span> <span class="nb">int</span><span class="p">;</span>
+    
+    <span class="k">BEGIN</span>
+       
+       <span class="k">select</span> <span class="k">extract</span><span class="p">(</span><span class="nb">year</span> <span class="k">from</span>  <span class="n">GETDATE</span><span class="p">())</span> <span class="k">into</span> <span class="n">un_year</span><span class="p">;</span>
+       <span class="k">select</span> <span class="k">extract</span><span class="p">(</span><span class="k">month</span> <span class="k">from</span>  <span class="n">GETDATE</span><span class="p">())</span> <span class="k">into</span> <span class="n">un_month</span><span class="p">;</span>
+       <span class="k">select</span> <span class="k">extract</span><span class="p">(</span><span class="k">day</span> <span class="k">from</span>  <span class="n">GETDATE</span><span class="p">())</span> <span class="k">into</span> <span class="n">un_day</span><span class="p">;</span>
+       <span class="k">select</span> <span class="n">GETDATE</span><span class="p">()</span> <span class="k">into</span> <span class="n">starttime</span><span class="p">;</span>
+       
+       <span class="k">sql</span><span class="p">:</span><span class="o">=</span><span class="s1">'select * from '</span><span class="o">||</span><span class="n">v_tablename</span><span class="o">||</span><span class="s1">''</span> <span class="p">;</span>
+       <span class="n">s3_path</span><span class="p">:</span><span class="o">=</span><span class="s1">'s3://bhuvi-datalake/clicksteam/'</span><span class="p">;</span>
+       <span class="n">iamrole</span><span class="p">:</span><span class="o">=</span><span class="s1">'arn:aws:iam::123123123123:role/myredshiftrole'</span><span class="p">;</span>
+       <span class="k">delimiter</span><span class="p">:</span><span class="o">=</span><span class="s1">'|'</span><span class="p">;</span>
+       <span class="n">unload_query</span> <span class="p">:</span><span class="o">=</span> <span class="s1">'unload (</span><span class="se">''</span><span class="s1">'</span><span class="o">||</span><span class="k">sql</span><span class="o">||</span><span class="s1">'</span><span class="se">''</span><span class="s1">) to </span><span class="se">''</span><span class="s1">'</span><span class="o">||</span><span class="n">s3_path</span><span class="o">||</span><span class="n">un_year</span><span class="o">||</span><span class="s1">'/'</span><span class="o">||</span><span class="n">un_month</span><span class="o">||</span><span class="s1">'/'</span><span class="o">||</span><span class="n">un_day</span><span class="o">||</span><span class="s1">'/'</span><span class="o">||</span><span class="n">v_tablename</span><span class="o">||</span><span class="s1">'_</span><span class="se">''</span><span class="s1"> iam_role </span><span class="se">''</span><span class="s1">'</span><span class="o">||</span><span class="n">iamrole</span><span class="o">||</span><span class="s1">'</span><span class="se">''</span><span class="s1"> delimiter </span><span class="se">''</span><span class="s1">'</span><span class="o">||</span><span class="k">delimiter</span><span class="o">||</span><span class="s1">'</span><span class="se">''</span><span class="s1"> MAXFILESIZE 100 MB PARALLEL ADDQUOTES HEADER GZIP'</span><span class="p">;</span>
+      
+       <span class="k">execute</span> <span class="n">unload_query</span><span class="p">;</span>
+       <span class="k">select</span> <span class="n">GETDATE</span><span class="p">()</span> <span class="k">into</span> <span class="n">endtime</span><span class="p">;</span>
+    
+       <span class="k">Insert</span> <span class="k">into</span> <span class="n">unload_meta</span> <span class="p">(</span><span class="n">tablename</span><span class="p">,</span> <span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">,</span> <span class="n">export_query</span><span class="p">)</span> <span class="k">values</span> <span class="p">(</span><span class="n">v_tablename</span><span class="p">,</span><span class="n">starttime</span><span class="p">,</span><span class="n">endtime</span><span class="p">,</span><span class="n">unload_query</span><span class="p">);</span>
+    
+    <span class="k">END</span>
+    <span class="err">$$</span><span class="p">;</span>  </code></pre></figure>
+
+<p>Here, Im getting the table name from input. Then I used multiple options like parallel, max file size, include headers and compress. If you don’t want to use this, you can remove these options from the <code class="highlighter-rouge">unload_query</code>. Also if you need you can get the s3 location and other parameters from the user input. You can do many customization here.</p>
+
+<p>Lets try this.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    <span class="nb">test</span><span class="o">=</span><span class="c"># call sp_unload('bhuvi');</span>
+    INFO:  UNLOAD completed, 400000 record<span class="o">(</span>s<span class="o">)</span> unloaded successfully.
+    CALL
+    <span class="nb">test</span><span class="o">=</span><span class="c">#</span></code></pre></figure>
+
+<p><img src="/assets/RedShift Unload to S3 With Partitions.png" alt="" /></p>
+
+<p>Get the unload History from Meta table:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>select * from unload_meta;
+
+id           | 1
+tablename    | bhuvi
+start_time   | 2019-08-27 03:42:57
+end_time     | 2019-08-27 03:43:03
+export_query | unload ('select * from bhuvi') to 's3://bhuvi-datalake/clicksteam/2019/8/27/bhuvi_' iam_role 'arn:aws:iam::123123123:role/myredshiftrole' delimiter '|' MAXFILESIZE 100 MB PARALLEL ADDQUOTES HEADER GZIP
+</code></pre></div></div>
+
+<p>In my next blog, I’ll write about how to automate this Unload Process in AWS Glue and convert the CSV to Parquet format.</p>
+
+<h2 id="update">Update:</h2>
+<p>I have written the updated version of this stored procedure to unload all of the tables in a database to S3.
+You can read it here: <a href="https://thedataguy.in/redshift-unload-all-tables-to-s3/">https://thedataguy.in/redshift-unload-all-tables-to-s3/</a></p>
+
+        </div>
+        <hr>
+        <h3>Advertisement</h3>
+         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad-horizontal -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9518508677792760"
+     data-ad-slot="4874591962"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <hr>
+        <h3> Share this article </h3>
+      
+        
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/mysql-convert-binlog-based-replication-to-gtid-replication-without-downtime/">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> MySQL Convert Binlog Based Replication To GTID Replication Without Downtime
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/relationalize-unstructured-data-in-aws-athena-with-grokserde/">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        Relationalize Unstructured Data In AWS Athena with GrokSerDe
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="copyright">
+    
+      <p>&copy; 2020 Nitin Kumar Singh | Data Architect. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
+
+
+  </body>
+
+</html>

@@ -1,0 +1,136 @@
+I"\2<p><img src="/assets/configure-bucardo-replication-centos.png" alt="configure bucardo replication centos" /></p>
+
+<p>I was working with a migration process to migrate the Postgresql Database from Ec2(centos) to AWS RDS. Since I did many migrations to RDS but this is my first migration with Postgresql. The challenge was the source database in Postgresql 9.2 and I wanted to 9.6 on RDS. So decided to configure bucardo replication centos.</p>
+
+<h2 id="pre-requirements">Pre-Requirements:</h2>
+
+<ul>
+  <li>EC2 instance with CentOs 6.5 (you can use this for centos 6.9, 7.0+)</li>
+  <li>Postgresql 9.2 on CentOs</li>
+  <li>RDS with Postgresql 9.6</li>
+  <li>Connectivity between Ec2 to RDS.</li>
+  <li>Source Database bhuvi.</li>
+</ul>
+
+<p>Now lets kick start the process.</p>
+
+<h2 id="install-postgresql-92">Install Postgresql 9.2:</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">rpm <span class="nt">-Uvh</span> https://download.postgresql.org/pub/repos/yum/9.2/redhat/rhel-7-x86_64/pgdg-centos92-9.2-3.noarch.rpm
+yum <span class="nb">install </span>postgresql92 postgresql92-server postgresql92-contrib postgresql-devel postgresql92-plperl</code></pre></figure>
+
+<h3 id="initialize-the-postgresql-cluster-and-start-the-service">Initialize the Postgresql Cluster and start the service:</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">/usr/pgsql-9.2/bin/postgresql92-setup initdb
+systemctl <span class="nb">enable </span>postgresql-9.2.service
+systemctl <span class="nb">enable </span>postgresql-9.2.service
+systemctl start postgresql-9.2.service</code></pre></figure>
+
+<h2 id="prepare-the-source-database">Prepare the Source Database:</h2>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">create</span> <span class="k">database</span> <span class="n">bhuvi</span><span class="p">;</span>
+<span class="err">\</span><span class="k">c</span> <span class="n">bhuvi</span><span class="p">;</span>
+<span class="k">create</span> <span class="k">table</span><span class="err"> </span><span class="k">source</span> <span class="p">(</span><span class="n">id</span> <span class="nb">int</span><span class="p">);</span>
+<span class="k">insert</span> <span class="k">into</span><span class="err"> </span><span class="k">source</span> <span class="k">values</span> <span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="k">insert</span> <span class="k">into</span><span class="err"> </span><span class="k">source</span> <span class="k">values</span> <span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="k">insert</span> <span class="k">into</span><span class="err"> </span><span class="k">source</span> <span class="k">values</span> <span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+<span class="k">insert</span> <span class="k">into</span><span class="err"> </span><span class="k">source</span> <span class="k">values</span> <span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+<span class="k">insert</span> <span class="k">into</span><span class="err"> </span><span class="k">source</span> <span class="k">values</span> <span class="p">(</span><span class="mi">5</span><span class="p">);</span></code></pre></figure>
+
+<h2 id="install-dependencies">Install dependencies:</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">sudo </span>yum <span class="nb">install </span>perl-DBI perl-DBD-Pg perl-DBIx-Safe postgresql92-plperl perl-version perl-ExtUtils-MakeMaker perl-DBD-Pg perl-Encode-Locale perl-Sys-Syslog perl-Test-Simple perl-Pod-Parser perl-Time-HiRes perl-Readonly
+
+rpm <span class="nt">-Uvh</span> http://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/p/perl-boolean-0.30-1.el7.noarch.rpm</code></pre></figure>
+
+<h2 id="prepare-a-database-for-bucardo">Prepare a Database for Bucardo:</h2>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">USER</span> <span class="n">bucardo</span> <span class="k">WITH</span> <span class="n">LOGIN</span> <span class="n">SUPERUSER</span> <span class="k">ENCRYPTED</span> <span class="n">PASSWORD</span> <span class="s1">'bucardo-runner'</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">bucardo</span><span class="p">;</span>
+<span class="err">\</span><span class="k">c</span> <span class="n">bhuvi</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="n">EXTENSION</span> <span class="n">plperl</span><span class="p">;</span></code></pre></figure>
+
+<h2 id="add-directories-for-bucardo-service">Add directories for Bucardo service:</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">sudo mkdir</span> <span class="nt">-p</span> /var/log/bucardo /var/run/bucardo
+<span class="nb">sudo chown</span> <span class="nt">-R</span> postgres:postgres /var/log/bucardo /var/run/bucardo</code></pre></figure>
+
+<h2 id="install-bucardo-package">Install Bucardo Package:</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">cd</span> /tmp
+wget http://bucardo.org/downloads/Bucardo-5.4.1.tar.gz
+<span class="nb">tar </span>xvfz Bucardo-5.4.1.tar.gz
+<span class="nb">cd </span>Bucardo-5.4.1
+perl Makefile.PL
+make
+<span class="nb">sudo </span>make <span class="nb">install</span></code></pre></figure>
+
+<h2 id="source-file-for-bucardo">Source file for Bucardo:</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">vi <span class="nv">$HOME</span>/.bucardorc
+<span class="nv">dbhost</span><span class="o">=</span>127.0.0.1
+<span class="nv">dbname</span><span class="o">=</span>bucardo
+<span class="nv">dbport</span><span class="o">=</span>5432
+<span class="nv">dbuser</span><span class="o">=</span>bucardo</code></pre></figure>
+
+<h2 id="setup-pgpass-file">Setup pgpass file:</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">echo</span> <span class="s2">"127.0.0.1:5432:bucardo:bucardo:bucardo-runner"</span> <span class="o">&gt;</span> <span class="nv">$HOME</span>/.pgpass
+<span class="nb">chmod </span>0600 <span class="nv">$HOME</span>/.pgpass</code></pre></figure>
+
+<h2 id="install-bucardo-on-its-own-database">Install bucardo on its own database:</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">./tmp/Bucardo-5.4.1/bucardo <span class="nb">install</span> <span class="nt">--quiet</span></code></pre></figure>
+
+<p>This will ask to verify the configurations, f you see the username or DB name get changes press the num ber you want to change.</p>
+
+<h2 id="export-the-source-and-target-database-details">Export the Source and Target Database details:</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">export </span><span class="nv">SOURCE_HOST</span><span class="o">=</span>127.0.0.1
+<span class="nb">export </span><span class="nv">SOURCE_PORT</span><span class="o">=</span>5432
+<span class="nb">export </span><span class="nv">SOURCE_DATABASE</span><span class="o">=</span>bhuvi
+<span class="nb">export </span><span class="nv">SOURCE_USERNAME</span><span class="o">=</span>bucardo
+<span class="nb">export </span><span class="nv">SOURCE_PASSWORD</span><span class="o">=</span>bucardo
+
+<span class="nb">export </span><span class="nv">DEST_HOST</span><span class="o">=</span>bhuvi.us-east-1.rds.amazonaws.com
+<span class="nb">export </span><span class="nv">DEST_PORT</span><span class="o">=</span>5432
+<span class="nb">export </span><span class="nv">DEST_DATABASE</span><span class="o">=</span>bhuvi
+<span class="nb">export </span><span class="nv">DEST_USERNAME</span><span class="o">=</span>bhuvi
+<span class="nb">export </span><span class="nv">DEST_PASSWORD</span><span class="o">=</span>bhu12345
+
+<span class="nb">cat</span> <span class="o">&gt;&gt;</span> <span class="nv">$HOME</span>/.pgpass <span class="o">&lt;&lt;</span><span class="no">EOL</span><span class="sh">
+</span><span class="nv">$DEST_HOST</span><span class="sh">:</span><span class="nv">$DEST_PORT</span><span class="sh">:</span><span class="nv">$DEST_DATABASE</span><span class="sh">:</span><span class="nv">$DEST_USERNAME</span><span class="sh">:</span><span class="nv">$DEST_PASSWORD</span><span class="sh">
+</span><span class="nv">$SOURCE_HOST</span><span class="sh">:</span><span class="nv">$SOURCE_PORT</span><span class="sh">:</span><span class="nv">$SOURCE_DATABASE</span><span class="sh">:</span><span class="nv">$SOURCE_USERNAME</span><span class="sh">:</span><span class="nv">$SOURCE_PASSWORD</span><span class="sh">
+EOL</span></code></pre></figure>
+
+<h2 id="export-the-table-that-we-want-to-replicate">Export the table that we want to replicate:</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">export </span><span class="nv">TABLES_WITH_SPACES</span><span class="o">=</span><span class="s2">"public.source"</span></code></pre></figure>
+
+<p>You can use space to add multiple tables.</p>
+
+<h2 id="take-a-dump-without-data">Take a dump without data:</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">pg_dump <span class="s2">"host=</span><span class="nv">$SOURCE_HOST</span><span class="s2"> port=</span><span class="nv">$SOURCE_PORT</span><span class="s2"> dbname=</span><span class="nv">$SOURCE_DATABASE</span><span class="s2"> user=</span><span class="nv">$SOURCE_USERNAME</span><span class="s2">"</span> <span class="nv">$TABLES</span> <span class="nt">--schema-only</span> | <span class="nb">grep</span> <span class="nt">-v</span> <span class="s1">'CREATE TRIGGER'</span> | <span class="nb">grep</span> <span class="nt">-v</span> <span class="s1">'^--'</span> | <span class="nb">grep</span> <span class="nt">-v</span> <span class="s1">'^$'</span> | <span class="nb">grep</span> <span class="nt">-v</span> <span class="s1">'^SET'</span> | <span class="nb">grep</span> <span class="nt">-v</span> <span class="s1">'OWNER TO'</span> <span class="o">&gt;</span> schema.sql</code></pre></figure>
+
+<h2 id="restore-the-dump-on-the-target-database">Restore the dump on the target database:</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">psql <span class="s2">"host=</span><span class="nv">$DEST_HOST</span><span class="s2"> port=</span><span class="nv">$DEST_PORT</span><span class="s2"> dbname=</span><span class="nv">$DEST_DATABASE</span><span class="s2"> user=</span><span class="nv">$DEST_USERNAME</span><span class="s2">"</span> <span class="nt">-f</span> schema.sql</code></pre></figure>
+
+<h2 id="add-source-and-destination-database-to-bucardo">Add source and destination database to Bucardo:</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">./bucardo add db source_db <span class="nv">dbhost</span><span class="o">=</span><span class="nv">$SOURCE_HOST</span> <span class="nv">dbport</span><span class="o">=</span><span class="nv">$SOURCE_PORT</span> <span class="nv">dbname</span><span class="o">=</span><span class="nv">$SOURCE_DATABASE</span> <span class="nv">dbuser</span><span class="o">=</span><span class="nv">$SOURCE_USERNAME</span> <span class="nv">dbpass</span><span class="o">=</span><span class="nv">$SOURCE_PASSWORD</span>
+./bucardo add db dest_db <span class="nv">dbhost</span><span class="o">=</span><span class="nv">$DEST_HOST</span> <span class="nv">dbport</span><span class="o">=</span><span class="nv">$DEST_PORT</span> <span class="nv">dbname</span><span class="o">=</span><span class="nv">$DEST_DATABASE</span> <span class="nv">dbuser</span><span class="o">=</span><span class="nv">$DEST_USERNAME</span> <span class="nv">dbpass</span><span class="o">=</span><span class="nv">$DEST_PASSWORD</span></code></pre></figure>
+
+<h2 id="add-tables-to-the-bucardo">Add tables to the Bucardo:</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">./bucardo add tables <span class="nv">$TABLES_WITH_SPACES</span> <span class="nv">db</span><span class="o">=</span>source_db
+./bucardo add herd copying_herd <span class="nv">$TABLES_WITH_SPACES</span></code></pre></figure>
+
+<h2 id="start-sync-the-tables">Start Sync the tables:</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">./bucardo add <span class="nb">sync </span>the_sync <span class="nv">relgroup</span><span class="o">=</span>copying_herd <span class="nv">dbs</span><span class="o">=</span>source_db:source,dest_db:target <span class="nv">onetimecopy</span><span class="o">=</span>2
+./bucardo start</code></pre></figure>
+
+<p>Yeah!!! we are done. Query the Target table and you can see the data there.</p>
+:ET

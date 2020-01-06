@@ -1,0 +1,96 @@
+I"�<p><img src="/assets/Encrypt-Key-Files-And-Passwords_cover-1024x398.jpg" alt="Encrypt Key Files And Passwords" /></p>
+
+<p>While managing multi servers in a single place, we need a secure authentication method which includes SSH Keys, Passwords and etc. RunDeck is having a great feature called Key Storage. RunDeck Key Storage is a secure and encrypted place for storing confidential contents. Its using <strong><a href="https://www.vaultproject.io/">HashiCorp Vault</a></strong> for this. Its already enabled by default. So we just upload our keys and creating encrypted passwords.</p>
+
+<h2 id="encrypting-pem-files">Encrypting PEM Files:</h2>
+
+<ul>
+  <li>Click the Gear Icon and Go to Key Storage.</li>
+  <li>
+    <p>Then you can select that you want to store Key files or Password.</p>
+  </li>
+  <li>Key Type: Public Key</li>
+  <li>Then you can upload your Public Key file or just copy the file contents and paste it.</li>
+  <li>Storage path: Keys/ is the default storage location for all encrypted files. But we can make folders inside the keys/. (Eg: Keys/prod-servers/ Keys/mysql-password/)</li>
+  <li>Name: An unique name for your encrypted file.</li>
+</ul>
+
+<p><img src="/assets/Encrypt-Key-Files-And-Passwords.jpg" alt="Encrypt Key Files And Passwords" /></p>
+
+<p><img src="/assets/Encrypt-Key-Files-And-Passwords1.jpg" alt="Encrypt Key Files And Passwords" /></p>
+
+<h2 id="encrptingpasswords">Encrpting Passwords:</h2>
+
+<ul>
+  <li>Click the Gear Icon and Go to Key Storage.</li>
+  <li><strong>Key Type:</strong> Password</li>
+  <li><strong>Enter text:</strong> Give your password.</li>
+  <li><strong>Storage path:</strong> You can leave it in Keys or create folders inside it.</li>
+  <li><strong>Name:</strong> An unique name for your encrypted file.</li>
+</ul>
+
+<p><img src="/assets/Encrypt-Key-Files-And-Passwords3.jpg" alt="" /></p>
+
+<h2 id="use-encrypted-passwordsfiles">Use Encrypted Passwords/Files:</h2>
+
+<p>I have encrypted mysql passwords and Im going to create a job which uses this encrypted password.</p>
+
+<p><img src="/assets/Encrypt-Key-Files-And-Passwords4.jpg" alt="Encrypt Key Files And Passwords" /></p>
+
+<h2 id="create-jobs">Create Jobs:</h2>
+
+<p>I already encrypted the password and named as <code class="highlighter-rouge">mysql-sqladmin</code>.</p>
+
+<ol>
+  <li><strong>Go to Job</strong> –&gt; Create New Job.</li>
+  <li><strong>Job Name:</strong> mysql-status</li>
+  <li><strong>Description:</strong> Example Job</li>
+</ol>
+
+<p>We are going to use an encrypted password in the Options section.
+Options –&gt; Add Option.</p>
+
+<p><img src="/assets/Encrypt-Key-Files-And-Passwords5.jpg" alt="" /></p>
+
+<ul>
+  <li><strong>Option Type:</strong> Text</li>
+  <li><strong>Option Name:</strong> mysql-admin-password</li>
+  <li><strong>Option Label:</strong> mysql admin password</li>
+  <li><strong>Description</strong>: Something you want.</li>
+</ul>
+
+<p><img src="/assets/Encrypt-Key-Files-And-Passwords3.jpg" alt="Encrypt Key Files And Passwords" /></p>
+
+<ul>
+  <li>In the Input Type select <strong>secure</strong>.</li>
+  <li>In the Storage Path(you can see this above Input type option), Click select button and select an encrypted password.</li>
+</ul>
+
+<p><img src="/assets/Encrypt-Key-Files-And-Passwords6-1024x173.jpg" alt="Encrypt Key Files And Passwords" /></p>
+
+<p><img src="/assets/Encrypt-Key-Files-And-Passwords7-1024x107.jpg" alt="Encrypt Key Files And Passwords" />
+In the bottom, you can see the parameter to call the encrypted password.</p>
+
+<p><img src="/assets/Encrypt-Key-Files-And-Passwords8-1024x247.jpg" alt="Encrypt Key Files And Passwords" /></p>
+
+<ul>
+  <li>In the WorkFlow –&gt; Add Step.</li>
+  <li>Under the Node Step click Script.</li>
+  <li>Add the below script.</li>
+</ul>
+
+<p><img src="/assets/Encrypt-Key-Files-And-Passwords9.jpg" alt="" /></p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">mysql <span class="nt">-h</span> 10.0.0.1 <span class="nt">-u</span> sqladmin <span class="nt">-p</span><span class="nv">$RD_OPTION_MYSQL_ADMIN_PASSWORD</span> mysql <span class="nt">-e</span><span class="s2">"status;"</span></code></pre></figure>
+
+<p>Give the step name and save it and click Create.</p>
+
+<h2 id="run-the-job">Run the Job:</h2>
+<hr />
+
+<p>Click on Run Job Now. You can get the output on the same screen.</p>
+
+<p><img src="/assets/Encrypt-Key-Files-And-Passwords10.jpg" alt="Encrypt Key Files And Passwords" /></p>
+
+<p><img src="/assets/Encrypt-Key-Files-And-Passwords11-1024x489.jpg" alt="Encrypt Key Files And Passwords" /></p>
+:ET

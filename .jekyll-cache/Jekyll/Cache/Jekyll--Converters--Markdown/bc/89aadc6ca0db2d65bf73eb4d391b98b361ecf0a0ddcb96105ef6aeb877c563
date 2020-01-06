@@ -1,0 +1,2 @@
+I"<p>Windows Servers are in AWS will show some glitches in sometimes.<a href="http://www.sqlgossip.com/windows-server-2016-in-aws-unable-to-resolve-public-and-local-dns/"> My previous article</a>explains how Windows Server 2016 had some issues with DNS Suffix and Forwarders. This time I got a chance to play around with PowerShell automations. The requirement is automatically add EC2 instances to Active directory domain during the instance launch. It might be an On Demand purpose ec2 or launched by an Auto scaling group.</p>
+:ET

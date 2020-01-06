@@ -1,0 +1,217 @@
+I"�Z<p><img src="/assets/MySQL-With-DevOps-1-Automate-Database-Archive_cover-1024x398.jpg" alt="MySQL With DevOps 1 - Automate Database Archive" /></p>
+
+<p>This is my next blog series. Im going to write about how I automated many complex tasks in MySQL with Rundeck. In my last series, I have explained RunDeck basics. You can find those articles <a href="https://www.sqlgossip.com/tag/rundeck-series/">here</a>. In this blog Im writing about how I automated MySQL archive for multiple tables in one Rundeck job.</p>
+
+<h2 id="challeange-with-replication">Challeange with Replication:</h2>
+
+<p>My MySQL database setup has 1 Master 4 Read Replica and the 3’rd replica is an intermediate Master for Replica 4. I don’t want to archive this data on Replica 3 and 4. Because these replicas are using for generating historical reports also some internal application.</p>
+
+<p><img src="/assets/MySQL-With-DevOps-1-Automate-Database-Archive-.png" alt="MySQL With DevOps 1 - Automate Database Archive" /></p>
+<h2 id="disable-log-bin">Disable Log-Bin:</h2>
+
+<p>To prevent archive data on Replica 3 and 4, I decided to disable binlog on my archive session. But another challenge is, it won’t replicate to Replica 1 and 2. So my final solution is Archive the data on Master, then execute the archive scripts on Replica 1 and Replica 2.</p>
+
+<h2 id="archive-condition">Archive Condition:</h2>
+
+<p>I have 50+ tables which need to be archived older than 30days records. Each table has a timestamp column. But the column name is different on all the tables. For few tables, I need to select older than 30days based on multiple columns.</p>
+
+<h3 id="example">Example:</h3>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql">    <span class="k">Delete</span> <span class="k">from</span> <span class="k">table_name</span> <span class="k">where</span> <span class="n">date_col</span> <span class="o">&lt;</span> <span class="nb">DATE</span><span class="p">(</span><span class="n">Now</span><span class="p">()</span> <span class="o">-</span> <span class="n">INTERVAL</span> <span class="mi">1</span> <span class="k">month</span><span class="p">);</span>
+    <span class="k">Delete</span> <span class="k">from</span> <span class="k">table_name</span> <span class="k">where</span> <span class="n">date_col</span> <span class="o">&lt;</span> <span class="nb">DATE</span><span class="p">(</span><span class="n">Now</span><span class="p">()</span> <span class="o">-</span> <span class="n">INTERVAL</span> <span class="mi">1</span> <span class="k">month</span><span class="p">)</span> <span class="k">AND</span> <span class="n">date_col2</span> <span class="o">&lt;</span> <span class="nb">DATE</span><span class="p">(</span><span class="n">Now</span><span class="p">()</span> <span class="o">-</span> <span class="n">INTERVAL</span> <span class="mi">1</span> <span class="k">month</span><span class="p">);</span></code></pre></figure>
+
+<h2 id="rundeck-options">RunDeck Options:</h2>
+
+<p>To securely pass MySQL password in shell script we are going to use RunDeck key storage. <a href="https://www.sqlgossip.com/encrypt-key-files-and-passwords-in-rundeck/">Read here</a> how to save the password in Rundeck.</p>
+
+<h2 id="process-flow">Process Flow:</h2>
+
+<p>The job should follow the below steps and whenever a step failed, then stop executing further steps.</p>
+
+<ul>
+  <li>Table dump with where clause (we are removing older than 30days data, so dump those 30days data).</li>
+  <li>Sync the Dump files to cloud storage(here my complete infra in GCP).</li>
+  <li>Restore the dump on Archive DB Server.</li>
+  <li>Delete the records on Master.</li>
+  <li>Delete the records on Replica 1.</li>
+  <li>Delete the records on Replica 2.</li>
+</ul>
+
+<p><img src="/assets/MySQL-With-DevOps-1-Automate-Database-Archive_gif.gif" alt="MySQL With DevOps 1 - Automate Database Archive" /></p>
+
+<p>Lets create the automation job.</p>
+
+<h2 id="table-name-and-column-names">Table name and Column names:</h2>
+
+<p>Create a file <code class="highlighter-rouge">/opt/rundeckfiles/archive_tables.txt</code> contains table name and columns. We need to mention the table and use a comma to separate column names. The file structure would be,</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    table_name1,column1
+    table_name2,column1,column2
+    table_name3,column1</code></pre></figure>
+
+<h2 id="stored-procedure-to-delete-in-chunks">Stored procedure to delete in chunks:</h2>
+
+<p>I have written a blog on how to perform archive operation in the right way. You can read it <a href="https://www.sqlgossip.com/archive-mysql-data-in-chunks/">here</a>. So we are going to delete this data with 1000 rows per chunk. Im maintaining DBA related functions and procedures in a separate database called <code class="highlighter-rouge">dbadmin</code></p>
+
+<p>##Note</p>
+
+<p>My database server has only one master db and going to archive this particular database. So in the procedure, I have mentioned my database name. Also, I used <code class="highlighter-rouge">SET sql_log_bin =OFF;</code> because I don’t want to replica it to Replica 3 and 4. So if your use case is just archive on all the servers you can remove this line.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql">    <span class="k">DROP</span> <span class="k">PROCEDURE</span>
+    <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">archive_tables</span><span class="p">;</span>
+    <span class="k">delimiter</span> <span class="o">//</span>
+      <span class="k">CREATE</span> <span class="k">PROCEDURE</span>
+        <span class="n">archive_tables</span><span class="p">(</span><span class="k">IN</span> <span class="n">delete_query</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
+    <span class="k">begin</span>
+        <span class="k">DECLARE</span> <span class="k">rows</span> <span class="nb">INT</span><span class="p">;</span>
+        <span class="k">SET</span> <span class="k">SESSION</span> <span class="n">TRANSACTION</span> <span class="k">ISOLATION</span> <span class="k">LEVEL</span> <span class="k">READ</span> <span class="k">COMMITTED</span><span class="p">;</span>
+           <span class="k">SET</span> <span class="n">sql_log_bin</span> <span class="o">=</span><span class="k">OFF</span><span class="p">;</span>
+        <span class="k">SET</span> <span class="k">rows</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="n">WHILE</span> <span class="k">rows</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="k">do</span>
+            <span class="k">SET</span> <span class="n">autocommit</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+            <span class="k">SET</span> <span class="o">@</span><span class="n">query</span> <span class="o">=</span><span class="n">CONCAT</span><span class="p">(</span><span class="s1">'DELETE FROM DBname.'</span><span class="p">,</span><span class="n">delete_query</span><span class="p">,</span><span class="s1">' LIMIT  10000;'</span><span class="p">);</span>
+            <span class="k">select</span> <span class="o">@</span><span class="n">query</span><span class="p">;</span>
+            <span class="k">PREPARE</span> <span class="n">arcive_stmt</span> <span class="k">FROM</span> <span class="o">@</span><span class="n">query</span><span class="p">;</span>
+            <span class="k">EXECUTE</span> <span class="n">arcive_stmt</span><span class="p">;</span>
+            <span class="k">SET</span> <span class="k">rows</span> <span class="o">=</span> <span class="k">row_count</span><span class="p">();</span>
+        <span class="k">select</span> <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> 
+       <span class="k">commit</span><span class="p">;</span>
+       <span class="k">DEALLOCATE</span> <span class="k">PREPARE</span> <span class="n">arcive_stmt</span><span class="p">;</span>
+      <span class="k">END</span> <span class="n">WHILE</span><span class="p">;</span>
+     <span class="k">END</span> <span class="o">//</span>
+    <span class="k">delimiter</span> <span class="p">;</span> </code></pre></figure>
+
+<p>The above procedure will get the where clause from the shell script and prepare the complete delete statement.</p>
+
+<h2 id="grab-table-name--column-name-from-the-file">Grab Table name &amp; Column name from the file:</h2>
+
+<p>Shell script should get the first value from the file as table and rest of the values are column names in a line. So we need to separate this table and column names with comma.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    <span class="c"># $line means read the complete line from the text file</span>
+
+    <span class="c">#Get the first value as table name:</span>
+    <span class="nv">table_name</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$line</span> | <span class="nb">awk</span> <span class="nt">-F</span><span class="s1">','</span> <span class="s1">'{print $1}'</span><span class="sb">`</span>
+
+    <span class="c">#Generate the where clause for archive:</span>
+    <span class="nv">archive_query</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$line</span> |sed <span class="s1">'s/,/ where /'</span> |awk <span class="nt">-F</span> <span class="s1">','</span> <span class="nt">-v</span> <span class="nv">OFS</span><span class="o">=</span><span class="s1">','</span> <span class="nt">-vsuf</span><span class="o">=</span><span class="s2">" &lt;  DATE(Now() - INTERVAL 1 month)"</span>     <span class="s1">'{ for (i=1;i&lt;=NF;++i) $i = pre $i suf; print }'</span>  |sed <span class="s1">'s/,/ and /g'</span><span class="sb">`</span>
+
+    <span class="c">#Generate the where clause for dump:</span>
+    <span class="nv">dump_command</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$line</span>  |awk <span class="nt">-F</span>, <span class="s1">'{$1=""; print}'</span> |awk <span class="nt">-F</span> <span class="s1">' '</span> <span class="nt">-v</span> <span class="nv">OFS</span><span class="o">=</span><span class="s1">','</span> <span class="nt">-vsuf</span><span class="o">=</span><span class="s2">" &lt; DATE(Now() - INTERVAL 1 month)"</span>     <span class="s1">'{ for (i=1;i&lt;=NF;++i) $i = pre $i suf; print }'</span>  |sed <span class="s1">'s/,/ and /g'</span><span class="sb">`</span></code></pre></figure>
+
+<h3 id="example-1">Example:</h3>
+
+<p>To understand this process in more detail, Im giving an example. For executing archive stored procedure it should generate the <code class="highlighter-rouge">delete_query</code> with table and where clause. For dump we just generate the where clause alone.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    <span class="o">[</span>root@sqladmin]# <span class="nv">line</span><span class="o">=</span><span class="s1">'table_name,col1,col2'</span>
+
+    <span class="o">[</span>root@sqladmin]# <span class="nv">table_name</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$line</span> | <span class="nb">awk</span> <span class="nt">-F</span><span class="s1">','</span> <span class="s1">'{print $1}'</span><span class="sb">`</span>
+
+    <span class="o">[</span>root@sqladmin]# <span class="nv">archive_query</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$line</span> |sed <span class="s1">'s/,/ where /'</span> |awk <span class="nt">-F</span> <span class="s1">','</span> <span class="nt">-v</span> <span class="nv">OFS</span><span class="o">=</span><span class="s1">','</span> <span class="nt">-vsuf</span><span class="o">=</span><span class="s2">" &lt;  DATE(Now() - INTERVAL 1 month)"</span>     <span class="s1">'{ for (i=1;i&lt;=NF;++i) $i = pre $i suf; print }'</span>  |sed <span class="s1">'s/,/ and /g'</span><span class="sb">`</span>
+
+    <span class="o">[</span>root@sqladmin]# <span class="nv">dump_command</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$line</span>  |awk <span class="nt">-F</span>, <span class="s1">'{$1=""; print}'</span> |awk <span class="nt">-F</span> <span class="s1">' '</span> <span class="nt">-v</span> <span class="nv">OFS</span><span class="o">=</span><span class="s1">','</span> <span class="nt">-vsuf</span><span class="o">=</span><span class="s2">" &lt; DATE(Now() - INTERVAL 1 month)"</span>     <span class="s1">'{ for (i=1;i&lt;=NF;++i) $i = pre $i suf; print }'</span>  |sed <span class="s1">'s/,/ and /g'</span><span class="sb">`</span></code></pre></figure>
+
+<h3 id="see-the-output">See the output:</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    <span class="o">[</span>root@sqladmin]# <span class="nb">echo</span> <span class="nv">$archive_query</span>
+    table_name where col1 &lt; DATE<span class="o">(</span>Now<span class="o">()</span> - INTERVAL 1 month<span class="o">)</span> and col2 &lt; DATE<span class="o">(</span>Now<span class="o">()</span> - INTERVAL 1 month<span class="o">)</span>
+
+    <span class="o">[</span>root@sqladmin]# <span class="nb">echo</span> <span class="nv">$dump_command</span>
+    col1 &lt; DATE<span class="o">(</span>Now<span class="o">()</span> - INTERVAL 3 month<span class="o">)</span> and col2 &lt; DATE<span class="o">(</span>Now<span class="o">()</span> - INTERVAL 1 month<span class="o">)</span>
+    <span class="o">[</span>root@sqladmin]# </code></pre></figure>
+
+<h2 id="setup-the-rundeck-job">Setup the Rundeck job:</h2>
+
+<ul>
+  <li>Go to Jobs –&gt; Create Job.</li>
+  <li>Give a name for this job.</li>
+  <li>In the Options, add option.</li>
+  <li>Option Name: sqladmin-secret</li>
+  <li>Option Label: SQLadmin-Secret</li>
+  <li>Input Type: Secure –&gt; Select the mysql password from <a href="https://www.sqlgossip.com/encrypt-key-files-and-passwords-in-rundeck/">key storage</a>.</li>
+  <li>Go to Workflow –&gt; Add step.</li>
+</ul>
+
+<p>The complete process will be running from Rundeck server itself. It’ll use <code class="highlighter-rouge">-h</code>to talk to DB servers.</p>
+
+<p>My archive flow is to archive Master first and Replica1, 2. If your use case is just archive it on all the servers, then you must <code class="highlighter-rouge">SET sql_log_bin =OFF;</code> in the archive procedure. And in step 3 add the step for Master IP address. Step 4 would be Delete old dump(See Step 6)</p>
+
+<h3 id="step-1-dump-the-data--upload-to-gcs-bucket">Step 1: Dump the Data &amp; Upload to GCS Bucket</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    <span class="nb">set</span> <span class="nt">-e</span>
+    <span class="nb">set</span> <span class="nt">-u</span>
+
+    <span class="c">#Password</span>
+    <span class="nv">secret</span><span class="o">=</span>@option.sqladmin-secret@
+
+    <span class="c">#Parameters for Dump Path</span>
+    <span class="nv">DATE</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> +%Y%m%d<span class="sb">`</span>
+    <span class="nv">gcs_folder</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> +%Y-%m-%d<span class="sb">`</span>
+    <span class="nv">dump_path</span><span class="o">=</span>/data/my_db/<span class="nv">$gcs_folder</span>
+    <span class="nb">mkdir</span> <span class="nt">-p</span> /data/my_db/<span class="nv">$gcs_folder</span>
+
+    <span class="k">while </span><span class="nb">read </span>line 
+    <span class="k">do 
+      </span><span class="nv">table_name</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$line</span> | <span class="nb">awk</span> <span class="nt">-F</span><span class="s1">','</span> <span class="s1">'{print $1}'</span><span class="sb">`</span>
+      <span class="nv">archive_query</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$line</span> |sed <span class="s1">'s/,/ where /'</span> |awk <span class="nt">-F</span> <span class="s1">','</span> <span class="nt">-v</span> <span class="nv">OFS</span><span class="o">=</span><span class="s1">','</span> <span class="nt">-vsuf</span><span class="o">=</span><span class="s2">" &lt;  DATE(Now() - INTERVAL 1 month)"</span>     <span class="s1">'{ for (i=1;i&lt;=NF;++i) $i = pre $i suf; print }'</span>  |sed <span class="s1">'s/,/ and /g'</span><span class="sb">`</span>
+      <span class="nv">dump_command</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$line</span>  |awk <span class="nt">-F</span>, <span class="s1">'{$1=""; print}'</span> |awk <span class="nt">-F</span> <span class="s1">' '</span> <span class="nt">-v</span> <span class="nv">OFS</span><span class="o">=</span><span class="s1">','</span> <span class="nt">-vsuf</span><span class="o">=</span><span class="s2">" &lt; DATE(Now() - INTERVAL 1 month)"</span>     <span class="s1">'{ for (i=1;i&lt;=NF;++i) $i = pre $i suf; print }'</span>  |sed <span class="s1">'s/,/ and /g'</span><span class="sb">`</span>
+      mysqldump <span class="nt">-h</span> 10.0.0.1 <span class="nt">-u</span> admin <span class="nt">-p</span><span class="nv">$secret</span> <span class="nt">--set-gtid-purged</span><span class="o">=</span>OFF  <span class="nt">--single-transaction</span> my_db <span class="nt">-t</span> <span class="nv">$table_name</span> <span class="nt">--where</span> <span class="s2">"</span><span class="nv">$dump_command</span><span class="s2">"</span> <span class="o">&gt;</span> <span class="nv">$dump_path</span>/<span class="nv">$table_name</span>.<span class="nv">$DATE</span>.sql
+      /bin/gsutil <span class="nb">cp</span> <span class="nv">$dump_path</span>/<span class="nv">$table_name</span>.<span class="nv">$DATE</span>.sql gs://bucket-name/my_db/<span class="nv">$gcs_folder</span>/ 
+    <span class="k">done</span> &lt; /opt/rundeckfiles/archive_tables.txt </code></pre></figure>
+
+<p>Here my backup files are upload to GCS bucket with current date’s folder. You can use AWS  Cli, if you want to use it in AWS. Change the IP address of MySQL Master or if you want to take dump from slave use Slave IP in <code class="highlighter-rouge">-h</code></p>
+
+<h3 id="step-2-restore-the-dump-files-to-archive-db">Step 2: Restore the dump files to Archive DB:</h3>
+
+<p>Please use a separate db server for archive data. Restore the schema on the db server. Change the IP address of archive DB.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    <span class="nb">set</span> <span class="nt">-e</span>
+    <span class="nb">set</span> <span class="nt">-u</span>
+
+    <span class="c">#mysql secret</span>
+    <span class="nv">secret</span><span class="o">=</span>@option.sqladmin-secret@
+
+    <span class="c">#restore dump to archive db</span>
+    <span class="nv">gcs_folder</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> +%Y-%m-%d<span class="sb">`</span>
+    <span class="nv">dump_path</span><span class="o">=</span>/data/my_db/<span class="nv">$gcs_folder</span>
+    <span class="k">for </span>i <span class="k">in</span> <span class="nv">$dump_path</span>/<span class="k">*</span>.sql
+    <span class="k">do
+      </span><span class="nb">echo</span> <span class="s2">"importing </span><span class="nv">$i</span><span class="s2">"</span>
+      mysql <span class="nt">-h</span> 10.0.0.10 <span class="nt">-u</span> admin <span class="nt">-p</span><span class="nv">$secret</span> db_name &lt; <span class="nv">$i</span> 
+    <span class="k">done</span></code></pre></figure>
+
+<h3 id="step-345--archive-it-on-masterreplica1replica2">Step 3,4,5 : Archive it on Master/Replica1/Replica2:</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    <span class="nb">set</span> <span class="nt">-e</span>
+    <span class="nb">set</span> <span class="nt">-u</span>
+
+    <span class="c">#password</span>
+    <span class="nv">secret</span><span class="o">=</span>@option.sqladmin-secret@
+
+    <span class="c">#archive master</span>
+    <span class="k">while </span><span class="nb">read </span>line 
+    <span class="k">do 
+    </span><span class="nv">table_name</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$line</span> | <span class="nb">awk</span> <span class="nt">-F</span><span class="s1">','</span> <span class="s1">'{print $1}'</span><span class="sb">`</span>
+    <span class="nb">echo</span> <span class="s2">"Deleteing </span><span class="nv">$table_name</span><span class="s2">"</span>
+    <span class="nv">archive_query</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$line</span> |sed <span class="s1">'s/,/ where /'</span> |awk <span class="nt">-F</span> <span class="s1">','</span> <span class="nt">-v</span> <span class="nv">OFS</span><span class="o">=</span><span class="s1">','</span> <span class="nt">-vsuf</span><span class="o">=</span><span class="s2">" &lt;  DATE(Now() - INTERVAL 1 month)"</span>     <span class="s1">'{ for (i=1;i&lt;=NF;++i) $i = pre $i suf; print }'</span>  |sed <span class="s1">'s/,/ and /g'</span><span class="sb">`</span>
+    mysql <span class="nt">-h</span> 10.0.0.1 <span class="nt">-u</span> admin <span class="nt">-p</span><span class="nv">$secret</span> dbadmin <span class="nt">-e</span><span class="s2">"CALL archive_tables ('</span><span class="nv">$archive_query</span><span class="s2">');"</span> 
+    <span class="k">done</span> &lt; /opt/rundeckfiles/archive_tables.txt</code></pre></figure>
+
+<p>Copy the above script and use the same for step 4 and 5 but change the IP address of the MySQL server <code class="highlighter-rouge">10.0.0.1</code>.</p>
+
+<h3 id="step-6-delete-older-than-1day-dumps">Step 6: delete older than 1day dumps:</h3>
+
+<p>We don’t want to keep the dump files. So the last step will remove those dump files.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    <span class="nv">old_folder</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="nt">--date</span><span class="o">=</span><span class="s2">"1 day ago"</span>  +%Y-%m-%d<span class="sb">`</span>
+    <span class="nv">dump_path</span><span class="o">=</span>/data/my_db/<span class="nv">$old_folder</span>
+
+    <span class="c">#delete yesterday's dump_path</span>
+    <span class="nb">rm</span> <span class="nt">-rf</span> <span class="nv">$dump_path</span></code></pre></figure>
+
+<p><img src="/assets/MySQL-With-DevOps-1-Automate-Database-Archive_1.png" alt="MySQL With DevOps 1 - Automate Database Archive" /></p>
+
+<h2 id="add-tables-in-future">Add tables in future:</h2>
+
+<p>If you want to add tables in future, just add the table name and archive where clause column name in the txt file.</p>
+:ET

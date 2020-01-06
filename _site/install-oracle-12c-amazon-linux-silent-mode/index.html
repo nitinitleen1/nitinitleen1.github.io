@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<!--
+    So Simple Jekyll Theme 3.1.1
+    Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/so-simple-theme/blob/master/LICENSE
+-->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:image" content="http://localhost:4000">
+<script data-ad-client="ca-pub-9518508677792760" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<link rel="apple-touch-icon" sizes="57x57" href="/favicon.ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/favicon.ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/favicon.ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/favicon.ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/favicon.ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/favicon.ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/favicon.ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/favicon.ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon.ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico/favicon-16x16.png">
+<link rel="manifest" href="/favicon.ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">  
+  
+
+  
+    <title>How To Install Oracle 12C on Amazon Linux In Silent Mode</title>
+    <meta name="description" content="">
+    <link rel="canonical" href="http://localhost:4000/install-oracle-12c-amazon-linux-silent-mode/">
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  <link rel="stylesheet" href="/assets/css/applause-button.css" />
+   <script src="/assets/js/applause-button.js"></script>
+
+</head>
+
+
+  <body class="layout--post  how-to-install-oracle-12c-on-amazon-linux-in-silent-mode">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/">Home</a></li><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="https://medium.com/@bhuvithedataguy">BigData Articles</a></li><li><a href="/search/">Search</a></li></ul>
+    </nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+    
+    
+      
+        <div class="site-title animated fadeIn"><a href="/">Nitin Kumar Singh | Data Architect</a></div>
+      
+      <p class="site-description animated fadeIn" itemprop="description">Mi occupo di web disign, grafica, web writing e sviluppo web.</p>
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">How To Install Oracle 12C on Amazon Linux In Silent Mode
+</h1>
+        
+
+      </header>
+      
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><div class="author-info"><div class="author-name">
+        <span class="p-name">Nitin Kumar Singh</span>
+      </div>
+    <time class="page-date dt-published" datetime="2017-10-19T22:48:22+05:30"><a class="u-url" href="">October 19, 2017</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title">Categories</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy">Oracle</li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title">Tags</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy">12c</li><li class="page-taxonomy">aws</li><li class="page-taxonomy">installation</li><li class="page-taxonomy">linux</li><li class="page-taxonomy">oracle</li>
+  </ul>
+
+
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad-vertical -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9518508677792760"
+     data-ad-slot="4154399056"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <br/>
+        <br/>
+        <applause-button style="width: 58px; height: 58px; text-align:right" color="black" multiclap="true">
+
+      </div>
+
+      <div class="page-content">
+        <div class="e-content">
+
+          <p><img src="/assets/How-To-Install-Oracle-12C-on-Amazon-Linux-In-Silent-Mode.jpeg" alt="How To Install Oracle 12C on Amazon Linux In Silent Mode" /></p>
+
+<p>Before start my story, I need to tell this, I’m not an Oracle guy. But as a DBA I had few situation to install Oracle on Amazon Linux. In many blogs, we can get the steps to install in CentOS and RedHat, but my bad I couldn’t find any blogs for Amazon Linux. After read many blogs I got the procedure to install it, and the more important thing is we can use the same step to Amazon Linux, CentOS and RedHat without any changes. But while follow this process some files are not available to edit in Amazon Linux, so please ignore them.</p>
+
+<h3 id="install-oracle-inlinux">Install Oracle in Linux</h3>
+
+<p>I have installed Oracle 12C release 1 on CentOS and followed the same step for RedHat and Amazon Linux. You can use X windows as well, but I recommend to user Silent installation which saves more time.</p>
+
+<ul>
+  <li>For this installtion, I used Centos 7.2,</li>
+  <li>Server Name ora,</li>
+  <li>IP address 10.10.0.1</li>
+</ul>
+
+<h2 id="download-using-wget-andcurl">Download using wget and curl</h2>
+
+<p>Downloading Oracle in linux is a bit tricky. Oracle provides a shell script to download Oracle, but for me, it was taking more time to download, So here is the trick.</p>
+
+<p>Do this in your GUI browser, like chrome or firefox.</p>
+
+<ul>
+  <li>First create an account in oracle and <a href="https://login.oracle.com/mysso/signon.jsp">Signin</a>.</li>
+</ul>
+
+<p> <img src="/assets/How-To-Install-Oracle-12C-on-Amazon-Linux-In-Silent-Mode1.png" alt="How To Install Oracle 12C on Amazon Linux In Silent Mode" /></p>
+
+<ul>
+  <li><a href="http://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html">Click here</a> to download oracle for Linux and accept the license.</li>
+</ul>
+
+<p> <img src="/assets/How-To-Install-Oracle-12C-on-Amazon-Linux-In-Silent-Mode2.png" alt="How To Install Oracle 12C on Amazon Linux In Silent Mode" /></p>
+
+<ul>
+  <li>Click the files you want to download and just pause it copy the link.</li>
+</ul>
+
+<p> <img src="/assets/How-To-Install-Oracle-12C-on-Amazon-Linux-In-Silent-Mode3.png" alt="How To Install Oracle 12C on Amazon Linux In Silent Mode" /></p>
+
+<ul>
+  <li>Now go to your terminal, install wget or curl.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nt">--</span> For Ubuntu
+apt-get <span class="nb">install </span>wget curl
+<span class="nt">--</span> For RedHat,Centos and Amazon Linux
+yum <span class="nb">install </span>wget curl</code></pre></figure>
+
+<ul>
+  <li>Now type the below command to download via wget.</li>
+  <li><code class="highlighter-rouge">wget &lt;paste the like&gt; -O filename.zip</code></li>
+</ul>
+
+<p>Eg: <em>with wget</em></p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">wget http://download.oracle.com/otn/linux/oracle12c/122010/linuxx64_12201_database.zip?AuthParam<span class="o">=</span>111111111_cb3a26b3a63c89b4405a1e32822d19fc <span class="nt">-O</span> file1.zip</code></pre></figure>
+
+<p>Put a FQDN name for the server</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">vi /etc/hosts
+127.0.0.1 ora.sqladmin.com ora
+10.10.0.1 ora.sqladmin.com ora</code></pre></figure>
+
+<h2 id="set-selinux-value-to-permissive">Set selinux value to permissive</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">vi /etc/sysconfig/selinux
+<span class="nv">SELINUX</span><span class="o">=</span>permissive</code></pre></figure>
+
+<h2 id="kernel-level-parameters">Kernel level parameters</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">vi /etc/sysctl.conf
+
+kernel.shmmax <span class="o">=</span> 4294967295
+kernel.shmall <span class="o">=</span> 2097152
+fs.aio-max-nr <span class="o">=</span> 1048576
+fs.file-max <span class="o">=</span> 6815744
+kernel.shmmni <span class="o">=</span> 4096
+kernel.sem <span class="o">=</span> 250  32000  100  128
+net.ipv4.ip_local_port_range <span class="o">=</span> 9000  65500
+net.core.rmem_default <span class="o">=</span> 262144
+net.core.rmem_max <span class="o">=</span> 4194304
+net.core.wmem_default <span class="o">=</span> 262144
+net.core.wmem_max <span class="o">=</span> 1048576</code></pre></figure>
+
+<h2 id="update-yourserver">Update your Server</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">sudo </span>yum <span class="nb">install </span>epel-release
+<span class="nb">sudo </span>yum clean metadata <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>yum upgrade</code></pre></figure>
+
+<h2 id="reboot-to-apply-all-the-the-configchanges">Reboot to apply all the the config changes</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">sudo </span>reboot</code></pre></figure>
+
+<h2 id="install-pre-requirement-packages">Install pre-requirement packages</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">sudo </span>yum <span class="nt">-y</span> <span class="nb">install </span>binutils.x86_64 compat-libcap1.x86_64 compat-libstdc++-33.x86_64 compat-libstdc++-33.i686 compat-gcc-44 compat-gcc-44-c++ gcc.x86_64 gcc-c++.x86_64 glibc.i686 glibc.x86_64 glibc-devel.i686 glibc-devel.x86_64 ksh.x86_64 libgcc.i686 libgcc.x86_64 libstdc++.i686 libstdc++.x86_64 libstdc++-devel.i686 libstdc++-devel.x86_64 libaio.i686 libaio.x86_64 libaio-devel.i686 libaio-devel.x86_64 libXext.i686 libXext.x86_64 libXtst.i686 libXtst.x86_64 libX11.x86_64 libX11.i686 libXau.x86_64 libXau.i686 libxcb.i686 libxcb.x86_64 libXi.i686 libXi.x86_64 make.x86_64 unixODBC unixODBC-devel sysstat.x86_64
+
+<span class="nb">sudo </span>yum <span class="nt">-y</span> <span class="nb">install </span>binutils-2.<span class="k">*</span> compat-libstdc++-33<span class="k">*</span> elfutils-libelf-0.<span class="k">*</span> elfutils-libelf-devel-<span class="k">*</span> gcc-4.<span class="k">*</span> gcc-c++-4.<span class="k">*</span> glibc-2.<span class="k">*</span> glibc-common-2.<span class="k">*</span> glibc-devel-2.<span class="k">*</span> glibc-headers-2.<span class="k">*</span> ksh-2<span class="k">*</span> libaio-0.<span class="k">*</span> libaio-devel-0.<span class="k">*</span> libgcc-4.<span class="k">*</span> libstdc++-4.<span class="k">*</span> libstdc++-devel-4.<span class="k">*</span> make-3.<span class="k">*</span> sysstat-7.<span class="k">*</span> unixODBC-2.<span class="k">*</span> unixODBC-devel-2.<span class="k">*</span></code></pre></figure>
+
+<h2 id="add-user-and-groups-fororacle">Add user and groups for oracle</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">sudo </span>groupadd <span class="nt">-g</span> 54321 oracle
+<span class="nb">sudo </span>groupadd <span class="nt">-g</span> 54322 dba
+<span class="nb">sudo </span>groupadd <span class="nt">-g</span> 54323 oper
+<span class="nb">sudo </span>useradd <span class="nt">-u</span> 54321 <span class="nt">-g</span> oracle <span class="nt">-G</span> dba,oper oracle
+<span class="nb">sudo </span>usermod <span class="nt">-a</span> <span class="nt">-G</span> wheel oracle
+<span class="nb">sudo </span>passwd oracle</code></pre></figure>
+
+<h2 id="disable-iptables-or-configure-to-alloworacle">Disable iptables or configure to allow oracle</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">sudo </span>iptables <span class="nt">-F</span>
+<span class="nb">sudo </span>service iptables save
+<span class="nb">sudo </span>chkconfig iptables on</code></pre></figure>
+
+<h2 id="create-swapfile">Create swap file</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">sudo dd </span><span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span>/swapfile <span class="nv">bs</span><span class="o">=</span>10M <span class="nv">count</span><span class="o">=</span>70
+<span class="nb">sudo chmod </span>600 /swapfile
+<span class="nb">sudo </span>mkswap /swapfile
+<span class="nb">sudo </span>swapon /swapfile</code></pre></figure>
+
+<h2 id="make-swap-file-atstartup">Make swap file at startup</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">vi /etc/fstab
+/swapfile none swap sw 0  0</code></pre></figure>
+
+<h2 id="create-directories-for-oracle-installation">Create directories for oracle installation</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">sudo mkdir</span> <span class="nt">-p</span> /ora01/app/oracle/product/12.1.0/db_1
+<span class="nb">mkdir</span> <span class="nt">-p</span> /ora01/app/oracle/distribs
+<span class="nb">sudo chown</span> <span class="nt">-R</span> oracle:oracle /ora01
+<span class="nb">sudo chmod</span> <span class="nt">-R</span> 775 /ora01
+<span class="nb">ls</span> <span class="nt">-l</span> /ora01</code></pre></figure>
+
+<h2 id="create-bash-profilefile">Create bash profile file</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">vi /home/oracle/.bash_profile
+<span class="nb">export </span><span class="nv">TMP</span><span class="o">=</span>/tmp
+<span class="nb">export </span><span class="nv">ORACLE_HOSTNAME</span><span class="o">=</span>ora
+<span class="nb">export </span><span class="nv">ORACLE_UNQNAME</span><span class="o">=</span>ORA12C
+<span class="nb">export </span><span class="nv">ORACLE_BASE</span><span class="o">=</span>/ora01/app/oracle
+<span class="nb">export </span><span class="nv">ORACLE_HOME</span><span class="o">=</span><span class="nv">$ORACLE_BASE</span>/product/12.1.0/db_1
+<span class="nb">export </span><span class="nv">ORACLE_SID</span><span class="o">=</span>ORA12C
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$ORACLE_HOME</span>/bin:<span class="nv">$PATH</span>
+<span class="nb">export </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$ORACLE_HOME</span>/lib:<span class="nv">$LD_LIBRARY_PATH</span>
+<span class="nb">export </span><span class="nv">CLASSPATH</span><span class="o">=</span>ORACLE_HOME/jlib:ORACLE_HOME/rdbms/jlib<span class="p">;</span>
+<span class="nb">alias </span><span class="nv">cdob</span><span class="o">=</span><span class="s1">'cd ORACLE_BASE'</span>
+<span class="nb">alias </span><span class="nv">cdoh</span><span class="o">=</span><span class="s1">'cd ORACLE_HOME'</span>
+<span class="nb">alias </span><span class="nv">tns</span><span class="o">=</span><span class="s1">'cd ORACLE_HOME/network/admin'</span>
+<span class="nb">alias </span><span class="nv">envo</span><span class="o">=</span><span class="s1">'env | grep ORACLE'</span>
+<span class="nb">umask </span>022
+envo</code></pre></figure>
+
+<h2 id="set-file-limits-and-file-descriptor-values">Set file limits and file descriptor values</h2>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">vi /etc/security/limits.conf
+oracle soft nofile 1024
+oracle hard nofile 65536
+oracle soft <span class="nb">nproc </span>2047
+oracle hard <span class="nb">nproc </span>16384
+oracle soft stack 10240
+oracle hard stack 32768</code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">vi /etc/security/limits.d/20-nproc.conf
+<span class="nt">--</span> By default it was <span class="nb">set </span>to
+<span class="k">*</span> soft <span class="nb">nproc </span>1024
+<span class="nt">--</span> We need to change it to.
+<span class="k">*</span> - <span class="nb">nproc </span>16384</code></pre></figure>
+
+<h3 id="installation">Installation:</h3>
+
+<p>We are doing this installation in three parts.</p>
+
+<ul>
+  <li><code class="highlighter-rouge">db_install.rsp</code> – used to install oracle binaries, install/upgrade a database in silent mode</li>
+  <li><code class="highlighter-rouge">dbca.rsp</code> – used to install/configure/delete a database in silent mode</li>
+  <li><code class="highlighter-rouge">netca.rsp</code> – used to configure simple network for oracle database in silent mode</li>
+</ul>
+
+<h2 id="db_install-file-installation">db_install file installation</h2>
+
+<p>Move oracle installer to appropriate directory. I have downloaded and extracted Oracle software in /home/ubuntu/database.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">mv</span> /home/oracle/database /ora01/app/oracle/distribs
+<span class="nb">sudo chown</span> <span class="nt">-R</span> oracle:oracle /ora01/app/oracle/distribs/database
+<span class="nb">sudo chmod</span> <span class="nt">-R</span> 775 /ora01/app/oracle/distribs/database</code></pre></figure>
+
+<p>Now Login as <strong>Oracle user</strong>.</p>
+
+<p>Edit and install db_install.rsp</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">cp </span>db_install.rsp db_install.rsp.bck
+
+vi /ora01/app/oracle/distribs/database/response/db_install.rsp
+
+oracle.install.responseFileVersion<span class="o">=</span>/oracle/install/rspfmt_dbinstall_response_schema_v12.1.0
+oracle.install.option<span class="o">=</span>INSTALL_DB_SWONLY
+<span class="nv">ORACLE_HOSTNAME</span><span class="o">=</span>ora
+<span class="nv">UNIX_GROUP_NAME</span><span class="o">=</span>oracle
+<span class="nv">INVENTORY_LOCATION</span><span class="o">=</span>/ora01/app/oraInventory
+<span class="nv">SELECTED_LANGUAGES</span><span class="o">=</span>en
+<span class="nv">ORACLE_HOME</span><span class="o">=</span>/ora01/app/oracle/product/12.1.0/db_1
+<span class="nv">ORACLE_BASE</span><span class="o">=</span>/ora01/app/oracle
+oracle.install.db.InstallEdition<span class="o">=</span>EE
+oracle.install.db.DBA_GROUP<span class="o">=</span>oracle
+oracle.install.db.OPER_GROUP<span class="o">=</span>oracle
+oracle.install.db.BACKUPDBA_GROUP<span class="o">=</span>oracle
+oracle.install.db.DGDBA_GROUP<span class="o">=</span>oracle
+oracle.install.db.KMDBA_GROUP<span class="o">=</span>oracle
+<span class="nv">DECLINE_SECURITY_UPDATES</span><span class="o">=</span><span class="nb">true</span></code></pre></figure>
+
+<p>Save and close.
+Call the source file</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">source</span> ~/.bash_profile</code></pre></figure>
+
+<p><strong>Install</strong></p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">cd</span> /ora01/app/oracle/distribs/database/
+./runInstaller <span class="nt">-silent</span> <span class="nt">-responseFile</span> /ora01/app/oracle/distribs/database/response/db_install.rsp</code></pre></figure>
+
+<p>Now the software is successfully installed, just need to execute the below commands with root user(you can also see this in your installation screen)</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">su root
+/ora01/app/oraInventory/orainstRoot.sh
+/ora01/app/oracle/product/12.1.0/db_1/root.sh</code></pre></figure>
+
+<p>Now test the installation.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">source</span> ~/.bash_profile
+sqlplus / as sysdba</code></pre></figure>
+
+<h2 id="netcarsp-file-installation">netca.rsp file installation</h2>
+
+<p>You can edit netca.rsp to set own parameters. I didn’t change anything here. It will configure LISTENER with standard settings.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">netca <span class="nt">-silent</span> <span class="nt">-responseFile</span> /ora01/app/oracle/distribs/database/response/netca.rsp</code></pre></figure>
+
+<p>Check LISTENER status</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">lsnrctl status</code></pre></figure>
+
+<h2 id="dbcarsp-file-installation">dbca.rsp file installation</h2>
+
+<p>Here I’m going to install single instance database called ORA12C.</p>
+
+<p><em>Make the directories for data files</em></p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">su oracle
+<span class="nb">mkdir</span> /ora01/app/oracle/oradata
+<span class="nb">mkdir</span> /ora01/app/oracle/flash_recovery_area</code></pre></figure>
+
+<p>Edit the dbca.rsp file</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">vi /ora01/app/oracle/distribs/database/response/dbca.rsp
+GDBNAME <span class="o">=</span> <span class="s2">"ora_master"</span>
+SID <span class="o">=</span> <span class="s2">"ORA12C"</span>
+TEMPLATENAME <span class="o">=</span> <span class="s2">"General_Purpose.dbc"</span>
+SYSPASSWORD <span class="o">=</span> <span class="s2">"oracle"</span>
+SYSTEMPASSWORD <span class="o">=</span> <span class="s2">"oracle"</span>
+EMCONFIGURATION <span class="o">=</span> <span class="s2">"DBEXPRESS"</span>
+EMEXPRESSPORT <span class="o">=</span> <span class="s2">"5500"</span>
+SYSMANPASSWORD <span class="o">=</span> <span class="s2">"oracle"</span>
+DBSNMPPASSWORD <span class="o">=</span> <span class="s2">"oracle"</span>
+DATAFILEDESTINATION <span class="o">=</span> /ora01/app/oracle/oradata
+RECOVERYAREADESTINATION <span class="o">=</span> /ora01/app/oracle/flash_recovery_area
+STORAGETYPE <span class="o">=</span> FS
+LISTENERS <span class="o">=</span> <span class="s2">"LISTENER"</span>
+DATABASETYPE <span class="o">=</span> <span class="s2">"OLTP"</span>
+AUTOMATICMEMORYMANAGEMENT <span class="o">=</span> <span class="s2">"TRUE"</span>
+TOTALMEMORY <span class="o">=</span> <span class="s2">"1024"</span></code></pre></figure>
+
+<p><strong>TOTALMEMORY </strong>= Please set this value as 70% of your total memory.</p>
+
+<p>Now execute the below command to create the database.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">dbca <span class="nt">-silent</span> <span class="nt">-responseFile</span> /ora01/app/oracle/distribs/database/response/dbca.rsp</code></pre></figure>
+
+<p>Alternatively,</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">dbca<span class="se">\</span>
+<span class="nt">-silent</span><span class="se">\</span>
+<span class="nt">-createDatabase</span><span class="se">\</span>
+<span class="nt">-templateName</span> General_Purpose.dbc<span class="se">\</span>
+<span class="nt">-gdbName</span> ORA12C<span class="se">\</span>
+<span class="nt">-pdbadminPassword</span> oracle<span class="se">\</span>
+<span class="nt">-SysPassword</span> oracle<span class="se">\</span>
+<span class="nt">-SystemPassword</span> oracle<span class="se">\</span>
+<span class="nt">-emConfiguration</span> NONE<span class="se">\</span>
+<span class="nt">-datafileDestination</span> /ora01/app/oracle/oradata<span class="se">\</span>
+<span class="nt">-asmSysPassword</span> oracle<span class="se">\</span>
+<span class="nt">-characterSet</span> AL32UTF8<span class="se">\</span>
+<span class="nt">-totalMemory</span> 6000<span class="se">\</span>
+<span class="nt">-recoveryAreaDestination</span> /ora01/app/oracle/flash_recovery_area</code></pre></figure>
+
+<p><strong><em>THIS IS FOR STANDARD EDITION</em></strong></p>
+
+
+        </div>
+        <hr>
+        <h3>Advertisement</h3>
+         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad-horizontal -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9518508677792760"
+     data-ad-slot="4874591962"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <hr>
+        <h3> Share this article </h3>
+      
+        
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/aws-aurora-database-clone/">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> What Is AWS Aurora Database Clone
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/compare-two-sql-server-databases-using-tsql/">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        Compare Two SQL Server Databases using Tsql
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="copyright">
+    
+      <p>&copy; 2020 Nitin Kumar Singh | Data Architect. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
+
+
+  </body>
+
+</html>

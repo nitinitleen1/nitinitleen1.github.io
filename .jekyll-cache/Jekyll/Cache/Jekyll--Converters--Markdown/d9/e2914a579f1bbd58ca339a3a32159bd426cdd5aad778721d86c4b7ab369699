@@ -1,0 +1,2 @@
+I"�<p>MySQL supports three types for binlog format. For safer binlog based replication its recommended to use ROW based replication. But even though in some worst cases this leads to data inconsistency. Later MySQL came up with the concept of GTID (global transaction identifiers) which generates the unique binlog entries to avoid any data inconsistency. This feature supports in MySQL 5.6+. Percona MySQL Servers is also using the same structure of MySQL’s  GTID. But MariaDB GTID is bit different.</p>
+:ET

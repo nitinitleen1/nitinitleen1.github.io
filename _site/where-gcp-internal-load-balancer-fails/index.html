@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<!--
+    So Simple Jekyll Theme 3.1.1
+    Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/so-simple-theme/blob/master/LICENSE
+-->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:image" content="http://localhost:4000/assets/Where GCP Internal TCP Load Balancer Fails.png">
+<script data-ad-client="ca-pub-9518508677792760" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<link rel="apple-touch-icon" sizes="57x57" href="/favicon.ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/favicon.ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/favicon.ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/favicon.ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/favicon.ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/favicon.ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/favicon.ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/favicon.ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon.ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico/favicon-16x16.png">
+<link rel="manifest" href="/favicon.ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">  
+  
+
+  
+    <title>Where GCP Internal TCP Load Balancer Fails</title>
+    <meta name="description" content="GCP’s Load balancers are globally scalable and its the unique identify for GCP while comparing its competitors. Generally GCP’s networking is very strong and...">
+    <link rel="canonical" href="http://localhost:4000/where-gcp-internal-load-balancer-fails/">
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  <link rel="stylesheet" href="/assets/css/applause-button.css" />
+   <script src="/assets/js/applause-button.js"></script>
+
+</head>
+
+
+  <body class="layout--post  where-gcp-internal-tcp-load-balancer-fails">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/">Home</a></li><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="https://medium.com/@bhuvithedataguy">BigData Articles</a></li><li><a href="/search/">Search</a></li></ul>
+    </nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+    
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+  
+  
+  
+
+  <div class="page-image">
+    <img src="/assets/Where%20GCP%20Internal%20TCP%20Load%20Balancer%20Fails.png" class="entry-feature-image u-photo" alt="Where GCP Internal TCP Load Balancer Fails" style="margin-top: 0;">
+    
+  </div>
+
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">Where GCP Internal TCP Load Balancer Fails
+</h1>
+        
+
+      </header>
+      
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><div class="author-info"><div class="author-name">
+        <span class="p-name">Nitin Kumar Singh</span>
+      </div>
+    <time class="page-date dt-published" datetime="2019-10-29T13:30:00+05:30"><a class="u-url" href="">October 29, 2019</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title">Categories</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy">GCP</li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title">Tags</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy">gcp</li><li class="page-taxonomy">networking</li><li class="page-taxonomy">load balancer</li>
+  </ul>
+
+
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad-vertical -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9518508677792760"
+     data-ad-slot="4154399056"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <br/>
+        <br/>
+        <applause-button style="width: 58px; height: 58px; text-align:right" color="black" multiclap="true">
+
+      </div>
+
+      <div class="page-content">
+        <div class="e-content">
+
+          <p>GCP’s Load balancers are globally scalable and its the unique identify for GCP while comparing its competitors. Generally GCP’s networking is very strong and mature than other Cloud providers.  Recently I was working with a SQL Server setup which integrates the GCP Internal TCP load balancer. During that PoC setup I found this strange behaviour and then I ignored this problem because I thought its something related to SQL server.</p>
+
+<h2 id="the-poc-setup">The PoC Setup:</h2>
+
+<p>I wanted to reproduce this scenario in simple web server stack. So I created 2 apache web servers and put them under the Internal TCP load balancer.</p>
+
+<ul>
+  <li><strong>Web Server 1</strong>: the index page will show <code class="highlighter-rouge">This is from Node1</code></li>
+  <li><strong>Web Server 2</strong>: the index page will show <code class="highlighter-rouge">This is from Node2</code></li>
+  <li><strong>Load balancer IP:</strong> 10.128.0.46</li>
+</ul>
+
+<p>The health check is passed and Im able to see both nodes are healthy. Then I tried to CURL the load balancer’s IP from the other VM which is on the same subnet. The traffic is routed to node 1 and second time node2. Till now everything looks good.</p>
+
+<h3 id="curl-from-a-vm-in-the-same-subnet">Curl from a VM in the same subnet:</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    <span class="c"># Curl 1st time</span>
+    curl 10.128.0.46
+    &lt;html&gt;
+            &lt;body&gt;
+                    &lt;H1&gt; This is from Node1 &lt;/H2&gt;
+            &lt;/body&gt;
+    &lt;/html&gt;
+    
+    <span class="c"># Curl 2nd time</span>
+    
+    curl 10.128.0.46
+    &lt;html&gt;
+            &lt;body&gt;
+                    &lt;H1&gt; This is from Node2 &lt;/H2&gt;
+            &lt;/body&gt;
+    &lt;/html&gt;</code></pre></figure>
+
+<h2 id="the-strange-behaviour-in-my-previous-setup">The strange behaviour in my previous setup:</h2>
+
+<p>In my SQL Server setup the issue I faced is, Its an alwayson availability group setup and the TCP Load balancer will route the traffic to the Primary Node. <a href="https://medium.com/searce/configure-external-listener-for-always-on-availability-groups-in-gcp-e1ae1c9632d1">The complete setup of Configuring the external Load balancer for SQL server availability groups is here</a>. There I have some packages where I need to talk to the Primary Node. The package will be executing from the both primary and secondary. It tried to talk to the Load balancer IP. But from Primary node and other nodes in the subnet always properly reached the Primary node via the TCP load balancer. But the secondary server is not able to reach, instead it was showing the role is Secondary. Then I connected to SQL server using load balancer IP and print the node name. It was showing the secondary server’s name.</p>
+
+<p>Then I noticed, the traffic is always routed to the Node 2 if Im trying to access the Load balancer IP from the node2.</p>
+
+<h2 id="issue-verified">Issue Verified:</h2>
+
+<p>From apache webserver’s PoC, I tried to curl the Load Balancer’s from Node 1 and then Node2.</p>
+
+<h3 id="node-1">Node 1:</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    root@bhuvi-node1:/var/www/html# curl 10.128.0.46
+    &lt;html&gt;
+            &lt;body&gt;
+                    &lt;H1&gt; This is from Node1 &lt;/H2&gt;
+            &lt;/body&gt;
+    &lt;/html&gt;     
+    root@bhuvi-node1:/var/www/html# curl 10.128.0.46
+    &lt;html&gt;
+            &lt;body&gt;
+                    &lt;H1&gt; This is from Node1 &lt;/H2&gt;
+            &lt;/body&gt;
+    &lt;/html&gt;      
+    root@bhuvi-node1:/var/www/html# </code></pre></figure>
+
+<h3 id="node-2">Node 2:</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    root@bhuvi-node1:/var/www/html# curl 10.128.0.46
+    &lt;html&gt;
+            &lt;body&gt;
+                    &lt;H1&gt; This is from Node2 &lt;/H2&gt;
+            &lt;/body&gt;
+    &lt;/html&gt;      
+    root@bhuvi-node1:/var/www/html# curl 10.128.0.46
+    &lt;html&gt;
+            &lt;body&gt;
+                    &lt;H1&gt; This is from Node2 &lt;/H2&gt;
+            &lt;/body&gt;
+    &lt;/html&gt;    
+    root@bhuvi-node1:/var/www/html# </code></pre></figure>
+
+<blockquote>
+  <p>Its proving that the internal TCP load balancer routes the traffic to the same node in the source packet is coming from the node which is part of the load balancer.</p>
+</blockquote>
+
+<h2 id="the-cause-for-this-routing">The Cause for this routing:</h2>
+
+<p>The exact reason for this behaviour is not a bug or an issue. Its the design of the TCP load balancer in GCP. What happened is, the moment when you add the instance group to the load balancer’s backend, then GCP will automatically add a route in your VM that the Load balancer’s IP is the Local host’s IP.</p>
+
+<h3 id="node-1-1">Node 1:</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    <span class="nb">sudo </span>ip route list table <span class="nb">local
+    local </span>10.128.0.40 dev ens4 proto kernel scope host src 10.128.0.40 
+    <span class="nb">local </span>10.128.0.46 dev ens4 proto 66 scope host 
+    broadcast 127.0.0.0 dev lo proto kernel scope <span class="nb">link </span>src 127.0.0.1 
+    <span class="nb">local </span>127.0.0.0/8 dev lo proto kernel scope host src 127.0.0.1 
+    <span class="nb">local </span>127.0.0.1 dev lo proto kernel scope host src 127.0.0.1 
+    broadcast 127.255.255.255 dev lo proto kernel scope <span class="nb">link </span>src 127.0.0.1  </code></pre></figure>
+
+<h3 id="node-2-1">Node 2:</h3>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    <span class="nb">sudo </span>ip route list table <span class="nb">local
+    local </span>10.128.0.41 dev ens4 proto kernel scope host src 10.128.0.41 
+    <span class="nb">local </span>10.128.0.46 dev ens4 proto 66 scope host 
+    broadcast 127.0.0.0 dev lo proto kernel scope <span class="nb">link </span>src 127.0.0.1 
+    <span class="nb">local </span>127.0.0.0/8 dev lo proto kernel scope host src 127.0.0.1 
+    <span class="nb">local </span>127.0.0.1 dev lo proto kernel scope host src 127.0.0.1 
+    broadcast 127.255.255.255 dev lo proto kernel scope <span class="nb">link </span>src 127.0.0.1 </code></pre></figure>
+
+<p>Both nodes are showing that <code class="highlighter-rouge">local 10.128.0.46 dev ens4 proto 66 scope host</code> , so whenever we tried to access the load balancer’s IP, then the OS route table will route the traffic to the same node.</p>
+
+<blockquote>
+  <p>I have verified this with GCP support team.</p>
+</blockquote>
+
+<h2 id="is-this-a-serious-issue">Is this a serious Issue:</h2>
+
+<p><strong>Not at all.</strong> No one will try to access the load balancer from the nodes which are under the load balancer(Except some cases like mine).</p>
+
+<h2 id="what-about-httphttps-load-balancer">What about HTTP/HTTPS Load balancer?:</h2>
+
+<p>I tried to reproduce the same issue with HTTP/HTTPS load balancer. There I didn’t see this problem.</p>
+
+        </div>
+        <hr>
+        <h3>Advertisement</h3>
+         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad-horizontal -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9518508677792760"
+     data-ad-slot="4874591962"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <hr>
+        <h3> Share this article </h3>
+      
+        
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/mysql-calculate-how-much-disk-space-you-wasted/">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> MySQL Calculate How Much Disk Space You Wasted
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/redshift-stored-procedure-comma-separated-string-in-argument/">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        Redshift Stored Procedure Comma separated string in Argument
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="copyright">
+    
+      <p>&copy; 2020 Nitin Kumar Singh | Data Architect. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
+
+
+  </body>
+
+</html>

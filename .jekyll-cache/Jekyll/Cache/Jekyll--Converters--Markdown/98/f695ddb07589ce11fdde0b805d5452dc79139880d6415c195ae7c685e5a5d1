@@ -1,0 +1,71 @@
+I"<p><img src="/assets/AWS-DocumentDB.jpg" alt="AWS DocumentDB" /></p>
+
+<p>As we all know that AWS announced the managed MongoDB services called as AWS DocumentDB. MongoDB is one of my favourite  NoSQL Databases even for developers. Since Im working with MongoDB in AWS, its the very first step setting up the replica set and shards. It’ll take a couple of mins to configure. But setting up the monitoring and other stuffs like troubleshooting replication issue, resync the failed replica and fixing issues in sharding is a big headache for DBAs. I guess even AWS felt the pain :)</p>
+
+<p>Now we have the managed mongo clusters in AWS. The reason why Im writing this blog is, Im a very big fan of AWS Aurora. The designing concept is awesome. After aurora’s arrival, most of the MySQL workloads became very smooth and later PostgreSQL.</p>
+
+<h2 id="what-aws-document-db-does">What AWS Document DB does?</h2>
+
+<ul>
+  <li>MongoDB Compatible with 3.6.</li>
+  <li>Fully managed.</li>
+  <li>Works only inside the VPC.</li>
+  <li>For public access we can use SSL tunneling from an EC2 instance or port farwarding.</li>
+  <li>Upto 15 replicas.</li>
+  <li>In-build load balancer for read workloads(reader endpoint).</li>
+  <li>Priority based failover (assign which node to be failed over first).</li>
+  <li>No need to for pre-provisioning the storage upfront.</li>
+  <li>Scaleable storage upto 64TB. (automatically adds 10GB whenever it reaches the threshold)</li>
+  <li>Automated snapshots upto 35days.</li>
+  <li>Read Isolation - Kind of read committed mechanism for reader nodes.</li>
+  <li>All mongoDB read preferences are supported. ( primary, primaryPreferred, secondary, secondaryPreferred, nearest).</li>
+</ul>
+
+<h2 id="replication">Replication:</h2>
+
+<p>While reading the above points, you may realize that, all of the features are very similar to Aurora. Yes, exactly it matches Aurora’s architecture. AWS DocumentDB is not using native mongodb replication mechanism. To understand its replication, let rewind how Aurora is handling the replication.</p>
+
+<p>Aurora is using a clustered volumes which has 2 volumes in each availability zone and span across 3 zones. So totally 6 volumes are in that cluster. While writing something on the Clustered volume, it’ll write to all 6 volumes in parallel. Also its PIOPS volumes. From my previous experience aurora handled 40000 Write IOPS.</p>
+
+<p><img src="/assets/AWS-DocumentDB1-1024x537.jpg" alt="AWS DocumentDB" /></p>
+
+<p>Now in DocumentDB its almost similar to Aurora’s write operation. Here it’ll use the replica set for maintaining the quorum and all but for data replication, instead of replicating the data its just replicate the state of the write to each replica. So there is no much write ops and it’ll improve the replication performance. AWS claims that usually it the lag is less than 100ms latency to replicate the state.</p>
+
+<h2 id="cool-features-in-aws-doumentdb">Cool features in AWS DoumentDB:</h2>
+
+<h3 id="cache-warming">Cache Warming:</h3>
+
+<p>During the failover, AWS DocumentDB cache the frequetnly access data pages in memory. So after the failover still it holds the cache in Cache layer. So the new primary will not do Disk Reads even after failover.</p>
+
+<h3 id="crash-recovery">Crash Recovery:</h3>
+
+<p>If you mongo instance crashed and AWS tries to recover using asynchronous parallel threads. So the instance will be up as soon as possible.</p>
+
+<h3 id="read-isolation">Read Isolation:</h3>
+
+<p>If you are familiar with Relational databases transaction isolation, then it’s almost same. While reading the data from reader instance, it’ll return the previously committed data.</p>
+
+<h2 id="then-how-about-sharding">Then how about sharding?</h2>
+
+<p><strong>You may come with this question, can we have shards in AWS DoucmentDB?</strong></p>
+
+<p>To answer this think about where we need the sharding. If we have massive write Ops from different geo locations, then sharding might help you to reduce your write latency and replication lag. But here its a clustered volume and also all the writes are performed in parallel on a PIOPS volumes. So according to me sharding is not necessary here. But to reduce latency in different geo locations then this statement is not correct.</p>
+
+<h2 id="what-im-expecting-from-aws-for-documentdb">What Im expecting from AWS for DocumentDB?</h2>
+
+<ul>
+  <li>Global database - Aurora has globally distributed database service which is equivalent for Sharding.</li>
+  <li>Version 4.0 or support for ACID - 4.0 has ACID compliance. But SSPL licensing an issue.</li>
+  <li>Newer versions - Again refer the above point.</li>
+  <li>Add external replica from EC2.</li>
+</ul>
+
+<h2 id="external-resources">External Resources:</h2>
+
+<ul>
+  <li>Limitations - <a href="https://docs.aws.amazon.com/documentdb/latest/developerguide/limits.html">https://docs.aws.amazon.com/documentdb/latest/developerguide/limits.html</a></li>
+  <li>How its works - <a href="https://docs.aws.amazon.com/documentdb/latest/developerguide/how-it-works.html">https://docs.aws.amazon.com/documentdb/latest/developerguide/how-it-works.html</a></li>
+  <li>Create the cluster - <a href="https://aws.amazon.com/blogs/aws/new-amazon-documentdb-with-mongodb-compatibility-fast-scalable-and-highly-available/">https://aws.amazon.com/blogs/aws/new-amazon-documentdb-with-mongodb-compatibility-fast-scalable-and-highly-available/</a></li>
+  <li>Aurora’s storage internal - <a href="https://aws.amazon.com/blogs/database/introducing-the-aurora-storage-engine/">https://aws.amazon.com/blogs/database/introducing-the-aurora-storage-engine/</a></li>
+</ul>
+:ET

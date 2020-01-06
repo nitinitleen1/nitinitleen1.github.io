@@ -1,0 +1,2 @@
+I"�<p>RedShift stored procedures are really useful feature and after a long time they introduced it. I tried this stored procedure for many use cases and recently I came up with a complexity in it. You can’t get a comma separated sting in the argument. Lets say I have an employee table and I want to pass the employee names in a variable/argument and you need to <code class="highlighter-rouge">select * from table where employee_name in ('your comma separated values)</code>. It’ll not work directly.</p>
+:ET

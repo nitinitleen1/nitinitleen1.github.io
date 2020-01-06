@@ -1,0 +1,2 @@
+I"½<p>This title may be suitable for the new age MySQL Users. Because in 5.7 onwards its already supported to enable GTID online. But still few of my mission critical databases are in 5.6 and handling <code class="highlighter-rouge">70k QPS</code>. So I know enabling GTID needs downtime for this. But in my case, the GTID has been already implemented. But still the replication is using Binlog file name and position for replicating the data.</p>
+:ET

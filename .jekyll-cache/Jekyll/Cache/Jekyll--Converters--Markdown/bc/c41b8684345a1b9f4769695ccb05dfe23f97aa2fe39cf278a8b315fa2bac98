@@ -1,0 +1,93 @@
+I"S*<p>Redshift unload is the fastest way to export the data from Redshift cluster. In BigData world, generally people use the data in S3 for DataLake. So its important that we need to make sure the data in S3 should be partitioned. So we can use Athena, RedShift Spectrum or EMR External tables to access that data in an optimized way. If you are dealing with multiple tables, then you can loop the table names in a shell script or Python code. But as a SQL guy, I choose stored procedures to do this. It made export process simple.</p>
+
+<p>In this procedure I just used the options which are suitable for me, but you can use the same procedure and do whatever customization you want. Also you can track the activity of this unload in a metadata table.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql">    <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">unload_meta</span> <span class="p">(</span>
+    	<span class="n">id</span> <span class="nb">INT</span> <span class="k">IDENTITY</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    	<span class="p">,</span><span class="n">tablename</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+    	<span class="p">,</span><span class="n">start_time</span> <span class="nb">DATETIME</span>
+    	<span class="p">,</span><span class="n">end_time</span> <span class="nb">DATETIME</span>
+    	<span class="p">,</span><span class="n">export_query</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">65500</span><span class="p">)</span>
+    	<span class="p">);</span></code></pre></figure>
+
+<p>Define the parameters:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">starttime</code> - timestamp when the process started</li>
+  <li><code class="highlighter-rouge">endtime</code> - timestamp when the process end</li>
+  <li><code class="highlighter-rouge">sql</code> - SQL Query that you want to export its results to S3.</li>
+  <li><code class="highlighter-rouge">s3_path</code> - location of S3 with prefix. Make sure you have end this string with <code class="highlighter-rouge">/</code>.</li>
+  <li><code class="highlighter-rouge">iamrole</code> - IAM role ARN which has s3 write access.</li>
+  <li><code class="highlighter-rouge">delimiter</code> - If you are exporting as CSV, you can define your delimiter.</li>
+  <li><code class="highlighter-rouge">un_year</code> - Partition YEAR</li>
+  <li><code class="highlighter-rouge">un_month</code> - Partition MONTH</li>
+  <li><code class="highlighter-rouge">un_day</code> - Partition DAY</li>
+</ul>
+
+<p>In this procedure, I used <code class="highlighter-rouge">GETDATE()</code> function to pass current day, month, year into partition variables. If you want custom one, you can get these variables from input in stored procedure.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql">    <span class="k">CREATE</span> <span class="k">OR</span> <span class="k">REPLACE</span> <span class="k">PROCEDURE</span> <span class="n">sp_unload</span><span class="p">(</span><span class="n">v_tablename</span> <span class="nb">varchar</span><span class="p">)</span>
+    <span class="k">LANGUAGE</span> <span class="n">plpgsql</span> <span class="k">AS</span>
+    <span class="err">$$</span>
+    <span class="k">DECLARE</span>
+       <span class="n">starttime</span> <span class="nb">datetime</span><span class="p">;</span>
+       <span class="n">endtime</span> <span class="nb">datetime</span><span class="p">;</span>
+       <span class="k">sql</span> <span class="nb">text</span><span class="p">;</span>
+       <span class="n">s3_path</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+       <span class="n">iamrole</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+       <span class="k">delimiter</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+       <span class="n">unload_query</span> <span class="nb">text</span><span class="p">;</span>
+       <span class="n">max_filesize</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+       <span class="n">un_year</span> <span class="nb">int</span><span class="p">;</span>
+       <span class="n">un_month</span> <span class="nb">int</span><span class="p">;</span>
+       <span class="n">un_day</span> <span class="nb">int</span><span class="p">;</span>
+    
+    <span class="k">BEGIN</span>
+       
+       <span class="k">select</span> <span class="k">extract</span><span class="p">(</span><span class="nb">year</span> <span class="k">from</span>  <span class="n">GETDATE</span><span class="p">())</span> <span class="k">into</span> <span class="n">un_year</span><span class="p">;</span>
+       <span class="k">select</span> <span class="k">extract</span><span class="p">(</span><span class="k">month</span> <span class="k">from</span>  <span class="n">GETDATE</span><span class="p">())</span> <span class="k">into</span> <span class="n">un_month</span><span class="p">;</span>
+       <span class="k">select</span> <span class="k">extract</span><span class="p">(</span><span class="k">day</span> <span class="k">from</span>  <span class="n">GETDATE</span><span class="p">())</span> <span class="k">into</span> <span class="n">un_day</span><span class="p">;</span>
+       <span class="k">select</span> <span class="n">GETDATE</span><span class="p">()</span> <span class="k">into</span> <span class="n">starttime</span><span class="p">;</span>
+       
+       <span class="k">sql</span><span class="p">:</span><span class="o">=</span><span class="s1">'select * from '</span><span class="o">||</span><span class="n">v_tablename</span><span class="o">||</span><span class="s1">''</span> <span class="p">;</span>
+       <span class="n">s3_path</span><span class="p">:</span><span class="o">=</span><span class="s1">'s3://bhuvi-datalake/clicksteam/'</span><span class="p">;</span>
+       <span class="n">iamrole</span><span class="p">:</span><span class="o">=</span><span class="s1">'arn:aws:iam::123123123123:role/myredshiftrole'</span><span class="p">;</span>
+       <span class="k">delimiter</span><span class="p">:</span><span class="o">=</span><span class="s1">'|'</span><span class="p">;</span>
+       <span class="n">unload_query</span> <span class="p">:</span><span class="o">=</span> <span class="s1">'unload (</span><span class="se">''</span><span class="s1">'</span><span class="o">||</span><span class="k">sql</span><span class="o">||</span><span class="s1">'</span><span class="se">''</span><span class="s1">) to </span><span class="se">''</span><span class="s1">'</span><span class="o">||</span><span class="n">s3_path</span><span class="o">||</span><span class="n">un_year</span><span class="o">||</span><span class="s1">'/'</span><span class="o">||</span><span class="n">un_month</span><span class="o">||</span><span class="s1">'/'</span><span class="o">||</span><span class="n">un_day</span><span class="o">||</span><span class="s1">'/'</span><span class="o">||</span><span class="n">v_tablename</span><span class="o">||</span><span class="s1">'_</span><span class="se">''</span><span class="s1"> iam_role </span><span class="se">''</span><span class="s1">'</span><span class="o">||</span><span class="n">iamrole</span><span class="o">||</span><span class="s1">'</span><span class="se">''</span><span class="s1"> delimiter </span><span class="se">''</span><span class="s1">'</span><span class="o">||</span><span class="k">delimiter</span><span class="o">||</span><span class="s1">'</span><span class="se">''</span><span class="s1"> MAXFILESIZE 100 MB PARALLEL ADDQUOTES HEADER GZIP'</span><span class="p">;</span>
+      
+       <span class="k">execute</span> <span class="n">unload_query</span><span class="p">;</span>
+       <span class="k">select</span> <span class="n">GETDATE</span><span class="p">()</span> <span class="k">into</span> <span class="n">endtime</span><span class="p">;</span>
+    
+       <span class="k">Insert</span> <span class="k">into</span> <span class="n">unload_meta</span> <span class="p">(</span><span class="n">tablename</span><span class="p">,</span> <span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">,</span> <span class="n">export_query</span><span class="p">)</span> <span class="k">values</span> <span class="p">(</span><span class="n">v_tablename</span><span class="p">,</span><span class="n">starttime</span><span class="p">,</span><span class="n">endtime</span><span class="p">,</span><span class="n">unload_query</span><span class="p">);</span>
+    
+    <span class="k">END</span>
+    <span class="err">$$</span><span class="p">;</span>  </code></pre></figure>
+
+<p>Here, Im getting the table name from input. Then I used multiple options like parallel, max file size, include headers and compress. If you don’t want to use this, you can remove these options from the <code class="highlighter-rouge">unload_query</code>. Also if you need you can get the s3 location and other parameters from the user input. You can do many customization here.</p>
+
+<p>Lets try this.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    <span class="nb">test</span><span class="o">=</span><span class="c"># call sp_unload('bhuvi');</span>
+    INFO:  UNLOAD completed, 400000 record<span class="o">(</span>s<span class="o">)</span> unloaded successfully.
+    CALL
+    <span class="nb">test</span><span class="o">=</span><span class="c">#</span></code></pre></figure>
+
+<p><img src="/assets/RedShift Unload to S3 With Partitions.png" alt="" /></p>
+
+<p>Get the unload History from Meta table:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>select * from unload_meta;
+
+id           | 1
+tablename    | bhuvi
+start_time   | 2019-08-27 03:42:57
+end_time     | 2019-08-27 03:43:03
+export_query | unload ('select * from bhuvi') to 's3://bhuvi-datalake/clicksteam/2019/8/27/bhuvi_' iam_role 'arn:aws:iam::123123123:role/myredshiftrole' delimiter '|' MAXFILESIZE 100 MB PARALLEL ADDQUOTES HEADER GZIP
+</code></pre></div></div>
+
+<p>In my next blog, I’ll write about how to automate this Unload Process in AWS Glue and convert the CSV to Parquet format.</p>
+
+<h2 id="update">Update:</h2>
+<p>I have written the updated version of this stored procedure to unload all of the tables in a database to S3.
+You can read it here: <a href="https://thedataguy.in/redshift-unload-all-tables-to-s3/">https://thedataguy.in/redshift-unload-all-tables-to-s3/</a></p>
+:ET

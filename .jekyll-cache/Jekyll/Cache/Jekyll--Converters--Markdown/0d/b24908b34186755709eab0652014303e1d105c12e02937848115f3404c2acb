@@ -1,0 +1,2 @@
+I"�<p>Adding a new node to the MongoDB replica set with huge amount of data will take a lot of time to perform the initial sync. Recently I was working on a replica set where I need to replace all the nodes in the existing shard and add a new node to the shard’s replica set. The data size is 3TB on each shard. The entire infra is on GCP. I planned to do this activity with native approach, but later I realized it won’t work as I expected.</p>
+:ET

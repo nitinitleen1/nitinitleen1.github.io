@@ -1,0 +1,1104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+    
+    <url>
+      <loc>http://localhost:4000/debezium-mysql-snapshot-for-aws-rds-aurora-from-backup-snaphot/</loc>
+      
+        <lastmod>2020-01-02T14:13:00+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/debezium-mysql-snapshot-from-read-replica-and-resume-from-master/</loc>
+      
+        <lastmod>2019-12-31T17:40:00+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/debezium-mysql-snapshot-from-read-replica-with-gtid/</loc>
+      
+        <lastmod>2019-12-28T16:47:00+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/redshift-kill-all-locking-sessions-on-a-table/</loc>
+      
+        <lastmod>2019-12-26T05:00:00+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/monitor-debezium-mysql-connector-with-prometheus-and-grafana/</loc>
+      
+        <lastmod>2019-12-24T11:50:00+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/build-production-grade-debezium-with-confluent-kafka-cluster/</loc>
+      
+        <lastmod>2019-12-19T21:13:00+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/redshift-unload-multiple-tables-schema-to-s3/</loc>
+      
+        <lastmod>2019-11-22T10:05:00+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/redshift-stored-procedure-comma-separated-string-in-argument/</loc>
+      
+        <lastmod>2019-11-07T14:30:00+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/where-gcp-internal-load-balancer-fails/</loc>
+      
+        <lastmod>2019-10-29T13:30:00+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/mysql-calculate-how-much-disk-space-you-wasted/</loc>
+      
+        <lastmod>2019-10-21T10:43:00+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/backfill-failed-delivery-from-kinesis-to-redshift-with-lambda/</loc>
+      
+        <lastmod>2019-10-17T21:56:00+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/aws-glue-custom-output-file-size-and-fixed-number-of-files/</loc>
+      
+        <lastmod>2019-10-08T02:10:00+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/redshift-unload-all-tables-to-s3/</loc>
+      
+        <lastmod>2019-10-07T01:10:00+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/how-gcp-browser-bases-ssh-works/</loc>
+      
+        <lastmod>2019-10-02T00:02:00+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/cloudwatch-custom-log-filter-alarm-for-kinesis-load-failed-event/</loc>
+      
+        <lastmod>2019-10-01T11:00:00+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/relationalize-unstructured-data-in-aws-athena-with-grokserde/</loc>
+      
+        <lastmod>2019-09-23T00:00:00+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/redshift-unload-to-s3-with-partitions-stored-procedure-way/</loc>
+      
+        <lastmod>2019-08-27T09:47:00+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/mysql-convert-binlog-based-replication-to-gtid-replication-without-downtime/</loc>
+      
+        <lastmod>2019-08-24T13:28:00+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/mongodb-add-node-to-replica-set-without-initial-sync-in-gcp-aws/</loc>
+      
+        <lastmod>2019-08-20T00:00:00+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/database-mirroring-is-still-a-mystery/</loc>
+      
+        <lastmod>2019-08-08T10:00:00+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/monitor-cassandra-clusters-with-percona-pmm-jmx-grafana-and-prometheus/</loc>
+      
+        <lastmod>2019-05-17T00:00:00+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/mysql-pitr-the-fastest-way-with-devops/</loc>
+      
+        <lastmod>2019-03-04T00:00:00+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/mysql-exact-row-count-for-all-the-tables/</loc>
+      
+        <lastmod>2019-02-25T17:05:00+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/mysql-devops-automate-database-archive/</loc>
+      
+        <lastmod>2019-02-02T19:15:21+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/create-aurora-read-replica-aws-cli-lambda-python/</loc>
+      
+        <lastmod>2019-01-26T00:39:11+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/aws-documentdb-a-nosql-equivalent-for-aurora/</loc>
+      
+        <lastmod>2019-01-12T19:27:12+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/automation-script-for-percona-xtrabackup-full-incremental/</loc>
+      
+        <lastmod>2019-01-01T21:03:18+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/encrypt-key-files-and-passwords-in-rundeck/</loc>
+      
+        <lastmod>2018-12-29T16:16:53+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/configure-rundeck-smtp-with-aws-ses/</loc>
+      
+        <lastmod>2018-12-29T12:44:00+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/configure-nginx-proxypass-for-rundeck/</loc>
+      
+        <lastmod>2018-12-29T11:44:59+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/add-nodes-to-the-rundeck/</loc>
+      
+        <lastmod>2018-12-29T01:27:17+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/rundeck-install-configure-centos-with-mysql/</loc>
+      
+        <lastmod>2018-10-12T13:37:29+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/archive-mysql-data-in-chunks/</loc>
+      
+        <lastmod>2018-09-26T18:42:25+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/internals-of-google-datastore-and-technical-overview/</loc>
+      
+        <lastmod>2018-09-11T01:30:54+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/mysql-gtid-vs-mariadb-gtid/</loc>
+      
+        <lastmod>2018-08-24T01:18:53+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/convert-mysql-two-digit-year-to-four-digit-year/</loc>
+      
+        <lastmod>2018-07-20T20:57:29+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/automate-aws-redshift-snapshot-and-restore/</loc>
+      
+        <lastmod>2018-07-10T17:26:20+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/automatically-create-aws-athena-partitions-for-cloudtrail-between-two-dates/</loc>
+      
+        <lastmod>2018-05-30T15:44:16+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/automate-aws-athena-create-partition-on-daily-basis/</loc>
+      
+        <lastmod>2018-05-30T14:10:37+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/automatically-add-ec2-instances-to-ad/</loc>
+      
+        <lastmod>2018-05-15T18:24:42+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/migrate-postgresql-users-aws-rds-postgresql/</loc>
+      
+        <lastmod>2018-03-06T12:21:18+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/windows-server-2016-in-aws-unable-to-resolve-public-and-local-dns/</loc>
+      
+        <lastmod>2018-03-02T23:28:24+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/automatically-enable-cdc-in-rds-sql-server/</loc>
+      
+        <lastmod>2018-02-10T17:58:23+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/dont-use-aws-ami-backup-ec2-database-server/</loc>
+      
+        <lastmod>2018-02-04T14:54:50+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/restore-corrupted-system-databases/</loc>
+      
+        <lastmod>2017-12-31T19:25:03+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/configure-bucardo-replication-centos/</loc>
+      
+        <lastmod>2017-12-28T18:51:28+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/postgrsql-insecure-directory-in-env-path/</loc>
+      
+        <lastmod>2017-12-05T18:12:07+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/change-mysql-default-directories/</loc>
+      
+        <lastmod>2017-11-04T17:15:29+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/compare-two-sql-server-databases-using-tsql/</loc>
+      
+        <lastmod>2017-10-19T23:01:30+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/install-oracle-12c-amazon-linux-silent-mode/</loc>
+      
+        <lastmod>2017-10-19T22:48:22+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/aws-aurora-database-clone/</loc>
+      
+        <lastmod>2017-10-19T22:16:31+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/sql-server-security-audit-script/</loc>
+      
+        <lastmod>2017-10-19T22:01:19+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/map-linux-users-to-postgres-user/</loc>
+      
+        <lastmod>2017-10-19T21:49:05+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>http://localhost:4000/backup-with-dbatools-ola-hallengren/</loc>
+      
+        <lastmod>2017-10-19T20:38:27+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+  
+    
+      
+      <url>
+        <loc>http://localhost:4000/assets/2019-08-08-database-mirroring-is-still-a-mystery/</loc>
+        
+          <lastmod>2019-08-08T16:00:00+05:30</lastmod>
+        
+        
+          <changefreq>monthly</changefreq>
+        
+        
+          <priority>0.3</priority>
+        
+      </url>
+      
+    
+  
+    
+      
+      <url>
+        <loc>http://localhost:4000/404.html</loc>
+        
+          <lastmod>2020-01-06T14:34:15+05:30</lastmod>
+        
+        
+          <changefreq>monthly</changefreq>
+        
+        
+          <priority>0.3</priority>
+        
+      </url>
+      
+    
+  
+    
+      
+      <url>
+        <loc>http://localhost:4000/categories/</loc>
+        
+          <lastmod>2020-01-06T14:34:15+05:30</lastmod>
+        
+        
+          <changefreq>monthly</changefreq>
+        
+        
+          <priority>0.3</priority>
+        
+      </url>
+      
+    
+  
+    
+      
+      <url>
+        <loc>http://localhost:4000/</loc>
+        
+          <lastmod>2020-01-06T14:34:15+05:30</lastmod>
+        
+        
+          <changefreq>monthly</changefreq>
+        
+        
+          <priority>0.3</priority>
+        
+      </url>
+      
+    
+  
+    
+      
+      <url>
+        <loc>http://localhost:4000/assets/css/main.css</loc>
+        
+          <lastmod>2020-01-06T14:34:15+05:30</lastmod>
+        
+        
+          <changefreq>monthly</changefreq>
+        
+        
+          <priority>0.3</priority>
+        
+      </url>
+      
+    
+  
+    
+      
+      <url>
+        <loc>http://localhost:4000/posts/</loc>
+        
+          <lastmod>2020-01-06T14:34:15+05:30</lastmod>
+        
+        
+          <changefreq>monthly</changefreq>
+        
+        
+          <priority>0.3</priority>
+        
+      </url>
+      
+    
+  
+    
+      
+      <url>
+        <loc>http://localhost:4000/assets/js/search-data.js</loc>
+        
+          <lastmod>2020-01-06T14:34:15+05:30</lastmod>
+        
+        
+          <changefreq>monthly</changefreq>
+        
+        
+          <priority>0.3</priority>
+        
+      </url>
+      
+    
+  
+    
+      
+      <url>
+        <loc>http://localhost:4000/search/</loc>
+        
+          <lastmod>2020-01-06T14:34:15+05:30</lastmod>
+        
+        
+          <changefreq>monthly</changefreq>
+        
+        
+          <priority>0.3</priority>
+        
+      </url>
+      
+    
+  
+    
+      
+      <url>
+        <loc>http://localhost:4000/sitemap.xml</loc>
+        
+          <lastmod>2020-01-06T14:34:15+05:30</lastmod>
+        
+        
+          <changefreq>monthly</changefreq>
+        
+        
+          <priority>0.3</priority>
+        
+      </url>
+      
+    
+  
+    
+      
+      <url>
+        <loc>http://localhost:4000/tags/</loc>
+        
+          <lastmod>2020-01-06T14:34:15+05:30</lastmod>
+        
+        
+          <changefreq>monthly</changefreq>
+        
+        
+          <priority>0.3</priority>
+        
+      </url>
+      
+    
+  
+    
+      
+      <url>
+        <loc>http://localhost:4000/page2/</loc>
+        
+          <lastmod>2020-01-06T14:34:15+05:30</lastmod>
+        
+        
+          <changefreq>monthly</changefreq>
+        
+        
+          <priority>0.3</priority>
+        
+      </url>
+      
+    
+  
+    
+      
+      <url>
+        <loc>http://localhost:4000/page3/</loc>
+        
+          <lastmod>2020-01-06T14:34:15+05:30</lastmod>
+        
+        
+          <changefreq>monthly</changefreq>
+        
+        
+          <priority>0.3</priority>
+        
+      </url>
+      
+    
+  
+    
+      
+      <url>
+        <loc>http://localhost:4000/page4/</loc>
+        
+          <lastmod>2020-01-06T14:34:15+05:30</lastmod>
+        
+        
+          <changefreq>monthly</changefreq>
+        
+        
+          <priority>0.3</priority>
+        
+      </url>
+      
+    
+  
+    
+      
+      <url>
+        <loc>http://localhost:4000/page5/</loc>
+        
+          <lastmod>2020-01-06T14:34:15+05:30</lastmod>
+        
+        
+          <changefreq>monthly</changefreq>
+        
+        
+          <priority>0.3</priority>
+        
+      </url>
+      
+    
+  
+    
+      
+      <url>
+        <loc>http://localhost:4000/page6/</loc>
+        
+          <lastmod>2020-01-06T14:34:15+05:30</lastmod>
+        
+        
+          <changefreq>monthly</changefreq>
+        
+        
+          <priority>0.3</priority>
+        
+      </url>
+      
+    
+  
+    
+      
+      <url>
+        <loc>http://localhost:4000/page7/</loc>
+        
+          <lastmod>2020-01-06T14:34:15+05:30</lastmod>
+        
+        
+          <changefreq>monthly</changefreq>
+        
+        
+          <priority>0.3</priority>
+        
+      </url>
+      
+    
+  
+    
+      
+      <url>
+        <loc>http://localhost:4000/assets/css/main.css.map</loc>
+        
+          <lastmod>2020-01-06T14:34:15+05:30</lastmod>
+        
+        
+          <changefreq>monthly</changefreq>
+        
+        
+          <priority>0.3</priority>
+        
+      </url>
+      
+    
+  
+</urlset>
