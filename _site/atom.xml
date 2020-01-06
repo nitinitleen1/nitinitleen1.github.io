@@ -4,7 +4,7 @@
  <title>Nitin Kumar Singh | Data Architect</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <id>http://localhost:4000</id>
- <updated>2020-01-05T22:57:46+05:30</updated>
+ <updated>2020-01-06T14:29:15+05:30</updated>
  <author>
    <name>Nitin Kumar Singh</name>
    <uri>https://nkstech.live</uri>
@@ -14,11 +14,11 @@
  
 
  <entry>
-   <title>Hello World</title>
+   <title>Build Production Grade Debezium Cluster With Confluent Kafka</title>
    <link href="http://localhost:4000/hello-world/"/>
    <id>http://localhost:4000/hello-world</id>
-   <updated>2015-02-10T00:00:00+05:30</updated>
-   <content type="html">&lt;p&gt;Chiaramente non si può lanciare un nuovo sito senza un “Hello World” come si deve, quindi eccoci qui! Quello che vedete è il mio nuovo sito personale. Un sito molto semplice e che propone un piccolo blog subito in home page.&lt;/p&gt; &lt;p&gt;Alle sue pagine dedicherò alcuni post relativi alle cose...</content>
+   <updated>2019-12-19T21:13:00+05:30</updated>
+   <content type="html">&lt;p&gt;We are living in the DataLake world. Now almost every organizations wants their reporting in Near Real Time. Kafka is of the best streaming platform for realtime reporting. Based on the Kafka connector, RedHat designed the Debezium which is an OpenSource product and high recommended for real time CDC from...</content>
  </entry>
 
  
