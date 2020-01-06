@@ -1,7 +1,7 @@
 ---
 title: Build Production Grade Airflow Cluster
 date: 2019-12-19 21:13:00 +0530
-description: Configure the Production grade Airflow setup with Celery as an executor and PostgresSQL as the backend database.
+description: Airflow Cluster setup with Celery as an executor and PostgresSQL as the backend database.
 categories:
 - Airflow
 tags:
@@ -9,6 +9,7 @@ tags:
 - postgresql
 - data-pipeline
 - aws
+- rabbitmq
 image: "/assets/Build Production Grade Dedezium Cluster With Confluent Kafka.jpg"
 
 ---
