@@ -1,18 +1,14 @@
 ---
-title: Build Production Grade Debezium Cluster With Confluent Kafka
+title: Build Production Grade Airflow Cluster
 date: 2019-12-19 21:13:00 +0530
-description: Configure the Production grade debezium cluster with confluent kafka
-  in aws. Sync data between MySQL and S3 with Debezium MySQL connector.
+description: Configure the Production grade Airflow setup with Celery as an executor and PostgresSQL as the backend database.
 categories:
-- Kafka
+- Airflow
 tags:
+- airflow
+- postgresql
+- data-pipeline
 - aws
-- kafka
-- confluent
-- debezium
-- cdc
-- mysql
-- s3
 image: "/assets/Build Production Grade Dedezium Cluster With Confluent Kafka.jpg"
 
 ---

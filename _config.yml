@@ -4,7 +4,7 @@ locale: en-US
 title: "Nitin Kumar Singh"
 description: "My Learning and Adventures in Computer Science and Life"
 baseurl: 
-url: "http://nkstech.live"
+url: "https://nkstech.live"
 logo: # path of site logo, e.g. "/images/logo.png"
 date_format: "%Y-%m-%d"
 read_time: true
@@ -46,7 +46,7 @@ category_archive_path: "/categories/#"
 tag_archive_path: "/tags/#"
 
 # SiteMap
-url: "http://nkstech.live" # the base hostname & protocol for your site
+url: "https://nkstech.live" # the base hostname & protocol for your site
 
 plugins:
   - jekyll-seo-tag
@@ -68,7 +68,7 @@ defaults:
 # Site Author
 author: 
   name: Nitin
-  picture: /assets/bhuvi-photo-dp.jpg
+  picture: /assets/nks.jpg
   email:
   twitter: https://twitter.com/nitinkumarsin10
   links:
@@ -79,7 +79,7 @@ author:
 social:
   name: Nitin
   links:
-    - https://twitter.com/BhuviTheDataGuy
+    - https://twitter.com/nitinkumarsin10
     - https://www.linkedin.com/in/nitinnks/
 
 # Footer Links
