@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-01-06T23:42:19+05:30</updated><id>http://localhost:4000/atom.xml</id><title type="html">Nitin Kumar Singh</title><subtitle>My Learning and Adventures in Computer Science and Life</subtitle><author><name>Nitin</name></author><entry><title type="html">Setting up an Airflow Cluster</title><link href="http://localhost:4000/build-production-grade-debezium-with-confluent-kafka-cluster/" rel="alternate" type="text/html" title="Setting up an Airflow Cluster" /><published>2019-12-19T21:13:00+05:30</published><updated>2019-12-19T21:13:00+05:30</updated><id>http://localhost:4000/build-production-grade-debezium-with-confluent-kafka-cluster</id><content type="html" xml:base="http://localhost:4000/build-production-grade-debezium-with-confluent-kafka-cluster/">&lt;p&gt;Data-driven companies often hinge their business intelligence and product development on the execution of complex data pipelines. These pipelines are often referred to as data workflows, a term that can be somewhat opaque in that workflows are not limited to one specific definition and do not perform a specific set of functions per se. To orchestrate these workflows there are lot of schedulers like oozie, Luigi, Azkaban and Airflow. This blog demonstrate the setup of one of these orchestrator i.e Airflow.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-01-08T14:38:03+05:30</updated><id>http://localhost:4000/atom.xml</id><title type="html">Nitin Kumar Singh</title><subtitle>My Learning and Adventures in Computer Science and Life</subtitle><author><name>Nitin</name></author><entry><title type="html">Setting up an Airflow Cluster</title><link href="http://localhost:4000/scaling-out-airflow/" rel="alternate" type="text/html" title="Setting up an Airflow Cluster" /><published>2019-12-19T21:13:00+05:30</published><updated>2019-12-19T21:13:00+05:30</updated><id>http://localhost:4000/scaling-out-airflow</id><content type="html" xml:base="http://localhost:4000/scaling-out-airflow/">&lt;p&gt;Data-driven companies often hinge their business intelligence and product development on the execution of complex data pipelines. These pipelines are often referred to as data workflows, a term that can be somewhat opaque in that workflows are not limited to one specific definition and do not perform a specific set of functions per se. To orchestrate these workflows there are lot of schedulers like oozie, Luigi, Azkaban and Airflow. This blog demonstrate the setup of one of these orchestrator i.e Airflow.&lt;/p&gt;
 
 &lt;h2 id=&quot;a-shot-intro&quot;&gt;A shot intro:&lt;/h2&gt;
 
@@ -25,46 +25,64 @@
 
 &lt;p&gt;&lt;img src=&quot;/assets/airflow-schematic.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Kafka and Zookeepers are installed on the same EC2. We we’ll deploy 3 node confluent Kafka cluster. Each node will be in a different availability zone.&lt;/p&gt;
+&lt;p&gt;Airflow provides an option to utilize CeleryExecutor to execute tasks in distributed fashion. In this mode, we can run several servers each running multiple worker nodes to execute the tasks. This mode uses Celery along with a message queueing service RabbitMQ.The diagram show the interactivity between different component services i.e. Airflow(Webserver and Scheduler), Celery(Executor) and RabbitMQ and Metastore in an AWS Environment.&lt;/p&gt;
+
+&lt;p&gt;For simplicity of the blog, we will demonstrate the setup of a single node master server and a single node worker server. Below is the following details for the setup:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;172.31.47.152 - Zone A&lt;/li&gt;
-  &lt;li&gt;172.31.38.158 - Zone B&lt;/li&gt;
-  &lt;li&gt;172.31.46.207 - Zone C&lt;/li&gt;
+  &lt;li&gt;EC2 Master Node - Running Scheduler and Webserver&lt;/li&gt;
+  &lt;li&gt;EC2 Worker Node - Running Celery Executor and Workers&lt;/li&gt;
+  &lt;li&gt;RDS Metastore - Storing information about metadata and dag&lt;/li&gt;
+  &lt;li&gt;EC2 Rabbit MQ Nodes - Running RabbitMq broker&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;For Producer(debezium) and Consumer(S3sink) will be hosted on the same Ec2. We’ll 3 nodes for this.&lt;/p&gt;
+&lt;h2 id=&quot;enviornment-prerequisite&quot;&gt;Enviornment Prerequisite:&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;172.31.47.12 - Zone A&lt;/li&gt;
-  &lt;li&gt;172.31.38.183 - Zone B&lt;/li&gt;
-  &lt;li&gt;172.31.46.136 - Zone C&lt;/li&gt;
+  &lt;li&gt;Operating System: Ubuntu 16.04/Ubuntu 18.04 / Debian System&lt;/li&gt;
+  &lt;li&gt;Python Environment: Python 3.5x&lt;/li&gt;
+  &lt;li&gt;DataBase: PostgreSql v11.2 (RDS)&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;instance-type&quot;&gt;Instance Type:&lt;/h2&gt;
-
-&lt;p&gt;Kafka nodes are generally needs Memory and Network Optimized. You can choose either Persistent and ephemeral storage. I prefer Persistent SSD Disks for Kafka storage. So add n GB size disk to your Kafka broker nodes. For Normal work loads its better to go with R5 instance Family.&lt;/p&gt;
-
-&lt;p&gt;Mount the Volume in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/kafkadata&lt;/code&gt; location.&lt;/p&gt;
-
-&lt;h2 id=&quot;security-group&quot;&gt;Security Group:&lt;/h2&gt;
-
-&lt;p&gt;Use a new Security group which allows the below ports.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/Build Production Grade Dedezium Cluster With Confluent Kafka-4.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Once the prerequisites are taken care of, we can proceed with the installation.&lt;/p&gt;
 
 &lt;h2 id=&quot;installation&quot;&gt;Installation:&lt;/h2&gt;
 
-&lt;p&gt;Install the Java and Kafka on all the Broker nodes.&lt;/p&gt;
+&lt;p&gt;The first step of the setup is the to configure the RDS Postgres database for airflow.
+For that we need to connect to RDS Database using using admin user.For the sake of simplicity we are using command line utility from one of the EC2 servers to connect to our RDS Server. For command line client installation for postgres database on debian system execute following commands to install and execute.&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; Install OpenJDK
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; Client Installation
 apt-get &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; update 
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;default-jre
+apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;postgresql-client&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; Install Confluent Kafka platform
-wget &lt;span class=&quot;nt&quot;&gt;-qO&lt;/span&gt; - https://packages.confluent.io/deb/5.3/archive.key | &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-key add -
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;add-apt-repository &lt;span class=&quot;s2&quot;&gt;&quot;deb [arch=amd64] https://packages.confluent.io/deb/5.3 stable main&quot;&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;confluent-platform-2.12&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;Once the client is installed try to connect to the Database using the admin user.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; Generating IAM Token
+&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;RDSHOST&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;{host_name}&quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PGPASSWORD&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;aws rds generate-db-auth-token &lt;span class=&quot;nt&quot;&gt;--hostname&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$RDSHOST&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--port&lt;/span&gt; 5432 &lt;span class=&quot;nt&quot;&gt;--region&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;region&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--username&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;admin_user&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; Connecting to the Database
+psql &lt;span class=&quot;s2&quot;&gt;&quot;host=hostName port=portNumber dbname=DBName user=userName -password&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;sslmode and sslrootcert parameter is used when we are using SSL/TLS based connection. For more information refere &lt;a href=&quot;https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.Connecting.AWSCLI.PostgreSQL.html&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Once the connection is established with the database create a database named airflow which will act as a primary source where all the metadata,scheduler and other information will be stored by airflow.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;CREATE DATABASE airflow&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+CREATE USER &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;DATABASE_USER&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; WITH PASSWORD ‘&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;DATABASE_USER_PASSWORD&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;’&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+GRANT ALL PRIVILEGES ON DATABASE airflow TO &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;DATABASE_USER&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+GRANT CONNECT ON DATABASE airflow TO &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;DATABASE_USER&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Once the above step is done the next step is to setup rabbitMQ in one the EC2 server. To install it follow the steps defined below.&lt;/p&gt;
+
+&lt;p&gt;Login as root
+Install RabbitMQ Server
+apt-get install rabbitmq-server
+Verify status
+rabbitmqctl status
+Install RabbitMQ Web Interface
+rabbitmq-plugins enable rabbitmq_management&lt;/p&gt;
 
 &lt;h2 id=&quot;configuration&quot;&gt;Configuration:&lt;/h2&gt;
 
@@ -459,4 +477,4 @@ only, NOT &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;production usage. htt
   &lt;li&gt;&lt;a href=&quot;https://thedataguy.in/debezium-mysql-snapshot-from-read-replica-and-resume-from-master/&quot;&gt;Debezium MySQL Snapshot From Read Replica And Resume From Master&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://thedataguy.in/debezium-mysql-snapshot-for-aws-rds-aurora-from-backup-snaphot/&quot;&gt;Debezium MySQL Snapshot For AWS RDS Aurora From Backup Snaphot&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://medium.com/searce/realtime-cdc-from-mysql-using-aws-msk-with-debezium-28da5a4ca873&quot;&gt;RealTime CDC From MySQL Using AWS MSK With Debezium&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;</content><author><name>Nitin</name></author><category term="airflow" /><category term="postgresql" /><category term="data-pipeline" /><category term="aws" /><category term="rabbitmq" /><summary type="html">Data-driven companies often hinge their business intelligence and product development on the execution of complex data pipelines. These pipelines are often referred to as data workflows, a term that can be somewhat opaque in that workflows are not limited to one specific definition and do not perform a specific set of functions per se. To orchestrate these workflows there are lot of schedulers like oozie, Luigi, Azkaban and Airflow. This blog demonstrate the setup of one of these orchestrator i.e Airflow.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/airflow-code.png" /><media:content medium="image" url="http://localhost:4000/assets/airflow-code.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+&lt;/ol&gt;</content><author><name>Nitin</name></author><category term="airflow" /><category term="postgresql" /><category term="data-pipeline" /><category term="aws" /><category term="rabbitmq" /><summary type="html">Data-driven companies often hinge their business intelligence and product development on the execution of complex data pipelines. These pipelines are often referred to as data workflows, a term that can be somewhat opaque in that workflows are not limited to one specific definition and do not perform a specific set of functions per se. To orchestrate these workflows there are lot of schedulers like oozie, Luigi, Azkaban and Airflow. This blog demonstrate the setup of one of these orchestrator i.e Airflow.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/airflow-image.jpeg" /><media:content medium="image" url="http://localhost:4000/assets/airflow-image.jpeg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

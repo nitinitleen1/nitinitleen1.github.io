@@ -10,7 +10,7 @@ tags:
 - data-pipeline
 - aws
 - rabbitmq
-image: "/assets/airflow-code.png"
+image: "/assets/airflow-image.jpeg"
 
 ---
 Data-driven companies often hinge their business intelligence and product development on the execution of complex data pipelines. These pipelines are often referred to as data workflows, a term that can be somewhat opaque in that workflows are not limited to one specific definition and do not perform a specific set of functions per se. To orchestrate these workflows there are lot of schedulers like oozie, Luigi, Azkaban and Airflow. This blog demonstrate the setup of one of these orchestrator i.e Airflow. 
@@ -36,43 +36,128 @@ However setting up a production grade setup required some effort and this blog a
 
 ![](/assets/airflow-schematic.jpg)
 
-Kafka and Zookeepers are installed on the same EC2. We we'll deploy 3 node confluent Kafka cluster. Each node will be in a different availability zone.
+Airflow provides an option to utilize CeleryExecutor to execute tasks in distributed fashion. In this mode, we can run several servers each running multiple worker nodes to execute the tasks. This mode uses Celery along with a message queueing service RabbitMQ.The diagram show the interactivity between different component services i.e. Airflow(Webserver and Scheduler), Celery(Executor) and RabbitMQ and Metastore in an AWS Environment. 
 
-* 172.31.47.152 - Zone A
-* 172.31.38.158 - Zone B
-* 172.31.46.207 - Zone C 
+For simplicity of the blog, we will demonstrate the setup of a single node master server and a single node worker server. Below is the following details for the setup: 
 
-For Producer(debezium) and Consumer(S3sink) will be hosted on the same Ec2. We'll 3 nodes for this.
+* EC2 Master Node - Running Scheduler and Webserver
+* EC2 Worker Node - Running Celery Executor and Workers
+* RDS Metastore - Storing information about metadata and dag
+* EC2 Rabbit MQ Nodes - Running RabbitMq broker
 
-* 172.31.47.12 - Zone A
-* 172.31.38.183 - Zone B
-* 172.31.46.136 - Zone C
+## Enviornment Prerequisite:
 
-## Instance Type:
+* Operating System: Ubuntu 16.04/Ubuntu 18.04 / Debian System
+* Python Environment: Python 3.5x
+* DataBase: PostgreSql v11.2 (RDS)
 
-Kafka nodes are generally needs Memory and Network Optimized. You can choose either Persistent and ephemeral storage. I prefer Persistent SSD Disks for Kafka storage. So add n GB size disk to your Kafka broker nodes. For Normal work loads its better to go with R5 instance Family.
-
-Mount the Volume in `/kafkadata` location.
-
-## Security Group:
-
-Use a new Security group which allows the below ports.
-
-![](/assets/Build Production Grade Dedezium Cluster With Confluent Kafka-4.jpg)
+Once the prerequisites are taken care of, we can proceed with the installation.
 
 ## Installation:
 
-Install the Java and Kafka on all the Broker nodes.
+The first step of the setup is the to configure the RDS Postgres database for airflow.
+For that we need to connect to RDS Database using using admin user.For the sake of simplicity we are using command line utility from one of the EC2 servers to connect to our RDS Server. For command line client installation for postgres database on debian system execute following commands to install and execute.
  {% highlight shell %}
--- Install OpenJDK
+-- Client Installation
 apt-get -y update 
-sudo apt-get -y install default-jre
-
--- Install Confluent Kafka platform
-wget -qO - https://packages.confluent.io/deb/5.3/archive.key | sudo apt-key add -
-sudo add-apt-repository "deb [arch=amd64] https://packages.confluent.io/deb/5.3 stable main"
-sudo apt-get update && sudo apt-get install confluent-platform-2.12
+apt-get install postgresql-client
 {% endhighlight %}
+
+Once the client is installed try to connect to the Database using the admin user.
+ {% highlight shell %}
+-- Generating IAM Token
+export RDSHOST="{host_name}"
+export PGPASSWORD="$(aws rds generate-db-auth-token --hostname $RDSHOST --port 5432 --region{region} --username {admin_user} )"
+
+-- Connecting to the Database
+psql "host=hostName port=portNumber dbname=DBName user=userName -password"
+{% endhighlight %}
+
+sslmode and sslrootcert parameter is used when we are using SSL/TLS based connection. For more information refere [here](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.Connecting.AWSCLI.PostgreSQL.html).
+
+Once the connection is established with the database create a database named airflow which will act as a primary source where all the metadata,scheduler and other information will be stored by airflow.
+
+ {% highlight shell %}
+CREATE DATABASE airflow;
+
+CREATE USER {DATABASE_USER} WITH PASSWORD ‘{DATABASE_USER_PASSWORD}’;
+GRANT ALL PRIVILEGES ON DATABASE airflow TO {DATABASE_USER};
+GRANT CONNECT ON DATABASE airflow TO {DATABASE_USER};
+{% endhighlight %}
+
+
+Once the above step is done the next step is to setup rabbitMQ in one the EC2 server. To install it follow the steps defined below.
+
+* Login as root
+* Install RabbitMQ Server
+{ %highlight shell %}
+apt-get install rabbitmq-server
+{% endhighlight %}
+* Verify status
+{ %highlight shell %}
+rabbitmqctl status
+{% endhighlight %}
+* Install RabbitMQ Web Interface
+{ %highlight shell %}
+rabbitmq-plugins enable rabbitmq_management
+{% endhighlight %}
+
+
+If you want to setup multiple machines to work as a RabbitMQ Cluster you can follow these instructions. Otherwise you can follow “Running RabbitMQ as Single Node” instructions to get it running on a single machine.
+
+Note: The machines you want to use in the cluster need to be able to communicate with each other.
+
+Follow the above “Install RabbitMQ” steps for on each node you want to add to the RabbitMQ Cluster
+Ensure the RabbitMQ daemons are not running
+See the “Running RabbitMQ as Single Node” section bellow
+Choose one of the nodes as MASTER
+On the non-MASTER nodes backup the .erlang.cookie file
+mv /var/lib/rabbitmq/.erlang.cookie /var/lib/rabbitmq/.erlang.cookie.backup
+Copy the file “/var/lib/rabbitmq/.erlang.cookie” from the MASTER node to the other nodes and store it at the same location.
+Be careful during this step. If you copy the contents of the .erlang.cookie file and use the vi or nano editor to update the non-MASTER nodes .erlang.cookie file you may add a next line character to the file. You’re better off using an FTP service to copy the .erlang.cookie file down from the MASTER node and copy it onto the non-MASTER machines.
+Set permissions of the .erlang.cookie file
+chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie
+chmod 600 /var/lib/rabbitmq/.erlang.cookie
+Startup the MASTER RabbitMQ Daemon in detached mode (as root)
+rabbitmq-server -detached
+On each of the of the non-MASTER nodes, add them to the cluster and start them up one at a time (as root)
+#Stop App
+rabbitmqctl stop_app
+ 
+#Add the current machine to the cluster
+rabbitmqctl join_cluster rabbit@{MASTER_HOSTNAME}
+ 
+#Startup
+rabbitmqctl start_app
+ 
+#Check Status
+rabbitmqctl cluster_status
+The “Check Status” command should return something like the following:
+Cluster status of node rabbit@{NODE_HOSTNAME} ...
+[{nodes,[{disc,[rabbit@{MASTER_HOSTNAME},rabbit@{NODE_HOSTNAME}]}]},
+ {running_nodes,[rabbit@{MASTER_HOSTNAME},rabbit@{NODE_HOSTNAME}]}]
+Setup HA/Replication between Nodes
+Access the Management URL of one of the nodes (See “Managing the RabbitMQ Instance(s)” section bellow)
+Click on the Admin tab on top
+Click on the Policies tab on the right
+Add an HA policy
+Name: ha-all
+Pattern:
+leave blank
+Definitions:
+ha-mode: all
+ha-sync-mode: automatic
+Priority: 0
+Verify its setup correctly by navigating to the Queues section and clicking on one of the queues. You should see an entry in the Node and Slave section.
+Setup a load balancer to balance requests between the the Nodes
+Port Forwarding
+Port 5672 (TCP) → Port 5672 (TCP)
+Port 15672 (HTTP) → Port 15672 (HTTP)
+Health Check
+Protocol: HTTP
+Ping Port: 15672
+Ping Path: /
+Point all processes to that LB
 
 ## Configuration:
 
