@@ -10,7 +10,7 @@ tags:
 - data-pipeline
 - aws
 - rabbitmq
-image: "/assets/airflow-image.jpeg"
+image: "/assets/airflow-image1.jpeg"
 
 ---
 Data-driven companies often hinge their business intelligence and product development on the execution of complex data pipelines. These pipelines are often referred to as data workflows, a term that can be somewhat opaque in that workflows are not limited to one specific definition and do not perform a specific set of functions per se. To orchestrate these workflows there are lot of schedulers like oozie, Luigi, Azkaban and Airflow. This blog demonstrate the setup of one of these orchestrator i.e Airflow. 
@@ -77,7 +77,7 @@ sslmode and sslrootcert parameter is used when we are using SSL/TLS based connec
 
 Once the connection is established with the database create a database named airflow which will act as a primary source where all the metadata,scheduler and other information will be stored by airflow.
 
- {% highlight shell %}
+{% highlight shell %}
 CREATE DATABASE airflow;
 
 CREATE USER {DATABASE_USER} WITH PASSWORD ‘{DATABASE_USER_PASSWORD}’;
@@ -88,76 +88,77 @@ GRANT CONNECT ON DATABASE airflow TO {DATABASE_USER};
 
 Once the above step is done the next step is to setup rabbitMQ in one the EC2 server. To install it follow the steps defined below.
 
-* Login as root
-* Install RabbitMQ Server
-{ %highlight shell %}
+1. Login as root
+2. Install RabbitMQ Server
+3. Verify status
+4. Install RabbitMQ Web Interface
+{% highlight shell %}
 apt-get install rabbitmq-server
-{% endhighlight %}
-* Verify status
-{ %highlight shell %}
 rabbitmqctl status
-{% endhighlight %}
-* Install RabbitMQ Web Interface
-{ %highlight shell %}
 rabbitmq-plugins enable rabbitmq_management
 {% endhighlight %}
 
+Enable and start rabbitMQ server and add users and permissions to it.
+{% highlight shell %}
+-- Enable rabbitMQ server
+service rabbitmq-server enable
+service rabbitmq-server start
+service rabbitmq-server status
 
-If you want to setup multiple machines to work as a RabbitMQ Cluster you can follow these instructions. Otherwise you can follow “Running RabbitMQ as Single Node” instructions to get it running on a single machine.
+-- Add Users and permissions
+rabbitmqctl add_user {RABBITMQ_USER} {RABBITMQ_USER_PASSWORD}
+rabbitmqctl set_user_tags {RABBITMQ_USER} administrator
+{% endhighlight %}
 
-Note: The machines you want to use in the cluster need to be able to communicate with each other.
+Make Virtual Host and Set Permission for the host.
+{% highlight shell %}
+rabbitmqctl add_vhost {VIRTUALHOST_NAME}
+rabbitmqctl set_permissions -p {VIRTUALHOST_NAME}
+{RABBITMQ_USER} “.*” “.*” “.*”
+{% endhighlight %}
 
-Follow the above “Install RabbitMQ” steps for on each node you want to add to the RabbitMQ Cluster
-Ensure the RabbitMQ daemons are not running
-See the “Running RabbitMQ as Single Node” section bellow
-Choose one of the nodes as MASTER
-On the non-MASTER nodes backup the .erlang.cookie file
-mv /var/lib/rabbitmq/.erlang.cookie /var/lib/rabbitmq/.erlang.cookie.backup
-Copy the file “/var/lib/rabbitmq/.erlang.cookie” from the MASTER node to the other nodes and store it at the same location.
-Be careful during this step. If you copy the contents of the .erlang.cookie file and use the vi or nano editor to update the non-MASTER nodes .erlang.cookie file you may add a next line character to the file. You’re better off using an FTP service to copy the .erlang.cookie file down from the MASTER node and copy it onto the non-MASTER machines.
-Set permissions of the .erlang.cookie file
-chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie
-chmod 600 /var/lib/rabbitmq/.erlang.cookie
-Startup the MASTER RabbitMQ Daemon in detached mode (as root)
-rabbitmq-server -detached
-On each of the of the non-MASTER nodes, add them to the cluster and start them up one at a time (as root)
-#Stop App
-rabbitmqctl stop_app
- 
-#Add the current machine to the cluster
-rabbitmqctl join_cluster rabbit@{MASTER_HOSTNAME}
- 
-#Startup
-rabbitmqctl start_app
- 
-#Check Status
-rabbitmqctl cluster_status
-The “Check Status” command should return something like the following:
-Cluster status of node rabbit@{NODE_HOSTNAME} ...
-[{nodes,[{disc,[rabbit@{MASTER_HOSTNAME},rabbit@{NODE_HOSTNAME}]}]},
- {running_nodes,[rabbit@{MASTER_HOSTNAME},rabbit@{NODE_HOSTNAME}]}]
-Setup HA/Replication between Nodes
-Access the Management URL of one of the nodes (See “Managing the RabbitMQ Instance(s)” section bellow)
-Click on the Admin tab on top
-Click on the Policies tab on the right
-Add an HA policy
-Name: ha-all
-Pattern:
-leave blank
-Definitions:
-ha-mode: all
-ha-sync-mode: automatic
-Priority: 0
-Verify its setup correctly by navigating to the Queues section and clicking on one of the queues. You should see an entry in the Node and Slave section.
-Setup a load balancer to balance requests between the the Nodes
-Port Forwarding
-Port 5672 (TCP) → Port 5672 (TCP)
-Port 15672 (HTTP) → Port 15672 (HTTP)
-Health Check
-Protocol: HTTP
-Ping Port: 15672
-Ping Path: /
-Point all processes to that LB
+Download the rabbitadmin utility
+{% highlight shell %}
+wget http://127.0.0.1:15672/cli/rabbitmqadmin
+chmod +x rabbitmqadmin
+{% endhighlight %}
+
+One Final step is to make a queue.
+
+{% highlight shell %}
+./rabbitmqadmin declare queue –username={RABBITMQ_USER} –password={RABBITMQ_USER_PASSWORD} –vhost={VIRTUALHOST_NAME} name={QUEUE_NAME} durable=true
+{% endhighlight %}
+We can now access the RabbitMQ UI utility by hitting the public IP at port 15672.
+
+If you someone want to setup multiple machines to work as a RabbitMQ Cluster you can refere [here](https://www.rabbitmq.com/clustering.html).
+
+Now we have all the building blocks. The final step is to setup airflow using celery.
+
+Setting up of Airflow Using Celery :-
+
+* Install required libraries and dependencies for airflow on each node i.e worker and master
+{% highlight shell %}
+apt-get update
+sudo apt-get install python3-pip
+apt-get install python-dev python3-dev libsasl2-dev gcc
+apt-get install libffi-dev
+apt-get install libkrb5-dev
+
+-- To get the pip version 
+which pip
+{% endhighlight %}
+
+* Install airflow and celery on each of the machine.
+{% highlight shell %}
+pip install pyamqp
+pip install psycopg2
+pip install apache-airflow[postgres,rabbitmq,celery]
+airflow version
+
+
+--Celery Installation 
+pip install celery==4.3.0
+{% endhighlight %}
 
 ## Configuration:
 
