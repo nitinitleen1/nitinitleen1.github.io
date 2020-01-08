@@ -173,11 +173,11 @@ We now have airflow installed on all the nodes we have to change but to detect e
 -- On Nodes change following parameters
 
 executor = CeleryExecutor
-sql_alchemy_conn = postgresql+psycopg2://airflow:airflow@{HOSTNAME}/airflow 
+sql_alchemy_conn= postgresql+psycopg2://airflow:airflow@{HOSTNAME}/airflow 
 broker_url= pyamqp://guest:guest@{RabbitMQ-HOSTNAME}:5672/
-celery_result_backend = db+postgresql://airflow:airflow@{HOSTNAME}/airflow 
-dags_are_paused_at_creation = True
-load_examples = False
+celery_result_backend= db+postgresql://airflow:airflow@{HOSTNAME}/airflow 
+dags_are_paused_at_creation= True
+load_examples= False
 {% endhighlight %}
 
 Once the changes are done run reload apache to detect those change on each node:

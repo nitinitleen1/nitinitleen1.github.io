@@ -341,11 +341,11 @@ airflow initdb</code></pre></figure>
 <figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nt">--</span> On Nodes change following parameters
 
 executor <span class="o">=</span> CeleryExecutor
-sql_alchemy_conn <span class="o">=</span> postgresql+psycopg2://airflow:airflow@<span class="o">{</span>HOSTNAME<span class="o">}</span>/airflow 
+<span class="nv">sql_alchemy_conn</span><span class="o">=</span> postgresql+psycopg2://airflow:airflow@<span class="o">{</span>HOSTNAME<span class="o">}</span>/airflow 
 <span class="nv">broker_url</span><span class="o">=</span> pyamqp://guest:guest@<span class="o">{</span>RabbitMQ-HOSTNAME<span class="o">}</span>:5672/
-celery_result_backend <span class="o">=</span> db+postgresql://airflow:airflow@<span class="o">{</span>HOSTNAME<span class="o">}</span>/airflow 
-dags_are_paused_at_creation <span class="o">=</span> True
-load_examples <span class="o">=</span> False</code></pre></figure>
+<span class="nv">celery_result_backend</span><span class="o">=</span> db+postgresql://airflow:airflow@<span class="o">{</span>HOSTNAME<span class="o">}</span>/airflow 
+<span class="nv">dags_are_paused_at_creation</span><span class="o">=</span> True
+<span class="nv">load_examples</span><span class="o">=</span> False</code></pre></figure>
 
 <p>Once the changes are done run reload apache to detect those change on each node:</p>
 
