@@ -1,6 +1,6 @@
 ---
 title: Setting up an Airflow Cluster
-date: 2019-12-19 21:13:00 +0530
+date: 2020-01-07 21:13:00 +0530
 description: Airflow Cluster setup with Celery as an executor and PostgresSQL as the backend database.
 categories:
 - Airflow
