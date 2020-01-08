@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-01-08T15:47:02+05:30</updated><id>http://localhost:4000/atom.xml</id><title type="html">Nitin Kumar Singh</title><subtitle>My Learning and Adventures in Computer Science and Life</subtitle><author><name>Nitin</name></author><entry><title type="html">Setting up an Airflow Cluster</title><link href="http://localhost:4000/scaling-out-airflow/" rel="alternate" type="text/html" title="Setting up an Airflow Cluster" /><published>2019-12-19T21:13:00+05:30</published><updated>2019-12-19T21:13:00+05:30</updated><id>http://localhost:4000/scaling-out-airflow</id><content type="html" xml:base="http://localhost:4000/scaling-out-airflow/">&lt;p&gt;Data-driven companies often hinge their business intelligence and product development on the execution of complex data pipelines. These pipelines are often referred to as data workflows, a term that can be somewhat opaque in that workflows are not limited to one specific definition and do not perform a specific set of functions per se. To orchestrate these workflows there are lot of schedulers like oozie, Luigi, Azkaban and Airflow. This blog demonstrate the setup of one of these orchestrator i.e Airflow.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-01-08T16:18:41+05:30</updated><id>http://localhost:4000/atom.xml</id><title type="html">Nitin Kumar Singh</title><subtitle>My Learning and Adventures in Computer Science and Life</subtitle><author><name>Nitin</name></author><entry><title type="html">Setting up an Airflow Cluster</title><link href="http://localhost:4000/scaling-out-airflow/" rel="alternate" type="text/html" title="Setting up an Airflow Cluster" /><published>2019-12-19T21:13:00+05:30</published><updated>2019-12-19T21:13:00+05:30</updated><id>http://localhost:4000/scaling-out-airflow</id><content type="html" xml:base="http://localhost:4000/scaling-out-airflow/">&lt;p&gt;Data-driven companies often hinge their business intelligence and product development on the execution of complex data pipelines. These pipelines are often referred to as data workflows, a term that can be somewhat opaque in that workflows are not limited to one specific definition and do not perform a specific set of functions per se. To orchestrate these workflows there are lot of schedulers like oozie, Luigi, Azkaban and Airflow. This blog demonstrate the setup of one of these orchestrator i.e Airflow.&lt;/p&gt;
 
 &lt;h2 id=&quot;a-shot-intro&quot;&gt;A shot intro:&lt;/h2&gt;
 
@@ -68,11 +68,11 @@ psql &lt;span class=&quot;s2&quot;&gt;&quot;host=hostName port=portNumber dbname
 
 &lt;p&gt;Once the connection is established with the database create a database named airflow which will act as a primary source where all the metadata,scheduler and other information will be stored by airflow.&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;CREATE DATABASE airflow&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;airflow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 
-CREATE USER &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;DATABASE_USER&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; WITH PASSWORD ‘&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;DATABASE_USER_PASSWORD&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;’&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-GRANT ALL PRIVILEGES ON DATABASE airflow TO &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;DATABASE_USER&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-GRANT CONNECT ON DATABASE airflow TO &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;DATABASE_USER&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;span class=&quot;k&quot;&gt;CREATE&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;USER&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DATABASE_USER&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;WITH&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PASSWORD&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;‘{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DATABASE_USER_PASSWORD&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}’&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;GRANT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ALL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;PRIVILEGES&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;airflow&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TO&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DATABASE_USER&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;GRANT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;CONNECT&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;ON&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;DATABASE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;airflow&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;TO&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DATABASE_USER&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;Once the above step is done the next step is to setup rabbitMQ in one the EC2 server. To install it follow the steps defined below.&lt;/p&gt;
 
@@ -89,14 +89,14 @@ rabbitmq-plugins &lt;span class=&quot;nb&quot;&gt;enable &lt;/span&gt;rabbitmq_m
 
 &lt;p&gt;Enable and start rabbitMQ server and add users and permissions to it.&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; Enable rabbitMQ server
-service rabbitmq-server &lt;span class=&quot;nb&quot;&gt;enable
-&lt;/span&gt;service rabbitmq-server start
-service rabbitmq-server status
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;c1&quot;&gt;-- Enable rabbitMQ server&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;service&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rabbitmq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;server&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;enable&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;service&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rabbitmq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;server&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;start&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;service&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rabbitmq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;server&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;status&lt;/span&gt;
 
-&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; Add Users and permissions
-rabbitmqctl add_user &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;RABBITMQ_USER&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;RABBITMQ_USER_PASSWORD&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-rabbitmqctl set_user_tags &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;RABBITMQ_USER&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; administrator&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;span class=&quot;c1&quot;&gt;-- Add Users and permissions&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;rabbitmqctl&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;add_user&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RABBITMQ_USER&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RABBITMQ_USER_PASSWORD&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;rabbitmqctl&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;set_user_tags&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RABBITMQ_USER&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;administrator&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;Make Virtual Host and Set Permission for the host.&lt;/p&gt;
 
@@ -115,21 +115,22 @@ rabbitmqctl set_permissions &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; &lt
 
 &lt;p&gt;We can now access the RabbitMQ UI utility by hitting the public IP at port 15672.&lt;/p&gt;
 
-&lt;p&gt;If you someone want to setup multiple machines to work as a RabbitMQ Cluster you can refere &lt;a href=&quot;https://www.rabbitmq.com/clustering.html&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If you someone want to setup multiple machines to work as a RabbitMQ Cluster you can refere &lt;a href=&quot;https://www.rabbitmq.com/clustering.html&quot;&gt;here&lt;/a&gt;.
+Now we have all the building blocks. The final step is to setup airflow using celery.&lt;/p&gt;
 
-&lt;p&gt;Now we have all the building blocks. The final step is to setup airflow using celery.&lt;/p&gt;
-
-&lt;p&gt;Setting up of Airflow Using Celery :-&lt;/p&gt;
+&lt;h2 id=&quot;setting-up-of-airflow-using-celery--&quot;&gt;Setting up of Airflow Using Celery :-&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Install required libraries and dependencies for airflow on each node i.e worker and master&lt;/li&gt;
+  &lt;li&gt;Install required libraries and dependencies for airflow on each node i.e worker and master.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;apt-get update
+apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;build-essential
 &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python3-pip
 apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python-dev python3-dev libsasl2-dev gcc
 apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;libffi-dev
 apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;libkrb5-dev
+apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python-pandas
 
 &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; To get the pip version 
 which pip&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
@@ -145,399 +146,54 @@ airflow version
 
 
 &lt;span class=&quot;nt&quot;&gt;--Celery&lt;/span&gt; Installation 
-pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;celery&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;4.3.0&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;celery&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;4.3.0
+
+
+&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; Initializing airflow
+&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;AIRFLOW_HOME&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;~/airflow &lt;span class=&quot;c&quot;&gt;#(provide any directory for airflow home)&lt;/span&gt;
+airflow initdb&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;h2 id=&quot;configuration&quot;&gt;Configuration:&lt;/h2&gt;
 
-&lt;p&gt;We need to configure Zookeeper and Kafaka properties, Edit the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/kafka/zookeeper.properties&lt;/code&gt; on all the kafka nodes&lt;/p&gt;
+&lt;p&gt;We now have airflow installed on all the nodes we have to change but to detect external database and broker we need to do conf changes hence to do that, Edit the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/airflow/aiflow.cfg&lt;/code&gt; on all the nodes&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; On Node 1
-&lt;span class=&quot;nv&quot;&gt;dataDir&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/var/lib/zookeeper
-&lt;span class=&quot;nv&quot;&gt;clientPort&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;2181
-&lt;span class=&quot;nv&quot;&gt;maxClientCnxns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0
-server.1&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0.0.0.0:2888:3888
-server.2&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;172.31.38.158:2888:3888
-server.3&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;172.31.46.207:2888:3888
-autopurge.snapRetainCount&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;3
-autopurge.purgeInterval&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;24
-&lt;span class=&quot;nv&quot;&gt;initLimit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;5
-&lt;span class=&quot;nv&quot;&gt;syncLimit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;2
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; On Nodes change following parameters
 
-&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; On Node 2
-&lt;span class=&quot;nv&quot;&gt;dataDir&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/var/lib/zookeeper
-&lt;span class=&quot;nv&quot;&gt;clientPort&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;2181
-&lt;span class=&quot;nv&quot;&gt;maxClientCnxns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0
-server.1&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;172.31.47.152:2888:3888
-server.2&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0.0.0.0:2888:3888
-server.3&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;172.31.46.207:2888:3888
-autopurge.snapRetainCount&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;3
-autopurge.purgeInterval&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;24
-&lt;span class=&quot;nv&quot;&gt;initLimit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;5
-&lt;span class=&quot;nv&quot;&gt;syncLimit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;2
+executor &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; CeleryExecutor
+sql_alchemy_conn &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; postgresql+psycopg2://airflow:airflow@&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;HOSTNAME&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;/airflow 
+&lt;span class=&quot;nv&quot;&gt;broker_url&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; pyamqp://guest:guest@&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;RabbitMQ-HOSTNAME&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;:5672/
+celery_result_backend &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; db+postgresql://airflow:airflow@&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;HOSTNAME&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;/airflow 
+dags_are_paused_at_creation &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; True
+load_examples &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; False&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; On Node 3
-&lt;span class=&quot;nv&quot;&gt;dataDir&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/var/lib/zookeeper
-&lt;span class=&quot;nv&quot;&gt;clientPort&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;2181
-&lt;span class=&quot;nv&quot;&gt;maxClientCnxns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0
-server.1&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;172.31.47.152:2888:3888
-server.2&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;172.31.38.158:2888:3888
-server.3&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0.0.0.0:2888:3888
-autopurge.snapRetainCount&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;3
-autopurge.purgeInterval&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;24
-&lt;span class=&quot;nv&quot;&gt;initLimit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;5
-&lt;span class=&quot;nv&quot;&gt;syncLimit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;2&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;Once the changes are done run reload apache to detect those change on each node:&lt;/p&gt;
 
-&lt;p&gt;We need to assign a unique ID for all the Zookeeper nodes.&lt;/p&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;airflow initdb&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt; &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; On Node 1
- &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;1&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; /var/lib/zookeeper/myid
- 
- &lt;span class=&quot;nt&quot;&gt;--On&lt;/span&gt; Node 2
- &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;2&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; /var/lib/zookeeper/myid
- 
- &lt;span class=&quot;nt&quot;&gt;--On&lt;/span&gt; Node 3
- &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;3&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; /var/lib/zookeeper/myid&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;Start webserver and schduler on Master Node and Worker on Second i.e Worker Node and we are done!!!&lt;/p&gt;
 
-&lt;p&gt;Now we need to configure Kafka broker. So edit the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/kafka/server.properties&lt;/code&gt; on all the kafka nodes.&lt;/p&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; Node 1 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;Master Node&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+airflow webserver &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8000
+airflow scheduler
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nt&quot;&gt;--On&lt;/span&gt; Node 1
-broker.id.generation.enable&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true
-&lt;/span&gt;delete.topic.enable&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true
-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;listeners&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;PLAINTEXT://:9092
-zookeeper.connect&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;172.31.47.152:2181,172.31.38.158:2181,172.31.46.207:2181
-log.dirs&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/kafkadata/kafka
-log.retention.hours&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;168
-num.partitions&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1
-
-&lt;span class=&quot;nt&quot;&gt;--On&lt;/span&gt; Node 2
-broker.id.generation.enable&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true
-&lt;/span&gt;delete.topic.enable&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true
-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;listeners&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;PLAINTEXT://:9092
-log.dirs&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/kafkadata/kafka
-zookeeper.connect&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;172.31.47.152:2181,172.31.38.158:2181,172.31.46.207:2181
-log.retention.hours&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;168
-num.partitions&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1
-
-&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; On Node 3
-broker.id.generation.enable&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true
-&lt;/span&gt;delete.topic.enable&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true
-&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;listeners&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;PLAINTEXT://:9092
-log.dirs&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/kafkadata/kafka
-zookeeper.connect&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;172.31.47.152:2181,172.31.38.158:2181,172.31.46.207:2181
-num.partitions&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1
-log.retention.hours&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;168&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;The next step is optimizing the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Java JVM Heap&lt;/code&gt; size, In many places kafka will go down due to the less heap size. So Im allocating 50% of the Memory to Heap. But make sure more Heap size also bad. Please refer some documentation to set this value for very heavy systems.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;vi /usr/bin/kafka-server-start
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;KAFKA_HEAP_OPTS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;-Xmx2G -Xms2G&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;The another major problem in the kafka system is the open file descriptors. So we need to allow the kafka to open at least up to 100000 files.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;vi /etc/pam.d/common-session
-session required pam_limits.so
-
-vi /etc/security/limits.conf
-
-&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;                       soft    nofile          10000
-&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;                       hard    nofile          100000
-cp-kafka                soft    nofile          10000
-cp-kafka                hard    nofile          100000&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Here the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cp-kafka&lt;/code&gt; is the default user for the kafka process.&lt;/p&gt;
-
-&lt;h3 id=&quot;create-kafka-data-dir&quot;&gt;Create Kafka data dir:&lt;/h3&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; /kafkadata/kafka
-&lt;span class=&quot;nb&quot;&gt;chown&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-R&lt;/span&gt; cp-kafka:confluent /kafkadata/kafka
-chmode 710 /kafkadata/kafka&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h3 id=&quot;start-the-kafka-cluster&quot;&gt;Start the Kafka cluster:&lt;/h3&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;systemctl start confluent-zookeeper
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;systemctl start confluent-kafka
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;systemctl start confluent-schema-registry&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Make sure the Kafka has to automatically starts after the Ec2 restart.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;systemctl &lt;span class=&quot;nb&quot;&gt;enable &lt;/span&gt;confluent-zookeeper
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;systemctl &lt;span class=&quot;nb&quot;&gt;enable &lt;/span&gt;confluent-kafka
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;systemctl &lt;span class=&quot;nb&quot;&gt;enable &lt;/span&gt;confluent-schema-registry&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Now our kafka cluster is ready. To check the list of system topics run the following command.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;kafka-topics &lt;span class=&quot;nt&quot;&gt;--list&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--zookeeper&lt;/span&gt; localhost:2181
-
-__confluent.support.metrics&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h2 id=&quot;setup-debezium&quot;&gt;Setup Debezium:&lt;/h2&gt;
-
-&lt;p&gt;Install the confluent connector and debezium MySQL connector on all the producer nodes.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;apt-get update 
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;default-jre
- 
-wget &lt;span class=&quot;nt&quot;&gt;-qO&lt;/span&gt; - https://packages.confluent.io/deb/5.3/archive.key | &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-key add -
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;add-apt-repository &lt;span class=&quot;s2&quot;&gt;&quot;deb [arch=amd64] https://packages.confluent.io/deb/5.3 stable main&quot;&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;confluent-hub-client confluent-common confluent-kafka-connect-s3 confluent-kafka-2.12&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h3 id=&quot;configuration-1&quot;&gt;Configuration:&lt;/h3&gt;
-
-&lt;p&gt;Edit the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/kafka/connect-distributed.properties&lt;/code&gt; on all the producer nodes to make our producer will run on a distributed manner.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; On all the connector nodes
-bootstrap.servers&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;172.31.47.152:9092,172.31.38.158:9092,172.31.46.207:9092
-group.id&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;debezium-cluster
-plugin.path&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/usr/share/java,/usr/share/confluent-hub-components&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h3 id=&quot;install-debezium-mysql-connector&quot;&gt;Install Debezium MySQL Connector:&lt;/h3&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;confluent-hub &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;debezium/debezium-connector-mysql:latest&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;it’ll ask for making some changes just select &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Y&lt;/code&gt; for everything.&lt;/p&gt;
-
-&lt;h3 id=&quot;run-the-distributed-connector-as-a-service&quot;&gt;Run the distributed connector as a service:&lt;/h3&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;vi /lib/systemd/system/confluent-connect-distributed.service
-
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Unit]
-&lt;span class=&quot;nv&quot;&gt;Description&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;Apache Kafka - connect-distributed
-&lt;span class=&quot;nv&quot;&gt;Documentation&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;http://docs.confluent.io/
-&lt;span class=&quot;nv&quot;&gt;After&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;network.target
-
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Service]
-&lt;span class=&quot;nv&quot;&gt;Type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;simple
-&lt;span class=&quot;nv&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;cp-kafka
-&lt;span class=&quot;nv&quot;&gt;Group&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;confluent
-&lt;span class=&quot;nv&quot;&gt;ExecStart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/usr/bin/connect-distributed /etc/kafka/connect-distributed.properties
-&lt;span class=&quot;nv&quot;&gt;TimeoutStopSec&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;180
-&lt;span class=&quot;nv&quot;&gt;Restart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;no
-
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Install]
-&lt;span class=&quot;nv&quot;&gt;WantedBy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;multi-user.target&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h3 id=&quot;start-the-service&quot;&gt;Start the Service:&lt;/h3&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;systemctl &lt;span class=&quot;nb&quot;&gt;enable &lt;/span&gt;confluent-connect-distributed
-systemctl start confluent-connect-distributed&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h2 id=&quot;configure-debezium-mysql-connector&quot;&gt;Configure Debezium MySQL Connector:&lt;/h2&gt;
-
-&lt;p&gt;Create a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;mysql.json&lt;/code&gt; file which contains the MySQL information and other formatting options.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;mysql-connector-db01&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;config&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;mysql-connector-db01&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;connector.class&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;io.debezium.connector.mysql.MySqlConnector&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;database.server.id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;tasks.max&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;database.history.kafka.bootstrap.servers&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;172.31.47.152:9092,172.31.38.158:9092,172.31.46.207:9092&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;database.history.kafka.topic&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;schema-changes.mysql&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;database.server.name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;mysql-db01&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;database.hostname&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;172.31.84.129&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;database.port&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;3306&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;database.user&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;bhuvi&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;database.password&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;my_stong_password&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;database.whitelist&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;proddb,test&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;internal.key.converter.schemas.enable&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;false&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;key.converter.schemas.enable&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;false&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;internal.key.converter&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;org.apache.kafka.connect.json.JsonConverter&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;internal.value.converter.schemas.enable&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;false&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;value.converter.schemas.enable&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;false&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;internal.value.converter&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;org.apache.kafka.connect.json.JsonConverter&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;value.converter&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;org.apache.kafka.connect.json.JsonConverter&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;key.converter&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;org.apache.kafka.connect.json.JsonConverter&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;transforms&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;unwrap&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;transforms.unwrap.type&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;io.debezium.transforms.ExtractNewRecordState&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-        &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;transforms.unwrap.add.source.fields&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;ts_ms&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;tombstones.on.delete&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;“database.history.kafka.bootstrap.servers” - Kafka Servers IP.&lt;/li&gt;
-  &lt;li&gt;“database.whitelist” - List of databases to get the CDC.&lt;/li&gt;
-  &lt;li&gt;key.converter and value.converter and transforms parameters - By default Debezium output will have more detailed information. But I don’t want all of those information. Im only interested in to get the new row and the timestamp when its inserted.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;If you don’t want to customize anythings then just remove everything after the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;database.whitelist&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;register-the-mysql-connector&quot;&gt;Register the MySQL Connector:&lt;/h3&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;curl &lt;span class=&quot;nt&quot;&gt;-X&lt;/span&gt; POST &lt;span class=&quot;nt&quot;&gt;-H&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Accept: application/json&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-H&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Content-Type: application/json&quot;&lt;/span&gt; http://localhost:8083/connectors &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; @mysql.json&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h3 id=&quot;check-the-status&quot;&gt;Check the status:&lt;/h3&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;curl GET localhost:8083/connectors/mysql-connector-db01/status
-&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;s2&quot;&gt;&quot;name&quot;&lt;/span&gt;: &lt;span class=&quot;s2&quot;&gt;&quot;mysql-connector-db01&quot;&lt;/span&gt;,
-  &lt;span class=&quot;s2&quot;&gt;&quot;connector&quot;&lt;/span&gt;: &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;s2&quot;&gt;&quot;state&quot;&lt;/span&gt;: &lt;span class=&quot;s2&quot;&gt;&quot;RUNNING&quot;&lt;/span&gt;,
-    &lt;span class=&quot;s2&quot;&gt;&quot;worker_id&quot;&lt;/span&gt;: &lt;span class=&quot;s2&quot;&gt;&quot;172.31.94.191:8083&quot;&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;,
-  &lt;span class=&quot;s2&quot;&gt;&quot;tasks&quot;&lt;/span&gt;: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;s2&quot;&gt;&quot;id&quot;&lt;/span&gt;: 0,
-      &lt;span class=&quot;s2&quot;&gt;&quot;state&quot;&lt;/span&gt;: &lt;span class=&quot;s2&quot;&gt;&quot;RUNNING&quot;&lt;/span&gt;,
-      &lt;span class=&quot;s2&quot;&gt;&quot;worker_id&quot;&lt;/span&gt;: &lt;span class=&quot;s2&quot;&gt;&quot;172.31.94.191:8083&quot;&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;,
-  &lt;span class=&quot;s2&quot;&gt;&quot;type&quot;&lt;/span&gt;: &lt;span class=&quot;s2&quot;&gt;&quot;source&quot;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h3 id=&quot;test-the-mysql-consumer&quot;&gt;Test the MySQL Consumer:&lt;/h3&gt;
-
-&lt;p&gt;Now insert something into any tables in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;proddb or test&lt;/code&gt; (because we have whilelisted only these databaes to capture the CDC.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;n&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;create&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rohi&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;fn&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;ln&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;varchar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;phone&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;insert&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;into&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rohi&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;values&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'rohit'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'ayare'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'87611'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;We can get these values from the Kafker brokers. Open any one the kafka node and run the below command.&lt;/p&gt;
-
-&lt;p&gt;I prefer confluent cli for this. By default it’ll not be available, so download manually.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;curl &lt;span class=&quot;nt&quot;&gt;-L&lt;/span&gt; https://cnfl.io/cli | sh &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-b&lt;/span&gt; /usr/bin/&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h3 id=&quot;listen-the-below-topic&quot;&gt;Listen the below topic:&lt;/h3&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;mysql-db01.test.rohi&lt;/strong&gt; &lt;br /&gt;
-This is the combination of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;servername.databasename.tablename&lt;/code&gt; &lt;br /&gt;
-servername(you mentioned this in as a server name in mysql json file).&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;confluent &lt;span class=&quot;nb&quot;&gt;local &lt;/span&gt;consume mysql-db01.test.rohi
-
-&lt;span class=&quot;nt&quot;&gt;----&lt;/span&gt;
-The &lt;span class=&quot;nb&quot;&gt;local &lt;/span&gt;commands are intended &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;a single-node development environment
-only, NOT &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;production usage. https://docs.confluent.io/current/cli/index.html
-&lt;span class=&quot;nt&quot;&gt;-----&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;id&quot;&lt;/span&gt;:1,&lt;span class=&quot;s2&quot;&gt;&quot;fn&quot;&lt;/span&gt;:&lt;span class=&quot;s2&quot;&gt;&quot;rohit&quot;&lt;/span&gt;,&lt;span class=&quot;s2&quot;&gt;&quot;ln&quot;&lt;/span&gt;:&lt;span class=&quot;s2&quot;&gt;&quot;ayare&quot;&lt;/span&gt;,&lt;span class=&quot;s2&quot;&gt;&quot;phone&quot;&lt;/span&gt;:87611,&lt;span class=&quot;s2&quot;&gt;&quot;__ts_ms&quot;&lt;/span&gt;:1576757407000&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h2 id=&quot;setup-s3-sink-connector-in-all-producer-nodes&quot;&gt;Setup S3 Sink connector in All Producer Nodes:&lt;/h2&gt;
-
-&lt;p&gt;I want to send this data to S3 bucket. So you must have an EC2 IAM role which has access to the target S3 bucket. Or install &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;awscli&lt;/code&gt; and configure access and secret key(but its not recommended)&lt;/p&gt;
-
-&lt;h3 id=&quot;install-s3-connector&quot;&gt;Install S3 Connector:&lt;/h3&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;confluent-hub &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;confluentinc/kafka-connect-s3:latest&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Create &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;s3.json&lt;/code&gt; file.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;s3-sink-db01&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;config&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;connector.class&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;io.confluent.connect.s3.S3SinkConnector&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;storage.class&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;io.confluent.connect.s3.storage.S3Storage&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;s3.bucket.name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;bhuvi-datalake&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;s3-sink-db01&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;tasks.max&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;s3.region&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;us-east-1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;s3.part.size&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;5242880&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;s3.compression.type&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;gzip&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;timezone&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;UTC&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;locale&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;flush.size&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;10000&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;rotate.interval.ms&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;3600000&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;topics.regex&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;mysql-db01.(.*)&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;internal.key.converter.schemas.enable&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;false&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;key.converter.schemas.enable&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;false&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;internal.key.converter&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;org.apache.kafka.connect.json.JsonConverter&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;format.class&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;io.confluent.connect.s3.format.json.JsonFormat&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;internal.value.converter.schemas.enable&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;false&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;value.converter.schemas.enable&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;false&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;internal.value.converter&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;org.apache.kafka.connect.json.JsonConverter&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;value.converter&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;org.apache.kafka.connect.json.JsonConverter&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;key.converter&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;org.apache.kafka.connect.json.JsonConverter&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;partitioner.class&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;io.confluent.connect.storage.partitioner.HourlyPartitioner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;path.format&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;YYYY/MM/dd/HH&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;partition.duration.ms&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;3600000&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-		&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;rotate.schedule.interval.ms&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;3600000&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;topics.regex&quot;: &quot;mysql-db01&quot;&lt;/code&gt; - It’ll send the data only from the topics which has &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;mysql-db01&lt;/code&gt; as prefix. In our case all the MySQL databases related topics will start  with this prefix.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;flush.size&quot;&lt;/code&gt; - The data will uploaded to S3 only after these many number of records stored. Or after &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;rotate.schedule.interval.ms&quot;&lt;/code&gt; this duration.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;register-this-s3-sink-connector&quot;&gt;Register this S3 sink connector:&lt;/h3&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;curl &lt;span class=&quot;nt&quot;&gt;-X&lt;/span&gt; POST &lt;span class=&quot;nt&quot;&gt;-H&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Accept: application/json&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-H&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Content-Type: application/json&quot;&lt;/span&gt; http://localhost:8083/connectors &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; @s3&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h3 id=&quot;check-the-status-1&quot;&gt;Check the Status:&lt;/h3&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;curl GET localhost:8083/connectors/s3-sink-db01/status
-&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;s2&quot;&gt;&quot;name&quot;&lt;/span&gt;: &lt;span class=&quot;s2&quot;&gt;&quot;s3-sink-db01&quot;&lt;/span&gt;,
-  &lt;span class=&quot;s2&quot;&gt;&quot;connector&quot;&lt;/span&gt;: &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;s2&quot;&gt;&quot;state&quot;&lt;/span&gt;: &lt;span class=&quot;s2&quot;&gt;&quot;RUNNING&quot;&lt;/span&gt;,
-    &lt;span class=&quot;s2&quot;&gt;&quot;worker_id&quot;&lt;/span&gt;: &lt;span class=&quot;s2&quot;&gt;&quot;172.31.94.191:8083&quot;&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;,
-  &lt;span class=&quot;s2&quot;&gt;&quot;tasks&quot;&lt;/span&gt;: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;s2&quot;&gt;&quot;id&quot;&lt;/span&gt;: 0,
-      &lt;span class=&quot;s2&quot;&gt;&quot;state&quot;&lt;/span&gt;: &lt;span class=&quot;s2&quot;&gt;&quot;RUNNING&quot;&lt;/span&gt;,
-      &lt;span class=&quot;s2&quot;&gt;&quot;worker_id&quot;&lt;/span&gt;: &lt;span class=&quot;s2&quot;&gt;&quot;172.31.94.191:8083&quot;&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;,
-    &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;s2&quot;&gt;&quot;id&quot;&lt;/span&gt;: 1,
-      &lt;span class=&quot;s2&quot;&gt;&quot;state&quot;&lt;/span&gt;: &lt;span class=&quot;s2&quot;&gt;&quot;RUNNING&quot;&lt;/span&gt;,
-      &lt;span class=&quot;s2&quot;&gt;&quot;worker_id&quot;&lt;/span&gt;: &lt;span class=&quot;s2&quot;&gt;&quot;172.31.94.191:8083&quot;&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;,
-    &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;s2&quot;&gt;&quot;id&quot;&lt;/span&gt;: 2,
-      &lt;span class=&quot;s2&quot;&gt;&quot;state&quot;&lt;/span&gt;: &lt;span class=&quot;s2&quot;&gt;&quot;RUNNING&quot;&lt;/span&gt;,
-      &lt;span class=&quot;s2&quot;&gt;&quot;worker_id&quot;&lt;/span&gt;: &lt;span class=&quot;s2&quot;&gt;&quot;172.31.94.191:8083&quot;&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;,
-  &lt;span class=&quot;s2&quot;&gt;&quot;type&quot;&lt;/span&gt;: &lt;span class=&quot;s2&quot;&gt;&quot;sink&quot;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h3 id=&quot;test-the-s3-sync&quot;&gt;Test the S3 sync:&lt;/h3&gt;
-
-&lt;p&gt;Insert the 10000 rows into the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rohi&lt;/code&gt; table. Then check the S3 bucket. It’ll save the data in JSON format with GZIP compression. Also in a HOUR wise partitions.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/Build Production Grade Dedezium Cluster With Confluent Kafka-1.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/Build Production Grade Dedezium Cluster With Confluent Kafka-2.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;monitoring&quot;&gt;Monitoring:&lt;/h2&gt;
-&lt;p&gt;Refer &lt;a href=&quot;https://thedataguy.in/monitor-debezium-mysql-connector-with-prometheus-and-grafana/&quot;&gt;this post&lt;/a&gt; to setup monitoring for MySQL Connector.&lt;/p&gt;
+&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; Node 2 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;Worker Node&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+airflow worker&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;h2 id=&quot;more-tuning&quot;&gt;More Tuning:&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Replication Factor is the other main parameter to the data durability.&lt;/li&gt;
-  &lt;li&gt;Use internal IP addresses as much as you can.&lt;/li&gt;
-  &lt;li&gt;By default debezium uses 1 Partition per topic. You can configure this based on your work load. But more partitions more through put needed.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Parallelism&lt;/strong&gt; : This parameter determines the maximum number of task instances that can be actively running in parallel across the entire airflow deployment. For example, if it is set to 10 there can’t be more than 10 tasks running irrespective of the number of dags. Hence, this is the maximum number of active tasks at any time. Set it depending upon no of machines in a cluster i.e for one Node 16 is recommended.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Dag Concurrency&lt;/strong&gt; : This parameter determines the number of task instances that can be scheduled per DAG.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;worker_concurrency&lt;/strong&gt; : This parameter determines the number of tasks each worker node can run at any given time. For example, if it is set to 10 then the worker node can concurrently execute 10 tasks that have been scheduled by the schedule.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;references&quot;&gt;References:&lt;/h2&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;https://docs.confluent.io/current/kafka/deployment.html&quot;&gt;Setup Kafka in production by confluent&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/how-choose-number-topics-partitions-kafka-cluster/&quot;&gt;How to choose number of partition&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://log-it.ro/2017/10/16/ubuntu-change-ulimit-kafka-not-ignore/&quot;&gt;Open file descriptors for Kafka &lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://aws.amazon.com/blogs/big-data/best-practices-for-running-apache-kafka-on-aws/&quot;&gt;Kafka best practices in AWS&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://debezium.io/documentation/reference/1.0/tutorial.html&quot;&gt;Debezium documentation&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://debezium.io/documentation/reference/1.0/configuration/event-flattening.html&quot;&gt;Customize debezium output with SMT&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;debezium-series-blogs&quot;&gt;Debezium Series blogs:&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;https://thedataguy.in/build-production-grade-debezium-with-confluent-kafka-cluster/&quot;&gt;Build Production Grade Debezium Cluster With Confluent Kafka&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://thedataguy.in/monitor-debezium-mysql-connector-with-prometheus-and-grafana/&quot;&gt;Monitor Debezium MySQL Connector With Prometheus And Grafana&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://thedataguy.in/debezium-mysql-snapshot-from-read-replica-with-gtid/&quot;&gt;Debezium MySQL Snapshot From Read Replica With GTID&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://thedataguy.in/debezium-mysql-snapshot-from-read-replica-and-resume-from-master/&quot;&gt;Debezium MySQL Snapshot From Read Replica And Resume From Master&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://thedataguy.in/debezium-mysql-snapshot-for-aws-rds-aurora-from-backup-snaphot/&quot;&gt;Debezium MySQL Snapshot For AWS RDS Aurora From Backup Snaphot&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://medium.com/searce/realtime-cdc-from-mysql-using-aws-msk-with-debezium-28da5a4ca873&quot;&gt;RealTime CDC From MySQL Using AWS MSK With Debezium&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://site.clairvoyantsoft.com/making-apache-airflow-highly-available/&quot;&gt;Making Apache Airflow Highly Available&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.confluent.io/blog/how-choose-number-topics-partitions-kafka-cluster/&quot;&gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.qubole.com/en/latest/user-guide/data-engineering/airflow/config-airflow-cluster.html&quot;&gt;Best Practices for Setup Airflow &lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://medium.com/@khatri_chetan/challenges-and-struggle-while-setting-up-multi-node-airflow-cluster-7f19e998ebb&quot;&gt;Common mistakes while running Multinode Airflow&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://airflow.apache.org/docs/stable/installation.html&quot;&gt;Airflow documentation&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.Connecting.AWSCLI.PostgreSQL.html&quot;&gt;How to Connect to RDS Postgres&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;</content><author><name>Nitin</name></author><category term="airflow" /><category term="postgresql" /><category term="data-pipeline" /><category term="aws" /><category term="rabbitmq" /><summary type="html">Data-driven companies often hinge their business intelligence and product development on the execution of complex data pipelines. These pipelines are often referred to as data workflows, a term that can be somewhat opaque in that workflows are not limited to one specific definition and do not perform a specific set of functions per se. To orchestrate these workflows there are lot of schedulers like oozie, Luigi, Azkaban and Airflow. This blog demonstrate the setup of one of these orchestrator i.e Airflow.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/airflow-image1.jpeg" /><media:content medium="image" url="http://localhost:4000/assets/airflow-image1.jpeg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
