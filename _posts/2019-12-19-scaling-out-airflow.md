@@ -10,7 +10,7 @@ tags:
 - data-pipeline
 - aws
 - rabbitmq
-image: "/assets/airflow-image1.jpeg"
+image: "/assets/airflow-image1.jpg"
 
 ---
 Data-driven companies often hinge their business intelligence and product development on the execution of complex data pipelines. These pipelines are often referred to as data workflows, a term that can be somewhat opaque in that workflows are not limited to one specific definition and do not perform a specific set of functions per se. To orchestrate these workflows there are lot of schedulers like oozie, Luigi, Azkaban and Airflow. This blog demonstrate the setup of one of these orchestrator i.e Airflow. 
@@ -172,12 +172,13 @@ We now have airflow installed on all the nodes we have to change but to detect e
  {% highlight shell %}
 -- On Nodes change following parameters
 
-executor = CeleryExecutor
+executor= CeleryExecutor
 sql_alchemy_conn= postgresql+psycopg2://airflow:airflow@{HOSTNAME}/airflow 
 broker_url= pyamqp://guest:guest@{RabbitMQ-HOSTNAME}:5672/
 celery_result_backend= db+postgresql://airflow:airflow@{HOSTNAME}/airflow 
 dags_are_paused_at_creation= True
 load_examples= False
+default_queue= {QUEUE_NAME}
 {% endhighlight %}
 
 Once the changes are done run reload apache to detect those change on each node:
