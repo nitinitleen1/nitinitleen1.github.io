@@ -204,8 +204,7 @@ airflow worker
 ## References: 
 
 1. [Making Apache Airflow Highly Available](http://site.clairvoyantsoft.com/making-apache-airflow-highly-available/)
-2. [](https://www.confluent.io/blog/how-choose-number-topics-partitions-kafka-cluster/)
-3. [Best Practices for Setup Airflow ](https://docs.qubole.com/en/latest/user-guide/data-engineering/airflow/config-airflow-cluster.html)
-4. [Common mistakes while running Multinode Airflow](https://medium.com/@khatri_chetan/challenges-and-struggle-while-setting-up-multi-node-airflow-cluster-7f19e998ebb)
-5. [Airflow documentation](https://airflow.apache.org/docs/stable/installation.html)
-6. [How to Connect to RDS Postgres](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.Connecting.AWSCLI.PostgreSQL.html)
+2. [Best Practices for Setup Airflow ](https://docs.qubole.com/en/latest/user-guide/data-engineering/airflow/config-airflow-cluster.html)
+3. [Common mistakes while running Multinode Airflow](https://medium.com/@khatri_chetan/challenges-and-struggle-while-setting-up-multi-node-airflow-cluster-7f19e998ebb)
+4. [Airflow documentation](https://airflow.apache.org/docs/stable/installation.html)
+5. [How to Connect to RDS Postgres](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.Connecting.AWSCLI.PostgreSQL.html)
