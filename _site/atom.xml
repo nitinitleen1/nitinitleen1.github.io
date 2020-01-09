@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-01-08T16:33:46+05:30</updated><id>http://localhost:4000/atom.xml</id><title type="html">Nitin Kumar Singh</title><subtitle>My Learning and Adventures in Computer Science and Life</subtitle><author><name>Nitin</name></author><entry><title type="html">Setting up an Airflow Cluster</title><link href="http://localhost:4000/scaling-out-airflow/" rel="alternate" type="text/html" title="Setting up an Airflow Cluster" /><published>2020-01-07T21:13:00+05:30</published><updated>2020-01-07T21:13:00+05:30</updated><id>http://localhost:4000/scaling-out-airflow</id><content type="html" xml:base="http://localhost:4000/scaling-out-airflow/">&lt;p&gt;Data-driven companies often hinge their business intelligence and product development on the execution of complex data pipelines. These pipelines are often referred to as data workflows, a term that can be somewhat opaque in that workflows are not limited to one specific definition and do not perform a specific set of functions per se. To orchestrate these workflows there are lot of schedulers like oozie, Luigi, Azkaban and Airflow. This blog demonstrate the setup of one of these orchestrator i.e Airflow.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-01-10T01:16:35+05:30</updated><id>http://localhost:4000/atom.xml</id><title type="html">Nitin Kumar Singh</title><subtitle>My Learning and Adventures in Computer Science and Life</subtitle><author><name>Nitin</name></author><entry><title type="html">Setting up an Airflow Cluster</title><link href="http://localhost:4000/scaling-out-airflow/" rel="alternate" type="text/html" title="Setting up an Airflow Cluster" /><published>2020-01-07T21:13:00+05:30</published><updated>2020-01-07T21:13:00+05:30</updated><id>http://localhost:4000/scaling-out-airflow</id><content type="html" xml:base="http://localhost:4000/scaling-out-airflow/">&lt;p&gt;Data-driven companies often hinge their business intelligence and product development on the execution of complex data pipelines. These pipelines are often referred to as data workflows, a term that can be somewhat opaque in that workflows are not limited to one specific definition and do not perform a specific set of functions per se. To orchestrate these workflows there are lot of schedulers like oozie, Luigi, Azkaban and Airflow. This blog demonstrate the setup of one of these orchestrator i.e Airflow.&lt;/p&gt;
 
 &lt;h2 id=&quot;a-shot-intro&quot;&gt;A shot intro:&lt;/h2&gt;
 
@@ -180,6 +180,24 @@ airflow scheduler
 &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; Node 2 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;Worker Node&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 airflow worker&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
+&lt;p&gt;The only things is left is to synchronize the dags across the machines i.e master and worker.
+There are multiple ways to synchronise but for simplicity I created a cron in each machine which will sync my git repo from the remote git repositories to the folder my dags code were located.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; Remove any unneccessary files from dag folder
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/airflow/dags
+&lt;span class=&quot;nb&quot;&gt;rm&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-rf&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;
+
+&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; Clone dags from git repo
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;git
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/airflow/dags
+git clone URL &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+
+&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; Creating a cron &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;pulling every 5 mins 
+crontab &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;/5 &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;aboslute_path&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;/airflow/dags &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; git pull&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;However this is not a production grade implementation as I would recommed either a common mountpoint like EFS or any General NFS Servers or using a configuration Management tool like ansible, chef or puppet.&lt;/p&gt;
+
 &lt;h2 id=&quot;more-tuning&quot;&gt;More Tuning:&lt;/h2&gt;
 
 &lt;ul&gt;
@@ -193,7 +211,7 @@ airflow worker&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 &lt;ol&gt;
   &lt;li&gt;&lt;a href=&quot;http://site.clairvoyantsoft.com/making-apache-airflow-highly-available/&quot;&gt;Making Apache Airflow Highly Available&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://docs.qubole.com/en/latest/user-guide/data-engineering/airflow/config-airflow-cluster.html&quot;&gt;Best Practices for Setup Airflow &lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://medium.com/@khatri_chetan/challenges-and-struggle-while-setting-up-multi-node-airflow-cluster-7f19e998ebb&quot;&gt;Common mistakes while running Multinode Airflow&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://medium.com/@khatri_chetan/challenges-and-struggle-while-setting-up-multi-node-airflow-cluster-7f19e998ebb&quot;&gt;Common mistakes and Challenges while running Multinode Airflow&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://airflow.apache.org/docs/stable/installation.html&quot;&gt;Airflow documentation&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.Connecting.AWSCLI.PostgreSQL.html&quot;&gt;How to Connect to RDS Postgres&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;</content><author><name>Nitin</name></author><category term="airflow" /><category term="postgresql" /><category term="data-pipeline" /><category term="aws" /><category term="rabbitmq" /><summary type="html">Data-driven companies often hinge their business intelligence and product development on the execution of complex data pipelines. These pipelines are often referred to as data workflows, a term that can be somewhat opaque in that workflows are not limited to one specific definition and do not perform a specific set of functions per se. To orchestrate these workflows there are lot of schedulers like oozie, Luigi, Azkaban and Airflow. This blog demonstrate the setup of one of these orchestrator i.e Airflow.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/airflow-image1.jpg" /><media:content medium="image" url="http://localhost:4000/assets/airflow-image1.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

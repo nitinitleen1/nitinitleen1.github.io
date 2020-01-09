@@ -11,6 +11,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta property="og:image" content="http://localhost:4000/assets/airflow-image1.jpg">
+  <meta name="google-site-verification" content="K5l3QywacSPW4-_oKY-gWO6waXxjmyRkO-su_QIncEQ"/>
 <script data-ad-client="ca-pub-9518508677792760" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <link rel="apple-touch-icon" sizes="57x57" href="/favicon.ico/apple-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="60x60" href="/favicon.ico/apple-icon-60x60.png">
@@ -361,6 +362,24 @@ airflow scheduler
 <span class="nt">--</span> Node 2 <span class="o">(</span>Worker Node<span class="o">)</span>
 airflow worker</code></pre></figure>
 
+<p>The only things is left is to synchronize the dags across the machines i.e master and worker.
+There are multiple ways to synchronise but for simplicity I created a cron in each machine which will sync my git repo from the remote git repositories to the folder my dags code were located.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nt">--</span> Remove any unneccessary files from dag folder
+<span class="nb">cd</span> ~/airflow/dags
+<span class="nb">rm</span> <span class="nt">-rf</span> <span class="k">*</span>
+
+<span class="nt">--</span> Clone dags from git repo
+<span class="nb">sudo </span>apt-get update <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt-get <span class="nb">install </span>git
+<span class="nb">cd</span> ~/airflow/dags
+git clone URL <span class="nb">.</span>
+
+<span class="nt">--</span> Creating a cron <span class="k">for </span>pulling every 5 mins 
+crontab <span class="nt">-e</span>
+<span class="k">*</span> <span class="k">*</span>/5 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> <span class="nb">cd</span> <span class="o">{</span>aboslute_path<span class="o">}</span>/airflow/dags <span class="o">&amp;&amp;</span> git pull</code></pre></figure>
+
+<p>However this is not a production grade implementation as I would recommed either a common mountpoint like EFS or any General NFS Servers or using a configuration Management tool like ansible, chef or puppet.</p>
+
 <h2 id="more-tuning">More Tuning:</h2>
 
 <ul>
@@ -374,7 +393,7 @@ airflow worker</code></pre></figure>
 <ol>
   <li><a href="http://site.clairvoyantsoft.com/making-apache-airflow-highly-available/">Making Apache Airflow Highly Available</a></li>
   <li><a href="https://docs.qubole.com/en/latest/user-guide/data-engineering/airflow/config-airflow-cluster.html">Best Practices for Setup Airflow </a></li>
-  <li><a href="https://medium.com/@khatri_chetan/challenges-and-struggle-while-setting-up-multi-node-airflow-cluster-7f19e998ebb">Common mistakes while running Multinode Airflow</a></li>
+  <li><a href="https://medium.com/@khatri_chetan/challenges-and-struggle-while-setting-up-multi-node-airflow-cluster-7f19e998ebb">Common mistakes and Challenges while running Multinode Airflow</a></li>
   <li><a href="https://airflow.apache.org/docs/stable/installation.html">Airflow documentation</a></li>
   <li><a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.Connecting.AWSCLI.PostgreSQL.html">How to Connect to RDS Postgres</a></li>
 </ol>
