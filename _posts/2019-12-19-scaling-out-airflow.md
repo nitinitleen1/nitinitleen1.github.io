@@ -199,7 +199,6 @@ airflow worker
 The only things is left is to synchronize the dags across the machines i.e master and worker.
 There are multiple ways to synchronise but for simplicity I created a cron in each machine which will sync my git repo from the remote git repositories to the folder my dags code were located.
 {% highlight shell %}
--- Node 1 (Master Node)
 -- Remove any unneccessary files from dag folder
 cd ~/airflow/dags
 rm -rf *
