@@ -196,6 +196,26 @@ airflow scheduler
 airflow worker
 {% endhighlight %}
 
+The only things is left is to synchronize the dags across the machines i.e master and worker.
+There are multiple ways to synchronise but for simplicity I created a cron in each machine which will sync my git repo from the remote git repositories to the folder my dags code were located.
+{% highlight git %}
+-- Node 1 (Master Node)
+-- Remove any unneccessary files from dag folder
+cd ~/airflow/dags
+rm -rf *
+
+-- Clone dags from git repo
+sudo apt-get update && sudo apt-get install git
+cd ~/airflow/dags
+git clone URL .
+
+-- Creating a cron for pulling every 5 mins 
+crontab -e
+* */5 * * * cd {aboslute_path}/airflow/dags && git pull
+{% endhighlight %}
+
+However this is not a production grade implementation as I would recommed either a common mountpoint like EFS or any General NFS Servers or using a configuration Management tool like ansible, chef or puppet.
+
 ## More Tuning: 
 
 * **Parallelism** : This parameter determines the maximum number of task instances that can be actively running in parallel across the entire airflow deployment. For example, if it is set to 10 there can’t be more than 10 tasks running irrespective of the number of dags. Hence, this is the maximum number of active tasks at any time. Set it depending upon no of machines in a cluster i.e for one Node 16 is recommended. 
@@ -206,6 +226,6 @@ airflow worker
 
 1. [Making Apache Airflow Highly Available](http://site.clairvoyantsoft.com/making-apache-airflow-highly-available/)
 2. [Best Practices for Setup Airflow ](https://docs.qubole.com/en/latest/user-guide/data-engineering/airflow/config-airflow-cluster.html)
-3. [Common mistakes while running Multinode Airflow](https://medium.com/@khatri_chetan/challenges-and-struggle-while-setting-up-multi-node-airflow-cluster-7f19e998ebb)
+3. [Common mistakes and Challenges while running Multinode Airflow](https://medium.com/@khatri_chetan/challenges-and-struggle-while-setting-up-multi-node-airflow-cluster-7f19e998ebb)
 4. [Airflow documentation](https://airflow.apache.org/docs/stable/installation.html)
 5. [How to Connect to RDS Postgres](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.Connecting.AWSCLI.PostgreSQL.html)
