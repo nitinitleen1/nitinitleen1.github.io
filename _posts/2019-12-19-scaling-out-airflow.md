@@ -1,7 +1,7 @@
 ---
 title: Setting up an Airflow Cluster
 date: 2020-01-07 21:13:00 +0530
-description: Airflow Cluster setup with Celery as an executor and PostgresSQL as the backend database.
+description: Setting up distributed airflow cluster on AWS.
 categories:
 - Airflow
 tags:
