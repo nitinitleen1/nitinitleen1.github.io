@@ -8,7 +8,6 @@ tags:
   - leetcode
   - python
   - algorithms
-image: "/assets/two-sum-image.jpg"
 ---
 
 ## The Two Sum Problem
@@ -31,7 +30,7 @@ To solve the Two Sum problem, we can use a simple approach that utilizes a hashm
 
 Here's the step-by-step solution in Python:
 
-````python
+```python
 def twoSum(nums, target):
     # Create an empty hashmap
     hashmap = {}
@@ -51,6 +50,7 @@ def twoSum(nums, target):
 
     # If no solution is found, return an empty list
     return []
+```
 
 - We initialize an empty dictionary `num_dict` to store numbers and their indices.
 - We iterate through the array using the `enumerate()` function to access both the indices and the corresponding numbers.
@@ -66,13 +66,18 @@ nums = [2, 7, 11, 15]
 target = 9
 
 print(twoSum(nums, target))
-````
+```
 
 Output:
 
 ```csharp
 [0, 1]
-
-Conclusion
-Through this blog post, we explored the popular LeetCode problem "Two Sum" and provided a detailed solution using a hash table. The key takeaway from this problem is to leverage data structures effectively to optimize our algorithms. LeetCode offers a myriad of challenges like this one, allowing programmers to enhance their problem-solving skills and gain confidence in tackling coding interviews. Remember, practice makes perfect!
 ```
+
+## Complexity Analysis
+
+The above solution has a time complexity of O(n) since we iterate through the array once. The space complexity is also O(n) since we use a hashmap to store the numbers and their indices.
+
+## Conclusion
+
+Through this blog post, we explored the popular LeetCode problem "Two Sum" and provided a detailed solution using a hash table. The key takeaway from this problem is to leverage data structures effectively to optimize our algorithms. LeetCode offers a myriad of challenges like this one, allowing programmers to enhance their problem-solving skills and gain confidence in tackling coding interviews. Remember, practice makes perfect!
