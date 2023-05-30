@@ -40,7 +40,7 @@ To solve this problem, we can use a greedy algorithm approach. We start from the
 ```python
 def jump(nums):
     n = len(nums)
-    if n == 1:
+    if n <= 1:
         return 0
 
     maxReach = nums[0]
@@ -49,11 +49,18 @@ def jump(nums):
 
     for i in range(1, n):
         if i > furthest:
+            return -1  # Unable to reach the end
+
+        if furthest >= n - 1:
+            return jumps
+
+        if i > maxReach:
             jumps += 1
-            furthest = maxReach
+            maxReach = furthest
+
         maxReach = max(maxReach, nums[i] + i)
 
-    return jumps
+    return -1  # Unable to reach the end
 ```
 
 ## Conclusion
