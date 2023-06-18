@@ -1,4 +1,72 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-01-10T01:29:10+05:30</updated><id>http://localhost:4000/atom.xml</id><title type="html">Nitin Kumar Singh</title><subtitle>My Learning and Adventures in Computer Science and Life</subtitle><author><name>Nitin</name></author><entry><title type="html">Setting up an Airflow Cluster</title><link href="http://localhost:4000/scaling-out-airflow/" rel="alternate" type="text/html" title="Setting up an Airflow Cluster" /><published>2020-01-07T21:13:00+05:30</published><updated>2020-01-07T21:13:00+05:30</updated><id>http://localhost:4000/scaling-out-airflow</id><content type="html" xml:base="http://localhost:4000/scaling-out-airflow/">&lt;p&gt;Data-driven companies often hinge their business intelligence and product development on the execution of complex data pipelines. These pipelines are often referred to as data workflows, a term that can be somewhat opaque in that workflows are not limited to one specific definition and do not perform a specific set of functions per se. To orchestrate these workflows there are lot of schedulers like oozie, Luigi, Azkaban and Airflow. This blog demonstrate the setup of one of these orchestrator i.e Airflow.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-05-28T22:48:35+05:30</updated><id>http://localhost:4000/atom.xml</id><title type="html">Nitin Kumar Singh</title><subtitle>My Learning and Adventures in Computer Science and Life</subtitle><author><name>Nitin</name></author><entry><title type="html">The Two Sum Problem - LeetCode</title><link href="http://localhost:4000/leetcode-two-sum/" rel="alternate" type="text/html" title="The Two Sum Problem - LeetCode" /><published>2023-05-28T00:00:00+05:30</published><updated>2023-05-28T00:00:00+05:30</updated><id>http://localhost:4000/leetcode-two-sum</id><content type="html" xml:base="http://localhost:4000/leetcode-two-sum/">&lt;h2 id=&quot;the-two-sum-problem&quot;&gt;The Two Sum Problem&lt;/h2&gt;
+
+&lt;p&gt;The Two Sum problem is a classic coding question often asked in programming interviews. The problem statement is as follows:&lt;/p&gt;
+
+&lt;p&gt;Given an array of integers &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nums&lt;/code&gt; and an integer target value &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;target&lt;/code&gt;, find two numbers in the array that add up to the target and return their indices.&lt;/p&gt;
+
+&lt;p&gt;Here’s an example to illustrate the problem:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Input: nums = [2, 7, 11, 15], target = 9
+Output: [0, 1]
+Explanation: The numbers at indices 0 and 1 (2 and 7) add up to 9.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;approach-and-solution&quot;&gt;Approach and Solution&lt;/h2&gt;
+
+&lt;p&gt;To solve the Two Sum problem, we can use a simple approach that utilizes a hashmap to store the complement of each number as we iterate through the array.&lt;/p&gt;
+
+&lt;p&gt;Here’s the step-by-step solution in Python:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;twoSum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# Create an empty hashmap
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;hashmap&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;# Iterate through the array
+&lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;enumerate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;# Calculate the complement
+&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;complement&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;# Check if the complement is already in the hashmap
+&lt;/span&gt;        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;complement&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hashmap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;# Return the indices of the two numbers
+&lt;/span&gt;            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hashmap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;complement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;# Add the current number and its index to the hashmap
+&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;hashmap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;# If no solution is found, return an empty list
+&lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;We initialize an empty dictionary &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;num_dict&lt;/code&gt; to store numbers and their indices.&lt;/li&gt;
+  &lt;li&gt;We iterate through the array using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;enumerate()&lt;/code&gt; function to access both the indices and the corresponding numbers.&lt;/li&gt;
+  &lt;li&gt;For each number, we calculate its complement by subtracting it from the target.&lt;/li&gt;
+  &lt;li&gt;We check if the complement exists in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;num_dict&lt;/code&gt;. If it does, we have found the two numbers that add up to the target, and we return their indices.&lt;/li&gt;
+  &lt;li&gt;If the complement is not in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;num_dict&lt;/code&gt;, we add the current number and its index to the dictionary for future reference.&lt;/li&gt;
+  &lt;li&gt;If we exhaust the array without finding a solution, we return an empty list.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Let’s test the solution with a sample input:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;target&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;twoSum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nums&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Output:&lt;/p&gt;
+
+&lt;div class=&quot;language-csharp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;complexity-analysis&quot;&gt;Complexity Analysis&lt;/h2&gt;
+
+&lt;p&gt;The above solution has a time complexity of O(n) since we iterate through the array once. The space complexity is also O(n) since we use a hashmap to store the numbers and their indices.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;Through this blog post, we explored the popular LeetCode problem “Two Sum” and provided a detailed solution using a hash table. The key takeaway from this problem is to leverage data structures effectively to optimize our algorithms. LeetCode offers a myriad of challenges like this one, allowing programmers to enhance their problem-solving skills and gain confidence in tackling coding interviews. Remember, practice makes perfect!&lt;/p&gt;</content><author><name>Nitin</name></author><category term="Programming" /><category term="leetcode" /><category term="python" /><category term="algorithms" /><summary type="html">The Two Sum Problem</summary></entry><entry><title type="html">Setting up an Airflow Cluster</title><link href="http://localhost:4000/scaling-out-airflow/" rel="alternate" type="text/html" title="Setting up an Airflow Cluster" /><published>2020-01-07T21:13:00+05:30</published><updated>2020-01-07T21:13:00+05:30</updated><id>http://localhost:4000/scaling-out-airflow</id><content type="html" xml:base="http://localhost:4000/scaling-out-airflow/">&lt;p&gt;Data-driven companies often hinge their business intelligence and product development on the execution of complex data pipelines. These pipelines are often referred to as data workflows, a term that can be somewhat opaque in that workflows are not limited to one specific definition and do not perform a specific set of functions per se. To orchestrate these workflows there are lot of schedulers like oozie, Luigi, Azkaban and Airflow. This blog demonstrate the setup of one of these orchestrator i.e Airflow.&lt;/p&gt;
 
 &lt;h2 id=&quot;a-shot-intro&quot;&gt;A shot intro:&lt;/h2&gt;
 
@@ -214,4 +282,4 @@ crontab &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt;
   &lt;li&gt;&lt;a href=&quot;https://medium.com/@khatri_chetan/challenges-and-struggle-while-setting-up-multi-node-airflow-cluster-7f19e998ebb&quot;&gt;Common mistakes and Challenges while running Multinode Airflow&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://airflow.apache.org/docs/stable/installation.html&quot;&gt;Airflow documentation&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.Connecting.AWSCLI.PostgreSQL.html&quot;&gt;How to Connect to RDS Postgres&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;</content><author><name>Nitin</name></author><category term="airflow" /><category term="postgresql" /><category term="data-pipeline" /><category term="aws" /><category term="rabbitmq" /><summary type="html">Data-driven companies often hinge their business intelligence and product development on the execution of complex data pipelines. These pipelines are often referred to as data workflows, a term that can be somewhat opaque in that workflows are not limited to one specific definition and do not perform a specific set of functions per se. To orchestrate these workflows there are lot of schedulers like oozie, Luigi, Azkaban and Airflow. This blog demonstrate the setup of one of these orchestrator i.e Airflow.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/airflow-image1.jpg" /><media:content medium="image" url="http://localhost:4000/assets/airflow-image1.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+&lt;/ol&gt;</content><author><name>Nitin</name></author><category term="Airflow" /><category term="airflow" /><category term="postgresql" /><category term="data-pipeline" /><category term="aws" /><category term="rabbitmq" /><summary type="html">Data-driven companies often hinge their business intelligence and product development on the execution of complex data pipelines. These pipelines are often referred to as data workflows, a term that can be somewhat opaque in that workflows are not limited to one specific definition and do not perform a specific set of functions per se. To orchestrate these workflows there are lot of schedulers like oozie, Luigi, Azkaban and Airflow. This blog demonstrate the setup of one of these orchestrator i.e Airflow.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/airflow-image1.jpg" /><media:content medium="image" url="http://localhost:4000/assets/airflow-image1.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

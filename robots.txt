@@ -1,3 +1,3 @@
 User-agent: *
 Disallow:
-Sitemap: https://nkstech.live/sitemap.xml
+Sitemap: https://reliabilityhub.tech/sitemap.xml
