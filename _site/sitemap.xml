@@ -3,6 +3,21 @@
   
     
     <url>
+      <loc>http://localhost:4000/leetcode-two-sum/</loc>
+      
+        <lastmod>2023-05-28T00:00:00+05:30</lastmod>
+      
+      
+        <changefreq>monthly</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
       <loc>http://localhost:4000/scaling-out-airflow/</loc>
       
         <lastmod>2020-01-07T21:13:00+05:30</lastmod>
@@ -22,7 +37,7 @@
       <url>
         <loc>http://localhost:4000/404.html</loc>
         
-          <lastmod>2020-01-10T01:29:10+05:30</lastmod>
+          <lastmod>2023-05-28T22:48:35+05:30</lastmod>
         
         
           <changefreq>monthly</changefreq>
@@ -39,7 +54,7 @@
       <url>
         <loc>http://localhost:4000/categories/</loc>
         
-          <lastmod>2020-01-10T01:29:10+05:30</lastmod>
+          <lastmod>2023-05-28T22:48:35+05:30</lastmod>
         
         
           <changefreq>monthly</changefreq>
@@ -56,7 +71,7 @@
       <url>
         <loc>http://localhost:4000/</loc>
         
-          <lastmod>2020-01-10T01:29:10+05:30</lastmod>
+          <lastmod>2023-05-28T22:48:35+05:30</lastmod>
         
         
           <changefreq>monthly</changefreq>
@@ -73,7 +88,7 @@
       <url>
         <loc>http://localhost:4000/assets/css/main.css</loc>
         
-          <lastmod>2020-01-10T01:29:10+05:30</lastmod>
+          <lastmod>2023-05-28T22:48:35+05:30</lastmod>
         
         
           <changefreq>monthly</changefreq>
@@ -90,7 +105,7 @@
       <url>
         <loc>http://localhost:4000/posts/</loc>
         
-          <lastmod>2020-01-10T01:29:10+05:30</lastmod>
+          <lastmod>2023-05-28T22:48:35+05:30</lastmod>
         
         
           <changefreq>monthly</changefreq>
@@ -107,7 +122,7 @@
       <url>
         <loc>http://localhost:4000/assets/js/search-data.js</loc>
         
-          <lastmod>2020-01-10T01:29:10+05:30</lastmod>
+          <lastmod>2023-05-28T22:48:35+05:30</lastmod>
         
         
           <changefreq>monthly</changefreq>
@@ -124,7 +139,7 @@
       <url>
         <loc>http://localhost:4000/search/</loc>
         
-          <lastmod>2020-01-10T01:29:10+05:30</lastmod>
+          <lastmod>2023-05-28T22:48:35+05:30</lastmod>
         
         
           <changefreq>monthly</changefreq>
@@ -141,7 +156,7 @@
       <url>
         <loc>http://localhost:4000/sitemap.xml</loc>
         
-          <lastmod>2020-01-10T01:29:10+05:30</lastmod>
+          <lastmod>2023-05-28T22:48:35+05:30</lastmod>
         
         
           <changefreq>monthly</changefreq>
@@ -158,7 +173,7 @@
       <url>
         <loc>http://localhost:4000/tags/</loc>
         
-          <lastmod>2020-01-10T01:29:10+05:30</lastmod>
+          <lastmod>2023-05-28T22:48:35+05:30</lastmod>
         
         
           <changefreq>monthly</changefreq>
@@ -175,7 +190,7 @@
       <url>
         <loc>http://localhost:4000/assets/css/skins/dark.css</loc>
         
-          <lastmod>2020-01-10T01:29:10+05:30</lastmod>
+          <lastmod>2023-05-28T22:48:35+05:30</lastmod>
         
         
           <changefreq>monthly</changefreq>
@@ -192,7 +207,7 @@
       <url>
         <loc>http://localhost:4000/assets/css/skins/default.css</loc>
         
-          <lastmod>2020-01-10T01:29:10+05:30</lastmod>
+          <lastmod>2023-05-28T22:48:35+05:30</lastmod>
         
         
           <changefreq>monthly</changefreq>
@@ -209,7 +224,7 @@
       <url>
         <loc>http://localhost:4000/assets/css/skins/light.css</loc>
         
-          <lastmod>2020-01-10T01:29:10+05:30</lastmod>
+          <lastmod>2023-05-28T22:48:35+05:30</lastmod>
         
         
           <changefreq>monthly</changefreq>
@@ -226,7 +241,7 @@
       <url>
         <loc>http://localhost:4000/atom.xml</loc>
         
-          <lastmod>2020-01-10T01:29:10+05:30</lastmod>
+          <lastmod>2023-05-28T22:48:35+05:30</lastmod>
         
         
           <changefreq>monthly</changefreq>

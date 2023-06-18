@@ -4,7 +4,7 @@ locale: en-US
 title: "Nitin Kumar Singh"
 description: "My Learning and Adventures in Computer Science and Life"
 baseurl: 
-url: "https://nkstech.live"
+url: "https://reliabilityhub.tech"
 logo: # path of site logo, e.g. "/images/logo.png"
 date_format: "%Y-%m-%d"
 read_time: true
@@ -46,7 +46,7 @@ category_archive_path: "/categories/#"
 tag_archive_path: "/tags/#"
 
 # SiteMap
-url: "https://nkstech.live" # the base hostname & protocol for your site
+url: "https://reliabilityhub.tech" # the base hostname & protocol for your site
 
 plugins:
   - jekyll-seo-tag
