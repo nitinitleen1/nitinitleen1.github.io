@@ -1,6 +1,6 @@
 ---
 title: How to upload a video using python script
-date: 2023-06-18 21:13:00 +0530
+date: 2023-06-18
 description: Uploading a youtube video using a python script.
 categories:
   - Automation and Useful Scripts
