@@ -61,3 +61,26 @@ hr { background-color: var(--border-light); height: 1px; }
 
 ul.post-list { list-style: disc outside; margin-left: 1.5em; }
 ul.post-list li { margin-bottom: 0.45em; }
+
+/* Bulma centers figures inside .content; code blocks must stay left-aligned */
+.content figure.highlight {
+  text-align: left;
+  margin-left: 0;
+  margin-right: 0;
+}
+.content .highlight, .content .highlight pre, .content pre {
+  background-color: #272822;
+  color: #f8f8f2;
+  border-radius: 8px;
+  text-align: left;
+}
+.content .highlight pre, .content pre {
+  padding: 1.25rem 1.5rem;
+  overflow-x: auto;
+}
+.content code {
+  background-color: rgba(125, 125, 125, 0.15);
+  color: inherit;
+  border-radius: 4px;
+}
+.content pre code { background: none; }
