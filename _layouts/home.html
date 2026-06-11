@@ -1,45 +1,26 @@
 ---
 layout: default
 ---
-<div style="min-height: 400px; background: #fff;">
-    <div class="ui stackable grid">
-        <div class="ui ten wide column">
-            <div class="ui text container basic segment" style="width: 100%;">
-                <div style="font-weight: bold; font-size: 3em; padding-top: 50px; color: #111">
-                    <b>Hello 👋</b>
-                </div>
-                <div class="ui text" style="font-weight: normal !important; font-size: 2.2em;">
-                    I am {{ site.author.name }}.
-                </div>
-                <div class="ui grey small text" style="max-width: 460px;">
-                    {{ site.description }}
-                </div>
-            </div>
-        </div>
-        <div class="ui six wide column">
-            <div class="ui text container">
-                <div class="ui hidden section divider"></div>
-                <img class="ui medium circular centered image" src="{{ site.author.picture | relative_url }}" alt="{{ site.author.name }}" />
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="ui basic segment">
-    <div class="ui hidden section divider"></div>
-    <h2 class="ui huge text">✏️ Recent Articles</h2>
-    <div class="ui hidden divider"></div>
-    <div class="ui items">
-        {% for post in site.posts limit: 10 %}
-        <div class="item">
+<div class="section">
+    <div class="columns">
+        <div class="column is-8-desktop is-12-mobile">
             <div class="content">
-                <a class="header" href="{{ post.url | relative_url }}">{{ post.title }}</a>
-                <div class="meta">{{ post.date | date: "%b %d, %Y" }}</div>
-                <div class="description"><p>{{ post.description | default: post.excerpt | strip_html | truncate: 160 }}</p></div>
+                <h1 class="title is-size-2 is-family-secondary is-italic">Hey, I am Nitin</h1>
+                <p>{{ site.description }}</p>
             </div>
         </div>
-        {% endfor %}
     </div>
-    <div class="ui hidden divider"></div>
-    <a class="ui basic blue button" href="{{ '/blog/' | relative_url }}">All articles →</a>
+    <hr>
+    <div class="content">
+        <h2 class="title is-size-4 is-family-secondary is-italic">Recent blog posts</h2>
+        <ul class="post-list">
+            {% for post in site.posts limit: 10 %}
+            <li>
+                <span class="is-hidden-mobile is-family-monospace post-date">{{ post.date | date: "%b %d, %Y" }} : </span>
+                <span><a href="{{ post.url | relative_url }}">{{ post.title }}</a></span>
+            </li>
+            {% endfor %}
+        </ul>
+        <p><a href="{{ '/blogs/' | relative_url }}">All blogs →</a></p>
+    </div>
 </div>

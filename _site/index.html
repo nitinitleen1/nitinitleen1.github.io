@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Nitin Kumar Singh</title>
 
-    <link rel="stylesheet" href="/static/css/semantic-3.min.css">
+    <link rel="stylesheet" href="/static/css/bulma.min.css">
     <link rel="stylesheet" href="/static/css/pygments-3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap">
+    <link rel="stylesheet" href="/static/css/site.css">
 
     <!-- Begin Jekyll SEO tag v2.8.0 -->
 <meta name="generator" content="Jekyll v3.10.0" />
@@ -30,106 +32,143 @@
 <!-- End Jekyll SEO tag -->
 
     <link type="application/atom+xml" rel="alternate" href="https://nitinitleen1.github.io/atom.xml" title="Nitin Kumar Singh" />
-
-    <script src="/static/js/jquery-1.11.3.min.js"></script>
 </head>
 <body>
-    <div class="ui secondary basic menu center aligned" style="border-top: 4px solid #0079ff; margin-bottom: 0px;">
-        <a class="item active" href="/"><b>NITIN KUMAR SINGH</b></a>
-        <a class="item" href="/blog/">BLOG</a>
-        <a class="item" target="_blank" href="https://github.com/nitinitleen1">GITHUB</a>
-        <a class="item" target="_blank" href="https://www.linkedin.com/in/nitinnks/">LINKEDIN</a>
-    </div>
-
-    
     <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-155354311-1', 'auto');
-        ga('send', 'pageview');
+        (function() {
+            var theme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
     </script>
-    
 
-    <div class="ui text container" style="margin-top: 10px; padding-bottom: 50px;">
-        <div style="min-height: 400px; background: #fff;">
-    <div class="ui stackable grid">
-        <div class="ui ten wide column">
-            <div class="ui text container basic segment" style="width: 100%;">
-                <div style="font-weight: bold; font-size: 3em; padding-top: 50px; color: #111">
-                    <b>Hello 👋</b>
+    <div class="section container">
+        <nav class="navbar container is-fixed-top" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <div class="navbar-item">
+                    <a href="/" class="is-size-4 has-text-weight-bold is-family-secondary is-italic">Nitin Kumar Singh</a>
                 </div>
-                <div class="ui text" style="font-weight: normal !important; font-size: 2.2em;">
-                    I am Nitin.
-                </div>
-                <div class="ui grey small text" style="max-width: 460px;">
-                    My Learning and Adventures in Computer Science and Life
+                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                   onclick="document.querySelector('.navbar-menu').classList.toggle('is-active');">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            <div class="navbar-menu">
+                <div class="navbar-end">
+                    <a class="navbar-item " href="/blogs/">
+                        <span class="is-size-6 has-text-weight-bold">Blogs</span>
+                    </a>
+                    <a class="navbar-item " href="/papershelf/">
+                        <span class="is-size-6 has-text-weight-bold">Papershelf</span>
+                    </a>
+                    <a class="navbar-item " href="/bookshelf/">
+                        <span class="is-size-6 has-text-weight-bold">Bookshelf</span>
+                    </a>
+                    <a class="navbar-item " href="/courses/">
+                        <span class="is-size-6 has-text-weight-bold">Courses</span>
+                    </a>
+                    <a class="navbar-item " href="/talks/">
+                        <span class="is-size-6 has-text-weight-bold">Talks</span>
+                    </a>
+                    <div class="navbar-item">
+                        <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                            <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                            <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="ui six wide column">
-            <div class="ui text container">
-                <div class="ui hidden section divider"></div>
-                <img class="ui medium circular centered image" src="/assets/nks1.png" alt="Nitin" />
+        </nav>
+
+        <script>
+            (function() {
+                function initToggle() {
+                    var btn = document.getElementById('dark-mode-toggle');
+                    var sun = document.getElementById('sun-icon');
+                    var moon = document.getElementById('moon-icon');
+                    if (!btn || !sun || !moon) return;
+                    function render(theme) {
+                        sun.style.display = theme === 'dark' ? 'none' : 'block';
+                        moon.style.display = theme === 'dark' ? 'block' : 'none';
+                    }
+                    render(localStorage.getItem('theme') || 'light');
+                    btn.addEventListener('click', function() {
+                        var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                        document.documentElement.setAttribute('data-theme', next);
+                        localStorage.setItem('theme', next);
+                        render(next);
+                    });
+                }
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', initToggle);
+                } else {
+                    initToggle();
+                }
+            })();
+        </script>
+
+        
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-155354311-1', 'auto');
+            ga('send', 'pageview');
+        </script>
+        
+
+        <div style="margin-top: 4em;">
+            <div class="section">
+    <div class="columns">
+        <div class="column is-8-desktop is-12-mobile">
+            <div class="content">
+                <h1 class="title is-size-2 is-family-secondary is-italic">Hey, I am Nitin</h1>
+                <p>My Learning and Adventures in Computer Science and Life</p>
             </div>
         </div>
+    </div>
+    <hr>
+    <div class="content">
+        <h2 class="title is-size-4 is-family-secondary is-italic">Recent blog posts</h2>
+        <ul class="post-list">
+            
+            <li>
+                <span class="is-hidden-mobile is-family-monospace post-date">Jun 18, 2023 : </span>
+                <span><a href="/how-to-upload-youtube-video-python/">How to upload a video using python script</a></span>
+            </li>
+            
+            <li>
+                <span class="is-hidden-mobile is-family-monospace post-date">May 28, 2023 : </span>
+                <span><a href="/leetcode-jump-game-II/">Solving LeetCode Problem - Jump Game II</a></span>
+            </li>
+            
+            <li>
+                <span class="is-hidden-mobile is-family-monospace post-date">May 28, 2023 : </span>
+                <span><a href="/leetcode-two-sum/">The Two Sum Problem - LeetCode</a></span>
+            </li>
+            
+            <li>
+                <span class="is-hidden-mobile is-family-monospace post-date">Jan 07, 2020 : </span>
+                <span><a href="/scaling-out-airflow/">Setting up an Airflow Cluster</a></span>
+            </li>
+            
+        </ul>
+        <p><a href="/blogs/">All blogs →</a></p>
     </div>
 </div>
 
-<div class="ui basic segment">
-    <div class="ui hidden section divider"></div>
-    <h2 class="ui huge text">✏️ Recent Articles</h2>
-    <div class="ui hidden divider"></div>
-    <div class="ui items">
-        
-        <div class="item">
-            <div class="content">
-                <a class="header" href="/how-to-upload-youtube-video-python/">How to upload a video using python script</a>
-                <div class="meta">Jun 18, 2023</div>
-                <div class="description"><p>Uploading a youtube video using a python script.</p></div>
-            </div>
         </div>
-        
-        <div class="item">
-            <div class="content">
-                <a class="header" href="/leetcode-jump-game-II/">Solving LeetCode Problem - Jump Game II</a>
-                <div class="meta">May 28, 2023</div>
-                <div class="description"><p>Exploring the Two Sum problem on LeetCode and providing a solution using Python.</p></div>
-            </div>
-        </div>
-        
-        <div class="item">
-            <div class="content">
-                <a class="header" href="/leetcode-two-sum/">The Two Sum Problem - LeetCode</a>
-                <div class="meta">May 28, 2023</div>
-                <div class="description"><p>Exploring the Two Sum problem on LeetCode and providing a solution using Python.</p></div>
-            </div>
-        </div>
-        
-        <div class="item">
-            <div class="content">
-                <a class="header" href="/scaling-out-airflow/">Setting up an Airflow Cluster</a>
-                <div class="meta">Jan 07, 2020</div>
-                <div class="description"><p>Setting up distributed airflow cluster on AWS.</p></div>
-            </div>
-        </div>
-        
-    </div>
-    <div class="ui hidden divider"></div>
-    <a class="ui basic blue button" href="/blog/">All articles →</a>
-</div>
 
-    </div>
-
-    <div class="ui center aligned basic segment" style="border-top: 1px solid #eaeaea; margin-top: 40px;">
-        <div class="ui horizontal list">
-            <a class="item" href="https://twitter.com/nitinkumarsin10">Twitter</a>
-            <a class="item" href="https://github.com/nitinitleen1">GitHub</a>
-            <a class="item" href="https://www.linkedin.com/in/nitinnks/">LinkedIn</a>
-            <a class="item" href="/atom.xml">Feed</a>
-        </div>
-        <div class="ui grey small text">©2019 All Rights Reserved.</div>
+        <footer class="section has-text-centered" style="border-top: 1px solid var(--border-light); margin-top: 3em;">
+            <div class="content">
+                <a href="https://twitter.com/nitinkumarsin10">Twitter</a> ·
+                <a href="https://github.com/nitinitleen1">GitHub</a> ·
+                <a href="https://www.linkedin.com/in/nitinnks/">LinkedIn</a> ·
+                <a href="/atom.xml">RSS</a>
+            </div>
+        </footer>
     </div>
 </body>
 </html>

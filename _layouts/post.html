@@ -1,26 +1,13 @@
 ---
 layout: default
 ---
-<div class="ui hidden divider"></div>
-<div itemscope itemtype="http://schema.org/BlogPosting">
-    <article>
-        <div class="ui basic segment" style="min-height: 200px; background: #f2f2f2;">
-            <h1 itemprop="name headline" class="ui huge header center aligned" style="margin-top: 60px;">
-                {{ page.title }}
-            </h1>
-        </div>
-        <div class="ui text container">
-            <div class="ui hidden divider"></div>
-            <div class="ui large blue label">
-                {{ page.date | date: "%b %d, %Y" }}
-            </div>
-            {% for tag in page.tags %}
-            <a class="ui label" href="{{ '/blog/' | relative_url }}">#{{ tag }}</a>
-            {% endfor %}
-            <div class="ui hidden divider"></div>
-            <div itemprop="articleBody">
-                {{ content }}
-            </div>
-        </div>
-    </article>
+<div class="section">
+    <div class="content">
+        <h1 class="title is-size-3 is-family-secondary is-italic">{{ page.title }}</h1>
+        <p class="is-family-monospace post-date">{{ page.date | date: "%b %d, %Y" }}</p>
+    </div>
+    <hr>
+    <div class="content post-body">
+        {{ content }}
+    </div>
 </div>

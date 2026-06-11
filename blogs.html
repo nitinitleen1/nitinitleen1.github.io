@@ -1,0 +1,36 @@
+---
+layout: default
+title: Blogs
+permalink: /blogs/
+---
+<div class="section">
+    <div class="columns">
+        <div class="column is-6-desktop is-6-tablet is-12-mobile">
+            <div class="content">
+                <h2 class="title is-size-3 is-family-secondary is-italic">
+                    <span>Blogs</span>
+                    <span class="is-family-monospace has-text-grey is-normal" style="font-style: normal;"><small>({{ site.posts | size }})</small></span>
+                    <span>
+                        <a href="{{ '/atom.xml' | relative_url }}" target="_blank" title="RSS Feed" rel="noopener" class="button is-warning is-family-monospace">
+                            <span style="font-style: normal;">Subscribe RSS Feed</span>
+                            <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></span>
+                        </a>
+                    </span>
+                </h2>
+                <p>I write about computer science, reliability engineering, and things I learn along the way. Here are all the blogs I wrote to date.</p>
+                <p>If you find my writings helpful, consider subscribing to my <a target="_blank" href="{{ '/atom.xml' | relative_url }}">RSS feed</a> in your favourite RSS Reader.</p>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="content">
+        <ul class="post-list">
+            {% for post in site.posts %}
+            <li>
+                <span class="is-hidden-mobile is-family-monospace post-date">{{ post.date | date: "%b %d, %Y" }} : </span>
+                <span><a href="{{ post.url | relative_url }}">{{ post.title }}</a></span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

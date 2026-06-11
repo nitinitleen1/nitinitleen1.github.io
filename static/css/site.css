@@ -1,0 +1,63 @@
+/* Design tokens */
+:root {
+  --bg-primary: #fef7ec;
+  --bg-secondary: #fff;
+  --text-primary: #333;
+  --text-secondary: #000;
+  --border-color: #aeaeae;
+  --border-light: #cecece;
+  --link-color: #22f;
+}
+
+[data-theme="dark"] {
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2d2d2d;
+  --text-primary: #e0e0e0;
+  --text-secondary: #ffffff;
+  --border-color: #444;
+  --border-light: #555;
+  --link-color: #6ba3ff;
+}
+
+html, body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: Assistant, BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 17px;
+}
+
+.is-family-secondary { font-family: Lora, Georgia, serif !important; }
+
+.navbar {
+  background-color: var(--bg-primary) !important;
+  border-bottom: 1px solid var(--border-color);
+}
+.navbar-item, .navbar-brand a { color: var(--text-secondary) !important; }
+.navbar-item.is-active span { color: var(--link-color); }
+.navbar-menu { background-color: var(--bg-primary) !important; }
+
+.title, .subtitle, .content h1, .content h2, .content h3 {
+  color: var(--text-primary);
+}
+
+.content a, .post-body a { color: var(--link-color); font-weight: 500; }
+.content a:hover, .post-body a:hover { text-decoration: underline; }
+
+.has-text-grey-custom, .post-date { color: #7a7a7a !important; }
+[data-theme="dark"] .has-text-grey-custom,
+[data-theme="dark"] .post-date,
+[data-theme="dark"] .has-text-grey { color: #aaa !important; }
+
+hr { background-color: var(--border-light); height: 1px; }
+
+.dark-mode-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-primary);
+  padding: 0.25rem;
+}
+.dark-mode-toggle svg { width: 20px; height: 20px; }
+
+ul.post-list { list-style: disc outside; margin-left: 1.5em; }
+ul.post-list li { margin-bottom: 0.45em; }
