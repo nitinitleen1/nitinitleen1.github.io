@@ -1,186 +1,88 @@
 <!DOCTYPE html>
-<!--
-    So Simple Jekyll Theme 3.1.1
-    Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
-    Free for personal and commercial use under the MIT license
-    https://github.com/mmistakes/so-simple-theme/blob/master/LICENSE
--->
-<html lang="en-US" class="no-js">
-  <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta property="og:image" content="http://localhost:4000/assets/airflow-image1.jpg">
-  <meta name="google-site-verification" content="K5l3QywacSPW4-_oKY-gWO6waXxjmyRkO-su_QIncEQ"/>
-<script data-ad-client="ca-pub-9518508677792760" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<link rel="apple-touch-icon" sizes="57x57" href="/favicon.ico/apple-icon-57x57.png">
-<link rel="apple-touch-icon" sizes="60x60" href="/favicon.ico/apple-icon-60x60.png">
-<link rel="apple-touch-icon" sizes="72x72" href="/favicon.ico/apple-icon-72x72.png">
-<link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico/apple-icon-76x76.png">
-<link rel="apple-touch-icon" sizes="114x114" href="/favicon.ico/apple-icon-114x114.png">
-<link rel="apple-touch-icon" sizes="120x120" href="/favicon.ico/apple-icon-120x120.png">
-<link rel="apple-touch-icon" sizes="144x144" href="/favicon.ico/apple-icon-144x144.png">
-<link rel="apple-touch-icon" sizes="152x152" href="/favicon.ico/apple-icon-152x152.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico/apple-icon-180x180.png">
-<link rel="icon" type="image/png" sizes="192x192"  href="/favicon.ico/android-icon-192x192.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="96x96" href="/favicon.ico/favicon-96x96.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico/favicon-16x16.png">
-<link rel="manifest" href="/favicon.ico/manifest.json">
-<meta name="msapplication-TileColor" content="#ffffff">
-<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
-<meta name="theme-color" content="#ffffff">  
-  
+<html lang="en-US">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  
-    
+    <title>Setting up an Airflow Cluster | Nitin Kumar Singh</title>
+
+    <link rel="stylesheet" href="/static/css/semantic-3.min.css">
+    <link rel="stylesheet" href="/static/css/pygments-3.css">
+
     <!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Setting up an Airflow Cluster | Nitin Kumar Singh</title>
-<meta name="generator" content="Jekyll v3.9.3" />
+<meta name="generator" content="Jekyll v3.10.0" />
 <meta property="og:title" content="Setting up an Airflow Cluster" />
 <meta name="author" content="Nitin" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Setting up distributed airflow cluster on AWS." />
 <meta property="og:description" content="Setting up distributed airflow cluster on AWS." />
-<link rel="canonical" href="http://localhost:4000/scaling-out-airflow/" />
-<meta property="og:url" content="http://localhost:4000/scaling-out-airflow/" />
+<link rel="canonical" href="https://nitinitleen1.github.io/scaling-out-airflow/" />
+<meta property="og:url" content="https://nitinitleen1.github.io/scaling-out-airflow/" />
 <meta property="og:site_name" content="Nitin Kumar Singh" />
-<meta property="og:image" content="http://localhost:4000/assets/airflow-image1.jpg" />
+<meta property="og:image" content="https://nitinitleen1.github.io/assets/airflow-image1.jpg" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2020-01-07T21:13:00+05:30" />
+<meta property="article:published_time" content="2020-01-07T09:43:00-06:00" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta property="twitter:image" content="http://localhost:4000/assets/airflow-image1.jpg" />
+<meta property="twitter:image" content="https://nitinitleen1.github.io/assets/airflow-image1.jpg" />
 <meta property="twitter:title" content="Setting up an Airflow Cluster" />
 <meta name="twitter:site" content="@nitinkumarsin10" />
 <meta name="twitter:creator" content="@https://twitter.com/nitinkumarsin10" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Nitin"},"dateModified":"2020-01-07T21:13:00+05:30","datePublished":"2020-01-07T21:13:00+05:30","description":"Setting up distributed airflow cluster on AWS.","headline":"Setting up an Airflow Cluster","image":"http://localhost:4000/assets/airflow-image1.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/scaling-out-airflow/"},"url":"http://localhost:4000/scaling-out-airflow/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Nitin"},"dateModified":"2020-01-07T09:43:00-06:00","datePublished":"2020-01-07T09:43:00-06:00","description":"Setting up distributed airflow cluster on AWS.","headline":"Setting up an Airflow Cluster","image":"https://nitinitleen1.github.io/assets/airflow-image1.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://nitinitleen1.github.io/scaling-out-airflow/"},"url":"https://nitinitleen1.github.io/scaling-out-airflow/"}</script>
 <!-- End Jekyll SEO tag -->
 
-  
+    <link type="application/atom+xml" rel="alternate" href="https://nitinitleen1.github.io/atom.xml" title="Nitin Kumar Singh" />
 
-  <script>
-    /* Cut the mustard */
-    if ( 'querySelector' in document && 'addEventListener' in window ) {
-      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
-    }
-  </script>
-
-  <link rel="stylesheet" href="/assets/css/main.css">
-  
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700,700i|Lora:400,400i,700,700i">
-  <link rel="alternate" type="application/atom+xml" title="Nitin Kumar Singh" href="/atom.xml">
-<!-- start custom head snippets -->
-
-<!-- insert favicons. use http://realfavicongenerator.net/ -->
-
-<!-- end custom head snippets -->
-
-  <link rel="stylesheet" href="/assets/css/applause-button.css" />
-   <script src="/assets/js/applause-button.js"></script>
-
+    <script src="/static/js/jquery-1.11.3.min.js"></script>
 </head>
-
-
-  <body class="layout--post  setting-up-an-airflow-cluster">
-    <nav class="skip-links">
-  <h2 class="screen-reader-text">Skip links</h2>
-  <ul>
-    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
-    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
-    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
-  </ul>
-</nav>
+<body>
+    <div class="ui secondary basic menu center aligned" style="border-top: 4px solid #0079ff; margin-bottom: 0px;">
+        <a class="item" href="/"><b>NITIN KUMAR SINGH</b></a>
+        <a class="item" href="/blog/">BLOG</a>
+        <a class="item" target="_blank" href="https://github.com/nitinitleen1">GITHUB</a>
+        <a class="item" target="_blank" href="https://www.linkedin.com/in/nitinnks/">LINKEDIN</a>
+    </div>
 
     
-  <div class="navigation-wrapper">
-    <a href="#menu-toggle" id="menu-toggle">Menu</a>
-    <nav id="primary-nav" class="site-nav animated drop">
-      <ul><li><a href="/">Home</a></li><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="/search/">Search</a></li></ul>
-    </nav>
-  </div><!-- /.navigation-wrapper -->
-
-
-    <header class="masthead">
-  <div class="wrap">
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-155354311-1', 'auto');
+        ga('send', 'pageview');
+    </script>
     
-    
-    
-  </div>
-</header><!-- /.masthead -->
 
-
-    <main id="main" class="main-content" aria-label="Content">
-  <article class="h-entry">
-    
-  
-  
-  
-
-  <div class="page-image">
-    <img src="/assets/airflow-image1.jpg" class="entry-feature-image u-photo" alt="Setting up an Airflow Cluster" style="margin-top: 0;">
-    
-  </div>
-
-
-    <div class="page-wrapper">
-      <header class="page-header">
-        
-        
-          <h1 id="page-title" class="page-title p-name">Setting up an Airflow Cluster
-</h1>
-        
-
-      </header>
-      
-      <div class="page-sidebar">
-        <div class="page-author h-card p-author"><img src="/assets/nks1.png" class="author-avatar u-photo" alt="Nitin"><div class="author-info"><div class="author-name">
-        <em>by</em> <span class="p-name">Nitin</span>
-      </div><ul class="author-links"><li class="author-link">
-            <a class="u-url" rel="me" href="https://linkedin.com/in/nitinnks"><i class="fas fa-link fa-lg" title="LinkedIn"></i></a>
-          </li></ul>
-
-<span class="read-time">6 min read</span>
-
-    <time class="page-date dt-published" datetime="2020-01-07T21:13:00+05:30"><a class="u-url" href="">2020-01-07</a>
-</time>
-
-  </div>
-</div>
-
-        
-  <h3 class="page-taxonomies-title">Categories</h3>
-  <ul class="page-taxonomies"><li class="page-taxonomy"><a class="p-category" href="/categories/#airflow" title="Pages filed under Airflow">Airflow</a></li>
-  </ul>
-
-
-        
-  <h3 class="page-taxonomies-title">Tags</h3>
-  <ul class="page-taxonomies"><li class="page-taxonomy"><a href="/tags/#airflow" title="Pages tagged airflow" rel="tag">airflow</a></li><li class="page-taxonomy"><a href="/tags/#postgresql" title="Pages tagged postgresql" rel="tag">postgresql</a></li><li class="page-taxonomy"><a href="/tags/#data-pipeline" title="Pages tagged data-pipeline" rel="tag">data-pipeline</a></li><li class="page-taxonomy"><a href="/tags/#aws" title="Pages tagged aws" rel="tag">aws</a></li><li class="page-taxonomy"><a href="/tags/#rabbitmq" title="Pages tagged rabbitmq" rel="tag">rabbitmq</a></li>
-  </ul>
-
-
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- ad-vertical -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-4568423959519693"
-     data-ad-slot="4154399056"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-        <br/>
-        <br/>
-        <applause-button style="width: 58px; height: 58px; text-align:right" color="black" multiclap="true">
-
-      </div>
-
-      <div class="page-content">
-        <div class="e-content">
-
-          <p>Data-driven companies often hinge their business intelligence and product development on the execution of complex data pipelines. These pipelines are often referred to as data workflows, a term that can be somewhat opaque in that workflows are not limited to one specific definition and do not perform a specific set of functions per se. To orchestrate these workflows there are lot of schedulers like oozie, Luigi, Azkaban and Airflow. This blog demonstrate the setup of one of these orchestrator i.e Airflow.</p>
+    <div class="ui text container" style="margin-top: 10px; padding-bottom: 50px;">
+        <div class="ui hidden divider"></div>
+<div itemscope itemtype="http://schema.org/BlogPosting">
+    <article>
+        <div class="ui basic segment" style="min-height: 200px; background: #f2f2f2;">
+            <h1 itemprop="name headline" class="ui huge header center aligned" style="margin-top: 60px;">
+                Setting up an Airflow Cluster
+            </h1>
+        </div>
+        <div class="ui text container">
+            <div class="ui hidden divider"></div>
+            <div class="ui large blue label">
+                Jan 07, 2020
+            </div>
+            
+            <a class="ui label" href="/blog/">#airflow</a>
+            
+            <a class="ui label" href="/blog/">#postgresql</a>
+            
+            <a class="ui label" href="/blog/">#data-pipeline</a>
+            
+            <a class="ui label" href="/blog/">#aws</a>
+            
+            <a class="ui label" href="/blog/">#rabbitmq</a>
+            
+            <div class="ui hidden divider"></div>
+            <div itemprop="articleBody">
+                <p>Data-driven companies often hinge their business intelligence and product development on the execution of complex data pipelines. These pipelines are often referred to as data workflows, a term that can be somewhat opaque in that workflows are not limited to one specific definition and do not perform a specific set of functions per se. To orchestrate these workflows there are lot of schedulers like oozie, Luigi, Azkaban and Airflow. This blog demonstrate the setup of one of these orchestrator i.e Airflow.</p>
 
 <h2 id="a-shot-intro">A shot intro:</h2>
 
@@ -252,9 +154,9 @@ psql <span class="s2">"host=hostName port=portNumber dbname=DBName user=userName
 
 <figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">airflow</span><span class="p">;</span>
 
-<span class="k">CREATE</span> <span class="k">USER</span> <span class="err">{</span><span class="n">DATABASE_USER</span><span class="err">}</span> <span class="k">WITH</span> <span class="n">PASSWORD</span> <span class="err">‘{</span><span class="n">DATABASE_USER_PASSWORD</span><span class="err">}’</span><span class="p">;</span>
-<span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">PRIVILEGES</span> <span class="k">ON</span> <span class="k">DATABASE</span> <span class="n">airflow</span> <span class="k">TO</span> <span class="err">{</span><span class="n">DATABASE_USER</span><span class="err">}</span><span class="p">;</span>
-<span class="k">GRANT</span> <span class="k">CONNECT</span> <span class="k">ON</span> <span class="k">DATABASE</span> <span class="n">airflow</span> <span class="k">TO</span> <span class="err">{</span><span class="n">DATABASE_USER</span><span class="err">}</span><span class="p">;</span></code></pre></figure>
+<span class="k">CREATE</span> <span class="k">USER</span> <span class="p">{</span><span class="n">DATABASE_USER</span><span class="p">}</span> <span class="k">WITH</span> <span class="n">PASSWORD</span> <span class="err">‘</span><span class="p">{</span><span class="n">DATABASE_USER_PASSWORD</span><span class="p">}</span><span class="err">’</span><span class="p">;</span>
+<span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">PRIVILEGES</span> <span class="k">ON</span> <span class="k">DATABASE</span> <span class="n">airflow</span> <span class="k">TO</span> <span class="p">{</span><span class="n">DATABASE_USER</span><span class="p">};</span>
+<span class="k">GRANT</span> <span class="k">CONNECT</span> <span class="k">ON</span> <span class="k">DATABASE</span> <span class="n">airflow</span> <span class="k">TO</span> <span class="p">{</span><span class="n">DATABASE_USER</span><span class="p">};</span></code></pre></figure>
 
 <p>Once the above step is done the next step is to setup rabbitMQ in one the EC2 server. To install it follow the steps defined below.</p>
 
@@ -277,8 +179,8 @@ rabbitmq-plugins <span class="nb">enable </span>rabbitmq_management</code></pre>
 <span class="n">service</span> <span class="n">rabbitmq</span><span class="o">-</span><span class="n">server</span> <span class="n">status</span>
 
 <span class="c1">-- Add Users and permissions</span>
-<span class="n">rabbitmqctl</span> <span class="n">add_user</span> <span class="err">{</span><span class="n">RABBITMQ_USER</span><span class="err">}</span> <span class="err">{</span><span class="n">RABBITMQ_USER_PASSWORD</span><span class="err">}</span>
-<span class="n">rabbitmqctl</span> <span class="n">set_user_tags</span> <span class="err">{</span><span class="n">RABBITMQ_USER</span><span class="err">}</span> <span class="n">administrator</span></code></pre></figure>
+<span class="n">rabbitmqctl</span> <span class="n">add_user</span> <span class="p">{</span><span class="n">RABBITMQ_USER</span><span class="p">}</span> <span class="p">{</span><span class="n">RABBITMQ_USER_PASSWORD</span><span class="p">}</span>
+<span class="n">rabbitmqctl</span> <span class="n">set_user_tags</span> <span class="p">{</span><span class="n">RABBITMQ_USER</span><span class="p">}</span> <span class="n">administrator</span></code></pre></figure>
 
 <p>Make Virtual Host and Set Permission for the host.</p>
 
@@ -398,65 +300,21 @@ crontab <span class="nt">-e</span>
   <li><a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.Connecting.AWSCLI.PostgreSQL.html">How to Connect to RDS Postgres</a></li>
 </ol>
 
+            </div>
         </div>
-        <hr>
-        <h3> Share this article </h3>
-      
-        
-          <div class="page-share">
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fscaling-out-airflow%2F" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" class="btn btn--facebook btn--small"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i> <span>Share</span></a>
-  <a href="https://twitter.com/intent/tweet?text=Setting+up+an+Airflow+Cluster%20http%3A%2F%2Flocalhost%3A4000%2Fscaling-out-airflow%2F" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" class="btn btn--twitter btn--small"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i> <span>Tweet</span></a>
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fscaling-out-airflow%2F" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" class="btn btn--linkedin btn--small"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> <span>LinkedIn</span></a>
-  <a href="https://reddit.com/submit?title=Setting+up+an+Airflow+Cluster&url=http%3A%2F%2Flocalhost%3A4000%2Fscaling-out-airflow%2F" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" class="btn btn--reddit btn--small"><i class="fab fa-fw fa-reddit" aria-hidden="true"></i> <span>Reddit</span></a>
+    </article>
 </div>
 
-        
-
-        
-          
-
-        
-
-        <nav class="page-pagination" role="navigation">
-  
-
-  
-    <a class="page-next" href="/leetcode-two-sum/">
-      <h4 class="page-pagination-label">Next</h4>
-      <span class="page-pagination-title">
-        The Two Sum Problem - LeetCode
- <i class="fas fa-arrow-right"></i>
-      </span>
-    </a>
-  
-</nav>
-
-      </div>
     </div>
-  </article>
-</main>
 
-
-    <footer id="footer" class="site-footer">
-  <!-- start custom footer snippets -->
-
-<!-- end custom footer snippets -->
-<div class="social-icons"><a class="social-icon" href="https://twitter.com/nitinkumarsin10"><i class="fab fa-twitter-square fa-2x" title="Twitter"></i></a><a class="social-icon" href="https://github.com/nitinitleen1"><i class="fab fa-github-square fa-2x" title="GitHub"></i></a><a class="social-icon" href="/atom.xml"><i class="fas fa-rss-square fa-2x" title="Feed"></i></a></div><div class="copyright">
-    
-      <p>©2019 All Right Reserved.</p>
-
-    
-  </div>
-</footer>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-  <script src="/assets/js/main.min.js"></script>
-  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
-
-
-<!-- MathJax -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  </body>
-
+    <div class="ui center aligned basic segment" style="border-top: 1px solid #eaeaea; margin-top: 40px;">
+        <div class="ui horizontal list">
+            <a class="item" href="https://twitter.com/nitinkumarsin10">Twitter</a>
+            <a class="item" href="https://github.com/nitinitleen1">GitHub</a>
+            <a class="item" href="https://www.linkedin.com/in/nitinnks/">LinkedIn</a>
+            <a class="item" href="/atom.xml">Feed</a>
+        </div>
+        <div class="ui grey small text">©2019 All Rights Reserved.</div>
+    </div>
+</body>
 </html>

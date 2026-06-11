@@ -1,29 +1,15 @@
-# Config file:
-remote_theme: "mmistakes/so-simple-theme@3.2.0"
 locale: en-US
 title: "Nitin Kumar Singh"
 description: "My Learning and Adventures in Computer Science and Life"
-baseurl: 
-url: "https://reliabilityhub.tech"
-logo: # path of site logo, e.g. "/images/logo.png"
+baseurl: ""
+url: "https://nitinitleen1.github.io"
 date_format: "%Y-%m-%d"
-read_time: true
-words_per_minute: 200
-mathjax: true
-google_fonts:
-  - name: "Source Sans Pro"
-    weights: "400,400i,700,700i"
-  - name: "Lora"
-    weights: "400,400i,700,700i"
+
 google_analytics: "UA-155354311-1"
-disqus:
-  shortname: "nkstech-live"
+
 twitter:
   username: "nitinkumarsin10"
-gems:
-    - jekyll-seo-tag
-    - jekyll-lunr-js-search
-    - jekyll-feed
+
 # Liquid
 liquid:
   error_mode: strict
@@ -34,47 +20,27 @@ markdown: kramdown
 feed:
   path: atom.xml
 
-# Pagination 
-paginate: 10
-paginate_path: /page:num/
-
-# Search
-search_full_content: true
-
-# Taxonomy pages
-category_archive_path: "/categories/#"
-tag_archive_path: "/tags/#"
-
-# SiteMap
-url: "https://reliabilityhub.tech" # the base hostname & protocol for your site
-
 plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
   - jekyll-feed
-  - jekyll-paginate
-  - jekyll-lunr-js-search
 
 # Front Matter Defaults
 defaults:
-  # Posts defaults
   - scope:
       path: "_posts"
       type: posts
     values:
       layout: post
-      share: true
 
 # Site Author
-author: 
+author:
   name: Nitin
   picture: /assets/nks1.png
-  email:
   twitter: https://twitter.com/nitinkumarsin10
   links:
     - title: LinkedIn
       url: https://linkedin.com/in/nitinnks
-      icon:
 
 social:
   name: Nitin
@@ -82,15 +48,4 @@ social:
     - https://twitter.com/nitinkumarsin10
     - https://www.linkedin.com/in/nitinnks/
 
-# Footer Links
-footer_links:
-  - title: Twitter
-    url: https://twitter.com/nitinkumarsin10
-    icon: fab fa-twitter-square
-  - title: GitHub
-    url: https://github.com/nitinitleen1
-    icon: fab fa-github-square
-  - title: Feed
-    url: atom.xml
-    icon: fas fa-rss-square
-copyright: "©2019 All Right Reserved. "
+copyright: "©2019 All Rights Reserved."

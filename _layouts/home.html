@@ -1,17 +1,45 @@
 ---
-layout: page
+layout: default
 ---
+<div style="min-height: 400px; background: #fff;">
+    <div class="ui stackable grid">
+        <div class="ui ten wide column">
+            <div class="ui text container basic segment" style="width: 100%;">
+                <div style="font-weight: bold; font-size: 3em; padding-top: 50px; color: #111">
+                    <b>Hello 👋</b>
+                </div>
+                <div class="ui text" style="font-weight: normal !important; font-size: 2.2em;">
+                    I am {{ site.author.name }}.
+                </div>
+                <div class="ui grey small text" style="max-width: 460px;">
+                    {{ site.description }}
+                </div>
+            </div>
+        </div>
+        <div class="ui six wide column">
+            <div class="ui text container">
+                <div class="ui hidden section divider"></div>
+                <img class="ui medium circular centered image" src="{{ site.author.picture | relative_url }}" alt="{{ site.author.name }}" />
+            </div>
+        </div>
+    </div>
+</div>
 
-{{ content }}
-
-<div class="entries-{{ page.entries_layout | default: 'list' }}">
-  {%- if site.plugins contains 'jekyll-paginate' and page.paginate or site.gems contains 'jekyll-paginate' and page.paginate -%}
-    {%- comment -%}
-      Add paginator.posts loop if jekyll-paginate plugin is enabled
-      and page.paginate == true
-    {%- endcomment -%}
-    {% include posts-paginated.html %}
-  {%- else -%}
-    {% include posts-limit.html %}
-  {%- endif -%}
+<div class="ui basic segment">
+    <div class="ui hidden section divider"></div>
+    <h2 class="ui huge text">✏️ Recent Articles</h2>
+    <div class="ui hidden divider"></div>
+    <div class="ui items">
+        {% for post in site.posts limit: 10 %}
+        <div class="item">
+            <div class="content">
+                <a class="header" href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                <div class="meta">{{ post.date | date: "%b %d, %Y" }}</div>
+                <div class="description"><p>{{ post.description | default: post.excerpt | strip_html | truncate: 160 }}</p></div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="ui hidden divider"></div>
+    <a class="ui basic blue button" href="{{ '/blog/' | relative_url }}">All articles →</a>
 </div>

@@ -1,0 +1,18 @@
+---
+layout: default
+title: Blog
+---
+<div class="ui hidden divider"></div>
+<h1 class="ui huge header">✏️ All Articles</h1>
+<div class="ui hidden divider"></div>
+<div class="ui items">
+    {% for post in site.posts %}
+    <div class="item">
+        <div class="content">
+            <a class="header" href="{{ post.url | relative_url }}">{{ post.title }}</a>
+            <div class="meta">{{ post.date | date: "%b %d, %Y" }}</div>
+            <div class="description"><p>{{ post.description | default: post.excerpt | strip_html | truncate: 160 }}</p></div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
