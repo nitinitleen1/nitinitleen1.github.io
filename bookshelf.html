@@ -3,9 +3,20 @@ layout: default
 title: Bookshelf
 permalink: /bookshelf/
 ---
-<div class="section">
-    <div class="content">
-        <h2 class="title is-size-3 is-family-secondary is-italic">Bookshelf</h2>
-        <p>Coming soon.</p>
+<section class="page-section wide">
+  <div class="eyebrow">Bookshelf</div>
+  <h1 class="page-title smaller">Books on the shelf</h1>
+  <p class="page-lede tight">A running log of what I'm reading — technical and otherwise.</p>
+
+  <div class="shelf-list">
+    {% for book in site.data.books %}
+    <div class="shelf-row">
+      <div>
+        <div class="shelf-row-title">{{ book.title }}</div>
+        <div class="shelf-row-sub">{{ book.author }}</div>
+      </div>
+      <div class="shelf-row-status" style="color: {{ book.status_color }};">{{ book.status }}</div>
     </div>
-</div>
+    {% endfor %}
+  </div>
+</section>

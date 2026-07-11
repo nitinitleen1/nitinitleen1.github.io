@@ -3,9 +3,20 @@ layout: default
 title: Papershelf
 permalink: /papershelf/
 ---
-<div class="section">
-    <div class="content">
-        <h2 class="title is-size-3 is-family-secondary is-italic">Papershelf</h2>
-        <p>Coming soon.</p>
+<section class="page-section wide">
+  <div class="eyebrow">Papershelf</div>
+  <h1 class="page-title smaller">Papers I keep returning to</h1>
+  <p class="page-lede tight">Research that shaped how I think about systems and computation.</p>
+
+  <div class="shelf-list">
+    {% for paper in site.data.papers %}
+    <div class="shelf-row">
+      <div>
+        <div class="shelf-row-title">{{ paper.title }}</div>
+        <div class="shelf-row-sub">{{ paper.authors }}</div>
+      </div>
+      <div class="shelf-row-meta">{{ paper.year }}</div>
     </div>
-</div>
+    {% endfor %}
+  </div>
+</section>

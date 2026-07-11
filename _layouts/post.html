@@ -1,13 +1,73 @@
 ---
 layout: default
 ---
-<div class="section">
-    <div class="content">
-        <h1 class="title is-size-3 is-family-secondary is-italic">{{ page.title }}</h1>
-        <p class="is-family-monospace post-date">{{ page.date | date: "%b %d, %Y" }}</p>
+<section class="post-grid">
+  <article class="post-article">
+    <a class="post-back" href="{{ '/blogs/' | relative_url }}">← All blogs</a>
+    <div class="post-meta">
+      {{ page.date | date: "%b %d, %Y" }}{% if page.categories.first %} · {{ page.categories.first }}{% endif %} · {{ content | strip_html | number_of_words | divided_by: 200 | at_least: 1 }} min read
     </div>
-    <hr>
-    <div class="content post-body">
-        {{ content }}
+    <h1 class="post-title">{{ page.title }}</h1>
+    {% if page.description %}<p class="post-subtitle">{{ page.description }}</p>{% endif %}
+
+    <div class="divider" style="margin: 40px 0;"></div>
+
+    <div class="post-body" id="post-body">
+      {{ content }}
     </div>
-</div>
+
+    <div class="post-byline">
+      <div class="post-byline-avatar">NS</div>
+      <div>
+        <div class="post-byline-name">Nitin Kumar Singh</div>
+        <div class="post-byline-desc">{{ site.description }}.</div>
+      </div>
+    </div>
+  </article>
+
+  <nav class="post-toc" id="post-toc">
+    <div class="post-toc-label">Contents</div>
+    <div class="post-toc-list" id="post-toc-list"></div>
+  </nav>
+</section>
+
+<script>
+(function () {
+  var body = document.getElementById('post-body');
+  var list = document.getElementById('post-toc-list');
+  var toc = document.getElementById('post-toc');
+  if (!body || !list) return;
+
+  var headings = Array.prototype.slice.call(body.querySelectorAll('h2'));
+  if (headings.length < 2) { if (toc) toc.style.display = 'none'; return; }
+
+  var links = headings.map(function (h, i) {
+    if (!h.id) h.id = 'section-' + i;
+    var a = document.createElement('a');
+    a.textContent = h.textContent;
+    a.href = '#' + h.id;
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var y = h.getBoundingClientRect().top + window.pageYOffset - 40;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    });
+    list.appendChild(a);
+    return a;
+  });
+
+  var last = -1;
+  function setActive() {
+    var current = 0;
+    for (var i = 0; i < headings.length; i++) {
+      if (headings[i].getBoundingClientRect().top <= 130) current = i;
+    }
+    links.forEach(function (a, i) { a.classList.toggle('active', i === current); });
+  }
+  function tick() {
+    var y = window.pageYOffset;
+    if (y !== last) { last = y; setActive(); }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+</script>

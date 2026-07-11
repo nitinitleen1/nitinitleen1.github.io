@@ -1,26 +1,27 @@
 ---
 layout: default
 ---
-<div class="section">
-    <div class="columns">
-        <div class="column is-8-desktop is-12-mobile">
-            <div class="content">
-                <h1 class="title is-size-2 is-family-secondary is-italic">Hey, I am Nitin</h1>
-                <p>{{ site.description }}</p>
-            </div>
-        </div>
-    </div>
-    <hr>
-    <div class="content">
-        <h2 class="title is-size-4 is-family-secondary is-italic">Recent blog posts</h2>
-        <ul class="post-list">
-            {% for post in site.posts limit: 10 %}
-            <li>
-                <span class="is-hidden-mobile is-family-monospace post-date">{{ post.date | date: "%b %d, %Y" }} : </span>
-                <span><a href="{{ post.url | relative_url }}">{{ post.title }}</a></span>
-            </li>
-            {% endfor %}
-        </ul>
-        <p><a href="{{ '/blogs/' | relative_url }}">All blogs →</a></p>
-    </div>
-</div>
+<section class="page-section">
+  <div class="eyebrow">Learning &amp; adventures in CS and life</div>
+  <h1 class="page-title">Hey, I'm Nitin.</h1>
+  <p class="page-lede">{{ site.description }} — distributed systems, algorithms, the occasional detour into whatever has my attention this month. <span style="font-style: italic;">This is where I think out loud.</span></p>
+
+  <div class="divider"></div>
+
+  <div class="section-head">
+    <h2>Recent writing</h2>
+    <a href="{{ '/blogs/' | relative_url }}">All blogs →</a>
+  </div>
+
+  <div class="post-list">
+    {% for post in site.posts limit: 4 %}
+    <a class="post-row" href="{{ post.url | relative_url }}">
+      <div class="post-row-date">{{ post.date | date: "%b %d, %Y" }}</div>
+      <div>
+        <div class="post-row-title">{{ post.title }}</div>
+        <div class="post-row-blurb">{{ post.description }}</div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
