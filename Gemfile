@@ -13,3 +13,6 @@ gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # webrick is no longer a default gem as of Ruby 3.0, needed for `jekyll serve`
 gem "webrick", "~> 1.8"
+
+# Force a patched google-protobuf (transitive via jekyll-sass-converter -> sass-embedded)
+gem "google-protobuf", ">= 3.25.5"
