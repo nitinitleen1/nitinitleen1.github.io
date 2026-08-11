@@ -1,27 +1,101 @@
 ---
 layout: default
 ---
-<section class="page-section">
-  <div class="eyebrow">Learning &amp; adventures in CS and life</div>
-  <h1 class="page-title">Hey, I'm Nitin.</h1>
-  <p class="page-lede">{{ site.description }} — distributed systems, algorithms, the occasional detour into whatever has my attention this month. <span style="font-style: italic;">This is where I think out loud.</span></p>
+<section class="hero" id="home">
+  <canvas id="chimes-canvas" aria-hidden="true"></canvas>
 
-  <div class="divider"></div>
+  <button type="button" class="chimes-audio" id="chimes-audio" aria-pressed="false" aria-label="Unmute chimes">
+    <svg class="icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M11 5 6 9H3v6h3l5 4z"></path>
+      <path d="m17 9 4 6M21 9l-4 6"></path>
+    </svg>
+    <svg class="icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M11 5 6 9H3v6h3l5 4z"></path>
+      <path d="M15.5 8.5a5 5 0 0 1 0 7"></path>
+      <path d="M18.5 5.5a9 9 0 0 1 0 13"></path>
+    </svg>
+  </button>
 
-  <div class="section-head">
-    <h2>Recent writing</h2>
-    <a href="{{ '/blogs/' | relative_url }}">All blogs →</a>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Learning &amp; adventures in CS and life</div>
+    <h1 class="hero-title">Hey, I'm<br>Nitin <em>Singh</em>.</h1>
+    <p class="hero-lede">{{ site.description }} &mdash; distributed systems, algorithms, and
+    the occasional detour into whatever has my attention this month. This is where I think
+    out loud.</p>
+    <div class="hero-actions">
+      <a class="button is-primary" href="#writing">Read the writing</a>
+      <button type="button" class="button" data-about-open>About me</button>
+    </div>
+    <div class="hero-hint" aria-hidden="true">Sweep the strands &middot; tap the speaker for sound</div>
   </div>
+</section>
 
-  <div class="post-list">
-    {% for post in site.posts limit: 4 %}
-    <a class="post-row" href="{{ post.url | relative_url }}">
-      <div class="post-row-date">{{ post.date | date: "%b %d, %Y" }}</div>
-      <div>
-        <div class="post-row-title">{{ post.title }}</div>
-        <div class="post-row-blurb">{{ post.description }}</div>
+<section class="band" id="writing">
+  <div class="wrap">
+    <div class="band-head" data-reveal>
+      <h2>Recent writing</h2>
+      <a class="band-more" href="{{ '/blogs/' | relative_url }}">All {{ site.posts | size }} posts &rarr;</a>
+    </div>
+
+    <div class="post-list" data-reveal data-reveal-stagger>
+      {% for post in site.posts limit: 4 %}
+      <a class="post-row" href="{{ post.url | relative_url }}">
+        <div class="post-row-date">{{ post.date | date: "%b %d, %Y" }}</div>
+        <div>
+          <div class="post-row-title">{{ post.title }}</div>
+          <div class="post-row-blurb">{{ post.description }}</div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="band is-sunk" id="shelf">
+  <div class="wrap">
+    <div class="band-head" data-reveal>
+      <h2>On the shelf</h2>
+      <a class="band-more" href="{{ '/bookshelf/' | relative_url }}">Everything I'm reading &rarr;</a>
+    </div>
+
+    <div class="shelf-grid" data-reveal data-reveal-stagger>
+      <div class="shelf-card">
+        <div class="shelf-card-head">
+          <h3>Books</h3>
+          <a href="{{ '/bookshelf/' | relative_url }}">All &rarr;</a>
+        </div>
+        <p class="shelf-card-note">A running log of what I'm reading &mdash; technical and otherwise.</p>
+        <div class="shelf-list">
+          {% for book in site.data.books limit: 4 %}
+          <div class="shelf-row">
+            <div>
+              <div class="shelf-row-title">{{ book.title }}</div>
+              <div class="shelf-row-sub">{{ book.author }}</div>
+            </div>
+            <div class="shelf-row-status" style="color: {{ book.status_color }};">{{ book.status }}</div>
+          </div>
+          {% endfor %}
+        </div>
       </div>
-    </a>
-    {% endfor %}
+
+      <div class="shelf-card">
+        <div class="shelf-card-head">
+          <h3>Papers</h3>
+          <a href="{{ '/papershelf/' | relative_url }}">All &rarr;</a>
+        </div>
+        <p class="shelf-card-note">Research that shaped how I think about systems and computation.</p>
+        <div class="shelf-list">
+          {% for paper in site.data.papers limit: 4 %}
+          <div class="shelf-row">
+            <div>
+              <div class="shelf-row-title">{{ paper.title }}</div>
+              <div class="shelf-row-sub">{{ paper.authors }}</div>
+            </div>
+            <div class="shelf-row-meta">{{ paper.year }}</div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
   </div>
 </section>
