@@ -15,6 +15,13 @@ liquid:
   error_mode: strict
 
 # Build settings
+exclude:
+  - docs
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - README.md
+
 permalink: /:title/
 markdown: kramdown
 feed:
